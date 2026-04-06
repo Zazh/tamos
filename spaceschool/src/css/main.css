@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* ========== Base ========== */
+@import "./base/fonts.css";
+@import "./base/typography.css";
+
+/* ========== Components ========== */
+/* @import "./components/buttons.css"; */
+
+/* ========== Pages ========== */
+/* @import "./pages/home.css"; */
+/* @import "./pages/about.css"; */
+
+/* ========== Theme ========== */
+@theme {
+  --color-primary: #1e3a5f;
+  --color-secondary: #4a90d9;
+  --color-accent: #f5a623;
+
+  --font-sans: "Gotham", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "KZ Furore", ui-sans-serif, system-ui, sans-serif;
+}
