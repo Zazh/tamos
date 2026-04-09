@@ -2,9 +2,18 @@
 /* clamp(min, preferred, max) — плавный размер без медиа-запросов */
 
 /* Базовые стили элементов */
-h1 {
+.display-1 {
   font-family: var(--font-sans);
-  font-size: clamp(1.75rem, 4vw, 3rem);
+  /*font-size: clamp(1.75rem, 4vw, 3rem);*/
+  font-size: 3rem;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+.h1 {
+  font-family: var(--font-sans);
+  /*font-size: clamp(1.75rem, 4vw, 3rem);*/
+  font-size: 2.5rem;
   line-height: 1.1;
   letter-spacing: -0.04em;
 }
@@ -12,14 +21,14 @@ h1 {
 /* Кастомные утилиты Tailwind */
 @utility text-base {
   font-family: var(--font-sans);
-  font-size: clamp(0.875rem, 1vw, 1rem);
+  font-size: 1rem;
   line-height: 1.2;
   letter-spacing: 0;
 }
 
 @utility text-lead {
   font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.25vw, 1.125rem);
+  font-size: 1.25rem;
   line-height: 1.2;
   letter-spacing: -0.04em;
 }
