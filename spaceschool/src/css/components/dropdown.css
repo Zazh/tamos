@@ -58,12 +58,15 @@
 
     @variant hover {
       background-color: var(--color-gray-50);
-      color: var(--color-primary);
     }
   }
 
   .dropdown-item.active {
+    color: var(--color-secondary);
+  }
+
+  .dropdown-item.active {
     background: var(--color-slate-50);
-    color: var(--color-primary);
+    color: var(--color-brand);
   }
 }
