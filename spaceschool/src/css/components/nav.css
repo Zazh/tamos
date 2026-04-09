@@ -10,23 +10,26 @@
   }
 
   .nav-light {
+    --nav-accent: var(--color-brand);
+    --nav-accent-blue: var(--color-brand);
+    --nav-accent-gold: var(--color-gold);
     color: var(--color-black);
-  }
-  .nav-light .accent-blue {
-    color: var(--color-brand);
-  }
-  .nav-light .accent-gold {
-    color: var(--color-gold);
+    background: var(--color-white);
   }
 
   .nav-dark {
+    --nav-accent: var(--color-orange-500);
+    --nav-accent-blue: var(--color-white);
+    --nav-accent-gold: var(--color-white);
     color: var(--color-white);
   }
-  .nav-dark .accent-blue {
-    color: var(--color-white);
+
+  .accent-blue {
+    color: var(--nav-accent-blue);
   }
-  .nav-dark .accent-gold {
-    color: var(--color-white);
+
+  .accent-gold {
+    color: var(--nav-accent-gold);
   }
 
   .nav-logo {
@@ -81,19 +84,24 @@
     padding: .5rem .5rem;
 
     @variant hover {
-      color: var(--color-brand);
+      color: var(--nav-accent);
     }
   }
+
   .nav-link.active {
-    color: var(--color-brand);
+    color: var(--nav-accent);
   }
 
   .nav-megamenu {
+    --nav-accent: var(--color-brand);
+    --nav-accent-blue: var(--color-brand);
+    --nav-accent-gold: var(--color-gold);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 50;
     background-color: var(--color-white);
+    color: var(--color-black);
   }
 }

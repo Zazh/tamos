@@ -12,7 +12,7 @@
     display: block;
 
     @variant hover {
-      color: var(--color-brand);
+      color: var(--nav-accent);
     }
   }
 
@@ -24,5 +24,9 @@
   .btn-burger-close {
     width: 2.5rem;
     height: 2rem;
+
+    @variant hover {
+      color: var(--nav-accent);
+    }
   }
 }
