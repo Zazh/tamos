@@ -5,17 +5,48 @@
 @import "./base/typography.css";
 
 /* ========== Components ========== */
-/* @import "./components/buttons.css"; */
+@import "./components/nav.css";
+@import "./components/buttons.css";
+@import "./components/dropdown.css";
 
 /* ========== Pages ========== */
 /* @import "./pages/home.css"; */
 /* @import "./pages/about.css"; */
 
+/* ========== Global ========== */
+body {
+  min-height: 100vh;
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========== Grid ========== */
+.grid-base {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.5rem;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @variant md {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
 /* ========== Theme ========== */
 @theme {
-  --color-primary: #1e3a5f;
-  --color-secondary: #4a90d9;
-  --color-accent: #f5a623;
+  --color-primary: #002654;
+  --color-secondary: #008ED6;
+  --color-gold: #FCB514;
+  --color-brand: #0054A1;
+
+  --color-orange-500: #F77F00;
+  --color-slate-50: #F0F5F7;
+  --color-slate-100: #E8EEF0;
 
   --font-sans: "Gotham", ui-sans-serif, system-ui, sans-serif;
   --font-display: "KZ Furore", ui-sans-serif, system-ui, sans-serif;

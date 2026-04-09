@@ -1,0 +1,89 @@
+@layer components {
+  .nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: 100%;
+    height: 4.5rem;
+    padding-inline: 1rem;
+    padding-block: .5rem;
+
+    @apply border-b-1;
+  }
+
+  .nav-light {
+    color: var(--color-black);
+  }
+  .nav-light .accent-blue {
+    color: var(--color-brand);
+  }
+  .nav-light .accent-gold {
+    color: var(--color-gold);
+  }
+
+  .nav-dark {
+    color: var(--color-white);
+  }
+  .nav-dark .accent-blue {
+    color: var(--color-white);
+  }
+  .nav-dark .accent-gold {
+    color: var(--color-white);
+  }
+
+  .nav-logo {
+    display: flex;
+    height: 100%;
+  }
+
+  .nav-logo a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  .nav-logo svg {
+    height: 100%;
+    width: auto;
+  }
+
+  .nav-logo-desktop {
+    display: none;
+
+    @variant md {
+      display: block;
+    }
+  }
+
+  .nav-logo-mobile {
+    display: block;
+
+    @variant md {
+      display: none;
+    }
+  }
+
+  .nav-right {
+    justify-self: end;
+  }
+
+  .nav-list {
+    display: none;
+    gap: 1rem;
+
+    @variant xl {
+      display: flex;
+    }
+  }
+
+  .nav-link {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    font-weight: var(--font-weight-bold);
+    padding: .5rem .5rem;
+
+    @variant hover {
+      opacity: 0.7;
+    }
+  }
+}

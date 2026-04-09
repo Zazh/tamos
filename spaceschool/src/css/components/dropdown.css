@@ -1,0 +1,69 @@
+@layer components {
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    font-weight: var(--font-weight-bold);
+  }
+
+  .dropdown-toggle svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .dropdown-icon {
+    aspect-ratio: 1;
+    width: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-slate-100);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    min-width: 8rem;
+    z-index: 50;
+    border-radius: var(--radius-xl);
+  }
+
+  .dropdown-item {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    font-size: var(--text-xs);
+    text-transform: capitalize;
+    font-weight: var(--font-weight-bold);
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 1px solid var(--color-slate-100);
+    color: var(--color-black);
+
+    @variant hover {
+      background-color: var(--color-gray-50);
+      color: var(--color-primary);
+    }
+  }
+
+  .dropdown-item.active {
+    background: var(--color-slate-50);
+    color: var(--color-primary);
+  }
+}

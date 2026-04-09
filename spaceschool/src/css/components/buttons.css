@@ -1,0 +1,19 @@
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .btn-burger {
+    width: 2rem;
+    height: 1.5rem;
+    display: block;
+  }
+
+  .btn-burger svg {
+    width: 100%;
+    height: 100%;
+  }
+}

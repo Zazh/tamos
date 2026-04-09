@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      alpinejs:
+        specifier: ^3.15.11
+        version: 3.15.11
     devDependencies:
       '@tailwindcss/vite':
         specifier: ^4.2.2
@@ -248,6 +252,15 @@ packages:
 
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
+
+  '@vue/reactivity@3.1.5':
+    resolution: {integrity: sha512-1tdfLmNjWG6t/CsPldh+foumYFo3cpyCHgBYQ34ylaMsJ+SNHQ1kApMIa8jN+i593zQuaw3AdWH0nJTARzCFhg==}
+
+  '@vue/shared@3.1.5':
+    resolution: {integrity: sha512-oJ4F3TnvpXaQwZJNF3ZK+kLPHKarDmJjJ6jyzVNDKH9md1dptjC7lWR//jrGuLdek/U6iltWxqAnYOu8gCiOvA==}
+
+  alpinejs@3.15.11:
+    resolution: {integrity: sha512-m26gkTg/MId8O+F4jHKK3vB3SjbFxxk/JHP+qzmw1H6aQrZuPAg4CUoAefnASzzp/eNroBjrRQe7950bNeaBJw==}
 
   detect-libc@2.1.2:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
@@ -607,6 +620,16 @@ snapshots:
     dependencies:
       tslib: 2.8.1
     optional: true
+
+  '@vue/reactivity@3.1.5':
+    dependencies:
+      '@vue/shared': 3.1.5
+
+  '@vue/shared@3.1.5': {}
+
+  alpinejs@3.15.11:
+    dependencies:
+      '@vue/reactivity': 3.1.5
 
   detect-libc@2.1.2: {}
 

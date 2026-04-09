@@ -1,4 +1,5 @@
 import "../css/main.css";
+import Alpine from "alpinejs";
 
-// Точка входа JS
-// Здесь подключаем модули по мере роста проекта
+window.Alpine = Alpine;
+Alpine.start();
