@@ -12,50 +12,131 @@
       border-radius: inherit;
     }
 
-    /* Layer 1 — мелкие звёзды 1px */
+    /* Layer 1 — мелкие звёзды 1px (базовый набор, mobile-friendly) */
     &::before {
-      background-image: radial-gradient(
-        1px 1px at 10% 15%,
-        var(--star-color) 50%,
-        transparent 100%
-      ),
-      radial-gradient(1px 1px at 25% 80%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 40% 35%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 55% 60%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 70% 20%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 85% 75%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 15% 50%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 30% 10%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 48% 90%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 62% 42%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 78% 55%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 92% 30%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 5% 70%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 35% 48%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 50% 5%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 67% 88%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 82% 12%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 95% 65%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 18% 95%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(1px 1px at 43% 22%, var(--star-color) 50%, transparent 100%);
+      background-image:
+        radial-gradient(1px 1px at 10% 15%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(1px 1px at 25% 80%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(1px 1px at 40% 35%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(1px 1px at 55% 60%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(1px 1px at 70% 20%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(1px 1px at 85% 75%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(1px 1px at 15% 50%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(1px 1px at 30% 10%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(1px 1px at 48% 90%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(1px 1px at 62% 42%, var(--star-color) 50%, transparent 100%);
       opacity: var(--star-opacity);
     }
 
-    /* Layer 2 — крупные звёзды 2px, меньше штук, ярче */
+    /* Layer 2 — крупные звёзды 2px (базовый набор) */
     &::after {
-      background-image: radial-gradient(
-        2px 2px at 20% 25%,
-        var(--star-color) 50%,
-        transparent 100%
-      ),
-      radial-gradient(2px 2px at 45% 70%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(2px 2px at 75% 40%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(2px 2px at 90% 85%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(2px 2px at 8% 55%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(2px 2px at 58% 15%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(2px 2px at 33% 92%, var(--star-color) 50%, transparent 100%),
-      radial-gradient(2px 2px at 68% 62%, var(--star-color) 50%, transparent 100%);
+      background-image:
+        radial-gradient(2px 2px at 20% 25%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(2px 2px at 75% 40%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(2px 2px at 8% 55%, var(--star-color) 50%, transparent 100%),
+        radial-gradient(2px 2px at 58% 15%, var(--star-color) 50%, transparent 100%);
       opacity: calc(var(--star-opacity) + 0.15);
+    }
+  }
+
+  /* Средняя плотность — 20 мелких + 8 крупных (только md+) */
+  .starfield-md {
+    @variant md {
+      &::before {
+        background-image:
+          radial-gradient(1px 1px at 10% 15%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 25% 80%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 40% 35%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 55% 60%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 70% 20%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 85% 75%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 15% 50%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 30% 10%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 48% 90%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 62% 42%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 78% 55%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 92% 30%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 5% 70%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 35% 48%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 50% 5%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 67% 88%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 82% 12%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 95% 65%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 18% 95%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 43% 22%, var(--star-color) 50%, transparent 100%);
+      }
+
+      &::after {
+        background-image:
+          radial-gradient(2px 2px at 20% 25%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 75% 40%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 8% 55%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 58% 15%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 45% 70%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 90% 85%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 33% 92%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 68% 62%, var(--star-color) 50%, transparent 100%);
+      }
+    }
+  }
+
+  /* Высокая плотность — 35 мелких + 12 крупных (только md+) */
+  .starfield-lg {
+    @variant md {
+      &::before {
+        background-image:
+          radial-gradient(1px 1px at 10% 15%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 25% 80%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 40% 35%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 55% 60%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 70% 20%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 85% 75%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 15% 50%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 30% 10%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 48% 90%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 62% 42%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 78% 55%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 92% 30%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 5% 70%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 35% 48%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 50% 5%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 67% 88%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 82% 12%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 95% 65%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 18% 95%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 43% 22%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 3% 38%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 22% 62%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 37% 7%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 53% 78%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 66% 33%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 81% 52%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 97% 18%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 12% 83%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 28% 45%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 44% 58%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 59% 3%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 73% 68%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 88% 42%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 7% 27%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(1px 1px at 33% 73%, var(--star-color) 50%, transparent 100%);
+      }
+
+      &::after {
+        background-image:
+          radial-gradient(2px 2px at 20% 25%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 75% 40%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 8% 55%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 58% 15%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 45% 70%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 90% 85%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 33% 92%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 68% 62%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 14% 38%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 52% 48%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 83% 8%, var(--star-color) 50%, transparent 100%),
+          radial-gradient(2px 2px at 38% 28%, var(--star-color) 50%, transparent 100%);
+      }
     }
   }
 }
