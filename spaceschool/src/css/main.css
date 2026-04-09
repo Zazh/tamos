@@ -9,6 +9,8 @@
 @import "./components/buttons.css";
 @import "./components/dropdown.css";
 @import "./components/megamenu.css";
+@import "./components/glow.css";
+@import "./components/footer.css";
 
 /* ========== Pages ========== */
 /* @import "./pages/home.css"; */
@@ -20,6 +22,8 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background-color: var(--color-gray-50);
   color: var(--color-gray-900);
@@ -49,6 +53,7 @@ body {
   --color-gold: #FCB514;
   --color-brand: #0054A1;
 
+  --color-black: #000F21;
   --color-orange-500: #F77F00;
   --color-slate-50: #F0F5F7;
   --color-slate-100: #E8EEF0;
