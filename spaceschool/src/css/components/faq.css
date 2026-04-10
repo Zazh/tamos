@@ -51,10 +51,12 @@
 .faq-body-inner {
   font-size: var(--text-base);
   line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
   color: var(--color-neutral-600);
   padding-bottom: 2rem;
 
   @variant md {
     font-size: var(--text-lg);
+    padding-right: 4rem;
   }
 }
