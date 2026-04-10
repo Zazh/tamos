@@ -166,6 +166,84 @@
     </div>
   </header>
 
+  <!-- About -->
+  <section class="relative overflow-hidden pt-22 pb-22 lg:pb-40 bg-black text-white"
+           x-data
+           x-starfield="{ density: 'medium', twinkle: 'high', shooting: 'high' }">
+    <div class="container">
+      <div class="col-span-full relative z-10">
+        <!-- Label Section -->
+        <div class="section-label mb-12 text-white border-b-white/20">
+          <span class="section-label__icon "></span>
+          <span>О нас</span>
+        </div>
+        <!-- END Label Section -->
+
+        <div class="mb-4">
+          <h2 class="h1 font-bold uppercase">Space School в цифрах</h2>
+        </div>
+      </div>
+
+      <div class="col-span-full lg:col-span-6 xl:col-span-5 relative z-10">
+        <div class="mb-8 md:mb-10">
+          <p class="text-lg tracking-wide leading-tight hyphens-auto">Space School основана в 2013 году с миссией: дать каждому ребёнку в  Казахстане образование мирового уровня. Мы объединяем лучшие практики  финской, британской и казахстанской систем образования — в одной школе.</p>
+        </div>
+        <ul class="grid grid-cols-2 gap-4 md:gap-6">
+          <li class="flex flex-col gap-4 p-4 rounded-2xl aspect-[231/134] glass-subtle">
+            <span class="text-4-5xl font-medium leading-tight">94%</span>
+            <span class="font-medium leading-tight">Поступают в ТОП-вузы</span>
+          </li>
+          <li class="flex flex-col gap-4 p-4 rounded-2xl aspect-[231/134] glass-subtle">
+            <span class="text-4-5xl font-medium leading-tight">94%</span>
+            <span class="font-medium leading-tight">Поступают в ТОП-вузы</span>
+          </li>
+          <li class="flex flex-col gap-4 p-4 rounded-2xl aspect-[231/134] glass-subtle">
+            <span class="text-4-5xl font-medium leading-tight">94%</span>
+            <span class="font-medium leading-tight">Поступают <br>в ТОП-вузы</span>
+          </li>
+          <li class="flex flex-col gap-4 p-4 rounded-2xl aspect-[231/134] glass-subtle">
+            <span class="text-4-5xl font-medium leading-tight">94%</span>
+            <span class="font-medium leading-tight">Поступают в ТОП-вузы</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-span-full lg:col-span-6 xl:col-span-7 relative z-0">
+        <div class="mt-3 md:mt-0 xl:pl-4 relative z-10">
+          <div class="aspect-[674/442] w-full rounded-2xl overflow-hidden">
+            <img src="/images/sections-images/school-building.jpg" alt="" class="object-cover w-full h-full">
+          </div>
+        </div>
+        <!-- gradient circle -->
+        <div class="absolute flex justify-center z-0 w-full h-full top-0 md:top-30">
+          <svg class="w-full mx-auto scale-[4.5] md:scale-[3.5]"  viewBox="0 0 1441 1397" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity="0.8">
+              <g filter="url(#filter0_f_85_1633)">
+                <circle cx="643.805" cy="643.805" r="343.805" transform="rotate(-90 643.805 643.805)" fill="#852DF9"/>
+              </g>
+              <g filter="url(#filter1_f_85_1633)">
+                <circle cx="885.083" cy="840.847" r="343.805" transform="rotate(-90 885.083 840.847)" fill="#108CFF"/>
+              </g>
+            </g>
+            <defs>
+              <filter id="filter0_f_85_1633" x="0" y="0" width="1287.61" height="1287.61" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="150">
+                  <animate attributeName="stdDeviation" values="150;80;150" dur="3s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+              <filter id="filter1_f_85_1633" x="329.277" y="285.042" width="1111.61" height="1111.61" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="106">
+                  <animate attributeName="stdDeviation" values="106;50;106" dur="3.5s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END About -->
+
   <!-- FAQ -->
   <section class="py-22 bg-white">
     <div class="container" x-data="{ open: null }">
@@ -174,7 +252,7 @@
         <!-- Label Section -->
         <div class="section-label mb-12">
           <span class="section-label__icon"></span>
-          <span>Название секции</span>
+          <span>Частые вопросы</span>
         </div>
         <!-- END Label Section -->
 
@@ -268,6 +346,7 @@
             </p>
             <div class="mt-8">
               <button class="btn btn-primary">Получить консультацию</button>
+              <button class="btn btn-default">Получить консультацию</button>
             </div>
           </div>
         </div>
