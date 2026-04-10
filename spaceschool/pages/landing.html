@@ -166,6 +166,83 @@
     </div>
   </header>
 
+  <!-- FAQ -->
+  <section class="py-22 bg-white">
+    <div class="container" x-data="{ open: null }">
+      <div class="col-span-full">
+
+        <!-- Label Section -->
+        <div class="section-label mb-12">
+          <span class="section-label__icon"></span>
+          <span>Название секции</span>
+        </div>
+        <!-- END Label Section -->
+
+        <div class="mb-8">
+          <h2 class="h1 font-bold">FAQ</h2>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header" @click="open = open === 1 ? null : 1">
+            <span>Что такое Space School?</span>
+            <span class="faq-icon-wrap" :class="open === 1 && 'faq-icon-wrap--open'">
+              <img src="/images/icons/plus.svg" alt="">
+            </span>
+          </button>
+          <div x-show="open === 1" x-collapse>
+            <div class="faq-body-inner">
+              <p>Space School — это образовательная платформа, которая помогает детям изучать космос и технологии через интерактивные занятия и проекты.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header" @click="open = open === 2 ? null : 2">
+            <span>Для какого возраста подходят курсы?</span>
+            <span class="faq-icon-wrap" :class="open === 2 && 'faq-icon-wrap--open'">
+              <img src="/images/icons/plus.svg" alt="">
+            </span>
+          </button>
+          <div x-show="open === 2" x-collapse>
+            <div class="faq-body-inner">
+              <p>Наши курсы рассчитаны на детей от 6 до 17 лет. Программа адаптируется под возраст и уровень подготовки каждого ученика.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header" @click="open = open === 3 ? null : 3">
+            <span>Как проходят занятия?</span>
+            <span class="faq-icon-wrap" :class="open === 3 && 'faq-icon-wrap--open'">
+              <img src="/images/icons/plus.svg" alt="">
+            </span>
+          </button>
+          <div x-show="open === 3" x-collapse>
+            <div class="faq-body-inner">
+              <p>Занятия проходят в формате интерактивных уроков с практическими заданиями. Каждый урок включает теоретическую часть и hands-on проект.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header" @click="open = open === 4 ? null : 4">
+            <span>Нужна ли предварительная подготовка?</span>
+            <span class="faq-icon-wrap" :class="open === 4 && 'faq-icon-wrap--open'">
+              <img src="/images/icons/plus.svg" alt="">
+            </span>
+          </button>
+          <div x-show="open === 4" x-collapse>
+            <div class="faq-body-inner">
+              <p>Нет, предварительная подготовка не требуется. Мы начинаем с основ и постепенно усложняем программу.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END FAQ -->
+
+  <!-- Feedback -->
   <section class="feedback-section glow-react-scope"
            x-data
            x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }">
@@ -251,6 +328,7 @@
       </div>
     </div>
   </section>
+  <!-- END Feedback -->
 
   <footer class="footer mt-auto"
           x-data="{ visible: false }"

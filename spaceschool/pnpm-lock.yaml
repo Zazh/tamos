@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@alpinejs/collapse':
+        specifier: ^3.15.11
+        version: 3.15.11
       alpinejs:
         specifier: ^3.15.11
         version: 3.15.11
@@ -23,6 +26,9 @@ importers:
         version: 8.0.3(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(jiti@2.6.1)
 
 packages:
+
+  '@alpinejs/collapse@3.15.11':
+    resolution: {integrity: sha512-CjbqD9vpp/o4PHSpBtZ0oIWEkEA4lanEhJE9jrRJmmgQnxguOJUHQFQUEF0OyjUF7JQpP/KfpyY18PaHMMs8Nw==}
 
   '@emnapi/core@1.9.2':
     resolution: {integrity: sha512-UC+ZhH3XtczQYfOlu3lNEkdW/p4dsJ1r/bP7H8+rhao3TTTMO1ATq/4DdIi23XuGoFY+Cz0JmCbdVl0hz9jZcA==}
@@ -451,6 +457,8 @@ packages:
         optional: true
 
 snapshots:
+
+  '@alpinejs/collapse@3.15.11': {}
 
   '@emnapi/core@1.9.2':
     dependencies:

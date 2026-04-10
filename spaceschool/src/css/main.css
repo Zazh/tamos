@@ -13,7 +13,9 @@
 @import "./components/glow.css";
 @import "./components/starfield.css";
 @import "./components/feedback.css";
+@import "./components/faq.css";
 @import "./components/footer.css";
+@import "./components/section-label.css";
 
 /* ========== Pages ========== */
 /* @import "./pages/home.css"; */

@@ -1,0 +1,60 @@
+/* ========== FAQ Accordion ========== */
+
+.faq-item {
+  border-top: 1px solid var(--color-gray-300);
+
+  &:last-child {
+    border-bottom: 1px solid var(--color-gray-300);
+  }
+}
+
+.faq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 5.5rem;
+  width: 100%;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+
+  text-align: left;
+  gap: 0.25rem;
+}
+
+.faq-icon-wrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background-color: var(--color-slate-100);
+  transition: transform 0.3s ease;
+}
+
+.faq-icon-wrap--open {
+  transform: rotate(45deg);
+}
+
+.faq-icon-wrap img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.faq-body-inner {
+  font-size: var(--text-base);
+  line-height: var(--leading-tight);
+  color: var(--color-neutral-600);
+  padding-bottom: 2rem;
+
+  @variant md {
+    font-size: var(--text-lg);
+  }
+}
