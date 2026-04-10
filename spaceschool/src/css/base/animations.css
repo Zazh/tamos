@@ -1,0 +1,106 @@
+/* ============================================================
+ * animations.css — переиспользуемые CSS-анимации
+ * ============================================================
+ *
+ * Каждая анимация состоит из:
+ *   1. @keyframes  — определение анимации
+ *   2. .animate-*  — утилитарный класс для применения
+ *
+ * Использование: добавить класс .animate-* на элемент в HTML.
+ * Параметры (duration, delay) можно переопределить через
+ * inline style или кастомный класс.
+ * ========================================================== */
+
+/* ----------------------------------------------------------
+ * orbit-cw — бесконечное вращение по часовой стрелке.
+ * Подходит для орбитальных элементов, декоративных колец.
+ *
+ * Дефолт: 60s, linear, infinite
+ * Пример: <div class="animate-orbit-cw">
+ * -------------------------------------------------------- */
+@keyframes orbit-cw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.animate-orbit-cw {
+  animation: orbit-cw 60s linear infinite;
+}
+
+/* ----------------------------------------------------------
+ * orbit-ccw — бесконечное вращение против часовой стрелки.
+ * Зеркальная версия orbit-cw для встречного движения.
+ *
+ * Дефолт: 45s, linear, infinite
+ * Пример: <div class="animate-orbit-ccw">
+ * -------------------------------------------------------- */
+@keyframes orbit-ccw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+.animate-orbit-ccw {
+  animation: orbit-ccw 20s linear infinite;
+}
+
+/* ----------------------------------------------------------
+ * glow-sway — плавное маятниковое покачивание.
+ * Подходит для SVG-свечений, фоновых градиентов,
+ * декоративных элементов которые должны «дышать».
+ *
+ * Дефолт: 8s, ease-in-out, infinite
+ * Амплитуда: ±20deg от центра
+ * Пример: <div class="animate-glow-sway">
+ * -------------------------------------------------------- */
+@keyframes glow-sway {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(20deg); }
+  75%  { transform: rotate(-20deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.animate-glow-sway {
+  transform-origin: center center;
+  animation: glow-sway 8s ease-in-out infinite;
+}
+
+/* ----------------------------------------------------------
+ * glow-react — интерактивный отклик декоративных элементов
+ * на hover кнопки внутри общего контейнера.
+ *
+ * Принцип: контейнер с классом .glow-react-scope
+ * отслеживает hover на .btn через :has().
+ * Дочерние элементы с .glow-react получают эффект:
+ *   — scale увеличивается (объём)
+ *   — brightness растёт (свечение)
+ *   — blur на SVG-фильтрах уменьшается (резкость)
+ *
+ * Пример:
+ *   <section class="glow-react-scope">
+ *     <button class="btn btn-primary">CTA</button>
+ *     <div class="glow-react">...svg glow...</div>
+ *   </section>
+ *
+ * Модификаторы:
+ *   .glow-react-slow  — замедленный отклик (0.8s)
+ *   .glow-react-fast  — быстрый отклик (0.25s)
+ * -------------------------------------------------------- */
+
+.glow-react {
+  transition: transform 0.5s ease, filter 0.5s ease, opacity 0.5s ease;
+  will-change: transform, filter;
+}
+
+.glow-react-slow {
+  transition-duration: 0.8s;
+}
+
+.glow-react-fast {
+  transition-duration: 0.25s;
+}
+
+.glow-react-scope:has(.btn:hover) .glow-react {
+  transform: scale(1.12);
+  filter: brightness(1.4);
+}
+

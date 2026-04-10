@@ -11,10 +11,21 @@
     height: 100%;
   }
 
+  /* -- Icon buttons ---------------------------------------- */
+
   .btn-burger {
     width: 2rem;
     height: 1.5rem;
     display: block;
+
+    @variant hover {
+      color: var(--nav-accent);
+    }
+  }
+
+  .btn-burger-close {
+    width: 2.5rem;
+    height: 2rem;
 
     @variant hover {
       color: var(--nav-accent);
@@ -32,12 +43,164 @@
     }
   }
 
-  .btn-burger-close {
-    width: 2.5rem;
-    height: 2rem;
+  /* -- Action buttons (shared base) ----------------------- */
+
+  .btn-default,
+  .btn-primary,
+  .btn-secondary {
+    font-weight: 500;
+    padding-inline: 1.5rem;
+    padding-block: .75rem;
+    font-size: 1rem;
+    border-radius: 3rem;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  /* -- Default: liquid glass ------------------------------ */
+
+  .btn-default {
+    position: relative;
+    color: var(--color-white);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.15) 100%
+    );
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 4px 16px rgba(0, 0, 0, 0.15);
 
     @variant hover {
-      color: var(--nav-accent);
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.35) 0%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(255, 255, 255, 0.2) 100%
+      );
+      border-color: rgba(255, 255, 255, 0.45);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 6px 24px rgba(0, 0, 0, 0.2);
+      transform: translateY(-1px);
+    }
+
+    @variant active {
+      transform: translateY(0);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  /* -- Primary: orange glass emboss ----------------------- */
+
+  .btn-primary {
+    color: var(--color-black);
+    background:
+      linear-gradient(
+        170deg,
+        rgba(255, 255, 255, 0.45) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(0, 0, 0, 0.05) 55%,
+        rgba(255, 255, 255, 0.1) 100%
+      ),
+      var(--color-orange-500);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.5),
+      inset 0 -1px 1px rgba(0, 0, 0, 0.1),
+      0 4px 16px rgba(247, 127, 0, 0.3);
+
+    @variant hover {
+      background:
+        linear-gradient(
+          170deg,
+          rgba(255, 255, 255, 0.55) 0%,
+          rgba(255, 255, 255, 0) 45%,
+          rgba(0, 0, 0, 0.05) 55%,
+          rgba(255, 255, 255, 0.15) 100%
+        ),
+        #e67300;
+      box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.6),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.1),
+        0 6px 24px rgba(247, 127, 0, 0.4);
+      transform: translateY(-1px);
+    }
+
+    @variant active {
+      transform: translateY(0);
+      background:
+        linear-gradient(
+          170deg,
+          rgba(255, 255, 255, 0.2) 0%,
+          rgba(255, 255, 255, 0) 45%,
+          rgba(0, 0, 0, 0.08) 55%,
+          rgba(255, 255, 255, 0.05) 100%
+        ),
+        #e67300;
+      box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.25),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.15),
+        0 2px 8px rgba(247, 127, 0, 0.25);
+    }
+  }
+
+  /* -- Secondary: blue glass emboss ----------------------- */
+
+  .btn-secondary {
+    color: var(--color-white);
+    background:
+      linear-gradient(
+        170deg,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(0, 0, 0, 0.05) 55%,
+        rgba(255, 255, 255, 0.1) 100%
+      ),
+      var(--color-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.45),
+      inset 0 -1px 1px rgba(0, 0, 0, 0.1),
+      0 4px 16px rgba(0, 142, 214, 0.3);
+
+    @variant hover {
+      background:
+        linear-gradient(
+          170deg,
+          rgba(255, 255, 255, 0.5) 0%,
+          rgba(255, 255, 255, 0) 45%,
+          rgba(0, 0, 0, 0.05) 55%,
+          rgba(255, 255, 255, 0.15) 100%
+        ),
+        #0080c0;
+      box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.55),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.1),
+        0 6px 24px rgba(0, 142, 214, 0.4);
+      transform: translateY(-1px);
+    }
+
+    @variant active {
+      transform: translateY(0);
+      background:
+        linear-gradient(
+          170deg,
+          rgba(255, 255, 255, 0.2) 0%,
+          rgba(255, 255, 255, 0) 45%,
+          rgba(0, 0, 0, 0.08) 55%,
+          rgba(255, 255, 255, 0.05) 100%
+        ),
+        #0080c0;
+      box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.2),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.15),
+        0 2px 8px rgba(0, 142, 214, 0.25);
     }
   }
 }

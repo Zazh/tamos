@@ -3,6 +3,7 @@
 /* ========== Base ========== */
 @import "./base/fonts.css";
 @import "./base/typography.css";
+@import "./base/animations.css";
 
 /* ========== Components ========== */
 @import "./components/nav.css";
@@ -11,6 +12,7 @@
 @import "./components/megamenu.css";
 @import "./components/glow.css";
 @import "./components/starfield.css";
+@import "./components/feedback.css";
 @import "./components/footer.css";
 
 /* ========== Pages ========== */

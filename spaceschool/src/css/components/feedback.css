@@ -1,0 +1,27 @@
+@layer components {
+  .feedback-section {
+    background: var(--color-black);
+    height: 39rem;
+    color: white;
+    padding-block: 5rem;
+    position: relative;
+    overflow: hidden;
+
+    @variant md {
+      padding-block: 5rem;
+    }
+  }
+
+  .planet-container {
+    position: relative;
+    height: 59rem;
+    display: flex;
+    justify-content: center;
+    margin-top: -2rem;
+  }
+
+  .planet-container svg {
+    width: 100%;
+    height: 100%;
+  }
+}
