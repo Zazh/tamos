@@ -19,6 +19,14 @@
   }
 }
 
+.h5 {
+  font-size: var(--text-base);
+
+  @variant md {
+    font-size: var(--text-lg);
+  }
+}
+
 .lead {
   font-size: var(--text-lg);
 
