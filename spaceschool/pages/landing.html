@@ -175,14 +175,15 @@
       <div class="col-span-full">
 
         <!-- Label Section -->
-        <div class="section-label mb-12 justify-center">
+        <div class="section-label mb-8 ">
           <span class="section-label__icon"></span>
           <span>Внеклассные занятия</span>
         </div>
         <!-- END Label Section -->
 
-        <div class="mb-8">
-          <h2 class="h1 font-bold text-center">После уроков - жизнь не останавливается</h2>
+        <div class="mb-12 ">
+          <h2 class="h1 font-bold">После уроков - жизнь <span class="block lg:inline">не останавливается</span></h2>
+          <h5 class="h5 mt-4">Секции, кружки и события, которые <span class="block lg:inline">развивают личность, а не только оценки</span></h5>
         </div>
 
         <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
@@ -192,8 +193,8 @@
                 <span>09:00 – 10:30</span>
                 <span>Робототехника</span>
               </span>
-              <span class="">
-                # Технологии
+              <span>
+                <span class="badge bg-indigo-400/10 text-indigo-500">Технологии</span>
               </span>
             </button>
             <div x-show="open === 1" x-collapse>
@@ -209,8 +210,8 @@
                 <span>10:30 – 12:00</span>
                 <span>Шахматный клуб</span>
               </span>
-              <span class="">
-                # Логика
+              <span>
+                <span class="badge bg-red-400/10 text-red-400">Наука</span>
               </span>
             </button>
             <div x-show="open === 2" x-collapse>
@@ -223,11 +224,11 @@
           <div class="accordion-item">
             <button class="accordion-header" @click="open = open === 3 ? null : 3">
               <span class="accordion-title">
-                <span>12:00 – 13:30</span>
-                <span>Художественная студия</span>
+                <span>10:00 – 13:30</span>
+                <span>Дебаты на английском</span>
               </span>
-              <span class="">
-                # Творчество
+              <span>
+                <span class="badge  bg-green-600/10 text-green-600">Риторика</span>
               </span>
             </button>
             <div x-show="open === 3" x-collapse>
@@ -243,8 +244,8 @@
                 <span>13:30 – 15:00</span>
                 <span>Английский клуб</span>
               </span>
-              <span class="">
-                # Языки
+              <span>
+                <span class="badge   bg-orange-400/10 text-orange-400">Спорт</span>
               </span>
             </button>
             <div x-show="open === 4" x-collapse>
@@ -253,6 +254,10 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <div class=" mt-8">
+          <button class="btn btn-primary">Смотреть все активности</button>
         </div>
       </div>
     </div>
