@@ -13,9 +13,10 @@
 @import "./components/glow.css";
 @import "./components/starfield.css";
 @import "./components/feedback.css";
-@import "./components/faq.css";
+@import "./components/accordion.css";
 @import "./components/footer.css";
 @import "./components/section-label.css";
+@import "./components/cards.css";
 
 /* ========== Pages ========== */
 /* @import "./pages/home.css"; */
@@ -50,6 +51,58 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.15),
     0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+@utility glass-secondary {
+  --glass-y: 0;
+  --_gx1: 10%;  --_gy1: 10%;  --_dx1: 80%;  --_dy1: 70%;
+  --_gx2: 90%;  --_gy2: 85%;  --_dx2: -70%; --_dy2: -65%;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.04) 50%,
+      rgba(255, 255, 255, 0.08) 100%
+    ),
+    radial-gradient(
+      ellipse 120% 100% at calc(var(--_gx1) + var(--glass-y) * var(--_dx1)) calc(var(--_gy1) + var(--glass-y) * var(--_dy1)),
+      rgba(255, 255, 255, 0.14),
+      rgba(255, 255, 255, 0.04) 40%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 100% 80% at calc(var(--_gx2) + var(--glass-y) * var(--_dx2)) calc(var(--_gy2) + var(--glass-y) * var(--_dy2)),
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.02) 35%,
+      transparent 65%
+    );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Направления бликов — к центру */
+/* 1: top-left → center (дефолт) */
+
+/* 2: top-right → center */
+@utility glass-from-tr {
+  --_gx1: 90%;  --_gy1: 10%;  --_dx1: -80%; --_dy1: 70%;
+  --_gx2: 10%;  --_gy2: 85%;  --_dx2: 70%;  --_dy2: -65%;
+}
+
+/* 3: bottom-left → center */
+@utility glass-from-bl {
+  --_gx1: 10%;  --_gy1: 90%;  --_dx1: 80%;  --_dy1: -70%;
+  --_gx2: 90%;  --_gy2: 15%;  --_dx2: -70%; --_dy2: 65%;
+}
+
+/* 4: bottom-right → center */
+@utility glass-from-br {
+  --_gx1: 90%;  --_gy1: 90%;  --_dx1: -80%; --_dy1: -70%;
+  --_gx2: 10%;  --_gy2: 15%;  --_dx2: 70%;  --_dy2: 65%;
 }
 
 /* ========== Global ========== */

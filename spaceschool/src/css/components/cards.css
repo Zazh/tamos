@@ -1,0 +1,20 @@
+@layer components {
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--radius-2xl);
+  }
+
+  .stat-card__value {
+    font-size: var(--text-4-5xl);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-tight);
+  }
+
+  .stat-card__label {
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-tight);
+  }
+}

@@ -1,6 +1,6 @@
-/* ========== FAQ Accordion ========== */
+/* ========== Accordion ========== */
 
-.faq-item {
+.accordion-item {
   border-top: 1px solid var(--color-gray-300);
 
   &:last-child {
@@ -8,7 +8,7 @@
   }
 }
 
-.faq-header {
+.accordion-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -27,7 +27,7 @@
   gap: 0.25rem;
 }
 
-.faq-icon-wrap {
+.accordion-icon {
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -39,16 +39,16 @@
   transition: transform 0.3s ease;
 }
 
-.faq-icon-wrap--open {
+.accordion-icon--open {
   transform: rotate(45deg);
 }
 
-.faq-icon-wrap img {
+.accordion-icon img {
   width: 1.5rem;
   height: 1.5rem;
 }
 
-.faq-body-inner {
+.accordion-body {
   font-size: var(--text-base);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
