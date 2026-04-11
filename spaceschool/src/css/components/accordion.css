@@ -27,10 +27,6 @@
 
   & > :last-child {
     font-size: var(--text-lg);
-
-    @variant md {
-      width: 10rem;
-    }
   }
 
   @variant md {
