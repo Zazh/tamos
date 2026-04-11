@@ -168,6 +168,97 @@
 <section class="h-[100vh]">
 
 </section>
+
+  <!-- Activity -->
+  <section class="py-22 bg-white">
+    <div class="container" x-data="{ open: null }">
+      <div class="col-span-full">
+
+        <!-- Label Section -->
+        <div class="section-label mb-12 justify-center">
+          <span class="section-label__icon"></span>
+          <span>Внеклассные занятия</span>
+        </div>
+        <!-- END Label Section -->
+
+        <div class="mb-8">
+          <h2 class="h1 font-bold text-center">После уроков - жизнь не останавливается</h2>
+        </div>
+
+        <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
+          <div class="accordion-item">
+            <button class="accordion-header" @click="open = open === 1 ? null : 1">
+              <span class="accordion-title">
+                <span>09:00 – 10:30</span>
+                <span>Робототехника</span>
+              </span>
+              <span class="">
+                # Технологии
+              </span>
+            </button>
+            <div x-show="open === 1" x-collapse>
+              <div class="accordion-body">
+                <p>Space School — это образовательная платформа, которая помогает детям изучать космос и технологии через интерактивные занятия и проекты.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" @click="open = open === 2 ? null : 2">
+              <span class="accordion-title">
+                <span>10:30 – 12:00</span>
+                <span>Шахматный клуб</span>
+              </span>
+              <span class="">
+                # Логика
+              </span>
+            </button>
+            <div x-show="open === 2" x-collapse>
+              <div class="accordion-body">
+                <p>Развиваем стратегическое мышление и концентрацию через игру в шахматы. Подходит как новичкам, так и опытным игрокам.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" @click="open = open === 3 ? null : 3">
+              <span class="accordion-title">
+                <span>12:00 – 13:30</span>
+                <span>Художественная студия</span>
+              </span>
+              <span class="">
+                # Творчество
+              </span>
+            </button>
+            <div x-show="open === 3" x-collapse>
+              <div class="accordion-body">
+                <p>Рисование, живопись и графика — учимся выражать идеи через визуальные образы и развиваем художественный вкус.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" @click="open = open === 4 ? null : 4">
+              <span class="accordion-title">
+                <span>13:30 – 15:00</span>
+                <span>Английский клуб</span>
+              </span>
+              <span class="">
+                # Языки
+              </span>
+            </button>
+            <div x-show="open === 4" x-collapse>
+              <div class="accordion-body">
+                <p>Разговорная практика с носителями языка в неформальной обстановке. Игры, дискуссии и проекты на английском.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END Activity -->
+
   <!-- About -->
   <section class="relative overflow-hidden pt-22 pb-22 lg:pb-40 bg-black text-white"
            x-data
@@ -267,7 +358,7 @@
 
         <div class="accordion-item">
           <button class="accordion-header" @click="open = open === 1 ? null : 1">
-            <span>Что такое Space School?</span>
+            <span class="accordion-title">Что такое Space School?</span>
             <span class="accordion-icon" :class="open === 1 && 'accordion-icon--open'">
               <img src="/images/icons/plus.svg" alt="">
             </span>
@@ -281,7 +372,7 @@
 
         <div class="accordion-item">
           <button class="accordion-header" @click="open = open === 2 ? null : 2">
-            <span>Для какого возраста подходят курсы?</span>
+            <span class="accordion-title">Для какого возраста подходят курсы?</span>
             <span class="accordion-icon" :class="open === 2 && 'accordion-icon--open'">
               <img src="/images/icons/plus.svg" alt="">
             </span>
@@ -295,7 +386,7 @@
 
         <div class="accordion-item">
           <button class="accordion-header" @click="open = open === 3 ? null : 3">
-            <span>Как проходят занятия?</span>
+            <span class="accordion-title">Как проходят занятия?</span>
             <span class="accordion-icon" :class="open === 3 && 'accordion-icon--open'">
               <img src="/images/icons/plus.svg" alt="">
             </span>
@@ -309,7 +400,7 @@
 
         <div class="accordion-item">
           <button class="accordion-header" @click="open = open === 4 ? null : 4">
-            <span>Нужна ли предварительная подготовка?</span>
+            <span class="accordion-title">Нужна ли предварительная подготовка?</span>
             <span class="accordion-icon" :class="open === 4 && 'accordion-icon--open'">
               <img src="/images/icons/plus.svg" alt="">
             </span>
