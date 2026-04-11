@@ -1,0 +1,7 @@
+.badge {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-bold);
+    /*border: 1px solid;*/
+    padding: .5rem .75rem;
+    border-radius: .5rem;
+}
