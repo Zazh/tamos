@@ -171,8 +171,9 @@
 
   <!-- Certificate -->
   <section class="relative overflow-hidden pt-22 bg-black text-white"
-           x-data
-           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }">
+           x-data="{ visible: false }"
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }"
+           x-init="$nextTick(() => { const self = $data; new IntersectionObserver(([e]) => { self.visible = e.isIntersecting }, { threshold: 0.5 }).observe($el) })">
     <div class="container relative z-10">
       <div class="col-span-full">
 
@@ -252,15 +253,17 @@
     </div>
 
     <!-- Bottom glow -->
-    <div class="pointer-events-none absolute bottom-0 inset-x-0 z-0 flex justify-center">
-      <svg class="block shrink-0 w-100% h-[380px]" viewBox="0 0 1440 380" preserveAspectRatio="none" fill="none">
+    <div class="glow-reveal pointer-events-none absolute bottom-0 inset-x-0 z-0 flex justify-center"
+         :class="visible && 'glow-reveal-visible'"
+         x-on:transitionend="if (visible) document.getElementById('cert-glow-breathe').beginElement()">
+      <svg class="block w-full h-[380px]" viewBox="0 0 1440 380" preserveAspectRatio="none" fill="none">
         <g filter="url(#cert-glow-blur)">
           <ellipse cx="720" cy="400" rx="800" ry="180" fill="#108CFF"/>
         </g>
         <defs>
           <filter id="cert-glow-blur" x="-200" y="100" width="1840" height="600" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
             <feGaussianBlur stdDeviation="90">
-              <animate attributeName="stdDeviation" values="90;60;90" dur="4s" repeatCount="indefinite"/>
+              <animate id="cert-glow-breathe" attributeName="stdDeviation" values="90;60;90" dur="4s" repeatCount="indefinite" begin="indefinite"/>
             </feGaussianBlur>
           </filter>
         </defs>
@@ -612,7 +615,7 @@
   <footer class="footer mt-auto"
           x-data="{ visible: false }"
           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'low' }"
-          x-init="const self = $data; new IntersectionObserver(([e]) => { self.visible = e.isIntersecting }, { threshold: 0.1 }).observe($el)">
+          x-init="const self = $data; new IntersectionObserver(([e]) => { self.visible = e.isIntersecting }, { threshold: 0.4 }).observe($el)">
     <div class="relative z-10 px-4">
       <div class="max-w-screen-sm mx-auto">
         <a href="/">
