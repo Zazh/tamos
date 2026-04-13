@@ -1,0 +1,44 @@
+.hero-planet-landing {
+    background-color: var(--color-black);
+}
+
+.hero {
+    position: relative;
+    height: 924px;
+    overflow: hidden;
+}
+
+.hero-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 5.5rem;
+    margin-inline: 1rem;
+    position: relative;
+    text-align: center;
+    gap: 2.5rem;
+
+    @variant md {
+        margin-top: 7rem;
+    }
+}
+
+.hero-fit {
+    display: block;
+    white-space: nowrap;
+
+    @variant md {
+        display: inline;
+        white-space: normal;
+    }
+}
+
+/* Десктоп: перенос перед «поступят» */
+.hero-break {
+    @variant md {
+        &::before {
+            content: "\A";
+            white-space: pre;
+        }
+    }
+}

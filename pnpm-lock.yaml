@@ -1,0 +1,22 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      fitty:
+        specifier: ^2.4.2
+        version: 2.4.2
+
+packages:
+
+  fitty@2.4.2:
+    resolution: {integrity: sha512-GNhWgImK4+wEkgEZjBkQMyu5NLSmmryg/CaRP7zYby+TWzCrUou6BHL+iqbjKzJRXMyzuJkH+LBB1+lh4oO77g==}
+
+snapshots:
+
+  fitty@2.4.2: {}
