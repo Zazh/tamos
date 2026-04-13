@@ -1,0 +1,28 @@
+<svg width="1087" height="1087" viewBox="0 0 1087 1087" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#hero-planet-glow)">
+<circle cx="543.13" cy="543.13" r="424.581" stroke="#1D55FF" stroke-opacity="0.4" stroke-width="40.1611"/>
+</g>
+<g filter="url(#hero-planet-ring)">
+<circle cx="543.13" cy="543.13" r="409.189" stroke="white" stroke-opacity="0.4" stroke-width="9.37796"/>
+</g>
+<g filter="url(#hero-planet-flare)">
+<path d="M661.13 155.63C521.13 103.13 155.63 154.13 140.13 550.13C232.63 235.63 430.13 145.63 661.13 155.63Z" fill="#FF2111"/>
+</g>
+<defs>
+<filter id="hero-planet-glow" x="0" y="0" width="1087" height="1087" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feGaussianBlur stdDeviation="49">
+<animate attributeName="stdDeviation" values="49;35;49" dur="4s" repeatCount="indefinite"/>
+</feGaussianBlur>
+</filter>
+<filter id="hero-planet-ring" x="114" y="114" width="859" height="859" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feGaussianBlur stdDeviation="7.6">
+<animate attributeName="stdDeviation" values="7.6;4;7.6" dur="5s" repeatCount="indefinite"/>
+</feGaussianBlur>
+</filter>
+<filter id="hero-planet-flare" x="52" y="50" width="698" height="588" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feGaussianBlur stdDeviation="44">
+<animate attributeName="stdDeviation" values="44;30;44" dur="3.5s" repeatCount="indefinite"/>
+</feGaussianBlur>
+</filter>
+</defs>
+</svg>

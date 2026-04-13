@@ -8,7 +8,9 @@
   </head>
   <body>
   <!-- Hero -->
-  <section class="hero hero-planet-landing">
+  <section class="hero hero-planet-landing"
+           x-data
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'high' }">
     <header x-data="{ menu: false }">
       <nav class="nav nav-dark border-b border-b-transparent" :class="{ 'nav-megamenu': menu, 'border-b-gray-300': menu }">
         <div class="flex items-center gap-4">
@@ -168,22 +170,84 @@
       </div>
     </header>
 
-    <div class="hero-container">
-      <div class="w-full max-w-screen-md">
-        <span class="text-white font-medium text-sm badge bg-white/20">Международная школа в Астанe</span>
-        <h1 class="h1 text-white font-bold mt-6 mb-4">
-          <span class="hero-fit">Школа для детей</span>
-          <span class="hero-fit">которые <span class="hero-break">поступят</span></span>
-          <span class="hero-fit">в <span class="text-gold">TOP-100</span> вузов</span>
-        </h1>
-        <h2 class="leading-tight text-white/70 font-medium">
-          Space School — международная школа нового поколения, где дети учатся думать глобально, готовятся к поступлению в ведущие университеты мира и получают двойной сертификат с правом сдачи SAT
-        </h2>
+    <div class="hero-container z-10">
+      <div class="w-full max-w-screen-md relative">
+        <div class="relative z-10">
+          <span class="text-white font-medium text-sm badge bg-white/20">Международная школа в Астанe</span>
+          <h1 class="h1 text-white font-bold mt-6 mb-4">
+            <span class="hero-fit">Школа для детей</span>
+            <span class="hero-fit">которые <span class="hero-break">поступят</span></span>
+            <span class="hero-fit">в <span class="text-gold">TOP-100</span> вузов</span>
+          </h1>
+          <h2 class="leading-tight text-white/70 font-medium">
+            Space School — международная школа нового поколения, где дети учатся думать глобально, готовятся к поступлению в ведущие университеты мира и получают двойной сертификат с правом сдачи SAT
+          </h2>
+        </div>
+
+        <!-- Meteors -->
+        <img src="/images/hero/Object-1.png" class="hero-meteor absolute z-0 w-22 top-30 -left-35" data-speed="0.50" data-rotate="20" alt="" />
+        <img src="/images/hero/Object-2.png" class="hero-meteor absolute z-0 w-15 top-20 -right-20" data-speed="0.40" data-rotate="-15" alt="" />
+        <img src="/images/hero/Object-3.png" class="hero-meteor absolute z-0 w-14 -bottom-35 -left-45" data-speed="0.2" data-rotate="50" alt="" />
+        <img src="/images/hero/Object-1.png" class="hero-meteor absolute z-0 w-10 -bottom-40 -right-20" data-speed="0.15" data-rotate="-90" alt="" />
+        <img src="/images/hero/Object-4.png" class="hero-meteor absolute z-0 w-6 top-110 -left-20" data-speed="0.25" data-rotate="90" alt="" />
+        <!-- END Meteors -->
       </div>
       <ul class="flex flex-col md:flex-row justify-center gap-2 w-full max-w-screen-md">
         <li><button class="btn btn-primary w-[16rem] text-nowrap md:w-auto">Поступить сейчас</button></li>
         <li><button class="btn btn-default w-[16rem] text-nowrap md:w-auto">Получить консультацию</button></li>
       </ul>
+    </div>
+
+    <div class="flex justify-center">
+      <div class="mx-auto max-w-200 w-full mt-20 relative z-0">
+        <div class="absolute inset-0">
+          <svg class="w-full scale-[1.333]" viewBox="0 0 1087 1087" fill="none">
+            <g filter="url(#hero-planet-glow)">
+              <circle cx="543.13" cy="543.13" r="424.581" stroke="#1D55FF" stroke-opacity="0.4" stroke-width="40.1611"/>
+            </g>
+            <g filter="url(#hero-planet-ring)">
+              <circle cx="543.13" cy="543.13" r="409.189" stroke="white" stroke-opacity="0.4" stroke-width="9.37796"/>
+            </g>
+            <g filter="url(#hero-planet-flare)">
+              <path d="M661.13 155.63C521.13 103.13 155.63 154.13 140.13 550.13C232.63 235.63 430.13 145.63 661.13 155.63Z" fill="#FF2111"/>
+            </g>
+            <defs>
+              <filter id="hero-planet-glow" x="0" y="0" width="1087" height="1087" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur stdDeviation="49">
+                  <animate attributeName="stdDeviation" values="49;35;49" dur="4s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+              <filter id="hero-planet-ring" x="114" y="114" width="859" height="859" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur stdDeviation="7.6">
+                  <animate attributeName="stdDeviation" values="7.6;4;7.6" dur="5s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+              <filter id="hero-planet-flare" x="52" y="50" width="698" height="588" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur stdDeviation="44">
+                  <animate attributeName="stdDeviation" values="44;30;44" dur="3.5s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+            </defs>
+          </svg>
+
+        </div>
+        <div class="rounded-full aspect-square overflow-hidden">
+          <!-- Video -->
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            webkit-playsinline
+            disableRemotePlayback
+            poster="/images/sections-images/Planet.jpg"
+            class="w-full h-full object-cover"
+          >
+            <source src="/videos/planet2.mp4" type="video/mp4">
+          </video>
+          <!-- END Video -->
+        </div>
+      </div>
     </div>
   </section>
   <!-- END Hero -->
