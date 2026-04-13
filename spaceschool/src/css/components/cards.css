@@ -17,4 +17,38 @@
     font-weight: var(--font-weight-medium);
     line-height: var(--leading-tight);
   }
+
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem;
+    background-color: var(--color-slate-50);
+    border-radius: var(--radius-2xl);
+
+    @variant md {
+      padding: 1.5rem;
+    }
+  }
+
+  .feature-card__title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-tight);
+    margin-bottom: 1.25rem;
+
+    @variant md {
+      font-size: var(--text-lg);
+    }
+  }
+
+  .feature-card__desc {
+    font-size: var(--text-xs);
+    line-height: var(--leading-tight);
+    color: color-mix(in srgb, black 60%, transparent);
+
+    @variant md {
+      font-size: var(--text-sm);
+    }
+  }
 }
