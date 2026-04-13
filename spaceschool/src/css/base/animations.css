@@ -104,3 +104,8 @@
   filter: brightness(1.4);
 }
 
+.glow-react-scope:has(.btn:hover) .glow-react-intense {
+  transform: scale(1.25);
+  filter: brightness(1.8);
+}
+
