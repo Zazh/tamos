@@ -306,8 +306,21 @@
                 <img src="/images/sections-images/woman.png" alt="Ученица Space School" class="block w-full h-full object-cover object-top">
               </div>
               <!-- Library photo -->
-              <div class="w-1/2 rounded-2xl overflow-hidden">
-                <img src="/images/sections-images/library.jpg" alt="Библиотека Space School" class="block w-full h-full object-cover">
+              <div class="w-1/2 rounded-2xl overflow-hidden"
+                   x-data="{ scale: 1 }"
+                   x-init="
+                     let el = $el;
+                     function calc() {
+                       let rect = el.getBoundingClientRect();
+                       let vh = window.innerHeight;
+                       let raw = 1 - (rect.top / vh) - 0.4;
+                       let progress = Math.min(Math.max(raw / 0.6, 0), 1);
+                       scale = 1 + progress * 0.3;
+                     }
+                     window.addEventListener('scroll', calc, { passive: true });
+                     calc();
+                   ">
+                <img src="/images/sections-images/library.jpg" alt="Библиотека Space School" class="block w-full h-full object-cover transition-transform duration-100 ease-out" :style="'transform: scale(' + scale + ')'">
               </div>
             </div>
           </div>
