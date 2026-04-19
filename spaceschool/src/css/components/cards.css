@@ -110,4 +110,203 @@
       font-size: var(--text-sm);
     }
   }
+
+  .team-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .team-card__photo {
+    overflow: hidden;
+    border-radius: var(--radius-3xl);
+    aspect-ratio: 1 / 1;
+  }
+
+  .team-card__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .team-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .team-card__name {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .team-card__role {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-secondary);
+  }
+
+  .team-card__meta {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-tight);
+    color: color-mix(in srgb, black 80%, transparent);
+  }
+
+  .team-card__quote {
+    font-size: var(--text-sm);
+    line-height: var(--leading-tight);
+    color: color-mix(in srgb, black 80%, transparent);
+    margin-top: 1rem;
+  }
+
+  .team-slider {
+    position: relative;
+    margin-inline: -1rem;
+    width: calc(100% + 2rem);
+
+    @variant md {
+      margin-inline: 0;
+      width: auto;
+    }
+  }
+
+  .team-slider__track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    user-select: none;
+    -webkit-user-select: none;
+    padding-inline: 1rem;
+    scroll-padding-inline: 1rem;
+
+    @variant md {
+      padding-inline: 0;
+      scroll-padding-inline: 0;
+    }
+  }
+
+  .team-slider__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .team-slider__track > .team-card {
+    flex: 0 0 calc(100% - 2rem);
+    scroll-snap-align: start;
+
+    @variant md {
+      flex-basis: calc((100% - 1.5rem) / 2);
+    }
+
+    @variant lg {
+      flex-basis: calc((100% - 3rem) / 3);
+    }
+  }
+
+  .team-slider__track img {
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
+
+  @media (pointer: fine) {
+    .team-slider__track {
+      cursor: none;
+    }
+  }
+
+  .team-slider__cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 9999px;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 50;
+    transition: opacity 200ms ease;
+    will-change: transform;
+    isolation: isolate;
+  }
+
+  .team-slider__cursor::before,
+  .team-slider__cursor::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .team-slider__cursor::before {
+    background:
+      radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.75) 0%, transparent 45%),
+      radial-gradient(circle at 72% 78%, rgba(255, 255, 255, 0.32) 0%, transparent 55%),
+      radial-gradient(circle at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.08) 100%);
+  }
+
+  .team-slider__cursor::after {
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255, 255, 255, 0.6),
+      inset 0 18px 28px -10px rgba(255, 255, 255, 0.45),
+      inset 0 -18px 30px -10px rgba(0, 0, 0, 0.2);
+  }
+
+  .team-slider__cursor.is-active {
+    opacity: 1;
+  }
+
+  .team-slider__cursor svg {
+    transition: transform 150ms ease;
+  }
+
+  .team-slider__cursor.is-pressed svg {
+    transform: scale(0.85);
+  }
+
+  @media (pointer: coarse) {
+    .team-slider__cursor {
+      display: none;
+    }
+  }
+
+  .team-slider__controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .team-slider__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in srgb, black 15%, transparent);
+    background: white;
+    color: black;
+    cursor: pointer;
+    transition: border-color 150ms, color 150ms, opacity 150ms;
+  }
+
+  .team-slider__btn:hover:not(:disabled) {
+    background: var(--color-secondary);
+    color: var(--color-white);
+    border-color: var(--color-secondary);
+  }
+
+  .team-slider__btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
 }

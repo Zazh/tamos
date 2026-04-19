@@ -4,10 +4,12 @@ import collapse from "@alpinejs/collapse";
 import fitty from "fitty";
 import { registerStarfield } from "./starfield.js";
 import { registerGlass } from "./glass.js";
+import { registerSlider } from "./slider.js";
 
 Alpine.plugin(collapse);
 registerStarfield(Alpine);
 registerGlass(Alpine);
+registerSlider(Alpine);
 
 
 window.Alpine = Alpine;
