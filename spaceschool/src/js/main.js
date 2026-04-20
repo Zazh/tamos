@@ -5,11 +5,13 @@ import fitty from "fitty";
 import { registerStarfield } from "./starfield.js";
 import { registerGlass } from "./glass.js";
 import { registerSlider } from "./slider.js";
+import { registerCarousel } from "./carousel.js";
 
 Alpine.plugin(collapse);
 registerStarfield(Alpine);
 registerGlass(Alpine);
 registerSlider(Alpine);
+registerCarousel(Alpine);
 
 
 window.Alpine = Alpine;
