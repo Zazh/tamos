@@ -1,0 +1,86 @@
+/* ============================================================
+ * carousel.css — бесконечная горизонтальная карусель
+ * ============================================================
+ *
+ * Принцип работы:
+ *   .carousel-infinity — обёртка с overflow: hidden и gap.
+ *   Внутри — два идентичных .carousel-track. Оба движутся
+ *   синхронно на (width трека + gap); когда анимация зацикливается,
+ *   второй трек занимает место первого без визуального рывка.
+ *
+ *   animation-direction: reverse — движение слева направо
+ *   (элементы появляются слева, уходят направо).
+ *
+ * Разметка:
+ *   <div class="carousel-infinity">
+ *     <ul class="carousel-track">
+ *       <li class="carousel-item"><img .../></li>
+ *       <li class="carousel-item"><img .../></li>
+ *       ...
+ *     </ul>
+ *     <ul class="carousel-track" aria-hidden="true">
+ *       ...дубликат...
+ *     </ul>
+ *   </div>
+ *
+ * Размеры карточек чередуются через :nth-child(odd/even):
+ *   нечётные — широкие (342×223), чётные — высокие (325×352).
+ * Достаточно вывести items циклом, без модификаторов на разметке.
+ * ========================================================== */
+
+@layer components {
+  .carousel-infinity {
+    display: flex;
+    gap: 2rem;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .carousel-track {
+    display: flex;
+    flex-shrink: 0;
+    align-items: start;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    animation: carousel-scroll 40s linear infinite reverse;
+    will-change: transform;
+
+    @variant motion-reduce {
+      animation: none;
+    }
+  }
+
+  .carousel-item {
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 1rem;
+  }
+
+  .carousel-item:nth-child(odd) {
+    width: 21.5rem;
+    aspect-ratio: 342 / 223;
+  }
+
+  .carousel-item:nth-child(even) {
+    width: 20rem;
+    aspect-ratio: 325 / 352;
+  }
+
+  .carousel-item > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+@keyframes carousel-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 2rem));
+  }
+}

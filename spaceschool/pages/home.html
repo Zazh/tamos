@@ -234,9 +234,105 @@
 
 <main>
 
-  <section class="h-[100vh]">
-
+  <!-- About Us -->
+  <section class="bg-white pt-22 pb-12">
+    <div class="max-w-screen-xl mx-auto px-4">
+      <div class="flex flex-col gap-4 lg:flex-row">
+        <div class="w-full">
+          <h2 class="text-2xl md:text-4xl font-medium leading-[1.1] -tracking-wide mb-4">
+            Создаём образовательную <br>
+            среду мирового уровня <br>
+            в Казахстане
+          </h2>
+        </div>
+        <div class="w-full">
+          <p class="pb-4 leading-tight hyphens-auto">
+            Space School Astana — это международная частная школа с космической концепцией и физико-математическим уклоном. Мы предлагаем программы Cambridge International Education от Primary до A-Level, готовя учеников к поступлению в лучшие университеты мира.
+          </p>
+          <p class="pb-4 leading-tight hyphens-auto">
+            Чтобы развивать критическое мышление, творческий потенциал и глобальное. У каждого ученика через качественное
+          </p>
+        </div>
+      </div>
+    </div>
   </section>
+  <!-- END About Us -->
+
+  <!-- Carousel -->
+  <section class="bg-white pt-8 pb-22">
+    <div class="carousel-infinity">
+      <ul class="carousel-track">
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-library/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-classroom/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-sport/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-science/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+        </li>
+      </ul>
+      <ul class="carousel-track" aria-hidden="true">
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-library/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-classroom/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-sport/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-science/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+        </li>
+      </ul>
+    </div>
+  </section>
+  <!-- END Carousel -->
+
+  <!-- Video -->
+  <section class="bg-white">
+    <video class="block w-full h-auto"
+           muted playsinline loop preload="metadata"
+           aria-label="Знакомство со Space School"
+           x-data
+           x-init="if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                   new IntersectionObserver(
+                     ([e]) => e.isIntersecting ? $el.play().catch(() => {}) : $el.pause(),
+                     { threshold: 0 }
+                   ).observe($el)">
+      <source src="/videos/intro.mp4" type="video/mp4">
+      Ваш браузер не поддерживает воспроизведение видео.
+    </video>
+  </section>
+  <!-- END Video -->
 
   <!-- Feedback -->
   <section class="feedback-section glow-react-scope"
