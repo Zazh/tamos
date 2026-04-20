@@ -1,10 +1,14 @@
 .hero-planet-landing {
     background-color: var(--color-black);
+    height: 924px;
+}
+
+.hero-buildings {
+    background-color: var(--color-black);
 }
 
 .hero {
     position: relative;
-    height: 924px;
     overflow: hidden;
 }
 
