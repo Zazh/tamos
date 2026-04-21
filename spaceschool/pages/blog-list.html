@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gallery — Space School</title>
+    <title>Blog list — Space School</title>
     <script type="module" src="/src/js/main.js"></script>
   </head>
   <body>
@@ -167,33 +167,7 @@
   </header>
   <main>
 
-  <section class="bg-white py-6"
-           x-data="{
-             open: false,
-             index: 0,
-             items: [
-               'https://picsum.photos/seed/ss1/1200/800',
-               'https://picsum.photos/seed/ss2/800/1200',
-               'https://picsum.photos/seed/ss3/1000/1000',
-               'https://picsum.photos/seed/ss4/1600/900',
-               'https://picsum.photos/seed/ss5/900/1600',
-               'https://picsum.photos/seed/ss6/1200/900',
-               'https://picsum.photos/seed/ss7/900/1200',
-               'https://picsum.photos/seed/ss8/1000/1000',
-               'https://picsum.photos/seed/ss9/1600/1200',
-               'https://picsum.photos/seed/ss10/1200/1600',
-               'https://picsum.photos/seed/ss11/1200/800',
-               'https://picsum.photos/seed/ss12/1000/1000'
-             ],
-             openAt(i) { this.index = i; this.open = true; },
-             close() { this.open = false; },
-             prev() { if (this.index > 0) this.index--; },
-             next() { if (this.index < this.items.length - 1) this.index++; }
-           }"
-           x-effect="document.body.style.overflow = open ? 'hidden' : ''"
-           @keydown.escape.window="if (open) close()"
-           @keydown.arrow-left.window="if (open) prev()"
-           @keydown.arrow-right.window="if (open) next()">
+  <section class="bg-white py-6">
     <div class="container">
       <div class="col-span-full">
         <!-- Breadcrumb -->
@@ -220,112 +194,90 @@
 
         <div class="btn-filter-group my-6">
           <button class="btn btn-filter active">Все</button>
+          <button class="btn btn-filter">Школьная жизнь</button>
+          <button class="btn btn-filter">Спорт</button>
           <button class="btn btn-filter">Достижения</button>
           <button class="btn btn-filter">Робототехника</button>
           <button class="btn btn-filter">Мероприятие</button>
         </div>
 
-        <!--
-          Mosaic Gallery
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <article class="article-card">
+            <a href="/blog/1" class="article-card__link">
+              <figure class="article-card__image">
+                <img src="https://picsum.photos/seed/blog1/800/450" alt="Празднование Наурыза в школе" width="800" height="450" fetchpriority="high" decoding="async">
+              </figure>
+              <div class="article-card__body">
+                <time class="article-card__date" datetime="2026-04-20">20 апреля 2026</time>
+                <h3 class="article-card__title">Как мы празднуем Наурыз в школе</h3>
+              </div>
+            </a>
+          </article>
 
-          Layout:
-            - Mobile: CSS multi-column (`column-count: 2`) — карточки натекают
-              сверху вниз в 2 колонки, браузер балансирует высоты (masonry).
-              ВАЖНО: порядок — не по строкам. Первая половина массива уходит
-              в левую колонку, вторая — в правую.
-            - Desktop (md+): CSS Grid 4 колонки — wide span 2, квадраты 1×1,
-              порядок слева-направо, grid-auto-flow: row dense.
+          <article class="article-card">
+            <a href="/blog/2" class="article-card__link">
+              <figure class="article-card__image">
+                <img src="https://picsum.photos/seed/blog2/800/450" alt="Ученики с медалями международной олимпиады по математике" width="800" height="450" loading="lazy" decoding="async">
+              </figure>
+              <div class="article-card__body">
+                <time class="article-card__date" datetime="2026-04-18">18 апреля 2026</time>
+                <h3 class="article-card__title">Итоги международной олимпиады по математике</h3>
+              </div>
+            </a>
+          </article>
 
-          Широкая карточка: добавить класс `mosaic-card-wide`.
-            - Mobile: aspect-ratio 177/256 (портрет)
-            - Desktop: span 2 col, высота = высоте квадрата
+          <article class="article-card">
+            <a href="/blog/3" class="article-card__link">
+              <figure class="article-card__image">
+                <img src="https://picsum.photos/seed/blog3/800/450" alt="Занятие по робототехнике в средней школе" width="800" height="450" loading="lazy" decoding="async">
+              </figure>
+              <div class="article-card__body">
+                <time class="article-card__date" datetime="2026-04-15">15 апреля 2026</time>
+                <h3 class="article-card__title">Новый курс по робототехнике для средних классов</h3>
+              </div>
+            </a>
+          </article>
 
-          Django template:
-            <ul class="mosaic">
-              {% for item in gallery %}
-                <li class="mosaic-card{% if forloop.counter0|divisibleby:4 %} mosaic-card-wide{% endif %}">
-                  <img src="{{ item.image.url }}" alt="{{ item.title }}">
-                </li>
-              {% endfor %}
-            </ul>
+          <article class="article-card">
+            <a href="/blog/4" class="article-card__link">
+              <figure class="article-card__image">
+                <img src="https://picsum.photos/seed/blog4/800/450" alt="Встреча учеников с выпускниками MIT" width="800" height="450" loading="lazy" decoding="async">
+              </figure>
+              <div class="article-card__body">
+                <time class="article-card__date" datetime="2026-04-12">12 апреля 2026</time>
+                <h3 class="article-card__title">Встреча с выпускниками университета MIT</h3>
+              </div>
+            </a>
+          </article>
 
-          Каждый 4-й элемент (индексы 0, 4, 8…) — широкий. Если нужно
-          управлять этим с бэка — замени условие на `{% if item.is_wide %}`
-          и добавь BooleanField на модели.
-        -->
-        <ul class="mosaic">
-          <li class="mosaic-card mosaic-card-wide" @click="openAt(0)"><img :src="items[0]" alt=""></li>
-          <li class="mosaic-card" @click="openAt(1)"><img :src="items[1]" alt=""></li>
-          <li class="mosaic-card" @click="openAt(2)"><img :src="items[2]" alt=""></li>
-          <li class="mosaic-card" @click="openAt(3)"><img :src="items[3]" alt=""></li>
-          <li class="mosaic-card mosaic-card-wide" @click="openAt(4)"><img :src="items[4]" alt=""></li>
-          <li class="mosaic-card" @click="openAt(5)"><img :src="items[5]" alt=""></li>
-          <li class="mosaic-card" @click="openAt(6)"><img :src="items[6]" alt=""></li>
-          <li class="mosaic-card" @click="openAt(7)"><img :src="items[7]" alt=""></li>
-          <li class="mosaic-card mosaic-card-wide" @click="openAt(8)"><img :src="items[8]" alt=""></li>
-          <li class="mosaic-card" @click="openAt(9)"><img :src="items[9]" alt=""></li>
-          <li class="mosaic-card" @click="openAt(10)"><img :src="items[10]" alt=""></li>
-          <li class="mosaic-card" @click="openAt(11)"><img :src="items[11]" alt=""></li>
-        </ul>
-        <!-- END Mosaic Gallery -->
+          <article class="article-card">
+            <a href="/blog/5" class="article-card__link">
+              <figure class="article-card__image">
+                <img src="https://picsum.photos/seed/blog5/800/450" alt="Ученики на занятии по подготовке к SAT" width="800" height="450" loading="lazy" decoding="async">
+              </figure>
+              <div class="article-card__body">
+                <time class="article-card__date" datetime="2026-04-10">10 апреля 2026</time>
+                <h3 class="article-card__title">Программа подготовки к SAT запущена</h3>
+              </div>
+            </a>
+          </article>
+
+          <article class="article-card">
+            <a href="/blog/6" class="article-card__link">
+              <figure class="article-card__image">
+                <img src="https://picsum.photos/seed/blog6/800/450" alt="Ребёнок читает книгу в школьной библиотеке" width="800" height="450" loading="lazy" decoding="async">
+              </figure>
+              <div class="article-card__body">
+                <time class="article-card__date" datetime="2026-04-05">5 апреля 2026</time>
+                <h3 class="article-card__title">Как помочь ребёнку полюбить чтение</h3>
+              </div>
+            </a>
+          </article>
+        </div>
+
+
 
         <button type="button" class="btn btn-load-more mt-6">Загрузить еще</button>
-
-        <!--
-          Gallery Modal
-
-          Открывается кликом по .mosaic-card через openAt(index).
-          Backdrop (rgba+blur) как у megamenu. Размер 910×910 (aspect 1),
-          адаптируется под viewport через max-height.
-
-          Стрелки — .btn-nav (универсальные, см. buttons.css),
-          абсолютно спозиционированы по бокам, выключаются на краях.
-
-          Клавиши: Esc — закрыть, ← → — навигация (слушатели на window).
-
-          Django: передай список URL картинок в x-data.items и используй
-          <img :src="items[index]"> вместо плейсхолдера.
-        -->
-        <div class="modal-overlay"
-             x-show="open" x-cloak
-             @click.self="close()"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0">
-          <div class="modal-gallery"
-               x-transition:enter="transition ease-out duration-200"
-               x-transition:enter-start="opacity-0 scale-95"
-               x-transition:enter-end="opacity-100 scale-100"
-               x-transition:leave="transition ease-in duration-150"
-               x-transition:leave-start="opacity-100 scale-100"
-               x-transition:leave-end="opacity-0 scale-95">
-            <div class="modal-gallery__image">
-              <img :src="items[index]" alt="">
-            </div>
-            <button type="button"
-                    class="btn-nav modal-gallery__nav modal-gallery__nav--prev"
-                    @click="prev()"
-                    :disabled="index === 0"
-                    aria-label="Предыдущее">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 18l-6-6 6-6"/>
-              </svg>
-            </button>
-            <button type="button"
-                    class="btn-nav modal-gallery__nav modal-gallery__nav--next"
-                    @click="next()"
-                    :disabled="index === items.length - 1"
-                    aria-label="Следующее">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-        <!-- END Gallery Modal -->
       </div>
     </div>
   </section>
