@@ -12,7 +12,7 @@
            x-data
            x-starfield="{ density: 'medium', twinkle: 'high', shooting: 'high' }">
     <header x-data="{ menu: false }">
-      <nav class="nav nav-dark border-b border-b-transparent" :class="{ 'nav-megamenu': menu, 'border-b-gray-300': menu }">
+      <nav class="nav nav-dark" :class="{ 'nav-megamenu': menu }">
         <div class="flex items-center gap-4">
           <div>
             <button class="btn btn-burger my-auto" :class="menu && 'btn-burger-close'" @click="menu = !menu" :aria-label="menu ? 'Закрыть' : 'Меню'">

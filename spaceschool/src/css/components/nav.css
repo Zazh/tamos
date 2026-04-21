@@ -15,6 +15,7 @@
     --nav-accent-gold: var(--color-gold);
     color: var(--color-black);
     background: var(--color-white);
+    border-bottom: 1px solid var(--color-gray-300);
   }
 
   .nav-dark {
@@ -22,6 +23,7 @@
     --nav-accent-blue: var(--color-white);
     --nav-accent-gold: var(--color-white);
     color: var(--color-white);
+    border-bottom: 1px solid transparent;
   }
 
   .accent-blue {
@@ -103,5 +105,6 @@
     z-index: 50;
     background-color: var(--color-white);
     color: var(--color-black);
+    border-bottom-color: var(--color-gray-300);
   }
 }

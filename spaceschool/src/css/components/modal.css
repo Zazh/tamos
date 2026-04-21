@@ -1,0 +1,49 @@
+@layer components {
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+  }
+
+  .modal-gallery {
+    position: relative;
+    width: fit-content;
+    max-width: min(910px, calc(100vw - 2rem));
+  }
+
+  .modal-gallery__image {
+    display: block;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--color-gray-200);
+  }
+
+  .modal-gallery__image img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(100vh - 2rem);
+    width: auto;
+    height: auto;
+  }
+
+  .modal-gallery__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  .modal-gallery__nav--prev {
+    left: 1rem;
+  }
+
+  .modal-gallery__nav--next {
+    right: 1rem;
+  }
+}

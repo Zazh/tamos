@@ -12,7 +12,7 @@
            x-data
            x-starfield="{ density: 'low', twinkle: 'high', shooting: 'high' }">
     <header x-data="{ menu: false }">
-      <nav class="nav nav-dark border-b border-b-transparent" :class="{ 'nav-megamenu': menu, 'border-b-gray-300': menu }">
+      <nav class="nav nav-dark" :class="{ 'nav-megamenu': menu }">
         <div class="flex items-center gap-4">
           <div>
             <button class="btn btn-burger my-auto" :class="menu && 'btn-burger-close'" @click="menu = !menu" :aria-label="menu ? 'Закрыть' : 'Меню'">
@@ -762,12 +762,12 @@
 
       <div class="col-span-full">
         <div class="team-slider__controls shrink-0 mt-8">
-          <button type="button" class="team-slider__btn" @click="step(-1)" :disabled="!canPrev" aria-label="Предыдущий">
+          <button type="button" class="btn-nav" @click="step(-1)" :disabled="!canPrev" aria-label="Предыдущий">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M15 18l-6-6 6-6"/>
             </svg>
           </button>
-          <button type="button" class="team-slider__btn" @click="step(1)" :disabled="!canNext" aria-label="Следующий">
+          <button type="button" class="btn-nav" @click="step(1)" :disabled="!canNext" aria-label="Следующий">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 18l6-6-6-6"/>
             </svg>

@@ -21,6 +21,9 @@
 @import "./components/glass.css";
 @import "./components/hero.css";
 @import "./components/carousel.css";
+@import "./components/breadcrumb.css";
+@import "./components/mosaic.css";
+@import "./components/modal.css";
 
 /* ========== Pages ========== */
 /* @import "./pages/home.css"; */
@@ -67,6 +70,7 @@ body {
   --color-orange-500: #F77F00;
   --color-slate-50: #F0F5F7;
   --color-slate-100: #E8EEF0;
+  --color-gray-200: #EBEBEB;
   --color-gray-300: #DBDBDB;
   --color-indigo-400: #8280FF;
   --color-red-400: #FF6B6B;

@@ -284,29 +284,4 @@
     display: flex;
     gap: 0.5rem;
   }
-
-  .team-slider__btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 9999px;
-    border: 1px solid color-mix(in srgb, black 15%, transparent);
-    background: white;
-    color: black;
-    cursor: pointer;
-    transition: border-color 150ms, color 150ms, opacity 150ms;
-  }
-
-  .team-slider__btn:hover:not(:disabled) {
-    background: var(--color-secondary);
-    color: var(--color-white);
-    border-color: var(--color-secondary);
-  }
-
-  .team-slider__btn:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-  }
 }

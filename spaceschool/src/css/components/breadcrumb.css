@@ -1,0 +1,40 @@
+@layer components {
+  .breadcrumb {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-gray-500);
+  }
+
+  .breadcrumb-item + .breadcrumb-item::before {
+    content: "/";
+    color: var(--color-gray-300);
+  }
+
+  .breadcrumb-item[aria-current="page"] {
+    color: var(--color-black);
+  }
+
+  .breadcrumb-link {
+    color: inherit;
+    transition: color 0.2s ease;
+
+    @variant hover {
+      color: var(--color-brand);
+    }
+  }
+}
