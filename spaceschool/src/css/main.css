@@ -24,6 +24,7 @@
 @import "./components/breadcrumb.css";
 @import "./components/mosaic.css";
 @import "./components/modal.css";
+@import "./components/content-redactor.css";
 
 /* ========== Pages ========== */
 /* @import "./pages/home.css"; */
