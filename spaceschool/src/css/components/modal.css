@@ -112,7 +112,7 @@
     display: flex;
     flex-direction: column;
     align-self: stretch;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .modal-feedback__field {
@@ -140,6 +140,7 @@
     border-radius: 8px;
     background: var(--color-white);
     font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
     color: var(--color-black);
     outline: none;
     transition: border-color 150ms ease, background 150ms ease;
@@ -165,5 +166,100 @@
   .modal-feedback__policy a {
     color: var(--color-secondary);
     text-decoration: underline;
+  }
+
+  .modal-feedback__badge {
+    display: inline-flex;
+    padding: 14.5px 16px 15.5px 16px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 48px;
+    background: #D7FAC5;
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .modal-feedback__success {
+    align-self: stretch;
+    text-align: center;
+  }
+
+  .modal-feedback__select {
+    position: relative;
+    align-self: stretch;
+  }
+
+  .modal-feedback__select-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.5rem;
+    padding: 1rem 0.5rem 1rem 0.75rem;
+    border: 1px solid var(--color-gray-300);
+    border-radius: 8px;
+    background: var(--color-white);
+    font-size: var(--text-base);
+    color: var(--color-black);
+    cursor: pointer;
+    transition: border-color 150ms ease, background 150ms ease;
+
+    &[aria-expanded="true"] {
+      border-color: var(--color-gold);
+      background: #FFECC2;
+    }
+  }
+
+  .modal-feedback__select-toggle[data-empty="true"] {
+    color: var(--color-gray-500);
+  }
+
+  .modal-feedback__select-toggle svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    transition: transform 150ms ease;
+  }
+
+  .modal-feedback__select-toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .modal-feedback__select-menu {
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem;
+    border: 1px solid var(--color-gray-300);
+    border-radius: 8px;
+    background: var(--color-white);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  }
+
+  .modal-feedback__select-option {
+    display: block;
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    text-align: left;
+    font-size: var(--text-base);
+    color: var(--color-black);
+    cursor: pointer;
+    transition: background 120ms ease;
+
+    @variant hover {
+      background: var(--color-gray-200);
+    }
+
+    &.active {
+      background: #FFECC2;
+      color: var(--color-black);
+    }
   }
 }

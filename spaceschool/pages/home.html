@@ -368,12 +368,18 @@
               <span class="inline md:block">расскажем о программе, покажем школу и ответим</span>
               <span class="inline md:block">на все вопросы</span>
             </p>
-            <div class="mt-8">
+            <div class="mt-8 flex flex-col md:flex-row gap-2 justify-center">
               <button type="button"
                       class="btn btn-primary"
                       data-feedback-trigger
                       data-feedback-title="Запишитесь на бесплатную консультацию"
                       data-feedback-origin="feedback-section">Получить консультацию</button>
+              <button type="button"
+                      class="btn btn-default"
+                      data-feedback-trigger
+                      data-feedback-city
+                      data-feedback-title="Выберите свой город"
+                      data-feedback-origin="feedback-section-city">Записаться в кампус</button>
             </div>
           </div>
         </div>
@@ -540,11 +546,11 @@
     а триггеры — на любой кнопке через data-атрибуты.
   -->
   <div class="modal-overlay"
-       x-data
+       x-data="{ submitted: false }"
        x-show="$store.feedback.open" x-cloak
-       @click.self="$store.feedback.hide()"
-       @keydown.escape.window="$store.feedback.hide()"
-       x-effect="document.body.style.overflow = $store.feedback.open ? 'hidden' : ''"
+       @click.self="$store.feedback.hide(), submitted = false"
+       @keydown.escape.window="$store.feedback.open && ($store.feedback.hide(), submitted = false)"
+       x-effect="(document.body.style.overflow = $store.feedback.open ? 'hidden' : ''), ($store.feedback.open || (submitted = false))"
        x-transition:enter="transition ease-out duration-200"
        x-transition:enter-start="opacity-0"
        x-transition:enter-end="opacity-100"
@@ -554,6 +560,7 @@
     <form class="modal-feedback"
           method="post"
           action=""
+          @submit.prevent="submitted = true"
           x-transition:enter="transition ease-out duration-200"
           x-transition:enter-start="opacity-0 scale-95"
           x-transition:enter-end="opacity-100 scale-100"
@@ -563,13 +570,14 @@
       <button type="button"
               class="modal-feedback__close"
               aria-label="Закрыть"
-              @click="$store.feedback.hide()">
+              @click="$store.feedback.hide(), submitted = false">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
           <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </button>
 
-      <div>
+      <!-- Form state -->
+      <div x-show="!submitted">
         <h2 class="modal-feedback__title" x-text="$store.feedback.title">Получить консультацию</h2>
         <p class="modal-feedback__subtitle mt-2">Перезвоним в течение 2 часов и ответим на все вопросы о поступлении</p>
       </div>
@@ -577,7 +585,7 @@
       <input type="hidden" name="title" :value="$store.feedback.title">
       <input type="hidden" name="origin" :value="$store.feedback.origin">
 
-      <div class="modal-feedback__form">
+      <div class="modal-feedback__form" x-show="!submitted">
         <div class="modal-feedback__field">
           <label class="modal-feedback__label" for="feedback-name">Имя</label>
           <input class="modal-feedback__input"
@@ -587,6 +595,47 @@
                  placeholder="Ваше имя"
                  required>
         </div>
+
+        <!--
+          Город: показывается только когда триггер открыл модалку
+          с атрибутом data-feedback-city. Локальный x-data управляет
+          открытием меню и выбранным значением; скрытый input
+          name="city" попадает в форму при сабмите.
+        -->
+        <div class="modal-feedback__field"
+             x-show="$store.feedback.city"
+             x-data="{ open: false, value: '' }"
+             @click.outside="open = false">
+          <label class="modal-feedback__label">Город</label>
+          <div class="modal-feedback__select">
+            <button type="button"
+                    class="modal-feedback__select-toggle"
+                    :aria-expanded="open"
+                    :data-empty="!value"
+                    @click="open = !open">
+              <span x-text="value || 'Выберите город'"></span>
+              <svg viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <ul class="modal-feedback__select-menu" x-show="open" x-cloak>
+              <li>
+                <button type="button"
+                        class="modal-feedback__select-option"
+                        :class="value === 'Астана' && 'active'"
+                        @click="value = 'Астана', open = false">Астана</button>
+              </li>
+              <li>
+                <button type="button"
+                        class="modal-feedback__select-option"
+                        :class="value === 'Актау' && 'active'"
+                        @click="value = 'Актау', open = false">Актау</button>
+              </li>
+            </ul>
+          </div>
+          <input type="hidden" name="city" :value="value" :required="$store.feedback.city">
+        </div>
+
         <div class="modal-feedback__field">
           <label class="modal-feedback__label" for="feedback-phone">Телефон</label>
           <input class="modal-feedback__input"
@@ -596,12 +645,25 @@
                  placeholder="+7 (___) ___-__-__"
                  required>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Отправить</button>
+        <div>
+          <button type="submit" class="btn btn-primary btn-block">Отправить</button>
+        </div>
       </div>
 
-      <p class="modal-feedback__policy">
+      <p class="modal-feedback__policy" x-show="!submitted">
         Нажимая кнопку, вы соглашаетесь на обработку <a href="/"> персональных данных </a>
       </p>
+
+      <!-- Success state -->
+      <div class="modal-feedback__success" x-show="submitted" x-cloak>
+        <span class="modal-feedback__badge" aria-hidden="true">🎉</span>
+        <h2 class="modal-feedback__title mt-4">Заявка принята!</h2>
+        <p class="modal-feedback__subtitle mt-2">Перезвоним вам в течение 2 часов</p>
+      </div>
+      <button type="button"
+              class="btn btn-primary btn-block"
+              x-show="submitted" x-cloak
+              @click="$store.feedback.hide(), submitted = false">Закрыть</button>
     </form>
   </div>
   <!-- END Feedback Modal -->
