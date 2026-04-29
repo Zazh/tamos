@@ -182,6 +182,17 @@
     }
   }
 
+  /* -- Block modifier: stretch + 50px height (forms) ------ */
+
+  .btn-block {
+    display: flex;
+    align-self: stretch;
+    width: 100%;
+    height: 50px;
+    padding: 0.5rem 1.5rem;
+    gap: 0.5rem;
+  }
+
   /* -- Filter: rectangular chip, gold active ------------- */
 
   .btn-filter {

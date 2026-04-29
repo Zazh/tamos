@@ -6,12 +6,14 @@ import { registerStarfield } from "./starfield.js";
 import { registerGlass } from "./glass.js";
 import { registerSlider } from "./slider.js";
 import { registerCarousel } from "./carousel.js";
+import { registerFeedbackModal } from "./modal.js";
 
 Alpine.plugin(collapse);
 registerStarfield(Alpine);
 registerGlass(Alpine);
 registerSlider(Alpine);
 registerCarousel(Alpine);
+registerFeedbackModal(Alpine);
 
 
 window.Alpine = Alpine;
