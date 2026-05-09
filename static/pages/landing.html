@@ -1,0 +1,1317 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing — Space School</title>
+    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-XOVIVHUF.js"></script>
+    <script type="module" crossorigin src="/static/assets/js/main-C1ZK7cOw.js"></script>
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-Czk89CVg.css">
+  </head>
+  <body>
+  <!-- Hero -->
+  <section class="hero hero-planet-landing glow-react-scope"
+           x-data
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'high' }">
+    <header x-data="{ menu: false }">
+      <nav class="nav nav-dark" :class="{ 'nav-megamenu': menu }">
+        <div class="flex items-center gap-4">
+          <div>
+            <button class="btn btn-burger my-auto" :class="menu && 'btn-burger-close'" @click="menu = !menu" :aria-label="menu ? 'Закрыть' : 'Меню'">
+              <!-- Бургер -->
+              <svg x-show="!menu" viewBox="0 0 32 24" fill="none">
+                <line x1="4" y1="6" x2="28" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="4" y1="18" x2="28" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <!-- Крестик -->
+              <svg x-show="menu" x-cloak viewBox="0 0 32 32" fill="none">
+                <line x1="8" y1="8" x2="24" y2="24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                <line x1="24" y1="8" x2="8" y2="24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+          <ul class="nav-list" x-show="!menu">
+            <li>
+              <a href="/" class="nav-link active">Главная</a>
+            </li>
+            <li>
+              <a href="/" class="nav-link">О нас</a>
+            </li>
+            <li>
+              <a href="/" class="nav-link">Программа</a>
+            </li>
+            <li>
+              <a href="/" class="nav-link">Поступление</a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav-logo py-2">
+          <a href="/">
+            <svg class="nav-logo-desktop" viewBox="0 0 116 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="accent-gold" d="M93.6911 32.8179V25.0964H91.1719V32.8179C91.1719 33.1143 91.2091 33.4016 91.2775 33.6759C91.5817 34.8821 92.5107 35.8313 93.6911 36.1421C93.9596 36.212 94.2407 36.25 94.5308 36.25H104.607V33.6759H94.5308C94.0674 33.6759 93.6911 33.2914 93.6911 32.8179Z" fill="currentColor"/>
+              <path class="accent-gold" d="M54.2283 29.3859H45.8317V25.0958H43.3125V36.2494H45.8317V31.96H54.2283V36.2494H56.7475V25.0958H54.2283V29.3859Z" fill="currentColor"/>
+              <path class="accent-gold" d="M38.2478 25.204C37.9793 25.1341 37.6982 25.0961 37.4081 25.0961H30.691C30.4009 25.0961 30.1197 25.1341 29.8512 25.204C28.6708 25.5149 27.7419 26.4641 27.4376 27.6702C27.3692 27.9438 27.332 28.2319 27.332 28.5283V32.8177C27.332 33.1141 27.3692 33.4013 27.4376 33.6757C27.7419 34.8818 28.6708 35.831 29.8512 36.1419C30.1197 36.2118 30.4009 36.2498 30.691 36.2498H37.4081C37.6982 36.2498 37.9793 36.2118 38.2478 36.1419C39.4282 35.831 40.3572 34.8818 40.6614 33.6757C40.7299 33.4013 40.767 33.1141 40.767 32.8177V31.9596H38.2478V32.8177C38.2478 33.2911 37.8715 33.6757 37.4081 33.6757H30.691C30.2276 33.6757 29.8512 33.2911 29.8512 32.8177V28.5283C29.8512 28.0548 30.2276 27.6702 30.691 27.6702H37.4081C37.8715 27.6702 38.2478 28.0548 38.2478 28.5283V29.3863H40.767V28.5283C40.767 28.2319 40.7299 27.9438 40.6614 27.6702C40.3572 26.4641 39.4282 25.5149 38.2478 25.204Z" fill="currentColor"/>
+              <path class="accent-gold" d="M14.7515 27.67H22.3084L24.8276 25.0959H14.7515C12.8965 25.0959 11.3926 26.6327 11.3926 28.5281C11.3926 30.4235 12.8965 31.9602 14.7515 31.9602H21.4686C21.9328 31.9602 22.3084 32.344 22.3084 32.8175C22.3084 33.2917 21.9328 33.6755 21.4686 33.6755H13.9118L11.3926 36.2496H21.4686C23.3237 36.2496 24.8276 34.7129 24.8276 32.8175C24.8276 30.9228 23.3237 29.3861 21.4686 29.3861H14.7515C14.2881 29.3861 13.9118 29.0023 13.9118 28.5281C13.9118 28.0546 14.2881 27.67 14.7515 27.67Z" fill="currentColor"/>
+              <path class="accent-gold" d="M70.1814 25.204C69.9129 25.1341 69.6318 25.0961 69.3417 25.0961H62.6246C62.3345 25.0961 62.0533 25.1341 61.7848 25.204C60.6044 25.5149 59.6755 26.4641 59.3712 27.6702C59.3028 27.9438 59.2656 28.2319 59.2656 28.5283V32.8177C59.2656 33.1141 59.3028 33.4013 59.3712 33.6757C59.6755 34.8818 60.6044 35.831 61.7848 36.1419C62.0533 36.2118 62.3345 36.2498 62.6246 36.2498H69.3417C69.6318 36.2498 69.9129 36.2118 70.1814 36.1419C71.3618 35.831 72.2908 34.8818 72.595 33.6757C72.6634 33.4013 72.7006 33.1141 72.7006 32.8177V28.5283C72.7006 28.2319 72.6634 27.9438 72.595 27.6702C72.2908 26.4641 71.3618 25.5149 70.1814 25.204ZM70.1814 32.8177C70.1814 33.2911 69.8051 33.6757 69.3417 33.6757H62.6246C62.1612 33.6757 61.7848 33.2911 61.7848 32.8177V28.5283C61.7848 28.0548 62.1612 27.6702 62.6246 27.6702H69.3417C69.8051 27.6702 70.1814 28.0548 70.1814 28.5283V32.8177Z" fill="currentColor"/>
+              <path class="accent-gold" d="M86.1346 25.204C85.866 25.1341 85.5849 25.0961 85.2948 25.0961H78.5777C78.2876 25.0961 78.0065 25.1341 77.738 25.204C76.5576 25.5149 75.6286 26.4641 75.3244 27.6702C75.2559 27.9438 75.2188 28.2319 75.2188 28.5283V32.8177C75.2188 33.1141 75.2559 33.4013 75.3244 33.6757C75.6286 34.8818 76.5576 35.831 77.738 36.1419C78.0065 36.2118 78.2876 36.2498 78.5777 36.2498H85.2948C85.5849 36.2498 85.866 36.2118 86.1346 36.1419C87.3149 35.831 88.2439 34.8818 88.5481 33.6757C88.6166 33.4013 88.6538 33.1141 88.6538 32.8177V28.5283C88.6538 28.2319 88.6166 27.9438 88.5481 27.6702C88.2439 26.4641 87.3149 25.5149 86.1346 25.204ZM86.1346 32.8177C86.1346 33.2911 85.7582 33.6757 85.2948 33.6757H78.5777C78.1143 33.6757 77.738 33.2911 77.738 32.8177V28.5283C77.738 28.0548 78.1143 27.6702 78.5777 27.6702H85.2948C85.7582 27.6702 86.1346 28.0548 86.1346 28.5283V32.8177Z" fill="currentColor"/>
+              <path class="accent-blue" d="M85.9807 0.175559C85.5449 0.0615601 85.0875 0 84.6159 0H73.7001C73.2293 0 72.7718 0.0615601 72.336 0.175559C70.4178 0.680954 68.9086 2.22298 68.414 4.183C68.3024 4.62836 68.2422 5.09575 68.2422 5.57683V12.5482C68.2422 13.0293 68.3024 13.4967 68.414 13.9428C68.9086 15.9021 70.4178 17.4449 72.336 17.9495C72.7718 18.0635 73.2293 18.1251 73.7001 18.1251H84.6159C85.0875 18.1251 85.5449 18.0635 85.9807 17.9495C87.899 17.4449 89.4081 15.9021 89.9027 13.9428C90.0143 13.4967 90.0738 13.0293 90.0738 12.5482V11.1537H85.9807V12.5482C85.9807 13.3181 85.3694 13.9428 84.6159 13.9428H73.7001C72.9474 13.9428 72.336 13.3181 72.336 12.5482V5.57683C72.336 4.80771 72.9474 4.183 73.7001 4.183H84.6159C85.3694 4.183 85.9807 4.80771 85.9807 5.57683V6.97142H90.0738V5.57683C90.0738 5.09575 90.0143 4.62836 89.9027 4.183C89.4081 2.22298 87.899 0.680954 85.9807 0.175559Z" fill="currentColor"/>
+              <path class="accent-blue" d="M99.6259 13.9426C98.8724 13.9426 98.2618 13.3178 98.2618 12.5487V11.1541H111.906V6.97114H94.168V12.5487C94.168 13.0298 94.2282 13.4972 94.3398 13.9426C94.946 16.3479 97.0821 18.1248 99.6259 18.1248H116L111.906 13.9426H99.6259Z" fill="currentColor"/>
+              <path class="accent-blue" d="M116 0.000370502H94.1684V4.18337H111.906L116 0.000370502Z" fill="currentColor"/>
+              <path class="accent-blue" d="M16.3737 13.9425H4.09306L0 18.1248H16.3737C19.3883 18.1248 21.8316 15.6282 21.8316 12.5487C21.8316 9.46846 19.3883 6.97112 16.3737 6.97112H5.4579C4.70445 6.97112 4.09306 6.34793 4.09306 5.57729C4.09306 4.80742 4.70445 4.18271 5.4579 4.18271H17.7378L21.8316 0.000465393H5.4579C2.44334 0.000465393 0 2.49704 0 5.57729C0 8.65755 2.44334 11.1541 5.4579 11.1541H16.3737C17.1279 11.1541 17.7378 11.7788 17.7378 12.5487C17.7378 13.3186 17.1279 13.9425 16.3737 13.9425Z" fill="currentColor"/>
+              <path class="accent-blue" d="M47.7769 5.5772C47.7769 2.49695 45.3336 0.000374794 42.319 0.000374794H25.9453V4.18338H42.319C43.0725 4.18338 43.6831 4.80733 43.6831 5.5772C43.6831 6.34784 43.0725 6.97103 42.319 6.97103H25.9453V18.1247H30.0384V11.154H42.319C45.3336 11.154 47.7769 8.65746 47.7769 5.5772Z" fill="currentColor"/>
+              <path class="accent-gold" d="M56.6448 21.8242C57.5054 20.7678 58.1346 19.5078 58.4537 18.1253H54.8359C55.155 19.5078 55.7843 20.7678 56.6448 21.8242Z" fill="currentColor"/>
+              <path class="accent-blue" d="M61.4206 16.7309V18.1247H68.2433L58.4001 1.0142C58.0423 0.406965 57.3893 0.000368595 56.6447 0.000368595C55.9002 0.000368595 55.2486 0.406965 54.8909 1.0142L45.0469 18.1247H51.8696V16.7309L54.5978 13.9424L54.5986 12.7607C54.5986 10.5597 55.3662 8.54193 56.6447 6.97102C57.924 8.54193 58.6916 10.5597 58.6916 12.7607V13.9424L61.4206 16.7309Z" fill="currentColor"/>
+            </svg>
+
+            <svg class="nav-logo-mobile" viewBox="0 0 37 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="accent-gold" d="M18.2552 34.3157C19.6096 32.6607 20.6 30.6866 21.1022 28.5208H15.4082C15.9104 30.6866 16.9008 32.6607 18.2552 34.3157Z" fill="currentColor"/>
+              <path class="accent-blue" d="M25.7704 26.3362V28.5198H36.5087L21.0165 1.71352C20.4534 0.762195 19.4256 0.125198 18.2538 0.125198C17.082 0.125198 16.0565 0.762195 15.4934 1.71352L0 28.5198H10.7383V26.3362L15.0322 21.9677L15.0333 20.1162C15.0333 16.6681 16.2414 13.5069 18.2538 11.0458C20.2673 13.5069 21.4754 16.6681 21.4754 20.1162V21.9677L25.7704 26.3362Z" fill="currentColor"/>
+            </svg>
+          </a>
+        </div>
+        <div class="flex justify-end items-center">
+          <ul class="flex gap-2">
+            <li class="hidden md:block">
+              <div class="dropdown" x-data="{ open: false }">
+                <!-- Dropdown Language -->
+                <button class="nav-link flex gap-1 items-center dropdown-toggle" @click="open = !open">
+              <span>
+                <span class="aspect-square w-4 flex items-center justify-center">
+                  <svg class="h-full" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.125 0C6.51803 0 4.94714 0.476523 3.611 1.36931C2.27485 2.2621 1.23344 3.53105 0.618482 5.0157C0.00352044 6.50035 -0.157382 8.13401 0.156123 9.71011C0.469628 11.2862 1.24346 12.7339 2.37976 13.8702C3.51606 15.0065 4.9638 15.7804 6.53989 16.0939C8.11599 16.4074 9.74966 16.2465 11.2343 15.6315C12.719 15.0166 13.9879 13.9752 14.8807 12.639C15.7735 11.3029 16.25 9.73197 16.25 8.125C16.2477 5.97081 15.391 3.90551 13.8677 2.38227C12.3445 0.85903 10.2792 0.00227486 8.125 0ZM6.06485 11.25H10.1852C9.76563 12.6828 9.0625 13.9742 8.125 14.9914C7.1875 13.9742 6.48438 12.6828 6.06485 11.25ZM5.78125 10C5.57396 8.75859 5.57396 7.49141 5.78125 6.25H10.4688C10.676 7.49141 10.676 8.75859 10.4688 10H5.78125ZM1.25 8.125C1.24946 7.49097 1.33702 6.85993 1.51016 6.25H4.51485C4.32839 7.49305 4.32839 8.75695 4.51485 10H1.51016C1.33702 9.39007 1.24946 8.75903 1.25 8.125ZM10.1852 5H6.06485C6.48438 3.56719 7.1875 2.27578 8.125 1.25859C9.0625 2.27578 9.76563 3.56719 10.1852 5ZM11.7352 6.25H14.7398C15.0867 7.47593 15.0867 8.77407 14.7398 10H11.7352C11.9216 8.75695 11.9216 7.49305 11.7352 6.25ZM14.2477 5H11.4797C11.1607 3.74493 10.6251 2.55519 9.89688 1.48438C10.8272 1.73439 11.695 2.17635 12.4443 2.78182C13.1936 3.38729 13.8079 4.14288 14.2477 5ZM6.35313 1.48438C5.62492 2.55519 5.08927 3.74493 4.77032 5H2.00235C2.44213 4.14288 3.05643 3.38729 3.80574 2.78182C4.55505 2.17635 5.42278 1.73439 6.35313 1.48438ZM2.00235 11.25H4.77032C5.08927 12.5051 5.62492 13.6948 6.35313 14.7656C5.42278 14.5156 4.55505 14.0737 3.80574 13.4682C3.05643 12.8627 2.44213 12.1071 2.00235 11.25ZM9.89688 14.7656C10.6251 13.6948 11.1607 12.5051 11.4797 11.25H14.2477C13.8079 12.1071 13.1936 12.8627 12.4443 13.4682C11.695 14.0737 10.8272 14.5156 9.89688 14.7656Z" fill="currentColor"/>
+                  </svg>
+                </span>
+              </span>
+                  <span class="flex gap-1 items-center">
+                <!-- LANGUAGE_CODE -->
+                <span>
+                  Рус
+                </span>
+                    <!-- END LANGUAGE_CODE -->
+                <span class="h-3 aspect-square">
+                  <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </span>
+                </button>
+                <ul class="dropdown-menu" x-show="open" @click.outside="open = false">
+                  <li><button class="dropdown-item px-6 active">Русский</button></li>
+                  <li><button class="dropdown-item px-6">English</button></li>
+                  <li><button class="dropdown-item px-6">Қазақша</button></li>
+                </ul>
+                <!-- END Dropdown -->
+              </div>
+            </li>
+            <li>
+              <div class="dropdown" x-data="{ open: false }">
+                <!-- Dropdown City -->
+                <button class="nav-link flex gap-1 items-center dropdown-toggle" @click="open = !open">
+              <span>
+                <span class="aspect-square w-4 flex items-center justify-center">
+                  <svg class="h-full" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.875 3.75C6.25693 3.75 5.65275 3.93328 5.13884 4.27666C4.62494 4.62004 4.2244 5.1081 3.98788 5.67911C3.75135 6.25013 3.68947 6.87847 3.81005 7.48466C3.93062 8.09085 4.22825 8.64767 4.66529 9.08471C5.10233 9.52175 5.65915 9.81938 6.26534 9.93995C6.87153 10.0605 7.49987 9.99865 8.07089 9.76212C8.64191 9.5256 9.12996 9.12506 9.47334 8.61116C9.81672 8.09725 10 7.49307 10 6.875C10 6.0462 9.67076 5.25134 9.08471 4.66529C8.49866 4.07924 7.7038 3.75 6.875 3.75ZM6.875 8.75C6.50416 8.75 6.14165 8.64003 5.83331 8.43401C5.52496 8.22798 5.28464 7.93514 5.14273 7.59253C5.00081 7.24992 4.96368 6.87292 5.03603 6.50921C5.10837 6.14549 5.28695 5.8114 5.54917 5.54917C5.8114 5.28695 6.14549 5.10837 6.50921 5.03603C6.87292 4.96368 7.24992 5.00081 7.59253 5.14273C7.93514 5.28464 8.22798 5.52496 8.43401 5.83331C8.64003 6.14165 8.75 6.50416 8.75 6.875C8.75 7.37228 8.55246 7.84919 8.20083 8.20083C7.84919 8.55246 7.37228 8.75 6.875 8.75ZM6.875 0C5.05227 0.00206776 3.30479 0.72706 2.01592 2.01592C0.72706 3.30479 0.00206776 5.05227 0 6.875C0 9.32812 1.13359 11.9281 3.28125 14.3945C4.24627 15.509 5.33239 16.5126 6.51953 17.3867C6.62462 17.4603 6.74982 17.4998 6.87812 17.4998C7.00643 17.4998 7.13163 17.4603 7.23672 17.3867C8.42168 16.5123 9.50569 15.5087 10.4688 14.3945C12.6133 11.9281 13.75 9.32812 13.75 6.875C13.7479 5.05227 13.0229 3.30479 11.7341 2.01592C10.4452 0.72706 8.69773 0.00206776 6.875 0ZM6.875 16.0938C5.58359 15.0781 1.25 11.3477 1.25 6.875C1.25 5.38316 1.84263 3.95242 2.89752 2.89752C3.95242 1.84263 5.38316 1.25 6.875 1.25C8.36684 1.25 9.79758 1.84263 10.8525 2.89752C11.9074 3.95242 12.5 5.38316 12.5 6.875C12.5 11.3461 8.16641 15.0781 6.875 16.0938Z" fill="currentColor"/>
+                  </svg>
+                </span>
+              </span>
+                  <span>Астана</span>
+                </button>
+                <ul class="dropdown-menu" x-show="open" @click.outside="open = false">
+                  <li><button class="dropdown-item px-4 active">Астана</button></li>
+                  <li><button class="dropdown-item px-4">Актау</button></li>
+                  <li><button class="dropdown-item px-4">Алматы</button></li>
+                </ul>
+                <!-- END Dropdown -->
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="megamenu-overlay"
+           x-show="menu" x-cloak
+           x-transition:enter="transition ease-out duration-200"
+           x-transition:enter-start="opacity-0"
+           x-transition:enter-end="opacity-100"
+           x-transition:leave="transition ease-in duration-150"
+           x-transition:leave-start="opacity-100"
+           x-transition:leave-end="opacity-0"
+           @click.self="menu = false">
+        <div class="megamenu"
+             x-show="menu"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="-translate-y-4 opacity-0"
+             x-transition:enter-end="translate-y-0 opacity-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="translate-y-0 opacity-100"
+             x-transition:leave-end="-translate-y-4 opacity-0">
+          <nav class="megamenu-content">
+            <ul class="megamenu-list">
+              <li class="megamenu-label [ hidden md:block ]">Меню</li>
+              <li><a href="/" class="megamenu-link active">Главная</a></li>
+              <li><a href="/" class="megamenu-link">О нас</a></li>
+              <li><a href="/" class="megamenu-link">Программа</a></li>
+              <li><a href="/" class="megamenu-link">Поступление</a></li>
+              <li><a href="/" class="megamenu-link">Внеклассные занятия</a></li>
+              <li><a href="/" class="megamenu-link">Контакты</a></li>
+            </ul>
+            <ul class="megamenu-list">
+              <li class="megamenu-label [ pt-8 md:pt-0 ]">Жизнь школы</li>
+              <li><a href="/" class="megamenu-link">Один день в школе</a></li>
+              <li><a href="/" class="megamenu-link">Безопасность</a></li>
+              <li><a href="/" class="megamenu-link">Фотогалерея</a></li>
+              <li><a href="/" class="megamenu-link">Школьная форма</a></li>
+              <li><a href="/" class="megamenu-link">Школьные принадлежности</a></li>
+              <li><a href="/" class="megamenu-link">Питание</a></li>
+              <li><a href="/" class="megamenu-link">Операторы развозки</a></li>
+              <li><a href="/" class="megamenu-link">Блог</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <div class="hero-container z-10">
+      <div class="w-full max-w-screen-md relative">
+        <div class="relative z-10">
+          <span class="text-white font-medium text-sm badge bg-white/20">Международная школа в Астанe</span>
+          <h1 class="h1 text-white font-bold mt-6 mb-4">
+            <span class="hero-fit">Школа для детей</span>
+            <span class="hero-fit">которые <span class="hero-break">поступят</span></span>
+            <span class="hero-fit">в <span class="text-gold">TOP-100</span> вузов</span>
+          </h1>
+          <h2 class="leading-tight text-white/70 font-medium">
+            Space School — международная школа нового поколения, где дети учатся думать глобально, готовятся к поступлению в ведущие университеты мира и получают двойной сертификат с правом сдачи SAT
+          </h2>
+        </div>
+
+        <!-- Meteors -->
+        <img src="/static/images/hero/Object-1.png" class="hero-meteor absolute z-0 w-22 top-30 -left-35" data-speed="0.50" data-rotate="20" alt="" />
+        <img src="/static/images/hero/Object-2.png" class="hero-meteor absolute z-0 w-15 top-20 -right-20" data-speed="0.40" data-rotate="-15" alt="" />
+        <img src="/static/images/hero/Object-3.png" class="hero-meteor absolute z-0 w-14 -bottom-35 -left-45" data-speed="0.2" data-rotate="50" alt="" />
+        <img src="/static/images/hero/Object-1.png" class="hero-meteor absolute z-0 w-10 -bottom-40 -right-20" data-speed="0.15" data-rotate="-90" alt="" />
+        <img src="/static/images/hero/Object-4.png" class="hero-meteor absolute z-0 w-6 top-110 -left-20" data-speed="0.25" data-rotate="90" alt="" />
+        <!-- END Meteors -->
+      </div>
+      <ul class="flex flex-col md:flex-row justify-center gap-2 w-full max-w-screen-md">
+        <li><button class="btn btn-primary w-[16rem] text-nowrap md:w-auto">Поступить сейчас</button></li>
+        <li><button class="btn btn-default w-[16rem] text-nowrap md:w-auto">Получить консультацию</button></li>
+      </ul>
+    </div>
+
+    <!-- Glow -->
+    <div class="glow-react glow-react-intense absolute bottom-0 inset-x-0 flex justify-center pointer-events-none">
+      <svg class="w-[1119px] translate-y-1/3" viewBox="0 0 1819 1561" fill="none">
+        <g filter="url(#hero-glow-red)">
+          <path d="M477.998 1055.41V404.196C619.368 734.759 903.904 975.806 1341.17 1073.2L477.998 1055.41Z" fill="#FF4427"/>
+        </g>
+        <g filter="url(#hero-glow-blue)">
+          <path d="M1374.5 1040.46V404.196C1233.43 1015.48 813.257 952.51 404.5 952.51V1061.2L1374.5 1040.46Z" fill="#2765FF"/>
+        </g>
+        <defs>
+          <filter id="hero-glow-red" x="73" y="0" width="1672" height="1478" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="202">
+              <animate attributeName="stdDeviation" values="202;170;202" dur="4s" repeatCount="indefinite"/>
+            </feGaussianBlur>
+          </filter>
+          <filter id="hero-glow-blue" x="0" y="0" width="1779" height="1466" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="202">
+              <animate attributeName="stdDeviation" values="202;170;202" dur="5s" repeatCount="indefinite"/>
+            </feGaussianBlur>
+          </filter>
+        </defs>
+      </svg>
+    </div>
+    <!-- END Glow -->
+
+    <div class="flex justify-center">
+      <div class="mx-auto max-w-200 w-full mt-20 relative z-0">
+        <div class="absolute inset-0">
+          <svg class="w-full scale-[1.333]" viewBox="0 0 1087 1087" fill="none">
+            <g filter="url(#hero-planet-glow)">
+              <circle cx="543.13" cy="543.13" r="424.581" stroke="#1D55FF" stroke-opacity="0.4" stroke-width="40.1611"/>
+            </g>
+            <g filter="url(#hero-planet-ring)">
+              <circle cx="543.13" cy="543.13" r="409.189" stroke="white" stroke-opacity="0.4" stroke-width="9.37796"/>
+            </g>
+            <g filter="url(#hero-planet-flare)">
+              <path d="M661.13 155.63C521.13 103.13 155.63 154.13 140.13 550.13C232.63 235.63 430.13 145.63 661.13 155.63Z" fill="#FF2111"/>
+            </g>
+            <defs>
+              <filter id="hero-planet-glow" x="0" y="0" width="1087" height="1087" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur stdDeviation="49">
+                  <animate attributeName="stdDeviation" values="49;35;49" dur="4s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+              <filter id="hero-planet-ring" x="114" y="114" width="859" height="859" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur stdDeviation="7.6">
+                  <animate attributeName="stdDeviation" values="7.6;4;7.6" dur="5s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+              <filter id="hero-planet-flare" x="52" y="50" width="698" height="588" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur stdDeviation="44">
+                  <animate attributeName="stdDeviation" values="44;30;44" dur="3.5s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+            </defs>
+          </svg>
+
+        </div>
+        <div class="rounded-full aspect-square overflow-hidden">
+          <!-- Video -->
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            webkit-playsinline
+            disableRemotePlayback
+            poster="/static/images/sections-images/Planet.jpg"
+            class="w-full h-full object-cover"
+          >
+            <source src="/static/videos/planet2.mp4" type="video/mp4">
+          </video>
+          <!-- END Video -->
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END Hero -->
+
+<main>
+
+  <!-- Target Audience -->
+  <section class="pt-22 pb-12 bg-white">
+    <div class="container">
+      <div class="col-span-full">
+
+        <!-- Label Section -->
+        <div class="section-label mb-8">
+          <span class="section-label__icon"></span>
+          <span>Кому подходит</span>
+        </div>
+        <!-- END Label Section -->
+
+        <!-- Content: photos + cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6">
+
+          <!-- Left: text + photos -->
+          <div class="xl:col-span-5 lg:col-span-5 flex flex-col gap-6">
+            <h2 class="h1 font-bold">Ваш ребёнок — наш <span class="block lg:inline">ученик, если он...</span></h2>
+            <p class="text-base leading-tight text-black/60 ">Space School создана для амбициозных детей, готовых выйти за рамки стандартной программы.</p>
+
+            <!-- Photos -->
+            <div class="relative flex flex-row gap-5 pt-8 md:hidden xl:flex">
+              <!-- Circular woman photo -->
+              <div class="w-1/2 rounded-full overflow-hidden">
+                <img src="/static/images/sections-images/woman.png" alt="Ученица Space School" class="block w-full h-full object-cover object-top">
+              </div>
+              <!-- Library photo -->
+              <div class="w-1/2 rounded-2xl overflow-hidden"
+                   x-data="{ scale: 1 }"
+                   x-init="
+                     let el = $el;
+                     function calc() {
+                       let rect = el.getBoundingClientRect();
+                       let vh = window.innerHeight;
+                       let raw = 1 - (rect.top / vh) - 0.4;
+                       let progress = Math.min(Math.max(raw / 0.6, 0), 1);
+                       scale = 1 + progress * 0.3;
+                     }
+                     window.addEventListener('scroll', calc, { passive: true });
+                     calc();
+                   ">
+                <img src="/static/images/sections-images/library.jpg" alt="Библиотека Space School" class="block w-full h-full object-cover transition-transform duration-100 ease-out" :style="'transform: scale(' + scale + ')'">
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: feature cards 2x2 -->
+          <div class="xl:col-span-7 lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+
+            <!-- Card 1: Foreign university -->
+            <div class="feature-card">
+              <span class="flex justify-center items-center w-15 aspect-square rounded-full text-secondary bg-white ">
+                <svg class="h-9" viewBox="0 0 37 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M25.9089 14.8703L29.4427 14.1878L26.8876 4.65381L11.243 10.4079L13.101 17.3419L13.5432 17.2569" stroke="currentColor" stroke-width="2.48939" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M11.4332 11.1174L1.24493 14.6991L2.25853 18.482L12.8265 16.3176L11.4332 11.1174Z" stroke="currentColor" stroke-width="2.48939" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M32.8177 2.51425C32.573 1.60085 31.6349 1.0592 30.7222 1.30389C29.864 1.53405 28.8185 1.81432 27.9602 2.04375C27.0476 2.28844 26.5059 3.22652 26.7499 4.13992C27.4651 6.8075 28.8656 12.0345 29.5801 14.7021C29.8248 15.6155 30.7636 16.1571 31.6763 15.9124C32.5345 15.6823 33.58 15.402 34.4375 15.1726C35.3509 14.9279 35.8926 13.9891 35.6479 13.0764C34.9327 10.4088 33.5328 5.18183 32.8177 2.51425Z" stroke="currentColor" stroke-width="2.48939" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5307 12.8061C18.5637 12.2609 20.6562 13.4698 21.2015 15.5028C21.7461 17.5358 20.5379 19.6283 18.5049 20.1736C16.4712 20.7181 14.3786 19.51 13.8341 17.477C13.2888 15.444 14.497 13.3507 16.5307 12.8061Z" stroke="currentColor" stroke-width="2.48939" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M18.2812 20.3355C17.0388 22.4883 14.1636 27.467 12.9213 29.6198C12.7645 29.8906 12.5074 30.0881 12.2047 30.1694C11.9026 30.25 11.581 30.2079 11.3094 30.0511C10.6995 29.6989 9.92626 29.2524 9.31564 28.9002C9.04481 28.7434 8.84732 28.4864 8.766 28.1836C8.68541 27.8816 8.72752 27.5599 8.88435 27.2891L14.1193 18.2212" stroke="currentColor" stroke-width="2.48939" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M21.0271 17.978C21.0329 17.9867 21.038 17.9962 21.0438 18.0049" stroke="currentColor" stroke-width="2.48939" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M21.0453 18.0049C22.2876 20.1577 25.1621 25.1363 26.4052 27.2891C26.5613 27.56 26.6041 27.8816 26.5228 28.1837C26.4422 28.4864 26.244 28.7435 25.9732 28.9003C25.3625 29.2524 24.59 29.699 23.9794 30.0511C23.7085 30.208 23.3862 30.2501 23.0841 30.1695C22.7821 30.0881 22.5243 29.8907 22.3682 29.6198C21.6581 28.3899 20.4144 26.2363 19.2476 24.215" stroke="currentColor" stroke-width="2.48939" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div>
+                <p class="feature-card__title">Планирует поступать в зарубежный ВУЗ</p>
+                <p class="feature-card__desc">Нужна глубокая подготовка по физике, математике и международным языкам — именно это мы даём с первых классов.</p>
+              </div>
+            </div>
+
+            <!-- Card 2: CIS certificate -->
+            <div class="feature-card">
+              <span class="flex justify-center items-center w-15 aspect-square rounded-full text-secondary bg-white ">
+                <svg class="h-9" viewBox="0 0 35 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M23.1346 2.17704C24.6857 0.62596 28.0819 1.50266 30.7135 4.13426C33.3458 6.76662 34.2225 10.1628 32.6715 11.7139C31.1196 13.2649 27.7235 12.3882 25.0919 9.75663C22.4603 7.12427 21.5828 3.72811 23.1346 2.17704Z" stroke="currentColor" stroke-width="2.82352" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M24.2467 8.81326C23.2594 7.0682 24.3089 5.92554 24.3089 5.92554C25.1424 5.09204 26.9678 5.56334 28.3817 6.97727C28.8295 7.42509 29.1826 7.91383 29.4296 8.39878" stroke="currentColor" stroke-width="2.82352" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M23.1357 2.17688C23.1357 2.17688 16.9223 9.81633 13.0919 14.5256" stroke="currentColor" stroke-width="2.82352" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M7.7796 20.6603C6.19821 22.3402 4.14173 24.5255 2.63763 26.1235C1.40783 27.4299 1.06988 29.3409 1.77609 30.9897C2.17845 31.9293 2.90208 32.6953 3.8159 33.1515C3.91062 33.1992 4.00382 33.2455 4.09475 33.2909C5.93225 34.2093 8.15165 33.8494 9.60422 32.3968C10.9545 31.0465 12.6359 29.3643 14.0241 27.9762" stroke="currentColor" stroke-width="2.82352" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M20.6544 21.9416C25.3334 17.9688 32.5008 11.8834 32.5008 11.8834" stroke="currentColor" stroke-width="2.82352" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M14.8575 24.1625C15.8448 23.1752 17.4474 23.1752 18.434 24.1625C19.4213 25.1491 19.4213 26.7517 18.434 27.739C17.4474 28.7256 15.8448 28.7256 14.8575 27.739C13.8709 26.7517 13.8709 25.1491 14.8575 24.1625Z" stroke="currentColor" stroke-width="2.82352" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M15.667 28.2831C15.5291 28.3111 15.3874 28.3225 15.2442 28.3179C14.7365 28.3013 14.2591 28.074 13.925 27.6921C12.2807 25.8114 9.47329 22.5993 7.96767 20.8763C7.37664 20.2004 7.36224 19.1948 7.93433 18.5023C8.2306 18.1431 8.56249 17.7415 8.88604 17.3498C9.2543 16.9042 9.81048 16.658 10.3879 16.686C10.9653 16.7133 11.4957 17.0118 11.8192 17.4907L13.8121 20.439" stroke="currentColor" stroke-width="2.82352" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M19.0881 25.2961C19.0881 25.2961 20.9794 28.1316 22.3805 30.232C22.7434 30.7761 23.3314 31.1284 23.9823 31.1928C24.6332 31.2572 25.2788 31.0269 25.741 30.5639C26.3358 29.9698 26.8405 29.4652 26.8405 29.4652" stroke="currentColor" stroke-width="2.82352" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17.6011 28.5725L18.1967 34.5328" stroke="currentColor" stroke-width="2.82352" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div>
+                <p class="feature-card__title">Хочет международный <br> аттестат CIS</p>
+                <p class="feature-card__desc">Наши выпускники получают аттестат, признанный международными университетами по всему миру.</p>
+              </div>
+            </div>
+
+            <!-- Card 3: Space & science -->
+            <div class="feature-card">
+              <span class="flex justify-center items-center w-15 aspect-square rounded-full text-secondary bg-white ">
+                <svg class="h-9" viewBox="0 0 32 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M23.0955 6.9973C27.7433 11.6451 27.7433 19.1928 23.0955 23.8406C18.4478 28.4884 10.9 28.4884 6.25224 23.8406C1.60448 19.1928 1.60448 11.6451 6.25224 6.9973C10.9 2.34953 18.4478 2.34953 23.0955 6.9973Z" stroke="currentColor" stroke-width="2.55208" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M28.8173 1.276L25.7274 4.36583C31.8282 10.4658 31.8282 20.3717 25.7274 26.4717C19.6274 32.5725 9.72153 32.5725 3.62153 26.4717L1.27606 28.8172" stroke="currentColor" stroke-width="2.55208" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12.8136 31.0503V32.7698C12.8136 34.0523 12.3044 35.2812 11.3978 36.1878C10.9557 36.63 10.5805 37.0051 10.5805 37.0051" stroke="currentColor" stroke-width="2.55208" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M16.5353 31.0503V32.7698C16.5353 34.0523 17.0445 35.2812 17.9511 36.1878C18.3933 36.63 18.7684 37.0051 18.7684 37.0051" stroke="currentColor" stroke-width="2.55208" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M26.5847 5.29333L26.1356 5.74245" stroke="currentColor" stroke-width="2.55208" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M7.19188 24.6853L4.5509 27.3263" stroke="currentColor" stroke-width="2.55208" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M3.88129 10.9528C5.79503 11.6703 7.36637 13.0853 8.28044 14.9135C8.57074 15.4926 8.8521 16.0561 9.06797 16.4878C9.31807 16.9873 9.80562 17.323 10.3602 17.3795C10.3646 17.3393 10.3646 17.3393 10.3646 17.3393C11.4752 17.4964 12.3938 18.2854 12.7161 19.3603C13.0384 20.4351 12.7056 21.5993 11.8645 22.3414C11.3345 22.7873 10.7725 23.1379 10.2083 23.2346" stroke="currentColor" stroke-width="2.55208" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M20.63 9.46399V11.2579C20.63 11.5355 20.5035 11.7983 20.2869 11.9717H20.2861C19.4145 12.6692 19.186 13.8996 19.748 14.8643C20.0732 15.4218 20.4276 16.0285 20.7216 16.5331C21.1354 17.2418 21.8426 17.7301 22.6517 17.8648C23.9722 18.0851 25.8405 18.3963 25.8405 18.3963" stroke="currentColor" stroke-width="2.55208" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div>
+                <p class="feature-card__title">Увлекается космосом <br> и наукой</p>
+                <p class="feature-card__desc">Астрофизика, робототехника, программирование — мы строим образование вокруг страсти к исследованиям.</p>
+              </div>
+            </div>
+
+            <!-- Card 4: More than ordinary -->
+            <div class="feature-card">
+              <span class="flex justify-center items-center w-15 aspect-square rounded-full text-secondary bg-white ">
+                <svg class="h-9" viewBox="0 0 27 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.2214 29.4671C15.013 29.7692 13.1128 30.244 11.5163 30.6436C10.8238 30.8163 10.0902 30.6611 9.5278 30.222C8.96543 29.7821 8.63668 29.1086 8.63668 28.3948V28.3918C8.63592 25.9658 7.5538 23.6661 5.68329 22.1205C3.00309 20.0004 1.30457 16.7144 1.30457 13.0351C1.30457 6.56058 6.56071 1.30444 13.0352 1.30444C19.5097 1.30444 24.7658 6.56058 24.7658 13.0351C24.7658 16.8141 22.9744 20.1785 20.1953 22.3244C19.3111 23.0192 18.617 23.9027 18.1521 24.8951" stroke="currentColor" stroke-width="2.6091" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17.508 32.6138L10.7983 34.4774" stroke="currentColor" stroke-width="2.6091" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17.508 35.9683L10.7983 37.8319" stroke="currentColor" stroke-width="2.6091" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M13.7964 24.8952C13.7964 24.8952 12.4259 23.9363 11.33 23.1692C11.0835 22.9957 10.9571 22.6967 11.0066 22.3991C11.0553 22.1016 11.2707 21.8588 11.5606 21.7743C12.4076 21.527 13.5019 21.2082 14.5924 20.8893C14.9607 20.782 15.1974 20.4243 15.1517 20.0439C15.1061 19.6634 14.7918 19.3711 14.409 19.3536C12.5065 19.2676 10.7524 19.1877 10.7524 19.1877" stroke="currentColor" stroke-width="2.6091" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div>
+                <p class="feature-card__title">Хочет большего, чем обычная школа</p>
+                <p class="feature-card__desc">Если стандартная программа скучна — Space School откроет настоящий потенциал вашего ребёнка.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- END Target Audience -->
+
+  <!-- Results -->
+  <section class="relative overflow-hidden pt-12 pb-22 bg-white">
+    <div class="container relative z-10">
+      <div class="col-span-full">
+
+        <!-- Label Section -->
+        <div class="section-label mb-8">
+          <span class="section-label__icon"></span>
+          <span>Результаты обучения</span>
+        </div>
+        <!-- END Label Section -->
+
+        <!-- Heading — full width -->
+        <div class="mb-10 lg:mb-6">
+          <h2 class="h1 font-bold">Что получает ваш ребёнок</h2>
+          <p class="text-base leading-tight text-black/60 mt-4 lg:max-w-lg">Измеримые результаты, которые открывают двери в лучшие университеты мира.</p>
+        </div>
+
+        <!-- Cards + kid grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          <!-- Cards 2x2 -->
+          <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+
+            <!-- Card 1 -->
+            <div class="feature-card  text-black">
+              <span class="relative w-11 h-11 flex items-center justify-center text-xl font-bold">
+                1
+                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 52 42" fill="none"><path d="M14.9445 7.74607C8.17025 10.8572 -6.00238 25.7901 5.1243 36.051C31.6538 60.5162 92.5632 -14.6542 6.93609 4.01264" stroke="#F6AF09" stroke-width="2"/></svg>
+              </span>
+              <div>
+                <p class="feature-card__title">Физ-мат уклон мирового уровня</p>
+                <p class="feature-card__desc">Углублённая математика, физика и информатика — программа сопоставима с лучшими израильскими школами.</p>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="feature-card  text-black">
+              <span class="relative w-11 h-11 flex items-center justify-center text-xl font-bold">
+                2
+                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 52 42" fill="none"><path d="M14.9445 7.74607C8.17025 10.8572 -6.00238 25.7901 5.1243 36.051C31.6538 60.5162 92.5632 -14.6542 6.93609 4.01264" stroke="#F6AF09" stroke-width="2"/></svg>
+              </span>
+              <div>
+                <p class="feature-card__title">Международные языки</p>
+                <p class="feature-card__desc">Казахский, русский, английский — полноценное трёхъязычное образование с носителями языка.</p>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="feature-card  text-black">
+              <span class="relative w-11 h-11 flex items-center justify-center text-xl font-bold">
+                3
+                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 52 42" fill="none"><path d="M14.9445 7.74607C8.17025 10.8572 -6.00238 25.7901 5.1243 36.051C31.6538 60.5162 92.5632 -14.6542 6.93609 4.01264" stroke="#F6AF09" stroke-width="2"/></svg>
+              </span>
+              <div>
+                <p class="feature-card__title">Готовность к SAT и международным экзаменам</p>
+                <p class="feature-card__desc">Системная подготовка к экзаменам, необходимым для поступления в университеты США, UK, EU.</p>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="feature-card  text-black">
+              <span class="relative w-11 h-11 flex items-center justify-center text-xl font-bold">
+                4
+                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 52 42" fill="none"><path d="M14.9445 7.74607C8.17025 10.8572 -6.00238 25.7901 5.1243 36.051C31.6538 60.5162 92.5632 -14.6542 6.93609 4.01264" stroke="#F6AF09" stroke-width="2"/></svg>
+              </span>
+              <div>
+                <p class="feature-card__title">Космическая тема как контекст</p>
+                <p class="feature-card__desc">Астрофизика, проектирование, исследования — всё это не клуб, а часть основной программы.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Kid photo — hidden on mobile -->
+          <div class="hidden lg:block lg:col-span-5 rounded-2xl overflow-hidden">
+            <img src="/static/images/sections-images/kid.png" alt="Ученик Space School" class="block w-full h-full object-cover">
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- END Results -->
+
+  <!-- Programs -->
+  <section class="relative overflow-hidden py-22 bg-black text-white"
+           x-data
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }">
+
+    <!-- Gradient glow — top right -->
+    <div class="pointer-events-none absolute -top-70 -right-80 w-[1200px] md:-top-100 md:-right-80 z-0 md:w-[1500px] opacity-80">
+      <svg class="w-full h-full" viewBox="0 0 1441 1397" fill="none">
+        <g opacity="0.8">
+          <g filter="url(#prog-glow1)">
+            <circle cx="643.805" cy="643.805" r="343.805" transform="rotate(-90 643.805 643.805)" fill="#852DF9"/>
+          </g>
+          <g filter="url(#prog-glow2)">
+            <circle cx="885.083" cy="840.847" r="343.805" transform="rotate(-90 885.083 840.847)" fill="#108CFF"/>
+          </g>
+        </g>
+        <defs>
+          <filter id="prog-glow1" x="0" y="0" width="1287.61" height="1287.61" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="150">
+              <animate attributeName="stdDeviation" values="150;80;150" dur="3s" repeatCount="indefinite"/>
+            </feGaussianBlur>
+          </filter>
+          <filter id="prog-glow2" x="329.277" y="285.042" width="1111.61" height="1111.61" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="106">
+              <animate attributeName="stdDeviation" values="106;50;106" dur="3.5s" repeatCount="indefinite"/>
+            </feGaussianBlur>
+          </filter>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="container relative z-10">
+      <div class="col-span-full">
+
+        <!-- Label Section -->
+        <div class="section-label mb-8 text-white border-b-white/20">
+          <span class="section-label__icon"></span>
+          <span>Программы обучения</span>
+        </div>
+        <!-- END Label Section -->
+
+      </div>
+
+      <!-- Left: heading + subtitle -->
+      <div class="col-span-full lg:col-span-5 xl:col-span-5">
+        <h2 class="h1 font-bold mb-4">Две сильные программы — один результат</h2>
+        <p class="text-base leading-tight text-white/70">Выберите траекторию, которая подходит вашему ребёнку. Обе ведут к международному аттестату и лучшим университетам мира.</p>
+        <div class="mt-8">
+          <button class="btn btn-default">Получить консультацию</button>
+        </div>
+      </div>
+
+      <!-- Right: program cards -->
+      <div class="col-span-full lg:col-span-7 xl:col-span-7 flex flex-col gap-6 mt-8 lg:mt-0">
+
+        <!-- Card 1: Primary school -->
+        <div class="program-card">
+          <div class="flex flex-col gap-5">
+            <!-- Badge -->
+            <span class="program-card__badge bg-gold text-black">1–4 класс</span>
+
+            <!-- Card content grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Left -->
+              <div class="flex w-full flex-col gap-3">
+                <h3 class="program-card__title">Начальная школа</h3>
+                <div class="flex flex-wrap gap-2 program-card__meta text-white/70">
+                  <span class="badge bg-white/10 text-white">Cambridge Primary</span>
+                  <span class="badge bg-white/10 text-white">Laverick</span>
+                  <span class="badge bg-white/10 text-white">Финская методика</span>
+                </div>
+              </div>
+              <!-- Right: checklist -->
+              <ul class="flex w-full flex-col gap-3">
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M14.0306 6.96937C14.1004 7.03903 14.1557 7.12175 14.1934 7.21279C14.2312 7.30384 14.2506 7.40144 14.2506 7.5C14.2506 7.59856 14.2312 7.69616 14.1934 7.78721C14.1557 7.87825 14.1004 7.96097 14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.039 6.89964 13.1218 6.84432 13.2128 6.80658C13.3038 6.76884 13.4014 6.74941 13.5 6.74941C13.5986 6.74941 13.6962 6.76884 13.7872 6.80658C13.8783 6.84432 13.961 6.89964 14.0306 6.96937ZM19.5 9.75C19.5 11.6784 18.9282 13.5634 17.8568 15.1668C16.7855 16.7702 15.2627 18.0199 13.4812 18.7578C11.6996 19.4958 9.73919 19.6889 7.84787 19.3127C5.95656 18.9365 4.21928 18.0079 2.85571 16.6443C1.49215 15.2807 0.563554 13.5434 0.187348 11.6521C-0.188858 9.76082 0.00422448 7.80042 0.742179 6.01884C1.48013 4.23726 2.72982 2.71452 4.33319 1.64317C5.93657 0.571828 7.82164 0 9.75 0C12.335 0.00272983 14.8134 1.03084 16.6413 2.85872C18.4692 4.68661 19.4973 7.16498 19.5 9.75ZM18 9.75C18 8.1183 17.5162 6.52325 16.6096 5.16655C15.7031 3.80984 14.4146 2.75242 12.9071 2.12799C11.3997 1.50357 9.74085 1.34019 8.14051 1.65852C6.54017 1.97685 5.07016 2.76259 3.91637 3.91637C2.76259 5.07015 1.97685 6.54016 1.65853 8.1405C1.3402 9.74085 1.50358 11.3996 2.128 12.9071C2.75242 14.4146 3.80984 15.7031 5.16655 16.6096C6.52326 17.5161 8.11831 18 9.75 18C11.9373 17.9975 14.0343 17.1275 15.5809 15.5809C17.1275 14.0343 17.9975 11.9373 18 9.75Z" fill="white"/></svg>
+                  <span class="program-card__check-text text-white">Развитие через игру и исследование</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M14.0306 6.96937C14.1004 7.03903 14.1557 7.12175 14.1934 7.21279C14.2312 7.30384 14.2506 7.40144 14.2506 7.5C14.2506 7.59856 14.2312 7.69616 14.1934 7.78721C14.1557 7.87825 14.1004 7.96097 14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.039 6.89964 13.1218 6.84432 13.2128 6.80658C13.3038 6.76884 13.4014 6.74941 13.5 6.74941C13.5986 6.74941 13.6962 6.76884 13.7872 6.80658C13.8783 6.84432 13.961 6.89964 14.0306 6.96937ZM19.5 9.75C19.5 11.6784 18.9282 13.5634 17.8568 15.1668C16.7855 16.7702 15.2627 18.0199 13.4812 18.7578C11.6996 19.4958 9.73919 19.6889 7.84787 19.3127C5.95656 18.9365 4.21928 18.0079 2.85571 16.6443C1.49215 15.2807 0.563554 13.5434 0.187348 11.6521C-0.188858 9.76082 0.00422448 7.80042 0.742179 6.01884C1.48013 4.23726 2.72982 2.71452 4.33319 1.64317C5.93657 0.571828 7.82164 0 9.75 0C12.335 0.00272983 14.8134 1.03084 16.6413 2.85872C18.4692 4.68661 19.4973 7.16498 19.5 9.75ZM18 9.75C18 8.1183 17.5162 6.52325 16.6096 5.16655C15.7031 3.80984 14.4146 2.75242 12.9071 2.12799C11.3997 1.50357 9.74085 1.34019 8.14051 1.65852C6.54017 1.97685 5.07016 2.76259 3.91637 3.91637C2.76259 5.07015 1.97685 6.54016 1.65853 8.1405C1.3402 9.74085 1.50358 11.3996 2.128 12.9071C2.75242 14.4146 3.80984 15.7031 5.16655 16.6096C6.52326 17.5161 8.11831 18 9.75 18C11.9373 17.9975 14.0343 17.1275 15.5809 15.5809C17.1275 14.0343 17.9975 11.9373 18 9.75Z" fill="white"/></svg>
+                  <span class="program-card__check-text text-white">Билингвальное обучение</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M14.0306 6.96937C14.1004 7.03903 14.1557 7.12175 14.1934 7.21279C14.2312 7.30384 14.2506 7.40144 14.2506 7.5C14.2506 7.59856 14.2312 7.69616 14.1934 7.78721C14.1557 7.87825 14.1004 7.96097 14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.039 6.89964 13.1218 6.84432 13.2128 6.80658C13.3038 6.76884 13.4014 6.74941 13.5 6.74941C13.5986 6.74941 13.6962 6.76884 13.7872 6.80658C13.8783 6.84432 13.961 6.89964 14.0306 6.96937ZM19.5 9.75C19.5 11.6784 18.9282 13.5634 17.8568 15.1668C16.7855 16.7702 15.2627 18.0199 13.4812 18.7578C11.6996 19.4958 9.73919 19.6889 7.84787 19.3127C5.95656 18.9365 4.21928 18.0079 2.85571 16.6443C1.49215 15.2807 0.563554 13.5434 0.187348 11.6521C-0.188858 9.76082 0.00422448 7.80042 0.742179 6.01884C1.48013 4.23726 2.72982 2.71452 4.33319 1.64317C5.93657 0.571828 7.82164 0 9.75 0C12.335 0.00272983 14.8134 1.03084 16.6413 2.85872C18.4692 4.68661 19.4973 7.16498 19.5 9.75ZM18 9.75C18 8.1183 17.5162 6.52325 16.6096 5.16655C15.7031 3.80984 14.4146 2.75242 12.9071 2.12799C11.3997 1.50357 9.74085 1.34019 8.14051 1.65852C6.54017 1.97685 5.07016 2.76259 3.91637 3.91637C2.76259 5.07015 1.97685 6.54016 1.65853 8.1405C1.3402 9.74085 1.50358 11.3996 2.128 12.9071C2.75242 14.4146 3.80984 15.7031 5.16655 16.6096C6.52326 17.5161 8.11831 18 9.75 18C11.9373 17.9975 14.0343 17.1275 15.5809 15.5809C17.1275 14.0343 17.9975 11.9373 18 9.75Z" fill="white"/></svg>
+                  <span class="program-card__check-text text-white">Математика, грамотность, естественные науки</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M14.0306 6.96937C14.1004 7.03903 14.1557 7.12175 14.1934 7.21279C14.2312 7.30384 14.2506 7.40144 14.2506 7.5C14.2506 7.59856 14.2312 7.69616 14.1934 7.78721C14.1557 7.87825 14.1004 7.96097 14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.039 6.89964 13.1218 6.84432 13.2128 6.80658C13.3038 6.76884 13.4014 6.74941 13.5 6.74941C13.5986 6.74941 13.6962 6.76884 13.7872 6.80658C13.8783 6.84432 13.961 6.89964 14.0306 6.96937ZM19.5 9.75C19.5 11.6784 18.9282 13.5634 17.8568 15.1668C16.7855 16.7702 15.2627 18.0199 13.4812 18.7578C11.6996 19.4958 9.73919 19.6889 7.84787 19.3127C5.95656 18.9365 4.21928 18.0079 2.85571 16.6443C1.49215 15.2807 0.563554 13.5434 0.187348 11.6521C-0.188858 9.76082 0.00422448 7.80042 0.742179 6.01884C1.48013 4.23726 2.72982 2.71452 4.33319 1.64317C5.93657 0.571828 7.82164 0 9.75 0C12.335 0.00272983 14.8134 1.03084 16.6413 2.85872C18.4692 4.68661 19.4973 7.16498 19.5 9.75ZM18 9.75C18 8.1183 17.5162 6.52325 16.6096 5.16655C15.7031 3.80984 14.4146 2.75242 12.9071 2.12799C11.3997 1.50357 9.74085 1.34019 8.14051 1.65852C6.54017 1.97685 5.07016 2.76259 3.91637 3.91637C2.76259 5.07015 1.97685 6.54016 1.65853 8.1405C1.3402 9.74085 1.50358 11.3996 2.128 12.9071C2.75242 14.4146 3.80984 15.7031 5.16655 16.6096C6.52326 17.5161 8.11831 18 9.75 18C11.9373 17.9975 14.0343 17.1275 15.5809 15.5809C17.1275 14.0343 17.9975 11.9373 18 9.75Z" fill="white"/></svg>
+                  <span class="program-card__check-text text-white">Soft skills: критическое мышление и EQ</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Footer: certificate + icons -->
+            <div class="program-card__footer">
+              <div>
+                <span class="program-card__footer-label text-white/70">Выпускник получает:</span>
+                <p class="program-card__footer-value">Cambridge Primary Certificate</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <!-- Gerb in CSS circle -->
+                <span class="flex items-center justify-center w-12 h-12 rounded-full bg-white">
+                  <img src="/static/images/sections-images/cambridge-gerb.png" alt="Cambridge" class="w-7 h-7 object-contain">
+                </span>
+                <!-- Arrow button -->
+                <svg class="w-12 h-12 text-gold" viewBox="0 0 50 50" fill="none">
+                  <rect width="50" height="50" rx="25" fill="currentColor"/>
+                  <path d="M18.4694 31.5306C18.539 31.6004 18.6217 31.6557 18.7128 31.6934C18.8038 31.7312 18.9014 31.7506 19 31.7506C19.0986 31.7506 19.1962 31.7312 19.2872 31.6934C19.3783 31.6557 19.461 31.6004 19.5306 31.5306L30.25 20.8103V28.75C30.25 28.9489 30.329 29.1397 30.4697 29.2803C30.6103 29.421 30.8011 29.5 31 29.5C31.1989 29.5 31.3897 29.421 31.5303 29.2803C31.671 29.1397 31.75 28.9489 31.75 28.75V19C31.75 18.8011 31.671 18.6103 31.5303 18.4697C31.3897 18.329 31.1989 18.25 31 18.25H21.25C21.0511 18.25 20.8603 18.329 20.7197 18.4697C20.579 18.6103 20.5 18.8011 20.5 19C20.5 19.1989 20.579 19.3897 20.7197 19.5303C20.8603 19.671 21.0511 19.75 21.25 19.75H29.1897L18.4694 30.4694C18.3996 30.539 18.3443 30.6217 18.3066 30.7128C18.2688 30.8038 18.2494 30.9014 18.2494 31C18.2494 31.0986 18.2688 31.1962 18.3066 31.2872C18.3443 31.3783 18.3996 31.461 18.4694 31.5306Z" fill="#111111"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Secondary school -->
+        <div class="program-card">
+          <div class="flex flex-col gap-5">
+            <!-- Badge -->
+            <span class="program-card__badge bg-secondary text-white">5–11 класс</span>
+
+            <!-- Card content grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Left -->
+              <div class="flex flex-col gap-3">
+                <h3 class="program-card__title">Средняя и старшая школа</h3>
+                <div class="flex flex-wrap gap-2 program-card__meta text-white/70">
+                  <span class="badge bg-white/10 text-white">Cambridge Lower Secondary</span>
+                  <span class="badge bg-white/10 text-white">IGCSE</span>
+                  <span class="badge bg-white/10 text-white">AS-Level</span>
+                  <span class="badge bg-white/10 text-white">A2A-LevelLevel</span>
+                </div>
+              </div>
+              <!-- Right: checklist -->
+              <ul class="flex flex-col gap-3">
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M14.0306 6.96937C14.1004 7.03903 14.1557 7.12175 14.1934 7.21279C14.2312 7.30384 14.2506 7.40144 14.2506 7.5C14.2506 7.59856 14.2312 7.69616 14.1934 7.78721C14.1557 7.87825 14.1004 7.96097 14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.039 6.89964 13.1218 6.84432 13.2128 6.80658C13.3038 6.76884 13.4014 6.74941 13.5 6.74941C13.5986 6.74941 13.6962 6.76884 13.7872 6.80658C13.8783 6.84432 13.961 6.89964 14.0306 6.96937ZM19.5 9.75C19.5 11.6784 18.9282 13.5634 17.8568 15.1668C16.7855 16.7702 15.2627 18.0199 13.4812 18.7578C11.6996 19.4958 9.73919 19.6889 7.84787 19.3127C5.95656 18.9365 4.21928 18.0079 2.85571 16.6443C1.49215 15.2807 0.563554 13.5434 0.187348 11.6521C-0.188858 9.76082 0.00422448 7.80042 0.742179 6.01884C1.48013 4.23726 2.72982 2.71452 4.33319 1.64317C5.93657 0.571828 7.82164 0 9.75 0C12.335 0.00272983 14.8134 1.03084 16.6413 2.85872C18.4692 4.68661 19.4973 7.16498 19.5 9.75ZM18 9.75C18 8.1183 17.5162 6.52325 16.6096 5.16655C15.7031 3.80984 14.4146 2.75242 12.9071 2.12799C11.3997 1.50357 9.74085 1.34019 8.14051 1.65852C6.54017 1.97685 5.07016 2.76259 3.91637 3.91637C2.76259 5.07015 1.97685 6.54016 1.65853 8.1405C1.3402 9.74085 1.50358 11.3996 2.128 12.9071C2.75242 14.4146 3.80984 15.7031 5.16655 16.6096C6.52326 17.5161 8.11831 18 9.75 18C11.9373 17.9975 14.0343 17.1275 15.5809 15.5809C17.1275 14.0343 17.9975 11.9373 18 9.75Z" fill="white"/></svg>
+                  <span class="program-card__check-text text-white">Cambridge Lower Secondary (5–6 класс)</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M14.0306 6.96937C14.1004 7.03903 14.1557 7.12175 14.1934 7.21279C14.2312 7.30384 14.2506 7.40144 14.2506 7.5C14.2506 7.59856 14.2312 7.69616 14.1934 7.78721C14.1557 7.87825 14.1004 7.96097 14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.039 6.89964 13.1218 6.84432 13.2128 6.80658C13.3038 6.76884 13.4014 6.74941 13.5 6.74941C13.5986 6.74941 13.6962 6.76884 13.7872 6.80658C13.8783 6.84432 13.961 6.89964 14.0306 6.96937ZM19.5 9.75C19.5 11.6784 18.9282 13.5634 17.8568 15.1668C16.7855 16.7702 15.2627 18.0199 13.4812 18.7578C11.6996 19.4958 9.73919 19.6889 7.84787 19.3127C5.95656 18.9365 4.21928 18.0079 2.85571 16.6443C1.49215 15.2807 0.563554 13.5434 0.187348 11.6521C-0.188858 9.76082 0.00422448 7.80042 0.742179 6.01884C1.48013 4.23726 2.72982 2.71452 4.33319 1.64317C5.93657 0.571828 7.82164 0 9.75 0C12.335 0.00272983 14.8134 1.03084 16.6413 2.85872C18.4692 4.68661 19.4973 7.16498 19.5 9.75ZM18 9.75C18 8.1183 17.5162 6.52325 16.6096 5.16655C15.7031 3.80984 14.4146 2.75242 12.9071 2.12799C11.3997 1.50357 9.74085 1.34019 8.14051 1.65852C6.54017 1.97685 5.07016 2.76259 3.91637 3.91637C2.76259 5.07015 1.97685 6.54016 1.65853 8.1405C1.3402 9.74085 1.50358 11.3996 2.128 12.9071C2.75242 14.4146 3.80984 15.7031 5.16655 16.6096C6.52326 17.5161 8.11831 18 9.75 18C11.9373 17.9975 14.0343 17.1275 15.5809 15.5809C17.1275 14.0343 17.9975 11.9373 18 9.75Z" fill="white"/></svg>
+                  <span class="program-card__check-text text-white">IGCSE (9–10 класс)</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M14.0306 6.96937C14.1004 7.03903 14.1557 7.12175 14.1934 7.21279C14.2312 7.30384 14.2506 7.40144 14.2506 7.5C14.2506 7.59856 14.2312 7.69616 14.1934 7.78721C14.1557 7.87825 14.1004 7.96097 14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.039 6.89964 13.1218 6.84432 13.2128 6.80658C13.3038 6.76884 13.4014 6.74941 13.5 6.74941C13.5986 6.74941 13.6962 6.76884 13.7872 6.80658C13.8783 6.84432 13.961 6.89964 14.0306 6.96937ZM19.5 9.75C19.5 11.6784 18.9282 13.5634 17.8568 15.1668C16.7855 16.7702 15.2627 18.0199 13.4812 18.7578C11.6996 19.4958 9.73919 19.6889 7.84787 19.3127C5.95656 18.9365 4.21928 18.0079 2.85571 16.6443C1.49215 15.2807 0.563554 13.5434 0.187348 11.6521C-0.188858 9.76082 0.00422448 7.80042 0.742179 6.01884C1.48013 4.23726 2.72982 2.71452 4.33319 1.64317C5.93657 0.571828 7.82164 0 9.75 0C12.335 0.00272983 14.8134 1.03084 16.6413 2.85872C18.4692 4.68661 19.4973 7.16498 19.5 9.75ZM18 9.75C18 8.1183 17.5162 6.52325 16.6096 5.16655C15.7031 3.80984 14.4146 2.75242 12.9071 2.12799C11.3997 1.50357 9.74085 1.34019 8.14051 1.65852C6.54017 1.97685 5.07016 2.76259 3.91637 3.91637C2.76259 5.07015 1.97685 6.54016 1.65853 8.1405C1.3402 9.74085 1.50358 11.3996 2.128 12.9071C2.75242 14.4146 3.80984 15.7031 5.16655 16.6096C6.52326 17.5161 8.11831 18 9.75 18C11.9373 17.9975 14.0343 17.1275 15.5809 15.5809C17.1275 14.0343 17.9975 11.9373 18 9.75Z" fill="white"/></svg>
+                  <span class="program-card__check-text text-white">AS-Level и A-Level (11–12 класс)</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M14.0306 6.96937C14.1004 7.03903 14.1557 7.12175 14.1934 7.21279C14.2312 7.30384 14.2506 7.40144 14.2506 7.5C14.2506 7.59856 14.2312 7.69616 14.1934 7.78721C14.1557 7.87825 14.1004 7.96097 14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.039 6.89964 13.1218 6.84432 13.2128 6.80658C13.3038 6.76884 13.4014 6.74941 13.5 6.74941C13.5986 6.74941 13.6962 6.76884 13.7872 6.80658C13.8783 6.84432 13.961 6.89964 14.0306 6.96937ZM19.5 9.75C19.5 11.6784 18.9282 13.5634 17.8568 15.1668C16.7855 16.7702 15.2627 18.0199 13.4812 18.7578C11.6996 19.4958 9.73919 19.6889 7.84787 19.3127C5.95656 18.9365 4.21928 18.0079 2.85571 16.6443C1.49215 15.2807 0.563554 13.5434 0.187348 11.6521C-0.188858 9.76082 0.00422448 7.80042 0.742179 6.01884C1.48013 4.23726 2.72982 2.71452 4.33319 1.64317C5.93657 0.571828 7.82164 0 9.75 0C12.335 0.00272983 14.8134 1.03084 16.6413 2.85872C18.4692 4.68661 19.4973 7.16498 19.5 9.75ZM18 9.75C18 8.1183 17.5162 6.52325 16.6096 5.16655C15.7031 3.80984 14.4146 2.75242 12.9071 2.12799C11.3997 1.50357 9.74085 1.34019 8.14051 1.65852C6.54017 1.97685 5.07016 2.76259 3.91637 3.91637C2.76259 5.07015 1.97685 6.54016 1.65853 8.1405C1.3402 9.74085 1.50358 11.3996 2.128 12.9071C2.75242 14.4146 3.80984 15.7031 5.16655 16.6096C6.52326 17.5161 8.11831 18 9.75 18C11.9373 17.9975 14.0343 17.1275 15.5809 15.5809C17.1275 14.0343 17.9975 11.9373 18 9.75Z" fill="white"/></svg>
+                  <span class="program-card__check-text text-white">Подготовка к поступлению в лучшие университеты мира</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Footer: certificate + icons -->
+            <div class="program-card__footer">
+              <div>
+                <span class="program-card__footer-label text-white/70">Выпускник получает:</span>
+                <p class="program-card__footer-value">Cambridge A-Level + Аттестат КЗ</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <!-- Gerb in CSS circle -->
+                <span class="flex items-center justify-center w-12 h-12 rounded-full bg-white">
+                  <img src="/static/images/sections-images/cambridge-gerb.png" alt="Cambridge" class="w-7 h-7 object-contain">
+                </span>
+                <!-- Arrow button -->
+                <svg class="w-12 h-12 text-secondary" viewBox="0 0 50 50" fill="none">
+                  <rect width="50" height="50" rx="25" fill="currentColor"/>
+                  <path d="M18.4694 31.5306C18.539 31.6004 18.6217 31.6557 18.7128 31.6934C18.8038 31.7312 18.9014 31.7506 19 31.7506C19.0986 31.7506 19.1962 31.7312 19.2872 31.6934C19.3783 31.6557 19.461 31.6004 19.5306 31.5306L30.25 20.8103V28.75C30.25 28.9489 30.329 29.1397 30.4697 29.2803C30.6103 29.421 30.8011 29.5 31 29.5C31.1989 29.5 31.3897 29.421 31.5303 29.2803C31.671 29.1397 31.75 28.9489 31.75 28.75V19C31.75 18.8011 31.671 18.6103 31.5303 18.4697C31.3897 18.329 31.1989 18.25 31 18.25H21.25C21.0511 18.25 20.8603 18.329 20.7197 18.4697C20.579 18.6103 20.5 18.8011 20.5 19C20.5 19.1989 20.579 19.3897 20.7197 19.5303C20.8603 19.671 21.0511 19.75 21.25 19.75H29.1897L18.4694 30.4694C18.3996 30.539 18.3443 30.6217 18.3066 30.7128C18.2688 30.8038 18.2494 30.9014 18.2494 31C18.2494 31.0986 18.2688 31.1962 18.3066 31.2872C18.3443 31.3783 18.3996 31.461 18.4694 31.5306Z" fill="#fff"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- END Programs -->
+
+  <!-- Teams -->
+  <section class="py-22 bg-white">
+    <div class="container"
+         x-data="teamSlider"
+         @mousemove.window="dragMove($event)"
+         @mouseup.window="dragEnd()">
+      <div class="col-span-full flex flex-col gap-8 mb-10">
+        <div>
+          <!-- Label Section -->
+          <div class="section-label mb-8">
+            <span class="section-label__icon"></span>
+            <span>Подход и забота</span>
+          </div>
+          <!-- END Label Section -->
+
+          <h2 class="h1 font-bold mb-4">Команда профессионалов, <br class="hidden md:block">которая заботится о вашем ребёнке</h2>
+          <p class="mt-4 text-base leading-tight text-black/80 lg:max-w-xl">Каждый педагог — практик с опытом в международных школах и университетах. Мы отвечаем за развитие каждого ученика</p>
+        </div>
+
+      </div>
+
+      <div class="team-slider col-span-full"
+           @mouseenter="hovering = true"
+           @mouseleave="hovering = false">
+        <div class="team-slider__track"
+             x-ref="track"
+             @mousedown.prevent="dragStart($event)">
+          <article class="team-card">
+            <div class="team-card__photo">
+              <img src="/static/assets/images/1-DXqZ1rzw.jpg" alt="Айгерим Нурланова">
+            </div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">Айгерим Нурланова</h3>
+              <p class="team-card__role">Основатель и директор</p>
+              <p class="team-card__meta">PhD в педагогике · 20 лет в международном образовании</p>
+              <p class="team-card__quote">«Каждый ребёнок рождён исследователем. Моя задача — создать среду, где этот огонь не гаснет, а разгорается сильнее с каждым годом.»</p>
+            </div>
+          </article>
+
+          <article class="team-card">
+            <div class="team-card__photo">
+              <img src="/static/assets/images/1-DXqZ1rzw.jpg" alt="Айгерим Нурланова">
+            </div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">Айгерим Нурланова</h3>
+              <p class="team-card__role">Основатель и директор</p>
+              <p class="team-card__meta">PhD в педагогике · 20 лет в международном образовании</p>
+              <p class="team-card__quote">«Каждый ребёнок рождён исследователем. Моя задача — создать среду, где этот огонь не гаснет, а разгорается сильнее с каждым годом.»</p>
+            </div>
+          </article>
+
+          <article class="team-card">
+            <div class="team-card__photo">
+              <img src="/static/assets/images/1-DXqZ1rzw.jpg" alt="Айгерим Нурланова">
+            </div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">Айгерим Нурланова</h3>
+              <p class="team-card__role">Основатель и директор</p>
+              <p class="team-card__meta">PhD в педагогике · 20 лет в международном образовании</p>
+              <p class="team-card__quote">«Каждый ребёнок рождён исследователем. Моя задача — создать среду, где этот огонь не гаснет, а разгорается сильнее с каждым годом.»</p>
+            </div>
+          </article>
+
+          <article class="team-card">
+            <div class="team-card__photo">
+              <img src="/static/assets/images/1-DXqZ1rzw.jpg" alt="Айгерим Нурланова">
+            </div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">Айгерим Нурланова</h3>
+              <p class="team-card__role">Основатель и директор</p>
+              <p class="team-card__meta">PhD в педагогике · 20 лет в международном образовании</p>
+              <p class="team-card__quote">«Каждый ребёнок рождён исследователем. Моя задача — создать среду, где этот огонь не гаснет, а разгорается сильнее с каждым годом.»</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="team-slider__cursor glass"
+             :class="{ 'is-active': hovering, 'is-pressed': dragging }"
+             :style="`transform: translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 8l-4 4 4 4M17 8l4 4-4 4M3 12h18"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="col-span-full">
+        <div class="team-slider__controls shrink-0 mt-8">
+          <button type="button" class="btn-nav" @click="step(-1)" :disabled="!canPrev" aria-label="Предыдущий">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+          <button type="button" class="btn-nav" @click="step(1)" :disabled="!canNext" aria-label="Следующий">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- END Teams -->
+
+  <!-- Certificate -->
+  <section class="relative overflow-hidden pt-22 bg-black text-white"
+           x-data="{ visible: false }"
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }"
+           x-init="$nextTick(() => { const self = $data; new IntersectionObserver(([e]) => { self.visible = e.isIntersecting }, { threshold: 0.5 }).observe($el) })">
+    <div class="container relative z-10">
+      <div class="col-span-full">
+
+        <!-- Label Section -->
+        <div class="section-label mb-12 text-white border-b-white/20">
+          <span class="section-label__icon"></span>
+          <span>Двойной сертификат</span>
+        </div>
+        <!-- END Label Section -->
+
+        <div class="mb-10">
+          <h2 class="h1 font-bold">Аттестат, который открывает мир</h2>
+          <p class="mt-4 text-base leading-tight text-white/70 lg:max-w-xl">Выпускники Space School получают двойной сертификат: Казахстанский аттестат + международный Cambridge-документ. Без IELTS и SAT — поступление наравне с носителями языка.</p>
+        </div>
+
+        <!-- Features -->
+        <ul class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12" x-glass>
+          <li class="glass-secondary rounded-2xl p-5 md:p-6 flex flex-col gap-8 md:gap-10">
+            <span class="block w-8 h-8 text-white/80">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 14 16 5l12 9"/>
+                <path d="M3 14h26"/>
+                <path d="M6 14v10M12 14v10M20 14v10M26 14v10"/>
+                <path d="M4 28h24"/>
+              </svg>
+            </span>
+            <p class="text-sm md:text-lg hyphens-auto leading-tight font-medium">Аккредитован: Cambridge Lower Secondary, IGCSE, A-Level</p>
+          </li>
+
+          <li class="glass-secondary glass-from-tr rounded-2xl p-5 md:p-6 flex flex-col gap-8 md:gap-10">
+            <span class="block w-8 h-8 text-white/80">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 3H8a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9l-6-6z"/>
+                <path d="M20 3v6h6"/>
+                <path d="M12 17h8M12 22h8"/>
+              </svg>
+            </span>
+            <p class="text-sm md:text-lg hyphens-auto leading-tight font-medium">Поступление в 160+ стран без вступительных экзаменов</p>
+          </li>
+
+          <li class="glass-secondary glass-from-bl rounded-2xl p-5 md:p-6 flex flex-col gap-8 md:gap-10">
+            <span class="block w-8 h-8 text-white/80">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 4 2 12l14 8 14-8L16 4z"/>
+                <path d="M7 15v7c0 2.5 4 4 9 4s9-1.5 9-4v-7"/>
+                <path d="M28 12v8"/>
+              </svg>
+            </span>
+            <p class="text-sm md:text-lg hyphens-auto leading-tight font-medium">Признаётся казахстанскими вузами как государственный аттестат</p>
+          </li>
+
+          <li class="glass-secondary glass-from-br rounded-2xl p-5 md:p-6 flex flex-col gap-8 md:gap-10">
+            <span class="block w-8 h-8 text-white/80">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="16" cy="16" r="12"/>
+                <path d="M4 16h24"/>
+                <path d="M16 4a18 18 0 0 1 0 24M16 4a18 18 0 0 0 0 24"/>
+              </svg>
+            </span>
+            <p class="text-sm md:text-lg hyphens-auto leading-tight font-medium">Наравне с носителями языка — без AP или Foundation курсов</p>
+          </li>
+        </ul>
+        <!-- END Features -->
+
+        <!-- Certificate preview rounded-3xl -->
+        <div class="relative overflow-hidden" x-glass>
+          <div class="glass-secondary rounded-tl-3xl rounded-tr-3xl overflow-hidden">
+            <img src="/images/sections-images/certificate-preview.jpg" alt="Образец сертификата Space School" class="block w-full h-[20rem] md:h-[25rem]">
+          </div>
+          <div class="absolute inset-x-0 bottom-6 md:bottom-10 flex justify-center">
+            <button class="btn btn-primary">Посмотреть образец сертификата</button>
+          </div>
+        </div>
+        <!-- END Certificate preview -->
+
+      </div>
+    </div>
+
+    <!-- Bottom glow -->
+    <div class="glow-reveal pointer-events-none absolute bottom-0 inset-x-0 z-0 flex justify-center"
+         :class="visible && 'glow-reveal-visible'"
+         x-on:transitionend="if (visible) document.getElementById('cert-glow-breathe').beginElement()">
+      <svg class="block w-full h-[380px]" viewBox="0 0 1440 380" preserveAspectRatio="none" fill="none">
+        <g filter="url(#cert-glow-blur)">
+          <ellipse cx="720" cy="400" rx="800" ry="180" fill="#108CFF"/>
+        </g>
+        <defs>
+          <filter id="cert-glow-blur" x="-200" y="100" width="1840" height="600" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur stdDeviation="90">
+              <animate id="cert-glow-breathe" attributeName="stdDeviation" values="90;60;90" dur="4s" repeatCount="indefinite" begin="indefinite"/>
+            </feGaussianBlur>
+          </filter>
+        </defs>
+      </svg>
+    </div>
+  </section>
+  <!-- END Certificate -->
+
+  <!-- Activity -->
+  <section class="py-22 bg-white">
+    <div class="container" x-data="{ open: null }">
+      <div class="col-span-full">
+
+        <!-- Label Section -->
+        <div class="section-label mb-8 ">
+          <span class="section-label__icon"></span>
+          <span>Внеклассные занятия</span>
+        </div>
+        <!-- END Label Section -->
+
+        <div class="mb-12 ">
+          <h2 class="h1 font-bold">После уроков - жизнь <span class="block lg:inline">не останавливается</span></h2>
+          <h5 class="h5 mt-4">Секции, кружки и события, которые <span class="block lg:inline">развивают личность, а не только оценки</span></h5>
+        </div>
+
+        <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
+          <div class="accordion-item">
+            <button class="accordion-header" @click="open = open === 1 ? null : 1">
+              <span class="accordion-title">
+                <span>09:00 – 10:30</span>
+                <span>Робототехника</span>
+              </span>
+              <span>
+                <span class="badge bg-indigo-400/10 text-indigo-500">Технологии</span>
+              </span>
+            </button>
+            <div x-show="open === 1" x-collapse>
+              <div class="accordion-body">
+                <p>Space School — это образовательная платформа, которая помогает детям изучать космос и технологии через интерактивные занятия и проекты.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" @click="open = open === 2 ? null : 2">
+              <span class="accordion-title">
+                <span>10:30 – 12:00</span>
+                <span>Шахматный клуб</span>
+              </span>
+              <span>
+                <span class="badge bg-red-400/10 text-red-400">Наука</span>
+              </span>
+            </button>
+            <div x-show="open === 2" x-collapse>
+              <div class="accordion-body">
+                <p>Развиваем стратегическое мышление и концентрацию через игру в шахматы. Подходит как новичкам, так и опытным игрокам.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" @click="open = open === 3 ? null : 3">
+              <span class="accordion-title">
+                <span>10:00 – 13:30</span>
+                <span>Дебаты на английском</span>
+              </span>
+              <span>
+                <span class="badge  bg-green-600/10 text-green-600">Риторика</span>
+              </span>
+            </button>
+            <div x-show="open === 3" x-collapse>
+              <div class="accordion-body">
+                <p>Рисование, живопись и графика — учимся выражать идеи через визуальные образы и развиваем художественный вкус.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" @click="open = open === 4 ? null : 4">
+              <span class="accordion-title">
+                <span>13:30 – 15:00</span>
+                <span>Английский клуб</span>
+              </span>
+              <span>
+                <span class="badge   bg-orange-400/10 text-orange-400">Спорт</span>
+              </span>
+            </button>
+            <div x-show="open === 4" x-collapse>
+              <div class="accordion-body">
+                <p>Разговорная практика с носителями языка в неформальной обстановке. Игры, дискуссии и проекты на английском.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class=" mt-8">
+          <button class="btn btn-primary">Смотреть все активности</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END Activity -->
+
+  <!-- About -->
+  <section class="relative overflow-hidden pt-22 pb-22 lg:pb-40 bg-black text-white"
+           x-data
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'high' }">
+    <div class="container">
+      <div class="col-span-full relative z-10">
+        <!-- Label Section -->
+        <div class="section-label mb-12 text-white border-b-white/20">
+          <span class="section-label__icon"></span>
+          <span>О нас</span>
+        </div>
+        <!-- END Label Section -->
+
+        <div class="mb-4">
+          <h2 class="h1 font-bold">Space School в цифрах</h2>
+        </div>
+      </div>
+
+      <div class="col-span-full lg:col-span-6 xl:col-span-5 relative z-10 flex flex-wrap">
+        <div class="mb-8 md:mb-10">
+          <p class="text-base tracking-wide leading-tight hyphens-auto">Space School основана в 2013 году с миссией: дать каждому ребёнку в Казахстане образование мирового уровня. Мы объединяем лучшие практики финской, британской и казахстанской систем образования — в одной школе.</p>
+        </div>
+        <ul class="grid grid-cols-2 gap-4 md:gap-6 mt-auto w-full" x-glass>
+          <li class="stat-card glass-secondary">
+            <span class="stat-card__value">94%</span>
+            <span class="stat-card__label">Поступают <br>в ТОП-вузы</span>
+          </li>
+          <li class="stat-card glass-secondary glass-from-tr">
+            <span class="stat-card__value">3</span>
+            <span class="stat-card__label">Языка <br>обучения</span>
+          </li>
+          <li class="stat-card glass-secondary glass-from-bl">
+            <span class="stat-card__value">12</span>
+            <span class="stat-card__label">Лет <br> опыта</span>
+          </li>
+          <li class="stat-card glass-secondary glass-from-br">
+            <span class="stat-card__value">100%</span>
+            <span class="stat-card__label">Получают <br> аттестат CIS</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-span-full lg:col-span-6 xl:col-span-7 relative z-0">
+        <!-- School photo -->
+        <div class="mt-3 md:mt-0 xl:pl-4 relative z-10">
+          <div class="aspect-[674/442] w-full rounded-2xl overflow-hidden">
+            <img src="/static/images/sections-images/school-building.jpg" class="object-cover w-full h-full">
+          </div>
+        </div>
+        <!-- END School photo -->
+
+        <!-- Gradient circle -->
+        <div class="absolute flex justify-center z-0 w-full h-full top-0 md:top-30">
+          <svg class="w-full mx-auto scale-[4.5] md:scale-[3.5]"  viewBox="0 0 1441 1397" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity="0.8">
+              <g filter="url(#filter0_f_85_1633)">
+                <circle cx="643.805" cy="643.805" r="343.805" transform="rotate(-90 643.805 643.805)" fill="#852DF9"/>
+              </g>
+              <g filter="url(#filter1_f_85_1633)">
+                <circle cx="885.083" cy="840.847" r="343.805" transform="rotate(-90 885.083 840.847)" fill="#108CFF"/>
+              </g>
+            </g>
+            <defs>
+              <filter id="filter0_f_85_1633" x="0" y="0" width="1287.61" height="1287.61" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="150">
+                  <animate attributeName="stdDeviation" values="150;80;150" dur="3s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+              <filter id="filter1_f_85_1633" x="329.277" y="285.042" width="1111.61" height="1111.61" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="106">
+                  <animate attributeName="stdDeviation" values="106;50;106" dur="3.5s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END About -->
+
+  <!-- FAQ -->
+  <section class="py-22 bg-white">
+    <div class="container" x-data="{ open: null }">
+      <div class="col-span-full">
+
+        <!-- Label Section -->
+        <div class="section-label mb-12">
+          <span class="section-label__icon"></span>
+          <span>Частые вопросы</span>
+        </div>
+        <!-- END Label Section -->
+
+        <div class="mb-8">
+          <h2 class="h1 font-bold">FAQ</h2>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 1 ? null : 1">
+            <span class="accordion-title">Что такое Space School?</span>
+            <span class="accordion-icon" :class="open === 1 && 'accordion-icon--open'">
+              <img src="/static/images/icons/plus.svg" alt="">
+            </span>
+          </button>
+          <div x-show="open === 1" x-collapse>
+            <div class="accordion-body">
+              <p>Space School — это образовательная платформа, которая помогает детям изучать космос и технологии через интерактивные занятия и проекты.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 2 ? null : 2">
+            <span class="accordion-title">Для какого возраста подходят курсы?</span>
+            <span class="accordion-icon" :class="open === 2 && 'accordion-icon--open'">
+              <img src="/static/images/icons/plus.svg" alt="">
+            </span>
+          </button>
+          <div x-show="open === 2" x-collapse>
+            <div class="accordion-body">
+              <p>Наши курсы рассчитаны на детей от 6 до 17 лет. Программа адаптируется под возраст и уровень подготовки каждого ученика.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 3 ? null : 3">
+            <span class="accordion-title">Как проходят занятия?</span>
+            <span class="accordion-icon" :class="open === 3 && 'accordion-icon--open'">
+              <img src="/static/images/icons/plus.svg" alt="">
+            </span>
+          </button>
+          <div x-show="open === 3" x-collapse>
+            <div class="accordion-body">
+              <p>Занятия проходят в формате интерактивных уроков с практическими заданиями. Каждый урок включает теоретическую часть и hands-on проект.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 4 ? null : 4">
+            <span class="accordion-title">Нужна ли предварительная подготовка?</span>
+            <span class="accordion-icon" :class="open === 4 && 'accordion-icon--open'">
+              <img src="/static/images/icons/plus.svg" alt="">
+            </span>
+          </button>
+          <div x-show="open === 4" x-collapse>
+            <div class="accordion-body">
+              <p>Нет, предварительная подготовка не требуется. Мы начинаем с основ и постепенно усложняем программу.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END FAQ -->
+
+  <!-- Feedback -->
+  <section class="feedback-section glow-react-scope"
+           x-data
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }">
+    <div class="container">
+      <div class="col-span-full">
+        <div class="max-w-screen-sm mx-auto text-center z-20 relative">
+          <div>
+            <div class="flex justify-center mb-4">
+              <span class="">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M31.0738 7.33379C30.285 5.97504 28.1988 4.70129 22.8038 6.12004C21.0031 4.87749 18.8969 4.15117 16.7131 4.01972C14.5293 3.88827 12.3511 4.35669 10.4144 5.37428C8.47774 6.39187 6.8563 7.91985 5.72567 9.7928C4.59503 11.6657 3.99827 13.8123 4.00001 16C4.00001 16.3 4.01084 16.5975 4.03251 16.8925C0.0700061 20.8575 0.137507 23.3 0.930007 24.6663C1.67501 25.9513 3.16251 26.5 5.08501 26.5C6.30876 26.5 7.71001 26.2775 9.20376 25.8863C11.0048 27.1271 13.1108 27.8518 15.294 27.9819C17.4772 28.112 19.6544 27.6426 21.5901 26.6245C23.5257 25.6064 25.1461 24.0784 26.2759 22.2057C27.4057 20.3331 28.0019 18.1871 28 16C28 15.6988 27.9888 15.4013 27.9663 15.105C29.755 13.3075 30.9488 11.5788 31.3413 10.105C31.6938 8.80254 31.39 7.87504 31.0738 7.33379ZM16 7.00004C18.0385 7.0028 20.0159 7.69646 21.6094 8.96779C23.2028 10.2391 24.3183 12.0131 24.7738 14C23 15.5913 20.625 17.3238 17.74 18.9825C15.0225 20.5438 12.2963 21.7775 9.85376 22.5638C8.53844 21.3298 7.62418 19.7292 7.22954 17.9694C6.83491 16.2095 6.97809 14.3718 7.64053 12.6943C8.30298 11.0168 9.45412 9.5771 10.9447 8.56176C12.4353 7.54643 14.1965 7.00234 16 7.00004ZM3.52376 23.1613C3.44751 23.0275 3.50251 22.1338 4.85751 20.4475C5.27838 21.4982 5.84611 22.4838 6.54376 23.375C4.39001 23.7013 3.60626 23.3013 3.52376 23.1613ZM16 25C15.0417 25.0002 14.0896 24.8466 13.18 24.545C15.2627 23.6973 17.285 22.7079 19.2325 21.5838C21.1728 20.4773 23.0343 19.2381 24.8038 17.875C24.3717 19.89 23.2623 21.6962 21.6604 22.9926C20.0585 24.2891 18.0608 24.9976 16 25ZM28.4463 9.3313C28.2863 9.9288 27.845 10.69 27.1475 11.5563C26.7266 10.5042 26.1584 9.51731 25.46 8.62504C27.4388 8.32879 28.3563 8.62504 28.4788 8.83879C28.5 8.87504 28.5263 9.03505 28.4463 9.3313Z" fill="white"/>
+                </svg>
+              </span>
+            </div>
+            <h1 class="h1 font-bold">
+              <span class="block">Готовы запустить</span>
+              <span class="block">будущее вашего ребёнка?</span>
+            </h1>
+            <p class="text-base md:text-lg mt-4 leading-tight text-white/70">
+              <span class="inline md:block">Запишитесь на бесплатную консультацию — </span>
+              <span class="inline md:block">расскажем о программе, покажем школу и ответим</span>
+              <span class="inline md:block">на все вопросы</span>
+            </p>
+            <div class="mt-8">
+              <button class="btn btn-primary">Получить консультацию</button>
+            </div>
+          </div>
+        </div>
+        <div class="planet-container">
+          <!-- Trajectory -->
+          <div class="aspect-square w-[945px] mx-auto absolute top-8 md:top-0 flex justify-center">
+            <div class="absolute top-0 animate-orbit-cw">
+              <svg class="w-[646px] md:w-[946px]" viewBox="0 0 947 946" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="641.5" cy="32.5" r="7.5" fill="white"/>
+                <circle cx="190.5" cy="851.5" r="7.5" fill="white"/>
+                <circle cx="474" cy="473" r="472.126" stroke="white" stroke-opacity="0.2" stroke-width="1.74861"/>
+                <circle cx="7.5" cy="397.5" r="7.5" fill="#309CFF"/>
+              </svg>
+            </div>
+            <div class="absolute top-0 animate-orbit-ccw">
+              <svg class="w-[646px] md:w-[946px]" viewBox="0 0 946 946" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="183.5" cy="199.5" r="9.5" fill="white"/>
+                <circle cx="473" cy="473" r="399.126" stroke="white" stroke-opacity="0.2" stroke-width="1.74861"/>
+                <circle cx="761.5" cy="746.5" r="9.5" transform="rotate(-180 761.5 746.5)" fill="white"/>
+              </svg>
+            </div>
+          </div>
+          <!-- END Trajectory -->
+
+          <!-- Planet -->
+          <div class="aspect-square w-[472px] md:w-[672px] absolute top-[134px] z-10">
+            <div class="rounded-full w-full overflow-hidden aspect-square">
+              <img src="/static/images/sections-images/Planet.jpg" alt="Planet" class="scale-[1.003]">
+            </div>
+          </div>
+          <!-- END Planet -->
+
+          <!-- Gradient -->
+          <div class="absolute top-[-280px] z-0 glow-react">
+            <svg class="w-[1119px]" viewBox="0 0 1819 1561" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g filter="url(#glow-red)">
+                <path d="M477.998 1055.41V404.196C619.368 734.759 903.904 975.806 1341.17 1073.2L477.998 1055.41Z" fill="#FF4427"/>
+              </g>
+              <g filter="url(#glow-blue)">
+                <path d="M1374.5 1040.46V404.196C1233.43 1015.48 813.257 952.51 404.5 952.51V1061.2L1374.5 1040.46Z" fill="#2765FF"/>
+              </g>
+              <defs>
+                <filter id="glow-red" x="73.4978" y="0" width="1671.78" height="1477.7" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="202">
+                    <animate attributeName="stdDeviation" values="202;170;202" dur="4s" repeatCount="indefinite"/>
+                  </feGaussianBlur>
+                </filter>
+                <filter id="glow-blue" x="0" y="0.0839844" width="1779" height="1465.62" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="202">
+                    <animate attributeName="stdDeviation" values="202;170;202" dur="5s" repeatCount="indefinite"/>
+                  </feGaussianBlur>
+                </filter>
+              </defs>
+            </svg>
+          </div>
+          <!-- END Gradient -->
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END Feedback -->
+</main>
+
+  <footer class="footer mt-auto"
+          x-data="{ visible: false }"
+          x-starfield="{ density: 'low', twinkle: 'high', shooting: 'low' }"
+          x-init="const self = $data; new IntersectionObserver(([e]) => { self.visible = e.isIntersecting }, { threshold: 0.4 }).observe($el)">
+    <div class="relative z-10 px-4">
+      <div class="max-w-screen-sm mx-auto">
+        <a href="/">
+          <svg class="text-white w-[10rem] mx-auto" viewBox="0 0 116 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M93.6911 32.8179V25.0964H91.1719V32.8179C91.1719 33.1143 91.2091 33.4016 91.2775 33.6759C91.5817 34.8821 92.5107 35.8313 93.6911 36.1421C93.9596 36.212 94.2407 36.25 94.5308 36.25H104.607V33.6759H94.5308C94.0674 33.6759 93.6911 33.2914 93.6911 32.8179Z" fill="currentColor"/>
+            <path d="M54.2283 29.3859H45.8317V25.0958H43.3125V36.2494H45.8317V31.96H54.2283V36.2494H56.7475V25.0958H54.2283V29.3859Z" fill="currentColor"/>
+            <path d="M38.2478 25.204C37.9793 25.1341 37.6982 25.0961 37.4081 25.0961H30.691C30.4009 25.0961 30.1197 25.1341 29.8512 25.204C28.6708 25.5149 27.7419 26.4641 27.4376 27.6702C27.3692 27.9438 27.332 28.2319 27.332 28.5283V32.8177C27.332 33.1141 27.3692 33.4013 27.4376 33.6757C27.7419 34.8818 28.6708 35.831 29.8512 36.1419C30.1197 36.2118 30.4009 36.2498 30.691 36.2498H37.4081C37.6982 36.2498 37.9793 36.2118 38.2478 36.1419C39.4282 35.831 40.3572 34.8818 40.6614 33.6757C40.7299 33.4013 40.767 33.1141 40.767 32.8177V31.9596H38.2478V32.8177C38.2478 33.2911 37.8715 33.6757 37.4081 33.6757H30.691C30.2276 33.6757 29.8512 33.2911 29.8512 32.8177V28.5283C29.8512 28.0548 30.2276 27.6702 30.691 27.6702H37.4081C37.8715 27.6702 38.2478 28.0548 38.2478 28.5283V29.3863H40.767V28.5283C40.767 28.2319 40.7299 27.9438 40.6614 27.6702C40.3572 26.4641 39.4282 25.5149 38.2478 25.204Z" fill="currentColor"/>
+            <path d="M14.7515 27.67H22.3084L24.8276 25.0959H14.7515C12.8965 25.0959 11.3926 26.6327 11.3926 28.5281C11.3926 30.4235 12.8965 31.9602 14.7515 31.9602H21.4686C21.9328 31.9602 22.3084 32.344 22.3084 32.8175C22.3084 33.2917 21.9328 33.6755 21.4686 33.6755H13.9118L11.3926 36.2496H21.4686C23.3237 36.2496 24.8276 34.7129 24.8276 32.8175C24.8276 30.9228 23.3237 29.3861 21.4686 29.3861H14.7515C14.2881 29.3861 13.9118 29.0023 13.9118 28.5281C13.9118 28.0546 14.2881 27.67 14.7515 27.67Z" fill="currentColor"/>
+            <path d="M70.1814 25.204C69.9129 25.1341 69.6318 25.0961 69.3417 25.0961H62.6246C62.3345 25.0961 62.0533 25.1341 61.7848 25.204C60.6044 25.5149 59.6755 26.4641 59.3712 27.6702C59.3028 27.9438 59.2656 28.2319 59.2656 28.5283V32.8177C59.2656 33.1141 59.3028 33.4013 59.3712 33.6757C59.6755 34.8818 60.6044 35.831 61.7848 36.1419C62.0533 36.2118 62.3345 36.2498 62.6246 36.2498H69.3417C69.6318 36.2498 69.9129 36.2118 70.1814 36.1419C71.3618 35.831 72.2908 34.8818 72.595 33.6757C72.6634 33.4013 72.7006 33.1141 72.7006 32.8177V28.5283C72.7006 28.2319 72.6634 27.9438 72.595 27.6702C72.2908 26.4641 71.3618 25.5149 70.1814 25.204ZM70.1814 32.8177C70.1814 33.2911 69.8051 33.6757 69.3417 33.6757H62.6246C62.1612 33.6757 61.7848 33.2911 61.7848 32.8177V28.5283C61.7848 28.0548 62.1612 27.6702 62.6246 27.6702H69.3417C69.8051 27.6702 70.1814 28.0548 70.1814 28.5283V32.8177Z" fill="currentColor"/>
+            <path d="M86.1346 25.204C85.866 25.1341 85.5849 25.0961 85.2948 25.0961H78.5777C78.2876 25.0961 78.0065 25.1341 77.738 25.204C76.5576 25.5149 75.6286 26.4641 75.3244 27.6702C75.2559 27.9438 75.2188 28.2319 75.2188 28.5283V32.8177C75.2188 33.1141 75.2559 33.4013 75.3244 33.6757C75.6286 34.8818 76.5576 35.831 77.738 36.1419C78.0065 36.2118 78.2876 36.2498 78.5777 36.2498H85.2948C85.5849 36.2498 85.866 36.2118 86.1346 36.1419C87.3149 35.831 88.2439 34.8818 88.5481 33.6757C88.6166 33.4013 88.6538 33.1141 88.6538 32.8177V28.5283C88.6538 28.2319 88.6166 27.9438 88.5481 27.6702C88.2439 26.4641 87.3149 25.5149 86.1346 25.204ZM86.1346 32.8177C86.1346 33.2911 85.7582 33.6757 85.2948 33.6757H78.5777C78.1143 33.6757 77.738 33.2911 77.738 32.8177V28.5283C77.738 28.0548 78.1143 27.6702 78.5777 27.6702H85.2948C85.7582 27.6702 86.1346 28.0548 86.1346 28.5283V32.8177Z" fill="currentColor"/>
+            <path d="M85.9807 0.175559C85.5449 0.0615601 85.0875 0 84.6159 0H73.7001C73.2293 0 72.7718 0.0615601 72.336 0.175559C70.4178 0.680954 68.9086 2.22298 68.414 4.183C68.3024 4.62836 68.2422 5.09575 68.2422 5.57683V12.5482C68.2422 13.0293 68.3024 13.4967 68.414 13.9428C68.9086 15.9021 70.4178 17.4449 72.336 17.9495C72.7718 18.0635 73.2293 18.1251 73.7001 18.1251H84.6159C85.0875 18.1251 85.5449 18.0635 85.9807 17.9495C87.899 17.4449 89.4081 15.9021 89.9027 13.9428C90.0143 13.4967 90.0738 13.0293 90.0738 12.5482V11.1537H85.9807V12.5482C85.9807 13.3181 85.3694 13.9428 84.6159 13.9428H73.7001C72.9474 13.9428 72.336 13.3181 72.336 12.5482V5.57683C72.336 4.80771 72.9474 4.183 73.7001 4.183H84.6159C85.3694 4.183 85.9807 4.80771 85.9807 5.57683V6.97142H90.0738V5.57683C90.0738 5.09575 90.0143 4.62836 89.9027 4.183C89.4081 2.22298 87.899 0.680954 85.9807 0.175559Z" fill="currentColor"/>
+            <path d="M99.6259 13.9426C98.8724 13.9426 98.2618 13.3178 98.2618 12.5487V11.1541H111.906V6.97114H94.168V12.5487C94.168 13.0298 94.2282 13.4972 94.3398 13.9426C94.946 16.3479 97.0821 18.1248 99.6259 18.1248H116L111.906 13.9426H99.6259Z" fill="currentColor"/>
+            <path d="M116 0.000370502H94.1684V4.18337H111.906L116 0.000370502Z" fill="currentColor"/>
+            <path d="M16.3737 13.9425H4.09306L0 18.1248H16.3737C19.3883 18.1248 21.8316 15.6282 21.8316 12.5487C21.8316 9.46846 19.3883 6.97112 16.3737 6.97112H5.4579C4.70445 6.97112 4.09306 6.34793 4.09306 5.57729C4.09306 4.80742 4.70445 4.18271 5.4579 4.18271H17.7378L21.8316 0.000465393H5.4579C2.44334 0.000465393 0 2.49704 0 5.57729C0 8.65755 2.44334 11.1541 5.4579 11.1541H16.3737C17.1279 11.1541 17.7378 11.7788 17.7378 12.5487C17.7378 13.3186 17.1279 13.9425 16.3737 13.9425Z" fill="currentColor"/>
+            <path d="M47.7769 5.5772C47.7769 2.49695 45.3336 0.000374794 42.319 0.000374794H25.9453V4.18338H42.319C43.0725 4.18338 43.6831 4.80733 43.6831 5.5772C43.6831 6.34784 43.0725 6.97103 42.319 6.97103H25.9453V18.1247H30.0384V11.154H42.319C45.3336 11.154 47.7769 8.65746 47.7769 5.5772Z" fill="currentColor"/>
+            <path d="M56.6448 21.8242C57.5054 20.7678 58.1346 19.5078 58.4537 18.1253H54.8359C55.155 19.5078 55.7843 20.7678 56.6448 21.8242Z" fill="currentColor"/>
+            <path d="M61.4206 16.7309V18.1247H68.2433L58.4001 1.0142C58.0423 0.406965 57.3893 0.000368595 56.6447 0.000368595C55.9002 0.000368595 55.2486 0.406965 54.8909 1.0142L45.0469 18.1247H51.8696V16.7309L54.5978 13.9424L54.5986 12.7607C54.5986 10.5597 55.3662 8.54193 56.6447 6.97102C57.924 8.54193 58.6916 10.5597 58.6916 12.7607V13.9424L61.4206 16.7309Z" fill="currentColor"/>
+          </svg>
+        </a>
+        <p class="mt-8 text-center leading-tight font-medium text-white/70 text-sm">
+          Space School — международная школа нового поколения, где дети учатся думать глобально, готовятся к поступлению в ведущие университеты мира и получают двойной сертификат с правом сдачи SAT.
+        </p>
+        <ul class="mt-12 flex items-center justify-center gap-6">
+          <li>
+            <a href="" class="btn btn-social">
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.3334 10.0002C18.3334 5.39779 14.6025 1.66682 10.0001 1.66682C5.39772 1.66682 1.66675 5.39779 1.66675 10.0002C1.66675 13.9083 4.35725 17.1876 7.98695 18.0881V12.5467H6.26855V10.0002H7.98695V8.90286C7.98695 6.06646 9.27055 4.75179 12.0552 4.75179C12.5832 4.75179 13.4941 4.85529 13.8668 4.95882V7.26729C13.6701 7.24659 13.3285 7.23623 12.9041 7.23623C11.5376 7.23623 11.0096 7.75382 11.0096 9.09956V10.0002H13.7316L13.264 12.5467H11.0096V18.2725C15.1359 17.7741 18.3334 14.2608 18.3334 10.0002Z" fill="currentColor"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a href="" class="btn btn-social">
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.6391 1.46387H10.7617V13.0934C10.7617 14.4791 9.6551 15.6173 8.27792 15.6173C6.90073 15.6173 5.79407 14.4791 5.79407 13.0934C5.79407 11.7325 6.87614 10.619 8.20415 10.5696V7.64981C5.27763 7.69928 2.91675 10.0994 2.91675 13.0934C2.91675 16.1122 5.32681 18.5371 8.30252 18.5371C11.2782 18.5371 13.6882 16.0874 13.6882 13.0934V7.13017C14.7703 7.92199 16.0983 8.39212 17.5001 8.41687V5.4971C15.336 5.42287 13.6391 3.64131 13.6391 1.46387Z" fill="currentColor"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a href="" class="btn btn-social">
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.99855 2.48926C7.95963 2.48926 7.7044 2.49806 6.9035 2.53326C6.10553 2.56847 5.55693 2.69755 5.08167 2.88237C4.58588 3.076 4.16636 3.33123 3.74977 3.75075C3.33025 4.16733 3.07502 4.58685 2.8814 5.07971C2.69657 5.55791 2.56749 6.10358 2.53229 6.90154C2.49708 7.70538 2.48828 7.96061 2.48828 9.99953C2.48828 12.0385 2.49708 12.2937 2.53229 13.0946C2.56749 13.8925 2.69657 14.4412 2.8814 14.9164C3.07502 15.4122 3.33025 15.8317 3.74977 16.2483C4.16636 16.6649 4.58588 16.9231 5.07874 17.1138C5.55693 17.2986 6.1026 17.4277 6.90057 17.4629C7.70147 17.4981 7.9567 17.5069 9.99562 17.5069C12.0345 17.5069 12.2898 17.4981 13.0907 17.4629C13.8886 17.4277 14.4372 17.2986 14.9125 17.1138C15.4054 16.9231 15.8249 16.6649 16.2415 16.2483C16.6581 15.8317 16.9162 15.4122 17.1069 14.9193C17.2917 14.4412 17.4208 13.8955 17.456 13.0975C17.4912 12.2966 17.5 12.0414 17.5 10.0025C17.5 7.96354 17.4912 7.70831 17.456 6.90741C17.4208 6.10944 17.2917 5.56084 17.1069 5.08558C16.9221 4.58685 16.6669 4.16733 16.2473 3.75075C15.8307 3.33416 15.4112 3.076 14.9184 2.88531C14.4402 2.70048 13.8945 2.5714 13.0965 2.5362C12.2927 2.49806 12.0375 2.48926 9.99855 2.48926ZM9.99855 3.84169C12.0052 3.84169 12.2428 3.85049 13.032 3.8857C13.7654 3.91797 14.1615 4.04119 14.4255 4.14386C14.7746 4.27881 15.0269 4.4431 15.288 4.7042C15.552 4.96823 15.7134 5.2176 15.8484 5.56671C15.951 5.83074 16.0742 6.22973 16.1065 6.96022C16.1417 7.75232 16.1505 7.98994 16.1505 9.99366C16.1505 12.0003 16.1417 12.2379 16.1065 13.0271C16.0742 13.7605 15.951 14.1566 15.8484 14.4206C15.7134 14.7697 15.5491 15.022 15.288 15.2831C15.024 15.5472 14.7746 15.7085 14.4255 15.8435C14.1615 15.9461 13.7625 16.0694 13.032 16.1016C12.2399 16.1368 12.0023 16.1456 9.99855 16.1456C7.9919 16.1456 7.75427 16.1368 6.96511 16.1016C6.23168 16.0694 5.83563 15.9461 5.5716 15.8435C5.22249 15.7085 4.97019 15.5442 4.70909 15.2831C4.44506 15.0191 4.28371 14.7697 4.14876 14.4206C4.04608 14.1566 3.92286 13.7576 3.89059 13.0271C3.85539 12.235 3.84658 11.9974 3.84658 9.99366C3.84658 7.98701 3.85539 7.74938 3.89059 6.96022C3.92286 6.22679 4.04608 5.83074 4.14876 5.56671C4.28371 5.2176 4.44799 4.9653 4.70909 4.7042C4.97313 4.44017 5.22249 4.27881 5.5716 4.14386C5.83563 4.04119 6.23462 3.91797 6.96511 3.8857C7.75427 3.85049 7.9919 3.84169 9.99855 3.84169Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.14074 9.99953C6.14074 7.86966 7.86869 6.14171 9.99855 6.14171C12.1284 6.14171 13.8564 7.86966 13.8564 9.99953C13.8564 12.1294 12.1284 13.8573 9.99855 13.8573C7.86869 13.8573 6.14074 12.1294 6.14074 9.99953ZM9.99855 12.502C8.61678 12.502 7.49611 11.3813 7.49611 9.99953C7.49611 8.61776 8.61678 7.49708 9.99855 7.49708C11.3803 7.49708 12.501 8.61776 12.501 9.99953C12.501 11.3813 11.3803 12.502 9.99855 12.502Z" fill="currentColor"/>
+                <circle cx="14.0089" cy="5.98913" r="0.9" fill="currentColor"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a href="" class="btn btn-social">
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M18.3334 10.0003C18.3334 14.6027 14.6025 18.3337 10.0001 18.3337C5.39771 18.3337 1.66675 14.6027 1.66675 10.0003C1.66675 5.39796 5.39771 1.66699 10.0001 1.66699C14.6025 1.66699 18.3334 5.39796 18.3334 10.0003ZM10.2987 7.81903C9.48818 8.15616 7.86824 8.85394 5.4389 9.91236C5.04441 10.0692 4.83776 10.2227 4.81895 10.3728C4.78716 10.6264 5.10475 10.7262 5.53722 10.8622C5.59605 10.8807 5.657 10.8999 5.71949 10.9202C6.14497 11.0585 6.71733 11.2203 7.01487 11.2267C7.28477 11.2326 7.58601 11.1213 7.91859 10.8929C10.1884 9.36075 11.3601 8.58631 11.4336 8.56962C11.4855 8.55784 11.5575 8.54303 11.6062 8.58634C11.6549 8.62964 11.6501 8.71166 11.645 8.73367C11.6135 8.86779 10.3668 10.0268 9.7217 10.6266C9.52058 10.8136 9.37792 10.9462 9.34875 10.9765C9.28342 11.0443 9.21684 11.1085 9.15285 11.1702C8.75756 11.5513 8.46114 11.837 9.16926 12.3037C9.50956 12.5279 9.78186 12.7133 10.0535 12.8983C10.3502 13.1004 10.6461 13.3019 11.029 13.5529C11.1265 13.6168 11.2197 13.6832 11.3104 13.7479C11.6557 13.9941 11.9659 14.2152 12.3491 14.1799C12.5718 14.1595 12.8018 13.9501 12.9186 13.3256C13.1947 11.8497 13.7373 8.65204 13.8627 7.33434C13.8737 7.21889 13.8599 7.07114 13.8488 7.00628C13.8377 6.94143 13.8145 6.84902 13.7302 6.78061C13.6304 6.69959 13.4762 6.68251 13.4073 6.68372C13.0939 6.68924 12.613 6.85645 10.2987 7.81903Z" fill="currentColor"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="max-w-screen-xl mx-auto border-t-1 border-t-white/20 mt-8 text-center">
+        <p class="text-white/70 pt-6 text-sm font-medium uppercase">
+          © 2026 Tamos Space School
+        </p>
+      </div>
+    </div>
+
+    <!-- Light BEGIN -->
+    <div class="glow-reveal absolute bottom-0 inset-x-0 flex justify-center"
+         :class="visible && 'glow-reveal-visible'"
+         x-on:transitionend="if (visible) document.getElementById('glow-breathe').beginElement()">
+      <svg class="block shrink-0 w-[1020px] md:w-[1440px] h-[280px] md:h-auto" viewBox="0 0 1440 204" preserveAspectRatio="none" fill="none">
+        <path filter="url(#glow-blur)" d="M1441 320C1441 320 1010.35 100 725.637 100C423.81 100 1.00002 320 1.00002 320L1441 320Z" fill="url(#glow-gradient)"/>
+        <defs>
+          <filter id="glow-blur" x="-99" y="0" width="1640" height="420" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur stdDeviation="50">
+              <animate id="glow-breathe" attributeName="stdDeviation" values="50;40;50" dur="3s" repeatCount="indefinite" begin="indefinite"/>
+            </feGaussianBlur>
+          </filter>
+          <linearGradient id="glow-gradient" x1="721" y1="153.993" x2="720.999" y2="612.528" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#0A5DC2"/>
+            <stop offset="1" stop-color="#000F21"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <!-- Light END -->
+  </footer>
+
+  </body>
+</html>

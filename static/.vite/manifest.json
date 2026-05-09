@@ -1,0 +1,46 @@
+{
+  "_modulepreload-polyfill-XOVIVHUF.js": {
+    "file": "assets/js/modulepreload-polyfill-XOVIVHUF.js",
+    "name": "modulepreload-polyfill"
+  },
+  "public/images/teams/1.jpg": {
+    "file": "assets/images/1-DXqZ1rzw.jpg",
+    "src": "public/images/teams/1.jpg"
+  },
+  "src/fonts/KZFurore Font.otf": {
+    "file": "assets/fonts/KZFurore Font-CADf4tK9.otf",
+    "src": "src/fonts/KZFurore Font.otf"
+  },
+  "src/fonts/gotham_bold.otf": {
+    "file": "assets/fonts/gotham_bold-DnPUTuuR.otf",
+    "src": "src/fonts/gotham_bold.otf"
+  },
+  "src/fonts/gotham_book.otf": {
+    "file": "assets/fonts/gotham_book-sprPKk5v.otf",
+    "src": "src/fonts/gotham_book.otf"
+  },
+  "src/fonts/gotham_bookitalic.otf": {
+    "file": "assets/fonts/gotham_bookitalic-LivYGTZ0.otf",
+    "src": "src/fonts/gotham_bookitalic.otf"
+  },
+  "src/fonts/gotham_medium.otf": {
+    "file": "assets/fonts/gotham_medium-DHa-K8AZ.otf",
+    "src": "src/fonts/gotham_medium.otf"
+  },
+  "src/js/main.js": {
+    "file": "assets/js/main-C1ZK7cOw.js",
+    "name": "main",
+    "src": "src/js/main.js",
+    "isEntry": true,
+    "css": [
+      "assets/css/main-Czk89CVg.css"
+    ],
+    "assets": [
+      "assets/fonts/gotham_book-sprPKk5v.otf",
+      "assets/fonts/gotham_bookitalic-LivYGTZ0.otf",
+      "assets/fonts/gotham_medium-DHa-K8AZ.otf",
+      "assets/fonts/gotham_bold-DnPUTuuR.otf",
+      "assets/fonts/KZFurore Font-CADf4tK9.otf"
+    ]
+  }
+}

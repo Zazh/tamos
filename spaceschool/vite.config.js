@@ -15,13 +15,31 @@ export default {
   plugins: [tailwindcss()],
 
   root: ".",
+  base: "/static/",
 
   build: {
-    outDir: "dist",
+    outDir: "../static",
+    emptyOutDir: true,
+    manifest: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "index.html"),
+        main: resolve(__dirname, "src/js/main.js"),
+        index: resolve(__dirname, "index.html"),
         ...pages,
+      },
+      output: {
+        entryFileNames: "assets/js/[name]-[hash].js",
+        chunkFileNames: "assets/js/[name]-[hash].js",
+        assetFileNames: (assetInfo) => {
+          const name = assetInfo.name ?? "";
+          const ext = name.split(".").pop()?.toLowerCase() ?? "";
+          if (ext === "css") return "assets/css/[name]-[hash][extname]";
+          if (["png", "jpg", "jpeg", "gif", "svg", "webp", "ico", "avif"].includes(ext))
+            return "assets/images/[name]-[hash][extname]";
+          if (["woff", "woff2", "ttf", "otf", "eot"].includes(ext))
+            return "assets/fonts/[name]-[hash][extname]";
+          return "assets/[name]-[hash][extname]";
+        },
       },
     },
   },
@@ -29,5 +47,7 @@ export default {
   server: {
     open: true,
     port: 3000,
+    origin: "http://localhost:3000",
+    cors: true,
   },
 };

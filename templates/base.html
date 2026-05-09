@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% load static django_vite %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}tamos{% endblock %}</title>
+    {% vite_hmr_client %}
+    {% vite_asset 'src/js/main.js' %}
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
