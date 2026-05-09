@@ -9,3 +9,46 @@ dist
 *.zip
 *.mov
 *.mp4
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+/static/
+
+# Django migrations cache
+*.pot
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Coverage / testing
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+nosetests.xml
+coverage.xml
+
+# IDE
+*.swp
+*.swo
+.vscode/
