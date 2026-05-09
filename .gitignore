@@ -10,6 +10,9 @@ dist
 *.mov
 *.mp4
 
+# Frontend working materials (local only)
+spaceschool/docs/
+
 # Python
 __pycache__/
 *.py[cod]
