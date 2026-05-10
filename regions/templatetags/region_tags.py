@@ -6,6 +6,18 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
+def regions_inline_list(context, separator=", "):
+    """
+    Перечисление имён всех регионов через запятую — для meta-описаний и
+    подобных мест, где «Astana, Aktau» должно автоматически обновляться при
+    добавлении нового региона. `name` берётся через modeltranslation в текущем
+    языке. Источник — `all_regions` из context_processor.
+    """
+    regions = context.get('all_regions') or []
+    return separator.join(str(r.name) for r in regions if r.name)
+
+
+@register.simple_tag(takes_context=True)
 def region_url(context, name, *args, **kwargs):
     """
     Реверс URL внутри текущего региона: автоматически подставляет region_slug

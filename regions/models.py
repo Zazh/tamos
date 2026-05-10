@@ -20,7 +20,9 @@ class Region(models.Model):
     class Meta:
         verbose_name = 'Регион'
         verbose_name_plural = 'Регионы'
-        ordering = ['slug']
+        # Default region первым — нужно для всяких inline-перечислений
+        # вида «Astana, Aktau» в meta-описаниях.
+        ordering = ['-is_default', 'slug']
         constraints = [
             models.UniqueConstraint(
                 fields=['is_default'],

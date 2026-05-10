@@ -1,11 +1,16 @@
-{% load static django_vite i18n %}
+{% load static django_vite i18n region_tags %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  {# Дефолтное описание для SEO + соцсетей. Список городов собирается автоматически из БД (regions_inline_list), новый регион попадёт сюда без правок. Страницы могут переопределить через {% block meta_description %} / {% block og_description %} / {% block twitter_description %}. #}
+  {% regions_inline_list as cities %}
+  {% blocktrans with cities=cities asvar default_description %}Tamos Space School — международная школа Cambridge Assessment International Education. {{ cities }}.{% endblocktrans %}
+
   <title>{% block title %}Tamos Space School{% endblock %}</title>
-  <meta name="description" content="{% block meta_description %}{% trans "Международная школа нового поколения в Астане и Актау. Лучшее образование для будущего вашего ребёнка." %}{% endblock %}">
+  <meta name="description" content="{% block meta_description %}{{ default_description }}{% endblock %}">
 
   <link rel="icon" href="{% static 'favicon/favicon.ico' %}" sizes="any">
   <link rel="icon" href="{% static 'favicon/favicon.svg' %}" type="image/svg+xml">
@@ -21,7 +26,7 @@
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   <meta property="og:locale" content="{% if LANGUAGE_CODE == 'kk' %}kk_KZ{% elif LANGUAGE_CODE == 'en' %}en_US{% else %}ru_RU{% endif %}">
   <meta property="og:title" content="{% block og_title %}{% trans "Tamos Space School" %}{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}{% trans "Международная школа нового поколения в Астане и Актау. Лучшее образование для будущего вашего ребёнка." %}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{{ default_description }}{% endblock %}">
   <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'favicon/og-image.jpg' %}{% endblock %}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -29,7 +34,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{% block twitter_title %}{% trans "Tamos Space School" %}{% endblock %}">
-  <meta name="twitter:description" content="{% block twitter_description %}{% trans "Международная школа нового поколения в Астане и Актау." %}{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}{{ default_description }}{% endblock %}">
   <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'favicon/og-image.jpg' %}{% endblock %}">
 
   {% vite_hmr_client %}
