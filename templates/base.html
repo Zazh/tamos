@@ -7,7 +7,7 @@
 
   {# Дефолтное описание для SEO + соцсетей. Список городов собирается автоматически из БД (regions_inline_list), новый регион попадёт сюда без правок. Страницы могут переопределить через {% block meta_description %} / {% block og_description %} / {% block twitter_description %}. #}
   {% regions_inline_list as cities %}
-  {% blocktrans with cities=cities asvar default_description %}Tamos Space School — международная школа Cambridge Assessment International Education. {{ cities }}.{% endblocktrans %}
+  {% blocktrans asvar default_description with cities=cities %}Tamos Space School — международная школа Cambridge Assessment International Education. {{ cities }}.{% endblocktrans %}
 
   <title>{% block title %}Tamos Space School{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}{{ default_description }}{% endblock %}">
