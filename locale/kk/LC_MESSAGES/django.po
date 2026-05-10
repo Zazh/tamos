@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tamos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-10 18:47+0500\n"
+"POT-Creation-Date: 2026-05-10 19:18+0500\n"
 "PO-Revision-Date: 2026-05-10 18:47+0500\n"
 "Last-Translator: \n"
 "Language-Team: Kazakh\n"
@@ -15,6 +15,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: templates/base.html:8 templates/base.html:24
+msgid ""
+"Международная школа нового поколения в Астане и Актау. Лучшее образование "
+"для будущего вашего ребёнка."
+msgstr ""
+"Астана мен Ақтаудағы жаңа буын халықаралық мектебі. Балаңыздың болашағы "
+"үшін ең үздік білім."
+
+#: templates/base.html:23 templates/base.html:31
+msgid "Tamos Space School"
+msgstr "Tamos Space School"
+
+#: templates/base.html:32
+msgid "Международная школа нового поколения в Астане и Актау."
+msgstr "Астана мен Ақтаудағы жаңа буын халықаралық мектебі."
 
 #: templates/partials/footer.html:32
 msgid ""

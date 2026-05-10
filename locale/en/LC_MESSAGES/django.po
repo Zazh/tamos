@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tamos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-10 18:47+0500\n"
+"POT-Creation-Date: 2026-05-10 19:18+0500\n"
 "PO-Revision-Date: 2026-05-10 18:47+0500\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -16,15 +16,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: templates/base.html:8 templates/base.html:24
+msgid ""
+"Международная школа нового поколения в Астане и Актау. Лучшее образование "
+"для будущего вашего ребёнка."
+msgstr ""
+"International next-generation school in Astana and Aktau. The best "
+"education for your child's future."
+
+#: templates/base.html:23 templates/base.html:31
+msgid "Tamos Space School"
+msgstr "Tamos Space School"
+
+#: templates/base.html:32
+msgid "Международная школа нового поколения в Астане и Актау."
+msgstr "International next-generation school in Astana and Aktau."
+
 #: templates/partials/footer.html:32
 msgid ""
 "Space School — международная школа нового поколения, где дети учатся думать "
 "глобально, готовятся к поступлению в ведущие университеты мира и получают "
 "двойной сертификат с правом сдачи SAT."
 msgstr ""
-"Space School is an international next-generation school where children "
-"learn to think globally, prepare to enter the world's leading universities, "
-"and receive a dual certificate with the right to take the SAT."
+"Space School is an international next-generation school where children learn "
+"to think globally, prepare to enter the world's leading universities, and "
+"receive a dual certificate with the right to take the SAT."
 
 #: templates/partials/footer.html:69
 msgid "© 2026 Tamos Space School"
