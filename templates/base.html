@@ -5,6 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}tamos{% endblock %}</title>
+
+  <link rel="icon" href="{% static 'favicon/favicon.ico' %}" sizes="any">
+  <link rel="icon" href="{% static 'favicon/favicon.svg' %}" type="image/svg+xml">
+  <link rel="icon" href="{% static 'favicon/favicon-96x96.png' %}" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="{% static 'favicon/apple-touch-icon.png' %}">
+  <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+  <meta name="apple-mobile-web-app-title" content="Tamos">
+  <meta name="theme-color" content="#0A5DC2">
+
   {% vite_hmr_client %}
   {% vite_asset 'src/js/main.js' %}
   {% block head %}{% endblock %}

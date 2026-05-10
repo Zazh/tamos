@@ -1,21 +1,21 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "Tamos Space School",
+  "short_name": "Tamos",
   "icons": [
     {
-      "src": "/static/favicons/web-app-manifest-192x192.png",
+      "src": "./web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/static/favicons/web-app-manifest-512x512.png",
+      "src": "./web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#0054a1",
+  "theme_color": "#0A5DC2",
+  "background_color": "#000F21",
   "display": "standalone"
 }
