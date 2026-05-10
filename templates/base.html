@@ -1,15 +1,55 @@
-<!DOCTYPE html>
 {% load static django_vite %}
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}tamos{% endblock %}</title>
-    {% vite_hmr_client %}
-    {% vite_asset 'src/js/main.js' %}
-    {% block head %}{% endblock %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}tamos{% endblock %}</title>
+  {% vite_hmr_client %}
+  {% vite_asset 'src/js/main.js' %}
+  {% block head %}{% endblock %}
 </head>
 <body>
+  {% comment %}
+    layout_top — слот сверху страницы.
+
+    По умолчанию здесь обычный header (nav-light, без hero).
+    На страницах с hero (home, landing) этот блок переопределяют так,
+    чтобы header лежал ВНУТРИ <section class="hero …">.
+    Тогда фоны/звёзды/glow hero-секции накрывают и шапку.
+  {% endcomment %}
+  {% block layout_top %}
+    {% include 'partials/header.html' %}
+  {% endblock %}
+
+  <main>
     {% block content %}{% endblock %}
+  </main>
+
+  {% include 'partials/footer.html' %}
+
+  {% comment %}
+    modals — слот для модалок страницы.
+
+    По умолчанию подключена feedback (используется почти всеми CTA через
+    [data-feedback-trigger]). На странице:
+
+    • Нужны feedback + свои модалки:
+        {% block modals %}
+          {{ block.super }}
+          {% include 'partials/modals/city-select.html' %}
+        {% endblock %}
+
+    • Только свои, без feedback:
+        {% block modals %}
+          {% include 'partials/modals/something.html' %}
+        {% endblock %}
+
+    • Совсем без модалок:
+        {% block modals %}{% endblock %}
+  {% endcomment %}
+  {% block modals %}
+    {% include 'partials/modals/feedback.html' %}l
+  {% endblock %}
 </body>
 </html>

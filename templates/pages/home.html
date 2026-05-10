@@ -1,7 +1,281 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Home — tamos{% endblock %}
+{% block title %}Главная — Space School{% endblock %}
+
+{% block layout_top %}
+  <!-- Hero -->
+  <section class="hero hero-buildings glow-react-scope"
+           x-data
+           x-starfield="{ density: 'medium', twinkle: 'high', shooting: 'high' }">
+    {% include 'partials/header.html' with nav_theme='dark' active_page='home' %}
+
+    <div class="hero-container z-10">
+      <div class="w-full max-w-screen-md relative">
+        <div class="relative z-10">
+          <span class="text-white font-medium text-sm badge bg-white/20">Международная школа в Астанe</span>
+          <h1 class="display-1 text-white font-bold mt-6 mb-4">
+            <span class="hero-fit">Лучшее образование </span>
+            <span class="hero-fit"><span class="hero-break">для будущего вашего </span></span>
+            <span class="hero-fit">ребёнка</span>
+          </h1>
+          <h2 class="leading-tight text-white/70 font-medium">
+            Международное образование мирового уровня. <br class="hidden md:block">Диплом, признаваемый в 125 странах мира
+          </h2>
+        </div>
+      </div>
+      <ul class="flex flex-col md:flex-row justify-center gap-2 w-full max-w-screen-md">
+        <li><button class="btn btn-primary w-[16rem] text-nowrap md:w-auto">Поступить сейчас</button></li>
+        <li><button type="button"
+                    class="btn btn-default w-[16rem] text-nowrap md:w-auto"
+                    data-feedback-trigger
+                    data-feedback-title="Получить консультацию"
+                    data-feedback-origin="hero">Получить консультацию</button></li>
+      </ul>
+    </div>
+
+    <div class="flex justify-center relative">
+      <!-- Gradient circle -->
+      <div class="glow-react absolute flex justify-center z-0 w-full h-full -top-10 pointer-events-none">
+        <svg class="w-full mx-auto scale-[2]" viewBox="0 0 1440 928" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g opacity="0.8">
+            <g filter="url(#hero-gradient-purple)">
+              <circle cx="581.227" cy="766.624" r="446.511" transform="rotate(-120 581.227 766.624)" fill="#A02DF9"/>
+            </g>
+            <g filter="url(#hero-gradient-blue)">
+              <circle cx="980.553" cy="831.566" r="446.511" transform="rotate(-120 980.553 831.566)" fill="#108CFF"/>
+            </g>
+          </g>
+          <defs>
+            <filter id="hero-gradient-purple" x="-165.359" y="20.0373" width="1493.17" height="1493.17" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="150">
+                <animate attributeName="stdDeviation" values="150;80;150" dur="3s" repeatCount="indefinite"/>
+              </feGaussianBlur>
+            </filter>
+            <filter id="hero-gradient-blue" x="321.967" y="172.979" width="1317.17" height="1317.17" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="106">
+                <animate attributeName="stdDeviation" values="106;50;106" dur="3.5s" repeatCount="indefinite"/>
+              </feGaussianBlur>
+            </filter>
+          </defs>
+        </svg>
+      </div>
+      <!-- END Gradient circle -->
+
+      <div class="mx-auto mt-2 z-0 w-full max-h-[560px] aspect-[1463/701]">
+        <div class="overflow-hidden w-full h-full relative">
+          <!-- Image -->
+          <img src="{% static 'images/hero/building.png' %}" class="w-full h-full object-cover" alt="">
+          <!-- END Image -->
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END Hero -->
+{% endblock %}
 
 {% block content %}
-<h1>home</h1>
+  <!-- About Us -->
+  <section class="bg-white pt-22 pb-12">
+    <div class="max-w-screen-xl mx-auto px-4">
+      <!-- Label Section -->
+      <div class="section-label mb-8">
+        <span class="section-label__icon"></span>
+        <span>Кому подходит</span>
+      </div>
+      <!-- END Label Section -->
+      <div class="flex flex-col gap-4 lg:flex-row">
+        <div class="w-full">
+          <h2 class="text-2xl md:text-4xl font-bold leading-[1.1] -tracking-wide mb-4">
+            Создаём образовательную <br>
+            среду мирового уровня <br>
+            в Казахстане
+          </h2>
+        </div>
+        <div class="w-full">
+          <p class="pb-4 leading-tight hyphens-auto">
+            Space School Astana — это международная частная школа с космической концепцией и физико-математическим уклоном. Мы предлагаем программы Cambridge International Education от Primary до A-Level, готовя учеников к поступлению в лучшие университеты мира.
+          </p>
+          <p class="pb-4 leading-tight hyphens-auto">
+            Чтобы развивать критическое мышление, творческий потенциал и глобальное. У каждого ученика через качественное
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END About Us -->
+
+  <!-- Carousel -->
+  <section class="bg-white pt-8 pb-22">
+    <div class="carousel-infinity" x-data x-carousel-scroll>
+      <ul class="carousel-track">
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-library/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-classroom/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-sport/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-science/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+        </li>
+      </ul>
+      <ul class="carousel-track" aria-hidden="true">
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-library/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-classroom/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-sport/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-science/684/446" alt="" loading="lazy">
+        </li>
+        <li class="carousel-item">
+          <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+        </li>
+      </ul>
+    </div>
+  </section>
+  <!-- END Carousel -->
+
+  <!-- Video -->
+  <section class="bg-white">
+    <video class="block w-full h-auto"
+           muted playsinline loop preload="metadata"
+           aria-label="Знакомство со Space School"
+           x-data
+           x-init="if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                   new IntersectionObserver(
+                     ([e]) => e.isIntersecting ? $el.play().catch(() => {}) : $el.pause(),
+                     { threshold: 0 }
+                   ).observe($el)">
+      <source src="{% static 'videos/intro.mp4' %}" type="video/mp4">
+      Ваш браузер не поддерживает воспроизведение видео.
+    </video>
+  </section>
+  <!-- END Video -->
+
+  <!-- Feedback -->
+  <section class="feedback-section glow-react-scope"
+           x-data
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }">
+    <div class="container">
+      <div class="col-span-full">
+        <div class="max-w-screen-sm mx-auto text-center z-20 relative">
+          <div>
+            <div class="flex justify-center mb-4">
+              <span class="">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M31.0738 7.33379C30.285 5.97504 28.1988 4.70129 22.8038 6.12004C21.0031 4.87749 18.8969 4.15117 16.7131 4.01972C14.5293 3.88827 12.3511 4.35669 10.4144 5.37428C8.47774 6.39187 6.8563 7.91985 5.72567 9.7928C4.59503 11.6657 3.99827 13.8123 4.00001 16C4.00001 16.3 4.01084 16.5975 4.03251 16.8925C0.0700061 20.8575 0.137507 23.3 0.930007 24.6663C1.67501 25.9513 3.16251 26.5 5.08501 26.5C6.30876 26.5 7.71001 26.2775 9.20376 25.8863C11.0048 27.1271 13.1108 27.8518 15.294 27.9819C17.4772 28.112 19.6544 27.6426 21.5901 26.6245C23.5257 25.6064 25.1461 24.0784 26.2759 22.2057C27.4057 20.3331 28.0019 18.1871 28 16C28 15.6988 27.9888 15.4013 27.9663 15.105C29.755 13.3075 30.9488 11.5788 31.3413 10.105C31.6938 8.80254 31.39 7.87504 31.0738 7.33379ZM16 7.00004C18.0385 7.0028 20.0159 7.69646 21.6094 8.96779C23.2028 10.2391 24.3183 12.0131 24.7738 14C23 15.5913 20.625 17.3238 17.74 18.9825C15.0225 20.5438 12.2963 21.7775 9.85376 22.5638C8.53844 21.3298 7.62418 19.7292 7.22954 17.9694C6.83491 16.2095 6.97809 14.3718 7.64053 12.6943C8.30298 11.0168 9.45412 9.5771 10.9447 8.56176C12.4353 7.54643 14.1965 7.00234 16 7.00004ZM3.52376 23.1613C3.44751 23.0275 3.50251 22.1338 4.85751 20.4475C5.27838 21.4982 5.84611 22.4838 6.54376 23.375C4.39001 23.7013 3.60626 23.3013 3.52376 23.1613ZM16 25C15.0417 25.0002 14.0896 24.8466 13.18 24.545C15.2627 23.6973 17.285 22.7079 19.2325 21.5838C21.1728 20.4773 23.0343 19.2381 24.8038 17.875C24.3717 19.89 23.2623 21.6962 21.6604 22.9926C20.0585 24.2891 18.0608 24.9976 16 25ZM28.4463 9.3313C28.2863 9.9288 27.845 10.69 27.1475 11.5563C26.7266 10.5042 26.1584 9.51731 25.46 8.62504C27.4388 8.32879 28.3563 8.62504 28.4788 8.83879C28.5 8.87504 28.5263 9.03505 28.4463 9.3313Z" fill="white"/>
+                </svg>
+              </span>
+            </div>
+            <h1 class="h1 font-bold">
+              <span class="block">Готовы запустить</span>
+              <span class="block">будущее вашего ребёнка?</span>
+            </h1>
+            <p class="text-base md:text-lg mt-4 leading-tight text-white/70">
+              <span class="inline md:block">Запишитесь на бесплатную консультацию — </span>
+              <span class="inline md:block">расскажем о программе, покажем школу и ответим</span>
+              <span class="inline md:block">на все вопросы</span>
+            </p>
+            <div class="mt-8 flex flex-col md:flex-row gap-2 justify-center">
+              <button type="button"
+                      class="btn btn-primary"
+                      data-feedback-trigger
+                      data-feedback-title="Запишитесь на бесплатную консультацию"
+                      data-feedback-origin="feedback-section">Получить консультацию</button>
+              <button type="button"
+                      class="btn btn-default"
+                      data-feedback-trigger
+                      data-feedback-city
+                      data-feedback-title="Выберите свой город"
+                      data-feedback-origin="feedback-section-city">Записаться в кампус</button>
+            </div>
+          </div>
+        </div>
+        <div class="planet-container">
+          <!-- Trajectory -->
+          <div class="aspect-square w-[945px] mx-auto absolute top-8 md:top-0 flex justify-center">
+            <div class="absolute top-0 animate-orbit-cw">
+              <svg class="w-[646px] md:w-[946px]" viewBox="0 0 947 946" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="641.5" cy="32.5" r="7.5" fill="white"/>
+                <circle cx="190.5" cy="851.5" r="7.5" fill="white"/>
+                <circle cx="474" cy="473" r="472.126" stroke="white" stroke-opacity="0.2" stroke-width="1.74861"/>
+                <circle cx="7.5" cy="397.5" r="7.5" fill="#309CFF"/>
+              </svg>
+            </div>
+            <div class="absolute top-0 animate-orbit-ccw">
+              <svg class="w-[646px] md:w-[946px]" viewBox="0 0 946 946" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="183.5" cy="199.5" r="9.5" fill="white"/>
+                <circle cx="473" cy="473" r="399.126" stroke="white" stroke-opacity="0.2" stroke-width="1.74861"/>
+                <circle cx="761.5" cy="746.5" r="9.5" transform="rotate(-180 761.5 746.5)" fill="white"/>
+              </svg>
+            </div>
+          </div>
+          <!-- END Trajectory -->
+
+          <!-- Planet -->
+          <div class="aspect-square w-[472px] md:w-[672px] absolute top-[134px] z-10">
+            <div class="rounded-full w-full overflow-hidden aspect-square">
+              <img src="{% static 'images/sections-images/Planet.jpg' %}" alt="Planet" class="scale-[1.003]">
+            </div>
+          </div>
+          <!-- END Planet -->
+
+          <!-- Gradient -->
+          <div class="absolute top-[-280px] z-0 glow-react">
+            <svg class="w-[1119px]" viewBox="0 0 1819 1561" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g filter="url(#glow-red)">
+                <path d="M477.998 1055.41V404.196C619.368 734.759 903.904 975.806 1341.17 1073.2L477.998 1055.41Z" fill="#FF4427"/>
+              </g>
+              <g filter="url(#glow-blue)">
+                <path d="M1374.5 1040.46V404.196C1233.43 1015.48 813.257 952.51 404.5 952.51V1061.2L1374.5 1040.46Z" fill="#2765FF"/>
+              </g>
+              <defs>
+                <filter id="glow-red" x="73.4978" y="0" width="1671.78" height="1477.7" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="202">
+                    <animate attributeName="stdDeviation" values="202;170;202" dur="4s" repeatCount="indefinite"/>
+                  </feGaussianBlur>
+                </filter>
+                <filter id="glow-blue" x="0" y="0.0839844" width="1779" height="1465.62" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="202">
+                    <animate attributeName="stdDeviation" values="202;170;202" dur="5s" repeatCount="indefinite"/>
+                  </feGaussianBlur>
+                </filter>
+              </defs>
+            </svg>
+          </div>
+          <!-- END Gradient -->
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END Feedback -->
 {% endblock %}
