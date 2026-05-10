@@ -1,3 +1,4 @@
+{% load i18n region_tags %}
 {% comment %}
   Подвал сайта.
 
@@ -10,7 +11,7 @@
         x-init="const self = $data; new IntersectionObserver(([e]) => { self.visible = e.isIntersecting }, { threshold: 0.4 }).observe($el)">
   <div class="relative z-10 px-4">
     <div class="max-w-screen-sm mx-auto">
-      <a href="{% url 'pages:home' %}">
+      <a href="{% region_url 'pages:home' %}">
         <svg class="text-white w-[10rem] mx-auto" viewBox="0 0 116 37" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M93.6911 32.8179V25.0964H91.1719V32.8179C91.1719 33.1143 91.2091 33.4016 91.2775 33.6759C91.5817 34.8821 92.5107 35.8313 93.6911 36.1421C93.9596 36.212 94.2407 36.25 94.5308 36.25H104.607V33.6759H94.5308C94.0674 33.6759 93.6911 33.2914 93.6911 32.8179Z" fill="currentColor"/>
           <path d="M54.2283 29.3859H45.8317V25.0958H43.3125V36.2494H45.8317V31.96H54.2283V36.2494H56.7475V25.0958H54.2283V29.3859Z" fill="currentColor"/>
@@ -28,7 +29,7 @@
         </svg>
       </a>
       <p class="mt-8 text-center leading-tight font-medium text-white/70 text-sm">
-        Space School — международная школа нового поколения, где дети учатся думать глобально, готовятся к поступлению в ведущие университеты мира и получают двойной сертификат с правом сдачи SAT.
+        {% trans "Space School — международная школа нового поколения, где дети учатся думать глобально, готовятся к поступлению в ведущие университеты мира и получают двойной сертификат с правом сдачи SAT." %}
       </p>
       <ul class="mt-12 flex items-center justify-center gap-6">
         <li>
@@ -65,7 +66,7 @@
     </div>
     <div class="max-w-screen-xl mx-auto border-t-1 border-t-white/20 mt-8 text-center">
       <p class="text-white/70 pt-6 text-sm font-medium uppercase">
-        © 2026 Tamos Space School
+        {% blocktrans %}© 2026 Tamos Space School{% endblocktrans %}
       </p>
     </div>
   </div>

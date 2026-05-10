@@ -32,8 +32,9 @@ db.sqlite3-journal
 media/
 staticfiles/
 
-# Django migrations cache
+# Django i18n: .mo пересобирается из .po в entrypoint.sh
 *.pot
+*.mo
 
 # Environment
 .env

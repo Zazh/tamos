@@ -1,3 +1,4 @@
+{% load i18n region_tags %}
 {% comment %}
   Шапка сайта.
 
@@ -16,7 +17,7 @@
   <nav class="nav nav-{{ nav_theme|default:'light' }}" :class="{ 'nav-megamenu': menu }">
     <div class="flex items-center gap-4">
       <div>
-        <button class="btn btn-burger my-auto" :class="menu && 'btn-burger-close'" @click="menu = !menu" :aria-label="menu ? 'Закрыть' : 'Меню'">
+        <button class="btn btn-burger my-auto" :class="menu && 'btn-burger-close'" @click="menu = !menu" :aria-label="menu ? '{% trans "Закрыть" %}' : '{% trans "Меню" %}'">
           <!-- Бургер -->
           <svg x-show="!menu" viewBox="0 0 32 24" fill="none">
             <line x1="4" y1="6" x2="28" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -32,21 +33,21 @@
       </div>
       <ul class="nav-list" x-show="!menu">
         <li>
-          <a href="{% url 'pages:home' %}" class="nav-link{% if active_page == 'home' %} active{% endif %}">Главная</a>
+          <a href="{% region_url 'pages:home' %}" class="nav-link{% if active_page == 'home' %} active{% endif %}">{% trans "Главная" %}</a>
         </li>
         <li>
-          <a href="#" class="nav-link{% if active_page == 'about' %} active{% endif %}">О нас</a>
+          <a href="#" class="nav-link{% if active_page == 'about' %} active{% endif %}">{% trans "О нас" %}</a>
         </li>
         <li>
-          <a href="#" class="nav-link{% if active_page == 'program' %} active{% endif %}">Программа</a>
+          <a href="#" class="nav-link{% if active_page == 'program' %} active{% endif %}">{% trans "Программа" %}</a>
         </li>
         <li>
-          <a href="#" class="nav-link{% if active_page == 'admission' %} active{% endif %}">Поступление</a>
+          <a href="#" class="nav-link{% if active_page == 'admission' %} active{% endif %}">{% trans "Поступление" %}</a>
         </li>
       </ul>
     </div>
     <div class="nav-logo py-2">
-      <a href="{% url 'pages:home' %}">
+      <a href="{% region_url 'pages:home' %}">
         <svg class="nav-logo-desktop" viewBox="0 0 116 37" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path class="accent-gold" d="M93.6911 32.8179V25.0964H91.1719V32.8179C91.1719 33.1143 91.2091 33.4016 91.2775 33.6759C91.5817 34.8821 92.5107 35.8313 93.6911 36.1421C93.9596 36.212 94.2407 36.25 94.5308 36.25H104.607V33.6759H94.5308C94.0674 33.6759 93.6911 33.2914 93.6911 32.8179Z" fill="currentColor"/>
           <path class="accent-gold" d="M54.2283 29.3859H45.8317V25.0958H43.3125V36.2494H45.8317V31.96H54.2283V36.2494H56.7475V25.0958H54.2283V29.3859Z" fill="currentColor"/>
@@ -83,11 +84,7 @@
                 </span>
               </span>
               <span class="flex gap-1 items-center">
-                <!-- LANGUAGE_CODE -->
-                <span>
-                  Рус
-                </span>
-                <!-- END LANGUAGE_CODE -->
+                <span>{{ LANGUAGE_CODE|upper }}</span>
                 <span class="h-3 aspect-square">
                   <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -96,11 +93,12 @@
               </span>
             </button>
             <ul class="dropdown-menu" x-show="open" @click.outside="open = false">
-              <li><button class="dropdown-item px-6 active">Русский</button></li>
-              <li><button class="dropdown-item px-6">English</button></li>
-              <li><button class="dropdown-item px-6">Қазақша</button></li>
+              {% for code, name in LANGUAGES %}
+                <li>
+                  <a href="{% switch_language_url code %}" class="dropdown-item px-6{% if code == LANGUAGE_CODE %} active{% endif %}">{{ name }}</a>
+                </li>
+              {% endfor %}
             </ul>
-            <!-- END Dropdown -->
           </div>
         </li>
         <li>
@@ -114,14 +112,15 @@
                   </svg>
                 </span>
               </span>
-              <span>Астана</span>
+              <span>{{ current_region.name|default:'—' }}</span>
             </button>
             <ul class="dropdown-menu" x-show="open" @click.outside="open = false">
-              <li><button class="dropdown-item px-4 active">Астана</button></li>
-              <li><button class="dropdown-item px-4">Актау</button></li>
-              <li><button class="dropdown-item px-4">Алматы</button></li>
+              {% for r in all_regions %}
+                <li>
+                  <a href="{% switch_region_url r %}" class="dropdown-item px-4{% if r.pk == current_region.pk %} active{% endif %}">{{ r.name }}</a>
+                </li>
+              {% endfor %}
             </ul>
-            <!-- END Dropdown -->
           </div>
         </li>
       </ul>
@@ -147,24 +146,24 @@
          x-transition:leave-end="-translate-y-4 opacity-0">
       <nav class="megamenu-content">
         <ul class="megamenu-list">
-          <li class="megamenu-label [ hidden md:block ]">Меню</li>
-          <li><a href="{% url 'pages:home' %}" class="megamenu-link{% if active_page == 'home' %} active{% endif %}">Главная</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'about' %} active{% endif %}">О нас</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'program' %} active{% endif %}">Программа</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'admission' %} active{% endif %}">Поступление</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'extracurricular' %} active{% endif %}">Внеклассные занятия</a></li>
-          <li><a href="{% url 'pages:contacts' %}" class="megamenu-link{% if active_page == 'contacts' %} active{% endif %}">Контакты</a></li>
+          <li class="megamenu-label [ hidden md:block ]">{% trans "Меню" %}</li>
+          <li><a href="{% region_url 'pages:home' %}" class="megamenu-link{% if active_page == 'home' %} active{% endif %}">{% trans "Главная" %}</a></li>
+          <li><a href="#" class="megamenu-link{% if active_page == 'about' %} active{% endif %}">{% trans "О нас" %}</a></li>
+          <li><a href="#" class="megamenu-link{% if active_page == 'program' %} active{% endif %}">{% trans "Программа" %}</a></li>
+          <li><a href="#" class="megamenu-link{% if active_page == 'admission' %} active{% endif %}">{% trans "Поступление" %}</a></li>
+          <li><a href="#" class="megamenu-link{% if active_page == 'extracurricular' %} active{% endif %}">{% trans "Внеклассные занятия" %}</a></li>
+          <li><a href="{% region_url 'pages:contacts' %}" class="megamenu-link{% if active_page == 'contacts' %} active{% endif %}">{% trans "Контакты" %}</a></li>
         </ul>
         <ul class="megamenu-list">
-          <li class="megamenu-label [ pt-8 md:pt-0 ]">Жизнь школы</li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'school-day' %} active{% endif %}">Один день в школе</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'safety' %} active{% endif %}">Безопасность</a></li>
-          <li><a href="{% url 'pages:gallery' %}" class="megamenu-link{% if active_page == 'gallery' %} active{% endif %}">Фотогалерея</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'uniform' %} active{% endif %}">Школьная форма</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'supplies' %} active{% endif %}">Школьные принадлежности</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'food' %} active{% endif %}">Питание</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'transport' %} active{% endif %}">Операторы развозки</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'blog' %} active{% endif %}">Блог</a></li>
+          <li class="megamenu-label [ pt-8 md:pt-0 ]">{% trans "Жизнь школы" %}</li>
+          <li><a href="#" class="megamenu-link{% if active_page == 'school-day' %} active{% endif %}">{% trans "Один день в школе" %}</a></li>
+          <li><a href="#" class="megamenu-link{% if active_page == 'safety' %} active{% endif %}">{% trans "Безопасность" %}</a></li>
+          <li><a href="{% region_url 'pages:gallery' %}" class="megamenu-link{% if active_page == 'gallery' %} active{% endif %}">{% trans "Фотогалерея" %}</a></li>
+          <li><a href="#" class="megamenu-link{% if active_page == 'uniform' %} active{% endif %}">{% trans "Школьная форма" %}</a></li>
+          <li><a href="#" class="megamenu-link{% if active_page == 'supplies' %} active{% endif %}">{% trans "Школьные принадлежности" %}</a></li>
+          <li><a href="#" class="megamenu-link{% if active_page == 'food' %} active{% endif %}">{% trans "Питание" %}</a></li>
+          <li><a href="#" class="megamenu-link{% if active_page == 'transport' %} active{% endif %}">{% trans "Операторы развозки" %}</a></li>
+          <li><a href="#" class="megamenu-link{% if active_page == 'blog' %} active{% endif %}">{% trans "Блог" %}</a></li>
         </ul>
       </nav>
     </div>

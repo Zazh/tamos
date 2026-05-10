@@ -35,6 +35,8 @@ CSRF_TRUSTED_ORIGINS = list(filter(None, config('DJANGO_CSRF_TRUSTED_ORIGINS', d
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',  # MUST precede django.contrib.admin so its admin patches load first
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,18 +46,24 @@ INSTALLED_APPS = [
 
     'django_vite',
 
+    'accounts',
+    'regions',
     'pages',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'regions.middleware.RegionMiddleware',
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
 
 ROOT_URLCONF = 'core.urls'
 
@@ -68,8 +76,10 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.i18n',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'regions.context_processors.regions_and_language',
             ],
         },
     },
@@ -114,15 +124,33 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
+# https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+LANGUAGES = [
+    ('ru', 'Русский'),
+    ('kk', 'Қазақша'),
+    ('en', 'English'),
+]
+
+LOCALE_PATHS = [BASE_DIR / 'locale']
+
+TIME_ZONE = 'Asia/Almaty'
 
 USE_I18N = True
 
 USE_TZ = True
+
+# django-modeltranslation: translatable model fields get _ru/_kk/_en columns.
+# Fallback chain: kk and en fall back to ru if a translation is missing.
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
+MODELTRANSLATION_LANGUAGES = ('ru', 'kk', 'en')
+MODELTRANSLATION_FALLBACK_LANGUAGES = {
+    'default': ('ru',),
+    'kk': ('ru',),
+    'en': ('ru',),
+}
 
 
 # Static files (CSS, JavaScript, Images)
