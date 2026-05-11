@@ -14,9 +14,7 @@
       <div class="w-full max-w-screen-md relative">
         <div class="relative z-10">
           <span class="text-white font-medium text-sm badge bg-white/20">{{ home.hero_badge_text }}</span>
-          <h1 class="display-1 text-white font-bold mt-6 mb-4">
-            {% for line in home.hero_title.splitlines %}<span class="hero-fit">{{ line }}</span>{% endfor %}
-          </h1>
+          <h1 class="display-1 text-white font-bold mt-6 mb-4">{{ home.hero_title|safe }}</h1>
           <h2 class="leading-tight text-white/70 font-medium">
             {% for line in home.hero_subtitle.splitlines %}{{ line }}{% if not forloop.last %} <br class="hidden md:block">{% endif %}{% endfor %}
           </h2>

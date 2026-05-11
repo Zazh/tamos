@@ -50,8 +50,13 @@ class HomePage(models.Model):
     )
     hero_title = models.TextField(
         'Заголовок hero (h1)',
-        help_text='Каждая строка → отдельный <span class="hero-fit"> '
-                  '(на мобиле fitty подгоняет шрифт построчно).',
+        help_text='HTML-разметка (рендерится через |safe). Используй '
+                  '<span class="hero-fit">…</span> для построчной подгонки '
+                  'шрифта на мобиле; внутри можно <span class="hero-break">…</span> '
+                  '(десктопный перенос) и <span class="text-gold">…</span> для акцента. '
+                  'Пример: <span class="hero-fit">Лучшее образование</span>'
+                  '<span class="hero-fit"><span class="hero-break">для будущего</span></span>'
+                  '<span class="hero-fit">ребёнка</span>',
     )
     hero_subtitle = models.TextField(
         'Подзаголовок hero (h2)',
