@@ -206,24 +206,23 @@
       </div>
 
       <div class="col-span-full">
-        <div class="w-full rounded-xl overflow-hidden aspect-[370/389] md:aspect-[16/6] relative">
-          <div class="w-full h-full bg-gray-300 relative">
-            <div>
-              <!-- Карта тут -->
-            </div>
-            <div class="w-65 bg-white rounded-xl p-4 absolute bottom-6 left-6">
-                <ul class="flex flex-col gap-2">
-                  <li>
-                      <span class="font-bold">Space School Astana</span>
-                  </li>
-                  <li>
-                    <span class="text-sm leading-tight inline-block pt-2">г. Астана, пр. Туран 89/1 район Есиль, 010000</span>
-                  </li>
-                  <li>
-                    <span class="text-sm">Пн–Пт, 09:00–18:00</span>
-                  </li>
-                </ul>
-            </div>
+        <div class="w-full rounded-xl overflow-hidden aspect-[370/389] md:aspect-[16/6] relative border border-gray-300">
+          <div class="map"
+               data-map-leaflet
+               data-coordinates="51.093900,71.401100"
+               data-zoom="16"></div>
+          <div class="w-65 bg-white rounded-xl p-4 absolute bottom-6 left-6 z-[1000]">
+              <ul class="flex flex-col gap-2">
+                <li>
+                    <span class="font-bold">Space School Astana</span>
+                </li>
+                <li>
+                  <span class="text-sm leading-tight inline-block pt-2">г. Астана, пр. Туран 89/1 район Есиль, 010000</span>
+                </li>
+                <li>
+                  <span class="text-sm">Пн–Пт, 09:00–18:00</span>
+                </li>
+              </ul>
           </div>
         </div>
       </div>

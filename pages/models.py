@@ -124,3 +124,118 @@ class HomeGalleryImage(models.Model):
 
     def __str__(self):
         return self.alt_text or f'Image #{self.pk}'
+
+
+class ContactsPage(models.Model):
+    """
+    Содержимое страницы «Контакты» региона. Singleton per region (OneToOne).
+
+    Текстовые поля переводятся через modeltranslation (см. translation.py).
+    Отделы (Поступление/Партнёрство/Вакансии и т.д.) — inline-модель
+    ContactsDepartment, чтобы редактор мог добавлять/убирать/переупорядочивать.
+    """
+
+    region = models.OneToOneField(
+        'regions.Region',
+        verbose_name='Регион',
+        on_delete=models.PROTECT,
+        related_name='contacts_page',
+    )
+
+    # --- Intro ---
+    intro_title = models.CharField('Заголовок', max_length=120)
+    intro_text = models.TextField(
+        'Описание',
+        help_text='Параграф под заголовком.',
+    )
+
+    # --- Office card (overlay над картой) ---
+    office_name = models.CharField('Название офиса', max_length=120)
+    office_address = models.CharField('Адрес', max_length=255)
+    office_hours = models.CharField(
+        'Часы работы офиса',
+        max_length=120,
+        help_text='Напр. «Пн–Пт, 09:00–18:00».',
+    )
+
+    # --- Map (Leaflet, CartoDB light_nolabels) ---
+    latitude = models.DecimalField(
+        'Широта',
+        max_digits=9,
+        decimal_places=6,
+        blank=True,
+        null=True,
+        help_text='Десятичные градусы, напр. 51.093900. '
+                  'Если широта или долгота пуста — карта не отрисуется, '
+                  'покажется серая заглушка.',
+    )
+    longitude = models.DecimalField(
+        'Долгота',
+        max_digits=9,
+        decimal_places=6,
+        blank=True,
+        null=True,
+        help_text='Десятичные градусы, напр. 71.401100.',
+    )
+    map_zoom = models.PositiveSmallIntegerField(
+        'Zoom карты',
+        default=16,
+        help_text='Целое 1–19 (Leaflet/CartoDB). 16 — улица + здание.',
+    )
+
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Страница «Контакты»'
+        verbose_name_plural = 'Страницы «Контакты»'
+
+    def __str__(self):
+        return f'Контакты — {self.region}'
+
+    @property
+    def coordinates(self) -> str:
+        """
+        Координаты в формате `lat,lng` для data-атрибута карты Leaflet.
+
+        Пусто → пустая строка (шаблон рендерит серую заглушку).
+        Форматирование (6 знаков, точка-разделитель, запятая между значениями)
+        идёт здесь, чтобы шаблон оставался без логики и JS не парсил локали.
+        """
+        if self.latitude is None or self.longitude is None:
+            return ''
+        return f'{self.latitude:.6f},{self.longitude:.6f}'
+
+
+class ContactsDepartment(models.Model):
+    """Колонка-отдел на странице контактов (Поступление, Партнёрство, Вакансии…)."""
+
+    contacts_page = models.ForeignKey(
+        ContactsPage,
+        verbose_name='Страница «Контакты»',
+        on_delete=models.CASCADE,
+        related_name='departments',
+    )
+    title = models.CharField('Название отдела', max_length=120)
+    description = models.TextField('Описание')
+    phone = models.CharField(
+        'Телефон',
+        max_length=40,
+        blank=True,
+        help_text='Если пусто — строка не отрисуется.',
+    )
+    email = models.EmailField('Email', blank=True)
+    hours = models.CharField(
+        'Часы работы',
+        max_length=120,
+        blank=True,
+        help_text='Напр. «Пн–Пт, 09:00–18:00». Если пусто — строка скрыта.',
+    )
+    order = models.PositiveSmallIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Отдел контактов'
+        verbose_name_plural = 'Отделы контактов'
+        ordering = ['order', 'pk']
+
+    def __str__(self):
+        return self.title or f'Department #{self.pk}'

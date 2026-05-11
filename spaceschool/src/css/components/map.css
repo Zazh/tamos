@@ -1,0 +1,8 @@
+/* Leaflet карта (CartoDB light_nolabels). Маркер — pointer-map.svg.
+   attributionControl=false в init, поэтому позиционирование тривиальное. */
+
+.map {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-gray-300);
+}
