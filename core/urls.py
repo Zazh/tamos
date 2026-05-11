@@ -4,11 +4,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from .views import root_redirect
+from .views import llms_txt, robots_txt, root_redirect, sitemap_xml
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path(settings.ADMIN_URL, admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
+    path('robots.txt', robots_txt, name='robots'),
+    path('llms.txt', llms_txt, name='llms'),
+    path('sitemap.xml', sitemap_xml, name='sitemap'),
     path('', root_redirect, name='root'),
 ]
 

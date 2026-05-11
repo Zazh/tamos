@@ -31,6 +31,9 @@ ALLOWED_HOSTS = list(filter(None, config('DJANGO_ALLOWED_HOSTS', default='', cas
 
 CSRF_TRUSTED_ORIGINS = list(filter(None, config('DJANGO_CSRF_TRUSTED_ORIGINS', default='', cast=Csv())))
 
+# Admin URL path (trailing slash required). Obscured in prod via .env.
+ADMIN_URL = config('DJANGO_ADMIN_URL', default='admin/')
+
 
 # Application definition
 
