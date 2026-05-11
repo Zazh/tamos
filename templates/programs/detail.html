@@ -1,0 +1,596 @@
+{% extends 'base.html' %}
+{% load static i18n region_tags %}
+
+{% block title %}{% trans 'Программа' %} — Tamos Space School{% endblock %}
+
+{% block layout_top %}
+  <!-- Hero -->
+  <section class="hero hero-planet-landing glow-react-scope"
+           x-data
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'high' }">
+    {% include 'partials/header.html' with nav_theme='dark' active_page='program' %}
+
+    <div class="hero-container z-10">
+      <div class="w-full max-w-screen-md relative">
+        <div class="relative z-10">
+          <span class="text-white font-medium text-sm badge bg-white/20">{{ program.hero_badge_text }}</span>
+          <h1 class="h1 text-white font-bold mt-6 mb-4">{{ program.hero_title|safe }}</h1>
+          <h2 class="leading-tight text-white/70 font-medium">{{ program.hero_subtitle }}</h2>
+        </div>
+
+        <!-- Meteors -->
+        <img src="{% static 'images/hero/Object-1.png' %}" class="hero-meteor absolute z-0 w-22 top-30 -left-35" data-speed="0.50" data-rotate="20" alt="">
+        <img src="{% static 'images/hero/Object-2.png' %}" class="hero-meteor absolute z-0 w-15 top-20 -right-20" data-speed="0.40" data-rotate="-15" alt="">
+        <img src="{% static 'images/hero/Object-3.png' %}" class="hero-meteor absolute z-0 w-14 -bottom-35 -left-45" data-speed="0.2" data-rotate="50" alt="">
+        <img src="{% static 'images/hero/Object-1.png' %}" class="hero-meteor absolute z-0 w-10 -bottom-40 -right-20" data-speed="0.15" data-rotate="-90" alt="">
+        <img src="{% static 'images/hero/Object-4.png' %}" class="hero-meteor absolute z-0 w-6 top-110 -left-20" data-speed="0.25" data-rotate="90" alt="">
+      </div>
+      <ul class="flex flex-col md:flex-row justify-center gap-2 w-full max-w-screen-md">
+        <li><button class="btn btn-primary w-[16rem] text-nowrap md:w-auto">{{ program.hero_cta_primary_text }}</button></li>
+        <li><button type="button"
+                    class="btn btn-default w-[16rem] text-nowrap md:w-auto"
+                    data-feedback-trigger
+                    data-feedback-title="{{ program.hero_cta_secondary_text }}"
+                    data-feedback-origin="program-hero">{{ program.hero_cta_secondary_text }}</button></li>
+      </ul>
+    </div>
+
+    <!-- Glow -->
+    <div class="glow-react glow-react-intense absolute bottom-0 inset-x-0 flex justify-center pointer-events-none">
+      <svg class="w-[1119px] translate-y-1/3" viewBox="0 0 1819 1561" fill="none">
+        <g filter="url(#hero-glow-red)"><path d="M477.998 1055.41V404.196C619.368 734.759 903.904 975.806 1341.17 1073.2L477.998 1055.41Z" fill="#FF4427"/></g>
+        <g filter="url(#hero-glow-blue)"><path d="M1374.5 1040.46V404.196C1233.43 1015.48 813.257 952.51 404.5 952.51V1061.2L1374.5 1040.46Z" fill="#2765FF"/></g>
+        <defs>
+          <filter id="hero-glow-red" x="73" y="0" width="1672" height="1478" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="202"><animate attributeName="stdDeviation" values="202;170;202" dur="4s" repeatCount="indefinite"/></feGaussianBlur></filter>
+          <filter id="hero-glow-blue" x="0" y="0" width="1779" height="1466" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="202"><animate attributeName="stdDeviation" values="202;170;202" dur="5s" repeatCount="indefinite"/></feGaussianBlur></filter>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- Planet (декоративное видео) -->
+    <div class="flex justify-center">
+      <div class="mx-auto max-w-200 w-full mt-20 relative z-0">
+        <div class="absolute inset-0">
+          <svg class="w-full scale-[1.333]" viewBox="0 0 1087 1087" fill="none">
+            <g filter="url(#hero-planet-glow)"><circle cx="543.13" cy="543.13" r="424.581" stroke="#1D55FF" stroke-opacity="0.4" stroke-width="40.1611"/></g>
+            <g filter="url(#hero-planet-ring)"><circle cx="543.13" cy="543.13" r="409.189" stroke="white" stroke-opacity="0.4" stroke-width="9.37796"/></g>
+            <g filter="url(#hero-planet-flare)"><path d="M661.13 155.63C521.13 103.13 155.63 154.13 140.13 550.13C232.63 235.63 430.13 145.63 661.13 155.63Z" fill="#FF2111"/></g>
+            <defs>
+              <filter id="hero-planet-glow" x="0" y="0" width="1087" height="1087" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="49"><animate attributeName="stdDeviation" values="49;35;49" dur="4s" repeatCount="indefinite"/></feGaussianBlur></filter>
+              <filter id="hero-planet-ring" x="114" y="114" width="859" height="859" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="7.6"><animate attributeName="stdDeviation" values="7.6;4;7.6" dur="5s" repeatCount="indefinite"/></feGaussianBlur></filter>
+              <filter id="hero-planet-flare" x="52" y="50" width="698" height="588" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="44"><animate attributeName="stdDeviation" values="44;30;44" dur="3.5s" repeatCount="indefinite"/></feGaussianBlur></filter>
+            </defs>
+          </svg>
+        </div>
+        <div class="rounded-full aspect-square overflow-hidden">
+          <video autoplay loop muted playsinline webkit-playsinline disableRemotePlayback
+                 poster="{% static 'images/sections-images/Planet.jpg' %}"
+                 class="w-full h-full object-cover">
+            <source src="{% static 'videos/planet2.mp4' %}" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END Hero -->
+{% endblock %}
+
+{% block content %}
+  <!-- Audience: «Кому подходит» -->
+  <section class="pt-22 pb-12 bg-white">
+    <div class="container">
+      <div class="col-span-full">
+        <div class="section-label mb-8">
+          <span class="section-label__icon"></span>
+          <span>{{ program.audience_label }}</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6">
+          <div class="xl:col-span-5 lg:col-span-5 flex flex-col gap-6">
+            <h2 class="h1 font-bold">{{ program.audience_title|linebreaksbr }}</h2>
+            {% if program.audience_subtitle %}<p class="text-base leading-tight text-black/60">{{ program.audience_subtitle }}</p>{% endif %}
+
+            {% if program.audience_photo_woman or program.audience_photo_library %}
+            <div class="relative flex flex-row gap-5 pt-8 md:hidden xl:flex">
+              {% if program.audience_photo_woman %}
+              <div class="w-1/2 rounded-full overflow-hidden">
+                <picture>
+                  <source srcset="{{ program.audience_photo_woman_webp.url }}" type="image/webp">
+                  <img src="{{ program.audience_photo_woman_compressed.url }}" alt="" class="block w-full h-full object-cover object-top">
+                </picture>
+              </div>
+              {% endif %}
+              {% if program.audience_photo_library %}
+              <div class="w-1/2 rounded-2xl overflow-hidden"
+                   x-data="{ scale: 1 }"
+                   x-init="
+                     let el = $el;
+                     function calc() {
+                       let rect = el.getBoundingClientRect();
+                       let vh = window.innerHeight;
+                       let raw = 1 - (rect.top / vh) - 0.4;
+                       let progress = Math.min(Math.max(raw / 0.6, 0), 1);
+                       scale = 1 + progress * 0.3;
+                     }
+                     window.addEventListener('scroll', calc, { passive: true });
+                     calc();
+                   ">
+                <picture>
+                  <source srcset="{{ program.audience_photo_library_webp.url }}" type="image/webp">
+                  <img src="{{ program.audience_photo_library_compressed.url }}" alt="" class="block w-full h-full object-cover transition-transform duration-100 ease-out" :style="'transform: scale(' + scale + ')'">
+                </picture>
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}
+          </div>
+
+          {% if audience_items %}
+          <div class="xl:col-span-7 lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            {% for item in audience_items %}
+            <div class="feature-card">
+              <span class="flex justify-center items-center w-15 aspect-square rounded-full text-secondary bg-white">
+                <span class="h-9 flex items-center justify-center">{{ item.icon_svg|safe }}</span>
+              </span>
+              <div>
+                <p class="feature-card__title">{{ item.title|linebreaksbr }}</p>
+                <p class="feature-card__desc">{{ item.description }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END Audience -->
+
+  <!-- Benefits: «Что получает» -->
+  <section class="relative overflow-hidden pt-12 pb-22 bg-white">
+    <div class="container relative z-10">
+      <div class="col-span-full">
+        <div class="section-label mb-8">
+          <span class="section-label__icon"></span>
+          <span>{{ program.benefits_label }}</span>
+        </div>
+
+        <div class="mb-10 lg:mb-6">
+          <h2 class="h1 font-bold">{{ program.benefits_title|linebreaksbr }}</h2>
+          {% if program.benefits_subtitle %}<p class="text-base leading-tight text-black/60 mt-4 lg:max-w-lg">{{ program.benefits_subtitle }}</p>{% endif %}
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {% if benefit_items %}
+          <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            {% for item in benefit_items %}
+            <div class="feature-card text-black">
+              <span class="relative w-11 h-11 flex items-center justify-center text-xl font-bold">
+                {{ forloop.counter }}
+                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 52 42" fill="none"><path d="M14.9445 7.74607C8.17025 10.8572 -6.00238 25.7901 5.1243 36.051C31.6538 60.5162 92.5632 -14.6542 6.93609 4.01264" stroke="#F6AF09" stroke-width="2"/></svg>
+              </span>
+              <div>
+                <p class="feature-card__title">{{ item.title }}</p>
+                <p class="feature-card__desc">{{ item.description }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% if program.benefits_photo_kid %}
+          <div class="hidden lg:block lg:col-span-5 rounded-2xl overflow-hidden">
+            <picture>
+              <source srcset="{{ program.benefits_photo_kid_webp.url }}" type="image/webp">
+              <img src="{{ program.benefits_photo_kid_compressed.url }}" alt="" class="block w-full h-full object-cover">
+            </picture>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END Benefits -->
+
+  <!-- Programs: «Две сильные программы» -->
+  <section class="relative overflow-hidden py-22 bg-black text-white"
+           x-data
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }">
+    <div class="pointer-events-none absolute -top-70 -right-80 w-[1200px] md:-top-100 md:-right-80 z-0 md:w-[1500px] opacity-80">
+      <svg class="w-full h-full" viewBox="0 0 1441 1397" fill="none">
+        <g opacity="0.8">
+          <g filter="url(#prog-glow1)"><circle cx="643.805" cy="643.805" r="343.805" transform="rotate(-90 643.805 643.805)" fill="#852DF9"/></g>
+          <g filter="url(#prog-glow2)"><circle cx="885.083" cy="840.847" r="343.805" transform="rotate(-90 885.083 840.847)" fill="#108CFF"/></g>
+        </g>
+        <defs>
+          <filter id="prog-glow1" x="0" y="0" width="1287.61" height="1287.61" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="150"><animate attributeName="stdDeviation" values="150;80;150" dur="3s" repeatCount="indefinite"/></feGaussianBlur></filter>
+          <filter id="prog-glow2" x="329.277" y="285.042" width="1111.61" height="1111.61" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="106"><animate attributeName="stdDeviation" values="106;50;106" dur="3.5s" repeatCount="indefinite"/></feGaussianBlur></filter>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="container relative z-10">
+      <div class="col-span-full">
+        <div class="section-label mb-8 text-white border-b-white/20">
+          <span class="section-label__icon"></span>
+          <span>{{ program.programs_label }}</span>
+        </div>
+      </div>
+
+      <div class="col-span-full lg:col-span-5 xl:col-span-5">
+        <h2 class="h1 font-bold mb-4">{{ program.programs_title|linebreaksbr }}</h2>
+        {% if program.programs_subtitle %}<p class="text-base leading-tight text-white/70">{{ program.programs_subtitle }}</p>{% endif %}
+        {% if program.programs_cta_text %}
+        <div class="mt-8">
+          <button type="button"
+                  class="btn btn-default"
+                  data-feedback-trigger
+                  data-feedback-title="{{ program.programs_cta_text }}"
+                  data-feedback-origin="program-variants">{{ program.programs_cta_text }}</button>
+        </div>
+        {% endif %}
+      </div>
+
+      {% if variant_cards %}
+      <div class="col-span-full lg:col-span-7 xl:col-span-7 flex flex-col gap-6 mt-8 lg:mt-0">
+        {% for card in variant_cards %}
+        <div class="program-card">
+          <div class="flex flex-col gap-5">
+            <span class="program-card__badge {{ card.badge_css }}">{{ card.badge_text }}</span>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex w-full flex-col gap-3">
+                <h3 class="program-card__title">{{ card.title }}</h3>
+                {% if card.tag_lines %}
+                <div class="flex flex-wrap gap-2 program-card__meta text-white/70">
+                  {% for tag in card.tag_lines %}<span class="badge bg-white/10 text-white">{{ tag }}</span>{% endfor %}
+                </div>
+                {% endif %}
+              </div>
+              {% if card.feature_lines %}
+              <ul class="flex w-full flex-col gap-3">
+                {% for feature in card.feature_lines %}
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M14.0306 6.96937C14.1004 7.03903 14.1557 7.12175 14.1934 7.21279C14.2312 7.30384 14.2506 7.40144 14.2506 7.5C14.2506 7.59856 14.2312 7.69616 14.1934 7.78721C14.1557 7.87825 14.1004 7.96097 14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.039 6.89964 13.1218 6.84432 13.2128 6.80658C13.3038 6.76884 13.4014 6.74941 13.5 6.74941C13.5986 6.74941 13.6962 6.76884 13.7872 6.80658C13.8783 6.84432 13.961 6.89964 14.0306 6.96937ZM19.5 9.75C19.5 11.6784 18.9282 13.5634 17.8568 15.1668C16.7855 16.7702 15.2627 18.0199 13.4812 18.7578C11.6996 19.4958 9.73919 19.6889 7.84787 19.3127C5.95656 18.9365 4.21928 18.0079 2.85571 16.6443C1.49215 15.2807 0.563554 13.5434 0.187348 11.6521C-0.188858 9.76082 0.00422448 7.80042 0.742179 6.01884C1.48013 4.23726 2.72982 2.71452 4.33319 1.64317C5.93657 0.571828 7.82164 0 9.75 0C12.335 0.00272983 14.8134 1.03084 16.6413 2.85872C18.4692 4.68661 19.4973 7.16498 19.5 9.75ZM18 9.75C18 8.1183 17.5162 6.52325 16.6096 5.16655C15.7031 3.80984 14.4146 2.75242 12.9071 2.12799C11.3997 1.50357 9.74085 1.34019 8.14051 1.65852C6.54017 1.97685 5.07016 2.76259 3.91637 3.91637C2.76259 5.07015 1.97685 6.54016 1.65853 8.1405C1.3402 9.74085 1.50358 11.3996 2.128 12.9071C2.75242 14.4146 3.80984 15.7031 5.16655 16.6096C6.52326 17.5161 8.11831 18 9.75 18C11.9373 17.9975 14.0343 17.1275 15.5809 15.5809C17.1275 14.0343 17.9975 11.9373 18 9.75Z" fill="white"/></svg>
+                  <span class="program-card__check-text text-white">{{ feature }}</span>
+                </li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+
+            {% if card.footer_label or card.footer_value %}
+            <div class="program-card__footer">
+              <div>
+                {% if card.footer_label %}<span class="program-card__footer-label text-white/70">{{ card.footer_label }}</span>{% endif %}
+                {% if card.footer_value %}<p class="program-card__footer-value">{{ card.footer_value }}</p>{% endif %}
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="flex items-center justify-center w-12 h-12 rounded-full bg-white">
+                  <img src="{% static 'images/sections-images/cambridge-gerb.png' %}" alt="Cambridge" class="w-7 h-7 object-contain">
+                </span>
+                <svg class="w-12 h-12 {{ card.accent_css }}" viewBox="0 0 50 50" fill="none">
+                  <rect width="50" height="50" rx="25" fill="currentColor"/>
+                  <path d="M18.4694 31.5306C18.539 31.6004 18.6217 31.6557 18.7128 31.6934C18.8038 31.7312 18.9014 31.7506 19 31.7506C19.0986 31.7506 19.1962 31.7312 19.2872 31.6934C19.3783 31.6557 19.461 31.6004 19.5306 31.5306L30.25 20.8103V28.75C30.25 28.9489 30.329 29.1397 30.4697 29.2803C30.6103 29.421 30.8011 29.5 31 29.5C31.1989 29.5 31.3897 29.421 31.5303 29.2803C31.671 29.1397 31.75 28.9489 31.75 28.75V19C31.75 18.8011 31.671 18.6103 31.5303 18.4697C31.3897 18.329 31.1989 18.25 31 18.25H21.25C21.0511 18.25 20.8603 18.329 20.7197 18.4697C20.579 18.6103 20.5 18.8011 20.5 19C20.5 19.1989 20.579 19.3897 20.7197 19.5303C20.8603 19.671 21.0511 19.75 21.25 19.75H29.1897L18.4694 30.4694C18.3996 30.539 18.3443 30.6217 18.3066 30.7128C18.2688 30.8038 18.2494 30.9014 18.2494 31C18.2494 31.0986 18.2688 31.1962 18.3066 31.2872C18.3443 31.3783 18.3996 31.461 18.4694 31.5306Z" fill="{{ card.arrow_fill }}"/>
+                </svg>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </section>
+  <!-- END Programs -->
+
+  <!-- Team: «Команда» -->
+  {% if team_members %}
+  <section class="py-22 bg-white">
+    <div class="container"
+         x-data="teamSlider"
+         @mousemove.window="dragMove($event)"
+         @mouseup.window="dragEnd()">
+      <div class="col-span-full flex flex-col gap-8 mb-10">
+        <div>
+          <div class="section-label mb-8">
+            <span class="section-label__icon"></span>
+            <span>{{ program.team_label }}</span>
+          </div>
+          <h2 class="h1 font-bold mb-4">{{ program.team_title|linebreaksbr }}</h2>
+          {% if program.team_subtitle %}<p class="mt-4 text-base leading-tight text-black/80 lg:max-w-xl">{{ program.team_subtitle }}</p>{% endif %}
+        </div>
+      </div>
+
+      <div class="team-slider col-span-full"
+           @mouseenter="hovering = true"
+           @mouseleave="hovering = false">
+        <div class="team-slider__track"
+             x-ref="track"
+             @mousedown.prevent="dragStart($event)">
+          {% for member in team_members %}
+          <article class="team-card">
+            <div class="team-card__photo">
+              {% if member.photo %}
+                <picture>
+                  <source srcset="{{ member.photo_webp.url }}" type="image/webp">
+                  <img src="{{ member.photo_compressed.url }}" alt="{{ member.name }}">
+                </picture>
+              {% endif %}
+            </div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">{{ member.name }}</h3>
+              <p class="team-card__role">{{ member.role }}</p>
+              {% if member.meta %}<p class="team-card__meta">{{ member.meta }}</p>{% endif %}
+              {% if member.quote %}<p class="team-card__quote">{{ member.quote }}</p>{% endif %}
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+
+        <div class="team-slider__cursor glass"
+             :class="{ 'is-active': hovering, 'is-pressed': dragging }"
+             :style="`transform: translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 8l-4 4 4 4M17 8l4 4-4 4M3 12h18"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="col-span-full">
+        <div class="team-slider__controls shrink-0 mt-8">
+          <button type="button" class="btn-nav" @click="step(-1)" :disabled="!canPrev" aria-label="{% trans 'Предыдущий' %}">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button type="button" class="btn-nav" @click="step(1)" :disabled="!canNext" aria-label="{% trans 'Следующий' %}">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+  <!-- END Team -->
+
+  <!-- Certificate: «Аттестат» -->
+  <section class="relative overflow-hidden pt-22 bg-black text-white"
+           x-data="{ visible: false }"
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }"
+           x-init="$nextTick(() => { const self = $data; new IntersectionObserver(([e]) => { self.visible = e.isIntersecting }, { threshold: 0.5 }).observe($el) })">
+    <div class="container relative z-10">
+      <div class="col-span-full">
+        <div class="section-label mb-12 text-white border-b-white/20">
+          <span class="section-label__icon"></span>
+          <span>{{ program.certificate_label }}</span>
+        </div>
+
+        <div class="mb-10">
+          <h2 class="h1 font-bold">{{ program.certificate_title|linebreaksbr }}</h2>
+          {% if program.certificate_subtitle %}<p class="mt-4 text-base leading-tight text-white/70 lg:max-w-xl">{{ program.certificate_subtitle }}</p>{% endif %}
+        </div>
+
+        {% if certificate_features %}
+        <ul class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12" x-glass>
+          {% for feature in certificate_features %}
+          {% with from_classes='glass-secondary glass-from-tr glass-secondary glass-from-bl glass-from-br' %}
+          <li class="glass-secondary{% if forloop.counter == 2 %} glass-from-tr{% elif forloop.counter == 3 %} glass-from-bl{% elif forloop.counter == 4 %} glass-from-br{% endif %} rounded-2xl p-5 md:p-6 flex flex-col gap-8 md:gap-10">
+            <span class="block w-8 h-8 text-white/80">{{ feature.icon_svg|safe }}</span>
+            <p class="text-sm md:text-lg hyphens-auto leading-tight font-medium">{{ feature.title }}</p>
+          </li>
+          {% endwith %}
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="relative overflow-hidden" x-glass>
+          <div class="glass-secondary rounded-tl-3xl rounded-tr-3xl overflow-hidden">
+            {% if program.certificate_preview_image %}
+              <picture>
+                <source srcset="{{ program.certificate_preview_image_webp.url }}" type="image/webp">
+                <img src="{{ program.certificate_preview_image_compressed.url }}" alt="" class="block w-full h-[20rem] md:h-[25rem]">
+              </picture>
+            {% else %}
+              <div class="relative h-[26rem] md:h-[28rem] px-4 pt-8
+                          flex flex-col items-center
+                          text-center text-white">
+                <div class="flex justify-center gap-3 items-center w-full">
+                  <!--
+                  <svg class="h-14" viewBox="0 0 37 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M18.2552 34.3157C19.6096 32.6607 20.6 30.6866 21.1022 28.5208H15.4082C15.9104 30.6866 16.9008 32.6607 18.2552 34.3157Z" fill="white"/>
+                      <path d="M25.7704 26.3362V28.5198H36.5087L21.0165 1.71352C20.4534 0.762195 19.4256 0.125198 18.2538 0.125198C17.082 0.125198 16.0565 0.762195 15.4934 1.71352L0 28.5198H10.7383V26.3362L15.0322 21.9677L15.0333 20.1162C15.0333 16.6681 16.2414 13.5069 18.2538 11.0458C20.2673 13.5069 21.4754 16.6681 21.4754 20.1162V21.9677L25.7704 26.3362Z" fill="white"/>
+                  </svg>
+                    -->
+                  <img src="{% static 'images/logos/cambridge_logo.png' %}" alt="Cambridge International Education" class="h-20">
+                </div>
+                <p class="text-sm md:text-xl font-bold uppercase tracking-wide mt-8 md:mt-6">Certificate of Completion</p>
+                <p class="text-3xl md:text-[40px] font-bold leading-tight mt-4">Алихан Сейткали</p>
+                <p class="text-sm md:text-base leading-tight mt-4 max-w-2xl text-white/80">
+                  Настоящий сертификат подтверждает успешное завершение обучения по программе Space School · Cambridge International Education с международной языковой подготовкой.
+                </p>
+              </div>
+            {% endif %}
+          </div>
+          {% if program.certificate_cta_text %}
+          <div class="absolute inset-x-0 bottom-6 md:bottom-10 flex justify-center">
+            <button type="button"
+                    class="btn btn-primary"
+                    data-feedback-trigger
+                    data-feedback-title="{{ program.certificate_cta_text }}"
+                    data-feedback-origin="program-certificate">{{ program.certificate_cta_text }}</button>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom glow -->
+    <div class="glow-reveal pointer-events-none absolute bottom-0 inset-x-0 z-0 flex justify-center"
+         :class="visible && 'glow-reveal-visible'"
+         x-on:transitionend="if (visible) document.getElementById('cert-glow-breathe').beginElement()">
+      <svg class="block w-full h-[380px]" viewBox="0 0 1440 380" preserveAspectRatio="none" fill="none">
+        <g filter="url(#cert-glow-blur)"><ellipse cx="720" cy="400" rx="800" ry="180" fill="#108CFF"/></g>
+        <defs>
+          <filter id="cert-glow-blur" x="-200" y="100" width="1840" height="600" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="90"><animate id="cert-glow-breathe" attributeName="stdDeviation" values="90;60;90" dur="4s" repeatCount="indefinite" begin="indefinite"/></feGaussianBlur></filter>
+        </defs>
+      </svg>
+    </div>
+  </section>
+  <!-- END Certificate -->
+
+  <!-- Activities: «Внеклассные» -->
+  <section class="py-22 bg-white">
+    <div class="container" x-data="{ open: null }">
+      <div class="col-span-full">
+        <div class="section-label mb-8">
+          <span class="section-label__icon"></span>
+          <span>{{ program.activities_label }}</span>
+        </div>
+
+        <div class="mb-12">
+          <h2 class="h1 font-bold">{{ program.activities_title|linebreaksbr }}</h2>
+          {% if program.activities_subtitle %}<h5 class="h5 mt-4">{{ program.activities_subtitle }}</h5>{% endif %}
+        </div>
+
+        {% if activity_items %}
+        <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
+          {% for activity in activity_items %}
+          <div class="accordion-item">
+            <button class="accordion-header" @click="open = open === {{ forloop.counter }} ? null : {{ forloop.counter }}">
+              <span class="accordion-title">
+                <span>{{ activity.time_label }}</span>
+                <span>{{ activity.title }}</span>
+              </span>
+              {% if activity.category %}
+              <span>
+                <span class="badge {{ activity.category_badge_css }}">{{ activity.category }}</span>
+              </span>
+              {% endif %}
+            </button>
+            {% if activity.description %}
+            <div x-show="open === {{ forloop.counter }}" x-collapse>
+              <div class="accordion-body">
+                <p>{{ activity.description }}</p>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if program.activities_cta_text %}
+        <div class="mt-8">
+          <button type="button"
+                  class="btn btn-primary"
+                  data-feedback-trigger
+                  data-feedback-title="{{ program.activities_cta_text }}"
+                  data-feedback-origin="program-activities">{{ program.activities_cta_text }}</button>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  <!-- END Activities -->
+
+  <!-- Stats: «В цифрах» -->
+  <section class="relative overflow-hidden pt-22 pb-22 lg:pb-40 bg-black text-white"
+           x-data
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'high' }">
+    <div class="container">
+      <div class="col-span-full relative z-10">
+        <div class="section-label mb-12 text-white border-b-white/20">
+          <span class="section-label__icon"></span>
+          <span>{{ program.stats_label }}</span>
+        </div>
+        <div class="mb-4">
+          <h2 class="h1 font-bold">{{ program.stats_title|linebreaksbr }}</h2>
+        </div>
+      </div>
+
+      <div class="col-span-full lg:col-span-6 xl:col-span-5 relative z-10 flex flex-wrap">
+        {% if program.stats_intro_text %}
+        <div class="mb-8 md:mb-10">
+          <p class="text-base tracking-wide leading-tight hyphens-auto">{{ program.stats_intro_text }}</p>
+        </div>
+        {% endif %}
+
+        {% if stats %}
+        <ul class="grid grid-cols-2 gap-4 md:gap-6 mt-auto w-full" x-glass>
+          {% for stat in stats %}
+          <li class="stat-card glass-secondary{% if forloop.counter == 2 %} glass-from-tr{% elif forloop.counter == 3 %} glass-from-bl{% elif forloop.counter == 4 %} glass-from-br{% endif %}">
+            <span class="stat-card__value">{{ stat.value }}</span>
+            <span class="stat-card__label">{{ stat.label }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+
+      <div class="col-span-full lg:col-span-6 xl:col-span-7 relative z-0">
+        {% if program.stats_photo %}
+        <div class="mt-3 md:mt-0 xl:pl-4 relative z-10">
+          <div class="aspect-[674/442] w-full rounded-2xl overflow-hidden">
+            <picture>
+              <source srcset="{{ program.stats_photo_webp.url }}" type="image/webp">
+              <img src="{{ program.stats_photo_compressed.url }}" alt="" class="object-cover w-full h-full">
+            </picture>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Gradient circle -->
+        <div class="absolute flex justify-center z-0 w-full h-full top-0 md:top-30">
+          <svg class="w-full mx-auto scale-[4.5] md:scale-[3.5]" viewBox="0 0 1441 1397" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity="0.8">
+              <g filter="url(#stats-glow1)"><circle cx="643.805" cy="643.805" r="343.805" transform="rotate(-90 643.805 643.805)" fill="#852DF9"/></g>
+              <g filter="url(#stats-glow2)"><circle cx="885.083" cy="840.847" r="343.805" transform="rotate(-90 885.083 840.847)" fill="#108CFF"/></g>
+            </g>
+            <defs>
+              <filter id="stats-glow1" x="0" y="0" width="1287.61" height="1287.61" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="150"><animate attributeName="stdDeviation" values="150;80;150" dur="3s" repeatCount="indefinite"/></feGaussianBlur></filter>
+              <filter id="stats-glow2" x="329.277" y="285.042" width="1111.61" height="1111.61" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="106"><animate attributeName="stdDeviation" values="106;50;106" dur="3.5s" repeatCount="indefinite"/></feGaussianBlur></filter>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END Stats -->
+
+  <!-- FAQ -->
+  {% if faq_items %}
+  <section class="py-22 bg-white">
+    <div class="container" x-data="{ open: null }">
+      <div class="col-span-full">
+        <div class="section-label mb-12">
+          <span class="section-label__icon"></span>
+          <span>{{ program.faq_label }}</span>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="h1 font-bold">{{ program.faq_title }}</h2>
+        </div>
+
+        {% for item in faq_items %}
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === {{ forloop.counter }} ? null : {{ forloop.counter }}">
+            <span class="accordion-title">{{ item.question }}</span>
+            <span class="accordion-icon" :class="open === {{ forloop.counter }} && 'accordion-icon--open'">
+              <img src="{% static 'images/icons/plus.svg' %}" alt="">
+            </span>
+          </button>
+          <div x-show="open === {{ forloop.counter }}" x-collapse>
+            <div class="accordion-body">
+              <p>{{ item.answer|linebreaksbr }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+  <!-- END FAQ -->
+
+  {% include 'partials/feedback_section.html' with origin='program' %}
+{% endblock %}
