@@ -35,15 +35,6 @@
   display: none !important;
 }
 
-/* <picture> вокруг <img> для webp/fallback — выпиливаем из layout-дерева,
-   чтобы все CSS-селекторы вида `.parent > img` и утилитные классы на img
-   (w-full, h-full, object-cover) работали как до обёртки.
-   Поддержка `display: contents` совпадает с поддержкой WebP, так что
-   старые браузеры всё равно увидят fallback <img> без picture-проблем. */
-picture {
-  display: contents;
-}
-
 body {
   display: flex;
   flex-direction: column;

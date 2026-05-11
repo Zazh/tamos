@@ -68,7 +68,7 @@
     aspect-ratio: 325 / 352;
   }
 
-  .carousel-item > img {
+  .carousel-item img {
     display: block;
     width: 100%;
     height: 100%;

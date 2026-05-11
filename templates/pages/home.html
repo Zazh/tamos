@@ -127,18 +127,33 @@
   {% if home.video_file %}
   <!-- Video -->
   <section class="bg-white">
-    <video class="block w-full h-auto"
-           muted playsinline loop preload="metadata"
-           aria-label="{% trans 'Знакомство со Space School' %}"
-           x-data
-           x-init="if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-                   new IntersectionObserver(
-                     ([e]) => e.isIntersecting ? $el.play().catch(() => {}) : $el.pause(),
-                     { threshold: 0 }
-                   ).observe($el)">
-      <source src="{{ home.video_file.url }}" type="video/mp4">
-      {% trans 'Ваш браузер не поддерживает воспроизведение видео.' %}
-    </video>
+    <div class="relative" x-data="{ muted: true }">
+      <video x-ref="video"
+             class="block w-full h-auto"
+             muted playsinline loop preload="metadata"
+             aria-label="{% trans 'Знакомство со Space School' %}"
+             @volumechange="muted = $event.target.muted"
+             x-init="if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                     new IntersectionObserver(
+                       ([e]) => e.isIntersecting ? $el.play().catch(() => {}) : $el.pause(),
+                       { threshold: 0 }
+                     ).observe($el)">
+        <source src="{{ home.video_file.url }}" type="video/mp4">
+        {% trans 'Ваш браузер не поддерживает воспроизведение видео.' %}
+      </video>
+      <button type="button"
+              class="absolute bottom-4 right-4 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-sm text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              @click="$refs.video.muted = !$refs.video.muted"
+              :aria-pressed="(!muted).toString()"
+              :aria-label="muted ? '{% trans 'Включить звук' %}' : '{% trans 'Выключить звук' %}'">
+        <svg x-show="muted" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+        </svg>
+        <svg x-show="!muted" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+        </svg>
+      </button>
+    </div>
   </section>
   <!-- END Video -->
   {% endif %}
