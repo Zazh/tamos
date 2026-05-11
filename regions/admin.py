@@ -1,4 +1,5 @@
 from django.contrib import admin
+from modeltranslation.admin import TabbedTranslationAdmin
 
 from .models import Region
 
@@ -50,11 +51,15 @@ class RegionScopedAdminMixin:
 
 
 @admin.register(Region)
-class RegionAdmin(admin.ModelAdmin):
-    list_display = ('slug', 'name', 'is_default', 'phone')
-    list_filter = ('is_default',)
-    search_fields = ('slug', 'name', 'name_ru', 'name_kk', 'name_en')
-    fields = ('slug', 'is_default', 'name', 'phone', 'address')
+class RegionAdmin(TabbedTranslationAdmin):
+    """
+    Вкладки ru/kk/en для name. Только суперадмин — менеджеры-региональщики
+    к справочнику регионов не лезут (на них ссылаются только их же манагер-роли).
+    """
+    list_display = ('slug', 'name', 'is_default', 'is_active')
+    list_filter = ('is_active', 'is_default')
+    search_fields = ('slug', 'name')
+    fields = ('slug', 'name', 'is_default', 'is_active')
 
     def has_module_permission(self, request):
         return request.user.is_superuser

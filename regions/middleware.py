@@ -37,9 +37,9 @@ class RegionMiddleware:
             return None
         from .models import Region
         try:
-            region = Region.objects.get(slug=slug)
+            region = Region.objects.get(slug=slug, is_active=True)
         except Region.DoesNotExist as exc:
-            raise Http404(f"Unknown region '{slug}'") from exc
+            raise Http404(f"Unknown or inactive region '{slug}'") from exc
         request.region = region
         if request.COOKIES.get(self.COOKIE_NAME) != slug:
             request._set_region_cookie = slug

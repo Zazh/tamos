@@ -4,9 +4,9 @@ from .models import Region
 
 
 def regions_and_language(request):
-    """Кладёт в шаблоны список регионов и текущий язык, чтобы header не лез в БД сам."""
+    """Кладёт в шаблоны список активных регионов и текущий язык, чтобы header не лез в БД сам."""
     return {
-        'all_regions': Region.objects.all(),
+        'all_regions': Region.objects.filter(is_active=True),
         'current_region': getattr(request, 'region', None),
         'current_language': get_language(),
     }

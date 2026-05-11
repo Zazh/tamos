@@ -15,11 +15,11 @@ def root_redirect(request):
     иначе Region.is_default=True, иначе первый существующий регион.
     """
     cookie = request.COOKIES.get('region')
-    region = Region.objects.filter(slug=cookie).first() if cookie else None
+    region = Region.objects.filter(slug=cookie, is_active=True).first() if cookie else None
     if region is None:
-        region = Region.get_default() or Region.objects.first()
+        region = Region.get_default() or Region.objects.filter(is_active=True).first()
     if region is None:
-        return HttpResponseServerError('No regions configured.')
+        return HttpResponseServerError('No active regions configured.')
     return HttpResponseRedirect(reverse('pages:home', kwargs={'region_slug': region.slug}))
 
 
@@ -37,7 +37,7 @@ def robots_txt(request):
 
 
 def llms_txt(request):
-    default_region = Region.get_default() or Region.objects.first()
+    default_region = Region.get_default() or Region.objects.filter(is_active=True).first()
     slug = default_region.slug if default_region else 'astana'
     ctx = {
         'site_url': request.build_absolute_uri('/').rstrip('/'),
@@ -52,7 +52,7 @@ def sitemap_xml(request):
     from django.conf import settings as dj_settings
 
     langs = [code for code, _ in dj_settings.LANGUAGES]
-    regions = list(Region.objects.all())
+    regions = list(Region.objects.filter(is_active=True))
 
     urls = []
     for region in regions:

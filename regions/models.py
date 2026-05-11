@@ -1,8 +1,16 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 
 
 class Region(models.Model):
+    """
+    Тонкий справочник филиалов. Только slug (URL-сегмент) + name (переводимое)
+    + два булевых флага: is_default (один регион по умолчанию для root-редиректа)
+    и is_active (показывать ли публично, резолвится ли URL `/<lang>/<slug>/`).
+
+    Контактные данные, описания и т.п. — НЕ здесь. Они привязываются к
+    региону через FK из соответствующих контент-моделей (Page/Programs/etc).
+    """
+
     slug = models.SlugField(
         unique=True,
         max_length=32,
@@ -14,15 +22,17 @@ class Region(models.Model):
         default=False,
         help_text='Пометить ровно один регион. Для корневого URL и для пользователей без выбора.',
     )
-    phone = models.CharField('Телефон', max_length=64, blank=True)
-    address = models.CharField('Адрес', max_length=255, blank=True)
+    is_active = models.BooleanField(
+        'Активен',
+        default=True,
+        help_text='Если выключен — регион не показывается в переключателе и URL `/<lang>/<slug>/` возвращает 404. Используется для городов, которые добавлены «на будущее».',
+    )
 
     class Meta:
         verbose_name = 'Регион'
         verbose_name_plural = 'Регионы'
-        # Default region первым — нужно для всяких inline-перечислений
-        # вида «Astana, Aktau» в meta-описаниях.
-        ordering = ['-is_default', 'slug']
+        # Активные первыми, default — наверху активных, далее по slug.
+        ordering = ['-is_active', '-is_default', 'slug']
         constraints = [
             models.UniqueConstraint(
                 fields=['is_default'],
@@ -36,4 +46,5 @@ class Region(models.Model):
 
     @classmethod
     def get_default(cls):
-        return cls.objects.filter(is_default=True).first()
+        """Активный регион с is_default=True, либо None."""
+        return cls.objects.filter(is_default=True, is_active=True).first()

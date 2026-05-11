@@ -23,8 +23,8 @@ def region_url(context, name, *args, **kwargs):
     Реверс URL внутри текущего региона: автоматически подставляет region_slug
     из request.region. Если регион не задан в контексте — нужно передать руками.
 
-        {% region_url 'pages:home' %}            → /astana/
-        {% region_url 'pages:contacts' %}        → /astana/contacts/
+        {% region_url 'pages:home' %}            → /ru/astana/
+        {% region_url 'pages:contacts' %}        → /ru/astana/contacts/
     """
     request = context.get('request')
     region = getattr(request, 'region', None) if request else None
@@ -38,7 +38,7 @@ def switch_region_url(context, region):
     """
     URL для переключения на другой регион, сохраняя текущую страницу и язык.
 
-        {% switch_region_url r %}                → /<r.slug>/<тот же view>/
+        {% switch_region_url r %}                → /<lang>/<r.slug>/<тот же view>/
     """
     request = context.get('request')
     if request is None:
@@ -59,7 +59,7 @@ def switch_language_url(context, language_code):
     """
     URL текущей страницы под другим языком. Использует translation.override,
     чтобы reverse подставил правильный языковой префикс
-    (для default-языка префикса нет — prefix_default_language=False).
+    (prefix_default_language=True — префикс есть у всех языков, включая ru).
     """
     request = context.get('request')
     if request is None:

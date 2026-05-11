@@ -5,4 +5,4 @@ from .models import Region
 
 @register(Region)
 class RegionTranslationOptions(TranslationOptions):
-    fields = ('name', 'address')
+    fields = ('name',)
