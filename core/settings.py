@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_vite',
+    'imagekit',
 
     'accounts',
     'regions',
@@ -159,6 +160,11 @@ MODELTRANSLATION_FALLBACK_LANGUAGES = {
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# User-uploaded files (CMS images, videos). В dev раздаются через
+# django.urls.static; в проде — через nginx (см. memory/deploy.md).
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Vite integration. In dev (DEBUG=True) Django templates load JS/CSS from
 # the Vite dev server (HMR). In prod the manifest resolves to hashed files
