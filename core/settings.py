@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'accounts',
     'regions',
     'pages',
+    'navigation',
 ]
 
 MIDDLEWARE = [
@@ -84,6 +85,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'regions.context_processors.regions_and_language',
+                'navigation.context_processors.navigation',
             ],
         },
     },

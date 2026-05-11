@@ -1,4 +1,4 @@
-{% load i18n region_tags %}
+{% load i18n region_tags nav_tags %}
 {% comment %}
   Шапка сайта.
 
@@ -7,9 +7,16 @@
                   'dark' используется на страницах с hero (home, landing),
                   где header лежит ВНУТРИ <section class="hero …">.
     active_page — slug текущей страницы для подсветки активной ссылки.
-                  Значения: home | about | program | admission |
-                  extracurricular | contacts | school-day | safety |
-                  gallery | uniform | supplies | food | transport | blog
+                  Значение равняется NavItem.slug (см. навигацию в БД).
+
+  Структура навигации — из CMS-моделей `navigation.NavSection` /
+  `navigation.NavItem` через context_processor `navigation.context_processors.navigation`:
+    - `nav_top_items`     — пункты с `is_top_nav=True` (рендерятся слева от логотипа)
+    - `nav_mega_sections` — секции мегаменю с прифетченными `items_published`
+
+  У пунктов с пустым `url_name` тег `{% nav_url item %}` вернёт `#` — это
+  пункты-заглушки разделов, которые ещё не реализованы. По мере появления
+  страниц url_name заполняется через админку (модель `NavItem`).
 
   Состояние мегаменю — Alpine `x-data="{ menu: false }"` локально на <header>.
 {% endcomment %}
@@ -32,18 +39,11 @@
         </button>
       </div>
       <ul class="nav-list" x-show="!menu">
-        <li>
-          <a href="{% region_url 'pages:home' %}" class="nav-link{% if active_page == 'home' %} active{% endif %}">{% trans "Главная" %}</a>
-        </li>
-        <li>
-          <a href="#" class="nav-link{% if active_page == 'about' %} active{% endif %}">{% trans "О нас" %}</a>
-        </li>
-        <li>
-          <a href="#" class="nav-link{% if active_page == 'program' %} active{% endif %}">{% trans "Программа" %}</a>
-        </li>
-        <li>
-          <a href="#" class="nav-link{% if active_page == 'admission' %} active{% endif %}">{% trans "Поступление" %}</a>
-        </li>
+        {% for item in nav_top_items %}
+          <li>
+            <a href="{% nav_url item %}" class="nav-link{% if active_page == item.slug %} active{% endif %}">{{ item.label }}</a>
+          </li>
+        {% endfor %}
       </ul>
     </div>
     <div class="nav-logo py-2">
@@ -145,26 +145,14 @@
          x-transition:leave-start="translate-y-0 opacity-100"
          x-transition:leave-end="-translate-y-4 opacity-0">
       <nav class="megamenu-content">
-        <ul class="megamenu-list">
-          <li class="megamenu-label [ hidden md:block ]">{% trans "Меню" %}</li>
-          <li><a href="{% region_url 'pages:home' %}" class="megamenu-link{% if active_page == 'home' %} active{% endif %}">{% trans "Главная" %}</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'about' %} active{% endif %}">{% trans "О нас" %}</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'program' %} active{% endif %}">{% trans "Программа" %}</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'admission' %} active{% endif %}">{% trans "Поступление" %}</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'extracurricular' %} active{% endif %}">{% trans "Внеклассные занятия" %}</a></li>
-          <li><a href="{% region_url 'pages:contacts' %}" class="megamenu-link{% if active_page == 'contacts' %} active{% endif %}">{% trans "Контакты" %}</a></li>
-        </ul>
-        <ul class="megamenu-list">
-          <li class="megamenu-label [ pt-8 md:pt-0 ]">{% trans "Жизнь школы" %}</li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'school-day' %} active{% endif %}">{% trans "Один день в школе" %}</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'safety' %} active{% endif %}">{% trans "Безопасность" %}</a></li>
-          <li><a href="{% region_url 'pages:gallery' %}" class="megamenu-link{% if active_page == 'gallery' %} active{% endif %}">{% trans "Фотогалерея" %}</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'uniform' %} active{% endif %}">{% trans "Школьная форма" %}</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'supplies' %} active{% endif %}">{% trans "Школьные принадлежности" %}</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'food' %} active{% endif %}">{% trans "Питание" %}</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'transport' %} active{% endif %}">{% trans "Операторы развозки" %}</a></li>
-          <li><a href="#" class="megamenu-link{% if active_page == 'blog' %} active{% endif %}">{% trans "Блог" %}</a></li>
-        </ul>
+        {% for section in nav_mega_sections %}
+          <ul class="megamenu-list">
+            <li class="megamenu-label {% if forloop.first %}[ hidden md:block ]{% else %}[ pt-8 md:pt-0 ]{% endif %}">{{ section.label }}</li>
+            {% for item in section.items_published %}
+              <li><a href="{% nav_url item %}" class="megamenu-link{% if active_page == item.slug %} active{% endif %}">{{ item.label }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
       </nav>
     </div>
   </div>
