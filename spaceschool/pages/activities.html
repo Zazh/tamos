@@ -205,7 +205,7 @@
                   <path d="M21.3551 4.93335L12.3551 1.93335C12.1246 1.85555 11.875 1.85555 11.6445 1.93335L2.64448 4.93335C2.42973 5.00448 2.24141 5.13869 2.10411 5.31848C1.9668 5.49826 1.88689 5.71527 1.87479 5.94116C1.87377 5.96084 1.87377 5.98055 1.87479 6.00023V13.5002C1.87479 13.7986 1.99332 14.0847 2.2043 14.2957C2.41528 14.5067 2.70142 14.6252 2.99979 14.6252C3.29816 14.6252 3.58431 14.5067 3.79529 14.2957C4.00627 14.0847 4.12479 13.7986 4.12479 13.5002V7.56117L6.34761 8.30179C5.65775 9.62226 5.45275 11.1428 5.76828 12.5988C6.0838 14.0548 6.89988 15.3541 8.07448 16.2705C6.53738 17.0285 5.23651 18.192 4.31229 19.6352C4.22906 19.7589 4.17125 19.8979 4.14222 20.0442C4.11319 20.1904 4.11352 20.341 4.14318 20.4871C4.17284 20.6332 4.23125 20.7719 4.31501 20.8953C4.39877 21.0186 4.50622 21.1241 4.63109 21.2055C4.75597 21.287 4.89579 21.3428 5.04243 21.3697C5.18907 21.3967 5.3396 21.3942 5.48527 21.3624C5.63094 21.3307 5.76885 21.2703 5.89097 21.1848C6.0131 21.0993 6.11701 20.9903 6.19667 20.8643C7.53448 18.8055 9.65604 17.6252 11.9998 17.6252C14.3435 17.6252 16.4651 18.8055 17.8076 20.8643C17.8873 20.9903 17.9912 21.0993 18.1133 21.1848C18.2354 21.2703 18.3733 21.3307 18.519 21.3624C18.6647 21.3942 18.8152 21.3967 18.9618 21.3697C19.1085 21.3428 19.2483 21.287 19.3732 21.2055C19.4981 21.1241 19.6055 21.0186 19.6893 20.8953C19.773 20.7719 19.8314 20.6332 19.8611 20.4871C19.8908 20.341 19.8911 20.1904 19.8621 20.0442C19.833 19.8979 19.7752 19.7589 19.692 19.6352C18.7669 18.1903 17.4643 17.0258 15.9251 16.2677C17.0997 15.3513 17.9158 14.052 18.2313 12.596C18.5468 11.14 18.3418 9.61944 17.652 8.29898L21.3551 7.06429C21.5788 6.98944 21.7733 6.84616 21.9112 6.65471C22.049 6.46326 22.1232 6.23332 22.1232 5.99742C22.1232 5.76151 22.049 5.53157 21.9112 5.34012C21.7733 5.14867 21.5788 5.00539 21.3551 4.93054V4.93335ZM11.9998 4.18335L17.442 6.00023L11.9998 7.81429L6.56229 6.00023L11.9998 4.18335ZM16.1248 11.2502C16.1249 11.8909 15.9758 12.5229 15.6892 13.0959C15.4026 13.669 14.9865 14.1674 14.4738 14.5517C13.9612 14.936 13.366 15.1956 12.7356 15.3099C12.1051 15.4241 11.4567 15.39 10.8418 15.2101C10.2268 15.0302 9.66221 14.7096 9.19272 14.2736C8.72324 13.8376 8.36177 13.2982 8.13699 12.6982C7.9122 12.0982 7.83027 11.4541 7.89769 10.8169C7.96512 10.1798 8.18004 9.56708 8.52542 9.02742L11.6445 10.0671C11.875 10.1446 12.1246 10.1446 12.3551 10.0671L15.4742 9.02742C15.8996 9.69068 16.1254 10.4622 16.1248 11.2502Z" fill="#008ED6"/>
                 </svg>
               </span>
-              <span>От 5 учащихся</span>
+              <span>Идёт набор</span>
               <span class="w-3 h-3 shrink-0">
                 <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -213,8 +213,9 @@
               </span>
             </button>
             <ul class="dropdown-menu" x-show="open" x-cloak @click.outside="open = false">
-              <li><button class="dropdown-item px-4 active">От 5 учащихся</button></li>
-              <li><button class="dropdown-item px-4">От 10 учащихся</button></li>
+              <li><button class="dropdown-item px-4 active">Идёт набор</button></li>
+              <li><button class="dropdown-item px-4">Есть свободные места</button></li>
+              <li><button class="dropdown-item px-4">Заполнено</button></li>
             </ul>
           </div>
         </li>
@@ -254,147 +255,330 @@
         <div class="col-span-full flex flex-col gap-8">
 
         <div>
-            <div class="mb-4">
-                <h5 class="h5 mt-4 uppercase font-bold">Спортивные</h5>
+          <div class="mb-4">
+            <h5 class="h5 mt-4 uppercase font-bold">Спортивные</h5>
+          </div>
+          <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
+            <div class="accordion-item">
+              <button class="accordion-header" @click="open = open === 1 ? null : 1">
+                <span class="accordion-title">
+                  <span>Футбол</span>
+                  <span>1–5 класс</span>
+                </span>
+                <span class="w-5 h-5 shrink-0 text-black/40">
+                  <svg class="transition-transform" :class="open === 1 && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <div x-show="open === 1" x-collapse>
+                <div class="accordion-body">
+                  <p>Командная игра — развивает координацию, выносливость и навыки работы в коллективе. Тренировки на школьном стадионе под руководством сертифицированного тренера.</p>
+
+                  <div class="mt-6 grid gap-4">
+                    <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                      <header>
+                        <h6 class="text-lg font-bold leading-tight text-black">Младшие</h6>
+                        <p class="text-sm font-medium text-black/60 mt-1">Пн, Ср, Пт · 16:00–17:30</p>
+                      </header>
+                      <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">От 5 учеников <span class="text-emerald-600 font-bold">· Идёт набор</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Школьный стадион</dd>
+                        </div>
+                        <div class="order-4">
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                          <dd class="text-base font-bold mt-1 text-black">18 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                          <dd class="text-sm font-medium  mt-1 text-black">Иванов Иван Иванович</dd>
+                          <dd class="text-xs text-black/60 leading-snug mt-1">Мастер спорта по футболу, тренерский стаж 12 лет, специализация — работа с детьми 7–12 лет.</dd>
+                        </div>
+                      </dl>
+                    </article>
+
+                    <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                      <header>
+                        <h6 class="text-lg font-bold leading-tight text-black">Старшие</h6>
+                        <p class="text-sm font-medium text-black/60 mt-1">Вт, Чт, Сб · 16:00–17:30</p>
+                      </header>
+                      <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">До 10 учеников</dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Школьный стадион</dd>
+                        </div>
+                        <div class="order-4">
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                          <dd class="text-base font-bold mt-1 text-black">20 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Петров Алексей Сергеевич</dd>
+                          <dd class="text-xs text-black/60 leading-snug mt-1">Кандидат в мастера спорта, тренерская категория, готовит команды к городским турнирам.</dd>
+                        </div>
+                      </dl>
+                    </article>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
-        <div class="accordion-item">
-          <button class="accordion-header" @click="open = open === 1 ? null : 1">
-            <span class="accordion-title">
-              <span>09:00 – 10:30</span>
-              <span>Робототехника</span>
-            </span>
-            <span>
-              <span class="badge bg-indigo-400/10 text-indigo-500">Технологии</span>
-            </span>
-          </button>
-          <div x-show="open === 1" x-collapse>
-            <div class="accordion-body">
-              <p>Space School — это образовательная платформа, которая помогает детям изучать космос и технологии через интерактивные занятия и проекты.</p>
+
+            <div class="accordion-item">
+              <button class="accordion-header" @click="open = open === 2 ? null : 2">
+                <span class="accordion-title">
+                  <span>Шахматный клуб</span>
+                  <span>1–11 класс</span>
+                </span>
+                <span class="w-5 h-5 shrink-0 text-black/40">
+                  <svg class="transition-transform" :class="open === 2 && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <div x-show="open === 2" x-collapse>
+                <div class="accordion-body">
+                  <p>Развиваем стратегическое мышление, концентрацию и умение планировать на несколько ходов вперёд. Подходит и новичкам, и тем, кто уже играет.</p>
+
+                  <div class="mt-6 grid gap-4">
+                    <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                      <header>
+                        <h6 class="text-lg font-bold leading-tight text-black">1–11 класс</h6>
+                        <p class="text-sm font-medium text-black/60 mt-1">Ср, Пт · 15:00–16:30</p>
+                      </header>
+                      <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">До 10 учеников <span class="text-red-500 font-bold">· Мест нет</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Кабинет 204</dd>
+                        </div>
+                        <div class="order-4">
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                          <dd class="text-base font-bold mt-1 text-black">15 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Кузнецов Дмитрий Олегович</dd>
+                          <dd class="text-xs text-black/60 leading-snug mt-1">Международный мастер ФИДЕ, рейтинг 2380, ведёт школьников от 1 разряда до КМС.</dd>
+                        </div>
+                      </dl>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <button class="accordion-header" @click="open = open === 3 ? null : 3">
+                <span class="accordion-title">
+                  <span>Плавание</span>
+                  <span>5–11 класс</span>
+                </span>
+                <span class="w-5 h-5 shrink-0 text-black/40">
+                  <svg class="transition-transform" :class="open === 3 && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <div x-show="open === 3" x-collapse>
+                <div class="accordion-body">
+                  <p>Постановка техники четырёх стилей, дыхание, выносливость. Бассейн школы 25 м, 4 дорожки.</p>
+
+                  <div class="mt-6 grid gap-4">
+                    <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                      <header>
+                        <h6 class="text-lg font-bold leading-tight text-black">5–7 класс</h6>
+                        <p class="text-sm font-medium text-black/60 mt-1">Пн, Ср · 14:00–15:30</p>
+                      </header>
+                      <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">От 5 учеников <span class="text-emerald-600 font-bold">· Идёт набор</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Бассейн</dd>
+                        </div>
+                        <div class="order-4">
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                          <dd class="text-base font-bold mt-1 text-black">25 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Сидорова Анна Викторовна</dd>
+                          <dd class="text-xs text-black/60 leading-snug mt-1">МС по плаванию, тренер-преподаватель высшей категории, стаж 8 лет.</dd>
+                        </div>
+                      </dl>
+                    </article>
+
+                    <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                      <header>
+                        <h6 class="text-lg font-bold leading-tight text-black">8–11 класс</h6>
+                        <p class="text-sm font-medium text-black/60 mt-1">Вт, Чт · 14:00–15:30</p>
+                      </header>
+                      <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">До 10 учеников</dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Бассейн</dd>
+                        </div>
+                        <div class="order-4">
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                          <dd class="text-base font-bold mt-1 text-black">30 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Морозов Андрей Павлович</dd>
+                          <dd class="text-xs text-black/60 leading-snug mt-1">Заслуженный тренер РК, готовит спортсменов к юношеским республиканским соревнованиям.</dd>
+                        </div>
+                      </dl>
+                    </article>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-header" @click="open = open === 2 ? null : 2">
-            <span class="accordion-title">
-              <span>10:30 – 12:00</span>
-              <span>Шахматный клуб</span>
-            </span>
-            <span>
-              <span class="badge bg-red-400/10 text-red-400">Наука</span>
-            </span>
-          </button>
-          <div x-show="open === 2" x-collapse>
-            <div class="accordion-body">
-              <p>Развиваем стратегическое мышление и концентрацию через игру в шахматы. Подходит как новичкам, так и опытным игрокам.</p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-header" @click="open = open === 3 ? null : 3">
-            <span class="accordion-title">
-              <span>10:00 – 13:30</span>
-              <span>Дебаты на английском</span>
-            </span>
-            <span>
-              <span class="badge bg-green-600/10 text-green-600">Риторика</span>
-            </span>
-          </button>
-          <div x-show="open === 3" x-collapse>
-            <div class="accordion-body">
-              <p>Рисование, живопись и графика — учимся выражать идеи через визуальные образы и развиваем художественный вкус.</p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-header" @click="open = open === 4 ? null : 4">
-            <span class="accordion-title">
-              <span>13:30 – 15:00</span>
-              <span>Английский клуб</span>
-            </span>
-            <span>
-              <span class="badge bg-orange-400/10 text-orange-400">Спорт</span>
-            </span>
-          </button>
-          <div x-show="open === 4" x-collapse>
-            <div class="accordion-body">
-              <p>Разговорная практика с носителями языка в неформальной обстановке. Игры, дискуссии и проекты на английском.</p>
-            </div>
-          </div>
-        </div>
-      </div>
         </div>
 
         <div>
-            <div class="mb-4">
-                <h5 class="h5 mt-4 uppercase font-bold">Спортивные</h5>
+          <div class="mb-4">
+            <h5 class="h5 mt-4 uppercase font-bold">Творческие</h5>
+          </div>
+          <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
+            <div class="accordion-item">
+              <button class="accordion-header" @click="open = open === 4 ? null : 4">
+                <span class="accordion-title">
+                  <span>Хор</span>
+                  <span>1–11 класс</span>
+                </span>
+                <span class="w-5 h-5 shrink-0 text-black/40">
+                  <svg class="transition-transform" :class="open === 4 && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <div x-show="open === 4" x-collapse>
+                <div class="accordion-body">
+                  <p>Постановка голоса, ансамблевое пение, выступления на школьных и городских мероприятиях. Репертуар — от классики до современных композиций.</p>
+
+                  <div class="mt-6 grid gap-4">
+                    <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                      <header>
+                        <h6 class="text-lg font-bold leading-tight text-black">Хоровая студия</h6>
+                        <p class="text-sm font-medium text-black/60 mt-1">Пн, Ср · 17:00–18:30</p>
+                      </header>
+                      <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">От 5 учеников <span class="text-emerald-600 font-bold">· Идёт набор</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Музыкальный зал</dd>
+                        </div>
+                        <div class="order-4">
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                          <dd class="text-base font-bold mt-1 text-black">22 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Алимова Гульнара Ержановна</dd>
+                          <dd class="text-xs text-black/60 leading-snug mt-1">Дирижёр-хормейстер, выпускница консерватории, 15 лет работы с детскими хорами.</dd>
+                        </div>
+                      </dl>
+                    </article>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
-        <div class="accordion-item">
-          <button class="accordion-header" @click="open = open === 1 ? null : 1">
-            <span class="accordion-title">
-              <span>09:00 – 10:30</span>
-              <span>Робототехника</span>
-            </span>
-            <span>
-              <span class="badge bg-indigo-400/10 text-indigo-500">Технологии</span>
-            </span>
-          </button>
-          <div x-show="open === 1" x-collapse>
-            <div class="accordion-body">
-              <p>Space School — это образовательная платформа, которая помогает детям изучать космос и технологии через интерактивные занятия и проекты.</p>
+
+            <div class="accordion-item">
+              <button class="accordion-header" @click="open = open === 5 ? null : 5">
+                <span class="accordion-title">
+                  <span>Изобразительное искусство</span>
+                  <span>1–7 класс</span>
+                </span>
+                <span class="w-5 h-5 shrink-0 text-black/40">
+                  <svg class="transition-transform" :class="open === 5 && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <div x-show="open === 5" x-collapse>
+                <div class="accordion-body">
+                  <p>Рисование, живопись и графика — учимся выражать идеи через визуальные образы и развиваем художественный вкус. Все материалы — за счёт школы.</p>
+
+                  <div class="mt-6 grid gap-4">
+                    <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                      <header>
+                        <h6 class="text-lg font-bold leading-tight text-black">Начинающие</h6>
+                        <p class="text-sm font-medium text-black/60 mt-1">Сб · 10:00–11:30</p>
+                      </header>
+                      <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">До 10 учеников</dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Художественная мастерская</dd>
+                        </div>
+                        <div class="order-4">
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                          <dd class="text-base font-bold mt-1 text-black">18 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Беккер Ольга Михайловна</dd>
+                          <dd class="text-xs text-black/60 leading-snug mt-1">Член Союза художников, преподаватель академического рисунка с 2010 года.</dd>
+                        </div>
+                      </dl>
+                    </article>
+
+                    <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                      <header>
+                        <h6 class="text-lg font-bold leading-tight text-black">Продвинутые</h6>
+                        <p class="text-sm font-medium text-black/60 mt-1">Сб · 12:00–13:30</p>
+                      </header>
+                      <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">До 10 учеников <span class="text-red-500 font-bold">· Мест нет</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Художественная мастерская</dd>
+                        </div>
+                        <div class="order-4">
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                          <dd class="text-base font-bold mt-1 text-black">22 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                        </div>
+                        <div>
+                          <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                          <dd class="text-sm font-medium mt-1 text-black">Жунусов Канат Серикович</dd>
+                          <dd class="text-xs text-black/60 leading-snug mt-1">Художник-график, ведёт авторские курсы по композиции и работе с цветом для подростков.</dd>
+                        </div>
+                      </dl>
+                    </article>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-header" @click="open = open === 2 ? null : 2">
-            <span class="accordion-title">
-              <span>10:30 – 12:00</span>
-              <span>Шахматный клуб</span>
-            </span>
-            <span>
-              <span class="badge bg-red-400/10 text-red-400">Наука</span>
-            </span>
-          </button>
-          <div x-show="open === 2" x-collapse>
-            <div class="accordion-body">
-              <p>Развиваем стратегическое мышление и концентрацию через игру в шахматы. Подходит как новичкам, так и опытным игрокам.</p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-header" @click="open = open === 3 ? null : 3">
-            <span class="accordion-title">
-              <span>10:00 – 13:30</span>
-              <span>Дебаты на английском</span>
-            </span>
-            <span>
-              <span class="badge bg-green-600/10 text-green-600">Риторика</span>
-            </span>
-          </button>
-          <div x-show="open === 3" x-collapse>
-            <div class="accordion-body">
-              <p>Рисование, живопись и графика — учимся выражать идеи через визуальные образы и развиваем художественный вкус.</p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-header" @click="open = open === 4 ? null : 4">
-            <span class="accordion-title">
-              <span>13:30 – 15:00</span>
-              <span>Английский клуб</span>
-            </span>
-            <span>
-              <span class="badge bg-orange-400/10 text-orange-400">Спорт</span>
-            </span>
-          </button>
-          <div x-show="open === 4" x-collapse>
-            <div class="accordion-body">
-              <p>Разговорная практика с носителями языка в неформальной обстановке. Игры, дискуссии и проекты на английском.</p>
-            </div>
-          </div>
-        </div>
-      </div>
         </div>
 
         </div>

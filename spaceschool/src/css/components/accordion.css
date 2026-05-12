@@ -14,28 +14,28 @@
 
 .accordion-activity .accordion-title {
   flex-direction: column;
-  font-size: var(--text-lg);
   align-items: start;
-  gap: .25rem;
-
-  @variant md {
-    flex-direction: row;
-    align-items: center;
-    gap: .5rem;
-  }
+  gap: .125rem;
 
   & > :first-child {
-    width: 100%;
-    font-size: var(--text-sm);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    line-height: var(--leading-tight);
 
     @variant md {
-      max-width: 10rem;
       font-size: var(--text-lg);
     }
   }
 
   & > :last-child {
-    font-size: var(--text-lg);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    line-height: var(--leading-tight);
+    color: color-mix(in srgb, black 60%, transparent);
+
+    @variant md {
+      font-size: var(--text-base);
+    }
   }
 }
 
@@ -101,7 +101,7 @@
   padding-bottom: 2rem;
 
   @variant md {
-    font-size: var(--text-lg);
-    padding-right: 4rem;
+    font-size: var(--text-base);
+    /*padding-right: 4rem;*/
   }
 }
