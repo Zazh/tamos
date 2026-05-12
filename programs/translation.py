@@ -77,7 +77,11 @@ class ProgramCertificateFeatureTranslationOptions(TranslationOptions):
 
 @register(ProgramActivityItem)
 class ProgramActivityItemTranslationOptions(TranslationOptions):
-    fields = ('time_label', 'title', 'category', 'description')
+    fields = (
+        'time_label', 'title', 'class_range', 'category', 'description',
+        'group_title', 'schedule', 'students_text', 'location', 'price',
+        'trainer_name', 'trainer_bio',
+    )
 
 
 @register(ProgramStat)

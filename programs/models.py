@@ -397,6 +397,10 @@ class ProgramActivityItem(models.Model):
         GREEN = 'green', 'Зелёный (Риторика)'
         ORANGE = 'orange', 'Оранжевый (Спорт)'
 
+    class StudentsStatus(models.TextChoices):
+        RECRUITING = 'recruiting', 'Идёт набор'
+        FULL = 'full', 'Мест нет'
+
     # Tailwind 4 не сканит Django-шаблоны — поэтому хранится готовый класс,
     # а не имя цвета. Если понадобится новый цвет: добавить пару в choices,
     # подобрать оттенки и заодно использовать класс хотя бы раз в
@@ -408,6 +412,11 @@ class ProgramActivityItem(models.Model):
         'orange': 'bg-orange-400/10 text-orange-400',
     }
 
+    STATUS_CSS = {
+        'recruiting': 'text-emerald-600',
+        'full':       'text-red-500',
+    }
+
     program_page = models.ForeignKey(
         ProgramPage,
         verbose_name='Лендинг',
@@ -415,16 +424,23 @@ class ProgramActivityItem(models.Model):
         related_name='activity_items',
     )
     time_label = models.CharField(
-        'Время',
+        'Время (устаревшее, не используется)',
         max_length=60,
-        help_text='Напр. «09:00 – 10:30».',
+        blank=True,
+        help_text='Старое поле, оставлено для совместимости. Расписание теперь в «schedule».',
     )
     title = models.CharField('Название', max_length=200)
+    class_range = models.CharField(
+        'Классы',
+        max_length=60,
+        blank=True,
+        help_text='Подзаголовок в шапке (напр. «1–5 класс»).',
+    )
     category = models.CharField(
         'Категория',
         max_length=60,
         blank=True,
-        help_text='Напр. «Технологии».',
+        help_text='Бейдж справа от стрелки (напр. «Технологии»).',
     )
     category_color = models.CharField(
         'Цвет категории',
@@ -432,7 +448,42 @@ class ProgramActivityItem(models.Model):
         choices=CategoryColor.choices,
         default=CategoryColor.INDIGO,
     )
-    description = models.TextField('Описание (открывается в аккордеоне)', blank=True)
+    description = models.TextField('Описание (вверху раскрытого блока)', blank=True)
+    # Группа (1 на активность на лендинге программы)
+    group_title = models.CharField(
+        'Название группы',
+        max_length=120,
+        blank=True,
+        help_text='Заголовок карточки-группы (напр. «Основная группа» или «1–5 класс»).',
+    )
+    schedule = models.CharField(
+        'Расписание',
+        max_length=120,
+        blank=True,
+        help_text='Напр. «Пн, Ср · 14:00–15:30».',
+    )
+    students_text = models.CharField(
+        'Учащихся (текст)',
+        max_length=80,
+        blank=True,
+        help_text='Напр. «От 5 учеников» или «До 10 учеников».',
+    )
+    students_status = models.CharField(
+        'Статус набора',
+        max_length=20,
+        choices=StudentsStatus.choices,
+        blank=True,
+        help_text='Цветной хвостик после количества учеников.',
+    )
+    location = models.CharField('Локация', max_length=120, blank=True)
+    price = models.CharField(
+        'Стоимость',
+        max_length=60,
+        blank=True,
+        help_text='Напр. «25 000 ₸/мес».',
+    )
+    trainer_name = models.CharField('ФИО тренера', max_length=200, blank=True)
+    trainer_bio = models.TextField('Био тренера', blank=True)
     order = models.PositiveSmallIntegerField('Порядок', default=0)
 
     class Meta:
@@ -446,6 +497,16 @@ class ProgramActivityItem(models.Model):
     @property
     def category_badge_css(self) -> str:
         return self.CATEGORY_CSS.get(self.category_color, 'bg-gray-400/10 text-gray-500')
+
+    @property
+    def students_status_css(self) -> str:
+        return self.STATUS_CSS.get(self.students_status, '')
+
+    @property
+    def has_group_card(self) -> bool:
+        """Показывать ли карточку-группу в раскрытом аккордеоне."""
+        return bool(self.group_title or self.schedule or self.students_text
+                    or self.location or self.price or self.trainer_name)
 
 
 class ProgramStat(models.Model):

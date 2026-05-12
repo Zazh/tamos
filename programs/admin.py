@@ -52,7 +52,16 @@ class ProgramCertificateFeatureInline(TranslationStackedInline):
 class ProgramActivityItemInline(TranslationStackedInline):
     model = ProgramActivityItem
     extra = 0
-    fields = ('order', 'time_label', 'title', 'category', 'category_color', 'description')
+    fields = (
+        'order',
+        'title', 'class_range',
+        'category', 'category_color',
+        'description',
+        'group_title', 'schedule',
+        'students_text', 'students_status',
+        'location', 'price',
+        'trainer_name', 'trainer_bio',
+    )
 
 
 class ProgramStatInline(TranslationStackedInline):
