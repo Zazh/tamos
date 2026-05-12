@@ -3,13 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog list — Space School</title>
-    <script type="module" crossorigin src="/static/assets/js/main-BNy9XxMd.js"></script>
-    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-BnvX-uOx.js"></script>
-    <link rel="stylesheet" crossorigin href="/static/assets/css/main-DHVZf7io.css">
+    <title>Admission — Space School</title>
+    <script type="module" src="/src/js/main.js"></script>
   </head>
   <body>
-  <header x-data="{ menu: false }">
+  <section class="hero hero-tint">
+    <header x-data="{ menu: false }">
     <nav class="nav nav-light" :class="{ 'nav-megamenu': menu }">
       <div class="flex items-center gap-4">
         <div>
@@ -167,122 +166,25 @@
       </div>
     </div>
   </header>
-  <main>
 
-  <section class="bg-white py-6">
-    <div class="container">
-      <div class="col-span-full">
-        <!-- Breadcrumb -->
-        <nav class="breadcrumb" aria-label="Хлебные крошки">
-          <ol class="breadcrumb-list">
-            <li class="breadcrumb-item">
-              <a href="/" class="breadcrumb-link">Главная</a>
-            </li>
-            <li class="breadcrumb-item">
-              <a href="/" class="breadcrumb-link">Жизнь школы</a>
-            </li>
-            <li class="breadcrumb-item" aria-current="page">
-              Фотогалерея
-            </li>
-          </ol>
-        </nav>
-        <!-- END Breadcrumb -->
-      </div>
-
-      <div class="col-span-full">
-        <div class="mb-6">
-          <h2 class="h1 font-bold">Блог</h2>
-        </div>
-
-        <div class="btn-filter-group my-6">
-          <button class="btn btn-filter active">Все</button>
-          <button class="btn btn-filter">Школьная жизнь</button>
-          <button class="btn btn-filter">Спорт</button>
-          <button class="btn btn-filter">Достижения</button>
-          <button class="btn btn-filter">Робототехника</button>
-          <button class="btn btn-filter">Мероприятие</button>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          <article class="article-card">
-            <a href="/blog/1" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog1/800/450" alt="Празднование Наурыза в школе" width="800" height="450" fetchpriority="high" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-20">20 апреля 2026</time>
-                <h3 class="article-card__title">Как мы празднуем Наурыз в школе</h3>
-              </div>
-            </a>
-          </article>
-
-          <article class="article-card">
-            <a href="/blog/2" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog2/800/450" alt="Ученики с медалями международной олимпиады по математике" width="800" height="450" loading="lazy" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-18">18 апреля 2026</time>
-                <h3 class="article-card__title">Итоги международной олимпиады по математике</h3>
-              </div>
-            </a>
-          </article>
-
-          <article class="article-card">
-            <a href="/blog/3" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog3/800/450" alt="Занятие по робототехнике в средней школе" width="800" height="450" loading="lazy" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-15">15 апреля 2026</time>
-                <h3 class="article-card__title">Новый курс по робототехнике для средних классов</h3>
-              </div>
-            </a>
-          </article>
-
-          <article class="article-card">
-            <a href="/blog/4" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog4/800/450" alt="Встреча учеников с выпускниками MIT" width="800" height="450" loading="lazy" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-12">12 апреля 2026</time>
-                <h3 class="article-card__title">Встреча с выпускниками университета MIT</h3>
-              </div>
-            </a>
-          </article>
-
-          <article class="article-card">
-            <a href="/blog/5" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog5/800/450" alt="Ученики на занятии по подготовке к SAT" width="800" height="450" loading="lazy" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-10">10 апреля 2026</time>
-                <h3 class="article-card__title">Программа подготовки к SAT запущена</h3>
-              </div>
-            </a>
-          </article>
-
-          <article class="article-card">
-            <a href="/blog/6" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog6/800/450" alt="Ребёнок читает книгу в школьной библиотеке" width="800" height="450" loading="lazy" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-05">5 апреля 2026</time>
-                <h3 class="article-card__title">Как помочь ребёнку полюбить чтение</h3>
-              </div>
-            </a>
-          </article>
-        </div>
-
-
-
-        <button type="button" class="btn btn-load-more mt-6">Загрузить еще</button>
+  <div class="px-4 pt-12 pb-6 md:pt-16 md:pb-8">
+    <div class="max-w-screen-xl mx-auto flex flex-col items-center text-center gap-4">
+      <h1 class="h1 font-bold">Выберите класс</h1>
+      <p class="leading-tight text-black/70 font-medium max-w-2xl">
+        Выберите класс, чтобы увидеть этапы поступления и условия тестирования именно для вашего ребёнка.
+      </p>
+      <div class="flex gap-2 mt-2" role="tablist">
+        <button class="btn-tab active" role="tab" aria-selected="true">С 1 по 5 класс</button>
+        <button class="btn-tab" role="tab" aria-selected="false">С 6 по 11 класс</button>
       </div>
     </div>
+  </div>
   </section>
+
+  <main class="bg-white">
+
+
+
   </main>
 
   <footer class="footer mt-auto"

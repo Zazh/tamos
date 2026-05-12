@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog list — Space School</title>
+    <title>Activities — Space School</title>
     <script type="module" crossorigin src="/static/assets/js/main-BNy9XxMd.js"></script>
     <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-BnvX-uOx.js"></script>
     <link rel="stylesheet" crossorigin href="/static/assets/css/main-DHVZf7io.css">
   </head>
   <body>
-  <header x-data="{ menu: false }">
+  <section class="bg-blue-300">
+        <header x-data="{ menu: false }">
     <nav class="nav nav-light" :class="{ 'nav-megamenu': menu }">
       <div class="flex items-center gap-4">
         <div>
@@ -167,8 +168,9 @@
       </div>
     </div>
   </header>
-  <main>
+  </section>
 
+  <main>
   <section class="bg-white py-6">
     <div class="container">
       <div class="col-span-full">
@@ -182,36 +184,365 @@
               <a href="/" class="breadcrumb-link">Жизнь школы</a>
             </li>
             <li class="breadcrumb-item" aria-current="page">
-              Фотогалерея
+              Внеклассные занятия
             </li>
           </ol>
         </nav>
         <!-- END Breadcrumb -->
       </div>
 
-      <div class="col-span-full">
-        <div class="mb-6">
-          <h2 class="h1 font-bold">Блог</h2>
+      <!-- Title Header -->
+      <div class="col-span-full lg:col-span-8 mb-8">
+        <div class="mb-6 border-b border-gray-300 py-6">
+          <span class="badge bg-brand/30 inline">Достижения</span>
+          <h2 class="h1 font-bold mt-4">
+            Ученики Space School прошли стажировку в MIT: когда наука объединяет мир
+          </h2>
+          <!-- Meta-строка: дата + кнопка "Поделиться", всегда в одной строке. -->
+          <div class="flex justify-between items-center gap-6 mt-4">
+            <ul class="flex gap-6">
+              <li class="text-sm font-medium flex items-center gap-2">
+                <span class="w-4 h-4">
+                  <!-- tabler: calendar -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/>
+                    <path d="M16 3v4"/>
+                    <path d="M8 3v4"/>
+                    <path d="M4 11h16"/>
+                  </svg>
+                </span>
+                <span>26 марта 2025</span>
+              </li>
+            </ul>
+
+            <!--
+              Share dropdown. Ссылки строятся в Alpine из window.location —
+              Django-CMS ничего не передаёт URL/title, всё клиент.
+
+              Иконки соцсетей — Tabler Icons (https://tabler.io/icons):
+              brand-whatsapp, brand-telegram, copy. Один пак, один стиль:
+              outline 24×24, stroke 2, currentColor. При замене иконок —
+              брать из tabler-icons-outline, чтобы линия совпадала.
+
+              i18n: переводимые строки ("Поделиться", "Копировать ссылку",
+              "Скопировано") передаются Django через data-* атрибуты на
+              корне dropdown. Alpine читает их из $el.dataset при init.
+              Названия мессенджеров (WhatsApp / Telegram) — бренды,
+              их не переводят.
+
+              Django template:
+                <div class="dropdown"
+                     data-label-share="{% trans 'Поделиться' %}"
+                     data-label-copy="{% trans 'Копировать ссылку' %}"
+                     data-label-copied="{% trans 'Скопировано' %}"
+                     x-data="...">
+            -->
+            <div class="dropdown"
+                 data-label-share="Поделиться"
+                 data-label-copy="Копировать"
+                 data-label-copied="Скопировано"
+                 x-data="{
+                   open: false,
+                   copied: false,
+                   labels: {
+                     share: $el.dataset.labelShare,
+                     copy: $el.dataset.labelCopy,
+                     copied: $el.dataset.labelCopied,
+                   },
+                   get pageUrl() { return window.location.href; },
+                   get pageTitle() { return document.title; },
+                   waUrl() { return 'https://wa.me/?text=' + encodeURIComponent(this.pageTitle + ' ' + this.pageUrl); },
+                   tgUrl() { return 'https://t.me/share/url?url=' + encodeURIComponent(this.pageUrl) + '&text=' + encodeURIComponent(this.pageTitle); },
+                   copy() {
+                     navigator.clipboard.writeText(this.pageUrl);
+                     this.copied = true;
+                     setTimeout(() => this.copied = false, 1500);
+                   }
+                 }">
+              <button type="button" class="text-sm flex items-center gap-2 cursor-pointer" @click="open = !open" :aria-expanded="open">
+                <span class="w-4 h-4">
+                  <!-- tabler: share-3 -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 4v4c-6.575 1.028-9.02 5.65-10 10 2.547-2.83 5.5-4.5 10-4.5v4l7-7-7-7z"/>
+                  </svg>
+                </span>
+                <span class="font-medium" x-text="labels.share"></span>
+              </button>
+              <ul class="dropdown-menu" x-show="open" x-cloak @click.outside="open = false">
+                <li>
+                  <a :href="waUrl()" target="_blank" rel="noopener noreferrer" class="dropdown-item normal-case">
+                    <span class="dropdown-icon">
+                      <!-- tabler: brand-whatsapp -->
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/>
+                        <path d="M9 10a.5 .5 0 0 0 1 0V9a.5 .5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0-1h-1a.5 .5 0 0 0 0 1"/>
+                      </svg>
+                    </span>
+                    <span>WhatsApp</span>
+                  </a>
+                </li>
+                <li>
+                  <a :href="tgUrl()" target="_blank" rel="noopener noreferrer" class="dropdown-item normal-case">
+                    <span class="dropdown-icon">
+                      <!-- tabler: brand-telegram -->
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 10l-4 4l6 6l4-16l-18 7l4 2l2 6l3-4"/>
+                      </svg>
+                    </span>
+                    <span>Telegram</span>
+                  </a>
+                </li>
+                <li>
+                  <button type="button" class="dropdown-item normal-case" @click="copy()">
+                    <span class="dropdown-icon">
+                      <!-- tabler: copy -->
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 10a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z"/>
+                        <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
+                      </svg>
+                    </span>
+                    <span x-text="copied ? labels.copied : labels.copy"></span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
 
-        <div class="btn-filter-group my-6">
-          <button class="btn btn-filter active">Все</button>
-          <button class="btn btn-filter">Школьная жизнь</button>
-          <button class="btn btn-filter">Спорт</button>
-          <button class="btn btn-filter">Достижения</button>
-          <button class="btn btn-filter">Робототехника</button>
-          <button class="btn btn-filter">Мероприятие</button>
+        <!--
+          Content / Универсальный prose-блок для текстовых страниц.
+
+          Используется на: blog-detail, "О нас", "Безопасность в школе",
+          "Питание" и любой другой странице, где контент пишется в CMS
+          в Markdown-поле и рендерится python-markdown в HTML.
+
+          Стили живут в src/css/components/content-redactor.css и
+          применяются к семантическим тегам, которые выдаёт markdown:
+            #  → <h1> (НЕ используем — h1 идёт снаружи как заголовок страницы)
+            ## → <h2>     ### → <h3>     #### → <h4>
+            > цитата → <blockquote>
+            * / - / 1. → <ul> / <ol>
+            [текст](url) → <a>
+            ![alt](url) → <img>
+            ---  → <hr>
+
+          Спецблоки (galler, tags) Django вставляет либо markdown-shortcode'ом
+          (django-markdownx + custom extension), либо отдельным template-блоком
+          ниже основного текста — см. комментарии у каждого блока.
+
+          SEO: внутри статьи только h2 и ниже, alt у всех картинок,
+          rel="tag" у тегов.
+        -->
+        <div class="content-redactor">
+
+          <!--
+            Cover. Опционально (есть не на всех страницах).
+            Markdown-эквивалент: ![alt](url) на первой строке.
+            <figcaption> = текст после "alt" в синтаксисе расширения,
+            либо отдельное поле модели "cover_caption".
+          -->
+          <figure>
+            <img src="https://picsum.photos/seed/mit-cover/1504/818" alt="Ученики Space School в лаборатории MIT">
+            <figcaption>Лаборатория Media Lab, MIT — март 2025</figcaption>
+          </figure>
+
+          <!-- Лид / базовый абзац. Markdown: обычный параграф. -->
+          <p>
+            В марте 2025 года пятеро учеников Space School Astana стали участниками уникальной научной программы Массачусетского технологического института. Две недели интенсивной работы в лабораториях MIT изменили их представление о том, что значит заниматься наукой.
+          </p>
+
+          <!--
+            Заголовок + текст. Markdown:
+              ## Как устроена программа
+              Программа построена...
+          -->
+          <h2>Как устроена программа</h2>
+          <p>
+            Программа построена вокруг трёх лабораторий: Media Lab, CSAIL и Bio. Каждый ученик за две недели проходит через все три направления и работает в команде с аспирантами MIT над живыми исследовательскими задачами.
+          </p>
+
+          <!--
+            Параграф со ссылками внутри. Markdown:
+              Подробнее о приёмной кампании читайте на [странице поступления](/admission/).
+          -->
+          <p>
+            Отбор на программу — конкурсный, через олимпиады по математике и физике. Подробнее о приёмной кампании читайте на <a href="/admission/">странице поступления</a>, а актуальные даты — в <a href="/blog/">новостях школы</a>.
+          </p>
+
+          <!-- Список. Markdown: маркированный (* / -) или нумерованный (1.). -->
+          <h3>Что входит в стажировку</h3>
+          <ul>
+            <li>Работа в одной из трёх лабораторий MIT под руководством наставника</li>
+            <li>Еженедельные семинары с приглашёнными учёными</li>
+            <li>Финальная защита проекта перед комиссией факультета</li>
+            <li>Сертификат участия и письмо-рекомендация</li>
+          </ul>
+
+          <!--
+            Цитата. Markdown:
+              > Текст цитаты, который может быть длинным.
+              > — Имя Автора, должность
+
+            python-markdown формирует <blockquote><p>...</p></blockquote>.
+            Автор — отдельная строка с тире, либо отдельное поле модели
+            "quote_author" и в шаблоне <cite> вручную.
+          -->
+          <blockquote>
+            <p>«Мы хотели, чтобы ребята поняли: настоящая наука — это не идеальный эксперимент с первого раза, а сотни итераций, в которых ты ошибаешься быстрее, чем успеваешь думать».</p>
+            <cite>Айгуль Сарсенова, координатор программы Space School</cite>
+          </blockquote>
+
+          <!--
+            Маленький уточняющий текст / примечание / сноска.
+            В Markdown: <small>...</small> (HTML inline разрешён),
+            либо договорённость "абзац с одной звёздочкой *...*" → <em>,
+            либо отдельный класс через extension {.small}.
+          -->
+          <p>
+            <small>* Стажировка проводится при поддержке MIT-Kazakhstan Foundation. Расходы на перелёт и проживание покрывает грант.</small>
+          </p>
+
+          <!--
+            Галерея. В Markdown нет нативного синтаксиса — для бэка два
+            варианта реализации:
+
+            1. Custom markdown extension со shortcode'ом:
+                 [[gallery id=12]]
+               Шорткод подгружает связанный объект Gallery и выводит
+               <figure class="content-gallery-figure">…</figure>.
+
+            2. Отдельное поле/related-set на модели страницы и рендер
+               в template ПОСЛЕ markdown-блока.
+
+            Поведение: единый вид — горизонтальная карусель со snap-points.
+            mobile — 1 карточка на ширину, md+ — две карточки в видимой
+            области, остальные за overflow. Картинки не обрезаются
+            (высота от естественной пропорции). Стрелки видны на md+,
+            на mobile работает свайп. Alpine крутит scrollLeft на ширину
+            одного элемента + gap. Подпись figcaption имеет min-height,
+            чтобы при разном наличии описаний у соседей низ карточек
+            оставался ровным.
+          -->
+          <figure class="content-gallery-figure"
+                  x-data="{
+                    scroll(dir) {
+                      const track = $refs.track;
+                      const item = track.querySelector('li');
+                      if (!item) return;
+                      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+                      track.scrollBy({ left: dir * (item.offsetWidth + gap), behavior: 'smooth' });
+                    }
+                  }">
+            <ul class="content-gallery" x-ref="track">
+              <li>
+                <figure>
+                  <img src="https://picsum.photos/seed/mit-day1/800/600" alt="День 1: знакомство с лабораторией">
+                  <figcaption>День 1: знакомство</figcaption>
+                </figure>
+              </li>
+              <li>
+                <figure>
+                  <img src="https://picsum.photos/seed/mit-day3/800/600" alt="День 3: работа над прототипом">
+                  <figcaption>День 3: прототип</figcaption>
+                </figure>
+              </li>
+              <li>
+                <figure>
+                  <img src="https://picsum.photos/seed/mit-day5/800/600" alt="День 5: midterm review">
+                </figure>
+              </li>
+              <li>
+                <figure>
+                  <img src="https://picsum.photos/seed/mit-day7/800/600" alt="День 7: эксперимент">
+                  <figcaption>День 7: экспериментДень 7: экспериментДень 7:</figcaption>
+                </figure>
+              </li>
+              <li>
+                <figure>
+                  <img src="https://picsum.photos/seed/mit-day10/800/600" alt="День 10: финальная защита">
+                  <figcaption>День 10: защита</figcaption>
+                </figure>
+              </li>
+            </ul>
+            <button type="button" class="btn-nav btn-nav--prev" @click="scroll(-1)" aria-label="Предыдущее">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+            <button type="button" class="btn-nav btn-nav--next" @click="scroll(1)" aria-label="Следующее">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+          </figure>
+
+          <p>
+            После возвращения участники программы продолжают исследования уже в Space School — школа выделяет под это два часа в неделю и доступ к лабораторному оборудованию.
+          </p>
+
         </div>
+        <!-- END Content -->
+
+        <!--
+          Облако тегов — ВНЕ .content-redactor, чтобы prose-стили
+          (подчёркивание ссылок, цвет brand, margin между блоками)
+          не наследовались. Каждый тег — самостоятельная badge-кнопка.
+          rel="tag" — микроразметка для поисковиков.
+
+          Django template:
+            <ul class="content-tags mt-8">
+              {% for tag in article.tags.all %}
+                <li><a href="{{ tag.get_absolute_url }}" rel="tag" class="badge bg-brand/20">#{{ tag.name }}</a></li>
+              {% endfor %}
+            </ul>
+        -->
+        <ul class="content-tags mt-8">
+          <li><a href="/blog/?tag=mit" rel="tag" class="badge bg-brand/20">#MIT</a></li>
+          <li><a href="/blog/?tag=achievements" rel="tag" class="badge bg-brand/20">#Достижения</a></li>
+          <li><a href="/blog/?tag=research" rel="tag" class="badge bg-brand/20">#Исследования</a></li>
+          <li><a href="/blog/?tag=stem" rel="tag" class="badge bg-brand/20">#STEM</a></li>
+        </ul>
+      </div>
+      <!-- END Title Header -->
+
+    </div>
+  </section>
+
+  <!--
+    Похожие публикации. Карточка та же, что в blog-list (.article-card).
+    Django передаёт 3 статьи — ту же категорию или общие теги, исключая
+    текущую. На mobile в одну колонку, на md+ — три.
+
+    Django template:
+      {% if related_articles %}
+      <section class="bg-white pb-12">
+        <div class="container">
+          <div class="col-span-full">
+            <h2 class="h1 font-bold mb-6">{% trans "Похожие публикации" %}</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+              {% for article in related_articles %}
+                ...article-card...
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+      {% endif %}
+  -->
+  <section class="bg-white pb-12">
+    <div class="container">
+      <div class="col-span-full">
+        <h2 class="text-xl font-bold mb-6">Похожие публикации</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           <article class="article-card">
-            <a href="/blog/1" class="article-card__link">
+            <a href="/blog/2" class="article-card__link">
               <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog1/800/450" alt="Празднование Наурыза в школе" width="800" height="450" fetchpriority="high" decoding="async">
+                <img src="https://picsum.photos/seed/related1/800/450" alt="Ученики с медалями международной олимпиады по математике" width="800" height="450" loading="lazy" decoding="async">
               </figure>
               <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-20">20 апреля 2026</time>
-                <h3 class="article-card__title">Как мы празднуем Наурыз в школе</h3>
+                <time class="article-card__date" datetime="2025-03-18">18 марта 2025</time>
+                <h3 class="article-card__title">Итоги международной олимпиады по математике</h3>
               </div>
             </a>
           </article>
@@ -219,23 +550,23 @@
           <article class="article-card">
             <a href="/blog/2" class="article-card__link">
               <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog2/800/450" alt="Ученики с медалями международной олимпиады по математике" width="800" height="450" loading="lazy" decoding="async">
+                <img src="https://picsum.photos/seed/related1/800/450" alt="Ученики с медалями международной олимпиады по математике" width="800" height="450" loading="lazy" decoding="async">
               </figure>
               <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-18">18 апреля 2026</time>
+                <time class="article-card__date" datetime="2025-03-18">18 марта 2025</time>
                 <h3 class="article-card__title">Итоги международной олимпиады по математике</h3>
               </div>
             </a>
           </article>
 
           <article class="article-card">
-            <a href="/blog/3" class="article-card__link">
+            <a href="/blog/2" class="article-card__link">
               <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog3/800/450" alt="Занятие по робототехнике в средней школе" width="800" height="450" loading="lazy" decoding="async">
+                <img src="https://picsum.photos/seed/related1/800/450" alt="Ученики с медалями международной олимпиады по математике" width="800" height="450" loading="lazy" decoding="async">
               </figure>
               <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-15">15 апреля 2026</time>
-                <h3 class="article-card__title">Новый курс по робототехнике для средних классов</h3>
+                <time class="article-card__date" datetime="2025-03-18">18 марта 2025</time>
+                <h3 class="article-card__title">Итоги международной олимпиады по математике</h3>
               </div>
             </a>
           </article>
@@ -243,10 +574,10 @@
           <article class="article-card">
             <a href="/blog/4" class="article-card__link">
               <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog4/800/450" alt="Встреча учеников с выпускниками MIT" width="800" height="450" loading="lazy" decoding="async">
+                <img src="https://picsum.photos/seed/related2/800/450" alt="Встреча учеников с выпускниками MIT" width="800" height="450" loading="lazy" decoding="async">
               </figure>
               <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-12">12 апреля 2026</time>
+                <time class="article-card__date" datetime="2025-03-12">12 марта 2025</time>
                 <h3 class="article-card__title">Встреча с выпускниками университета MIT</h3>
               </div>
             </a>
@@ -255,31 +586,15 @@
           <article class="article-card">
             <a href="/blog/5" class="article-card__link">
               <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog5/800/450" alt="Ученики на занятии по подготовке к SAT" width="800" height="450" loading="lazy" decoding="async">
+                <img src="https://picsum.photos/seed/related3/800/450" alt="Ученики на занятии по подготовке к SAT" width="800" height="450" loading="lazy" decoding="async">
               </figure>
               <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-10">10 апреля 2026</time>
+                <time class="article-card__date" datetime="2025-03-10">10 марта 2025</time>
                 <h3 class="article-card__title">Программа подготовки к SAT запущена</h3>
               </div>
             </a>
           </article>
-
-          <article class="article-card">
-            <a href="/blog/6" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog6/800/450" alt="Ребёнок читает книгу в школьной библиотеке" width="800" height="450" loading="lazy" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-05">5 апреля 2026</time>
-                <h3 class="article-card__title">Как помочь ребёнку полюбить чтение</h3>
-              </div>
-            </a>
-          </article>
         </div>
-
-
-
-        <button type="button" class="btn btn-load-more mt-6">Загрузить еще</button>
       </div>
     </div>
   </section>

@@ -69,4 +69,12 @@
     background: var(--color-slate-50);
     color: var(--color-brand);
   }
+
+  /* Меню растягивается под ширину триггера (а не свой min-width) */
+  .dropdown-fit .dropdown-menu {
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: 0;
+  }
 }

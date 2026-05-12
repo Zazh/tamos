@@ -12,6 +12,29 @@
     overflow: hidden;
 }
 
+/* Тонированный hero для вторичных страниц (activities, contacts, blog).
+   overflow: visible вынесен из @layer — иначе unlayered .hero{overflow:hidden}
+   перебивает по правилам каскадных слоёв, и dropdown-меню обрезается. */
+.hero-tint {
+    overflow: visible;
+}
+
+@layer components {
+    .hero-tint {
+        background-color: var(--color-slate-50);
+    }
+
+    .hero-tint .nav-light {
+        background: transparent;
+    }
+
+    /* На тонированном фоне дефолтный slate-50 hover у chip/tab-кнопок сливается — затемняем */
+    .hero-tint .btn-chip:not(.active):hover,
+    .hero-tint .btn-tab:not(.active):hover {
+        background: var(--color-gray-200);
+    }
+}
+
 .hero-container {
     display: flex;
     justify-content: center;

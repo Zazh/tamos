@@ -193,6 +193,58 @@
     gap: 0.5rem;
   }
 
+  /* -- Chip: compact white pill (dropdown triggers, inline filters) -- */
+
+  .btn-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background: var(--color-white);
+    color: var(--color-black);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    transition: background 0.2s ease, color 0.2s ease;
+
+    @variant hover {
+      background: var(--color-slate-50);
+    }
+  }
+
+  .btn-chip.active,
+  .btn-chip.active:hover {
+    background: var(--color-brand);
+    color: var(--color-white);
+  }
+
+  /* -- Tab: fixed-width pill, gold active (compact toggle) -- */
+
+  .btn-tab {
+    display: flex;
+    padding: 1rem 1.5rem;
+    justify-content: center;
+    align-items: center;
+    gap: 13px;
+    border-radius: 0.5rem;
+    background: var(--color-white);
+    color: var(--color-black);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-bold);
+    transition: background 0.2s ease, color 0.2s ease;
+
+    @variant hover {
+      background: var(--color-slate-50);
+    }
+  }
+
+  .btn-tab.active,
+  .btn-tab.active:hover {
+    background: var(--color-gold);
+    color: var(--color-black);
+  }
+
   /* -- Filter: rectangular chip, gold active ------------- */
 
   .btn-filter {

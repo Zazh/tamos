@@ -3,13 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog list — Space School</title>
-    <script type="module" crossorigin src="/static/assets/js/main-BNy9XxMd.js"></script>
-    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-BnvX-uOx.js"></script>
-    <link rel="stylesheet" crossorigin href="/static/assets/css/main-DHVZf7io.css">
+    <title>Activities — Space School</title>
+    <script type="module" src="/src/js/main.js"></script>
   </head>
   <body>
-  <header x-data="{ menu: false }">
+  <section class="hero hero-tint">
+    <header x-data="{ menu: false }">
     <nav class="nav nav-light" :class="{ 'nav-megamenu': menu }">
       <div class="flex items-center gap-4">
         <div>
@@ -167,122 +166,241 @@
       </div>
     </div>
   </header>
-  <main>
 
-  <section class="bg-white py-6">
-    <div class="container">
-      <div class="col-span-full">
-        <!-- Breadcrumb -->
-        <nav class="breadcrumb" aria-label="Хлебные крошки">
-          <ol class="breadcrumb-list">
-            <li class="breadcrumb-item">
-              <a href="/" class="breadcrumb-link">Главная</a>
-            </li>
-            <li class="breadcrumb-item">
-              <a href="/" class="breadcrumb-link">Жизнь школы</a>
-            </li>
-            <li class="breadcrumb-item" aria-current="page">
-              Фотогалерея
-            </li>
-          </ol>
-        </nav>
-        <!-- END Breadcrumb -->
-      </div>
+  <div class="px-4 pt-12 pb-6 md:pt-16 md:pb-8">
+    <div class="max-w-screen-xl mx-auto flex flex-col items-center text-center gap-2">
+      <h1 class="h1 font-bold">Space Courses</h1>
+      <p class="leading-tight text-black/70 font-medium">
+        Центр дополнительного образования
+      </p>
 
-      <div class="col-span-full">
-        <div class="mb-6">
-          <h2 class="h1 font-bold">Блог</h2>
-        </div>
+      <ul class="flex flex-wrap justify-center gap-2 md:gap-4 mt-4">
+        <li>
+          <div class="dropdown dropdown-fit" x-data="{ open: false }">
+            <button class="btn-chip" @click="open = !open">
+              <span class="w-6 h-6 shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 1.875C9.99747 1.875 8.0399 2.46882 6.37486 3.58137C4.70981 4.69392 3.41206 6.27523 2.64572 8.12533C1.87939 9.97543 1.67888 12.0112 2.06955 13.9753C2.46023 15.9393 3.42454 17.7435 4.84055 19.1595C6.25656 20.5755 8.06066 21.5398 10.0247 21.9305C11.9888 22.3211 14.0246 22.1206 15.8747 21.3543C17.7248 20.5879 19.3061 19.2902 20.4186 17.6251C21.5312 15.9601 22.125 14.0025 22.125 12C22.122 9.3156 21.0543 6.74199 19.1562 4.84383C17.258 2.94567 14.6844 1.87798 12 1.875ZM12 19.875C10.4425 19.875 8.91993 19.4131 7.62489 18.5478C6.32985 17.6825 5.32049 16.4526 4.72445 15.0136C4.12841 13.5747 3.97246 11.9913 4.27632 10.4637C4.58018 8.93606 5.3302 7.53287 6.43154 6.43153C7.53288 5.3302 8.93607 4.58017 10.4637 4.27632C11.9913 3.97246 13.5747 4.12841 15.0136 4.72445C16.4526 5.32049 17.6825 6.32985 18.5478 7.62488C19.4131 8.91992 19.875 10.4425 19.875 12C19.8728 14.0879 19.0424 16.0896 17.566 17.566C16.0896 19.0424 14.0879 19.8728 12 19.875ZM18.375 12C18.375 12.2984 18.2565 12.5845 18.0455 12.7955C17.8345 13.0065 17.5484 13.125 17.25 13.125H14.7188L16.5488 14.9541C16.7601 15.1654 16.8788 15.4521 16.8788 15.7509C16.8788 16.0498 16.7601 16.3365 16.5488 16.5478C16.3374 16.7592 16.0508 16.8779 15.7519 16.8779C15.453 16.8779 15.1663 16.7592 14.955 16.5478L11.205 12.7978C11.0469 12.6406 10.9391 12.44 10.8952 12.2214C10.8513 12.0029 10.8733 11.7762 10.9585 11.5702C11.0437 11.3641 11.1882 11.1881 11.3736 11.0643C11.559 10.9405 11.7771 10.8746 12 10.875H17.25C17.5484 10.875 17.8345 10.9935 18.0455 11.2045C18.2565 11.4155 18.375 11.7016 18.375 12Z" fill="#008ED6"/>
+                </svg>
+              </span>
+              <span>9:00 – 19:00</span>
+              <span class="w-3 h-3 shrink-0">
+                <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+            <ul class="dropdown-menu" x-show="open" x-cloak @click.outside="open = false">
+              <li><button class="dropdown-item px-4">С 9 до 13</button></li>
+              <li><button class="dropdown-item px-4">С 14 до 19</button></li>
+            </ul>
+          </div>
+        </li>
 
-        <div class="btn-filter-group my-6">
-          <button class="btn btn-filter active">Все</button>
-          <button class="btn btn-filter">Школьная жизнь</button>
-          <button class="btn btn-filter">Спорт</button>
-          <button class="btn btn-filter">Достижения</button>
-          <button class="btn btn-filter">Робототехника</button>
-          <button class="btn btn-filter">Мероприятие</button>
-        </div>
+        <li>
+          <div class="dropdown dropdown-fit" x-data="{ open: false }">
+            <button class="btn-chip" @click="open = !open">
+              <span class="w-6 h-6 shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21.3551 4.93335L12.3551 1.93335C12.1246 1.85555 11.875 1.85555 11.6445 1.93335L2.64448 4.93335C2.42973 5.00448 2.24141 5.13869 2.10411 5.31848C1.9668 5.49826 1.88689 5.71527 1.87479 5.94116C1.87377 5.96084 1.87377 5.98055 1.87479 6.00023V13.5002C1.87479 13.7986 1.99332 14.0847 2.2043 14.2957C2.41528 14.5067 2.70142 14.6252 2.99979 14.6252C3.29816 14.6252 3.58431 14.5067 3.79529 14.2957C4.00627 14.0847 4.12479 13.7986 4.12479 13.5002V7.56117L6.34761 8.30179C5.65775 9.62226 5.45275 11.1428 5.76828 12.5988C6.0838 14.0548 6.89988 15.3541 8.07448 16.2705C6.53738 17.0285 5.23651 18.192 4.31229 19.6352C4.22906 19.7589 4.17125 19.8979 4.14222 20.0442C4.11319 20.1904 4.11352 20.341 4.14318 20.4871C4.17284 20.6332 4.23125 20.7719 4.31501 20.8953C4.39877 21.0186 4.50622 21.1241 4.63109 21.2055C4.75597 21.287 4.89579 21.3428 5.04243 21.3697C5.18907 21.3967 5.3396 21.3942 5.48527 21.3624C5.63094 21.3307 5.76885 21.2703 5.89097 21.1848C6.0131 21.0993 6.11701 20.9903 6.19667 20.8643C7.53448 18.8055 9.65604 17.6252 11.9998 17.6252C14.3435 17.6252 16.4651 18.8055 17.8076 20.8643C17.8873 20.9903 17.9912 21.0993 18.1133 21.1848C18.2354 21.2703 18.3733 21.3307 18.519 21.3624C18.6647 21.3942 18.8152 21.3967 18.9618 21.3697C19.1085 21.3428 19.2483 21.287 19.3732 21.2055C19.4981 21.1241 19.6055 21.0186 19.6893 20.8953C19.773 20.7719 19.8314 20.6332 19.8611 20.4871C19.8908 20.341 19.8911 20.1904 19.8621 20.0442C19.833 19.8979 19.7752 19.7589 19.692 19.6352C18.7669 18.1903 17.4643 17.0258 15.9251 16.2677C17.0997 15.3513 17.9158 14.052 18.2313 12.596C18.5468 11.14 18.3418 9.61944 17.652 8.29898L21.3551 7.06429C21.5788 6.98944 21.7733 6.84616 21.9112 6.65471C22.049 6.46326 22.1232 6.23332 22.1232 5.99742C22.1232 5.76151 22.049 5.53157 21.9112 5.34012C21.7733 5.14867 21.5788 5.00539 21.3551 4.93054V4.93335ZM11.9998 4.18335L17.442 6.00023L11.9998 7.81429L6.56229 6.00023L11.9998 4.18335ZM16.1248 11.2502C16.1249 11.8909 15.9758 12.5229 15.6892 13.0959C15.4026 13.669 14.9865 14.1674 14.4738 14.5517C13.9612 14.936 13.366 15.1956 12.7356 15.3099C12.1051 15.4241 11.4567 15.39 10.8418 15.2101C10.2268 15.0302 9.66221 14.7096 9.19272 14.2736C8.72324 13.8376 8.36177 13.2982 8.13699 12.6982C7.9122 12.0982 7.83027 11.4541 7.89769 10.8169C7.96512 10.1798 8.18004 9.56708 8.52542 9.02742L11.6445 10.0671C11.875 10.1446 12.1246 10.1446 12.3551 10.0671L15.4742 9.02742C15.8996 9.69068 16.1254 10.4622 16.1248 11.2502Z" fill="#008ED6"/>
+                </svg>
+              </span>
+              <span>От 5 учащихся</span>
+              <span class="w-3 h-3 shrink-0">
+                <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+            <ul class="dropdown-menu" x-show="open" x-cloak @click.outside="open = false">
+              <li><button class="dropdown-item px-4 active">От 5 учащихся</button></li>
+              <li><button class="dropdown-item px-4">От 10 учащихся</button></li>
+            </ul>
+          </div>
+        </li>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          <article class="article-card">
-            <a href="/blog/1" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog1/800/450" alt="Празднование Наурыза в школе" width="800" height="450" fetchpriority="high" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-20">20 апреля 2026</time>
-                <h3 class="article-card__title">Как мы празднуем Наурыз в школе</h3>
-              </div>
-            </a>
-          </article>
-
-          <article class="article-card">
-            <a href="/blog/2" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog2/800/450" alt="Ученики с медалями международной олимпиады по математике" width="800" height="450" loading="lazy" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-18">18 апреля 2026</time>
-                <h3 class="article-card__title">Итоги международной олимпиады по математике</h3>
-              </div>
-            </a>
-          </article>
-
-          <article class="article-card">
-            <a href="/blog/3" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog3/800/450" alt="Занятие по робототехнике в средней школе" width="800" height="450" loading="lazy" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-15">15 апреля 2026</time>
-                <h3 class="article-card__title">Новый курс по робототехнике для средних классов</h3>
-              </div>
-            </a>
-          </article>
-
-          <article class="article-card">
-            <a href="/blog/4" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog4/800/450" alt="Встреча учеников с выпускниками MIT" width="800" height="450" loading="lazy" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-12">12 апреля 2026</time>
-                <h3 class="article-card__title">Встреча с выпускниками университета MIT</h3>
-              </div>
-            </a>
-          </article>
-
-          <article class="article-card">
-            <a href="/blog/5" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog5/800/450" alt="Ученики на занятии по подготовке к SAT" width="800" height="450" loading="lazy" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-10">10 апреля 2026</time>
-                <h3 class="article-card__title">Программа подготовки к SAT запущена</h3>
-              </div>
-            </a>
-          </article>
-
-          <article class="article-card">
-            <a href="/blog/6" class="article-card__link">
-              <figure class="article-card__image">
-                <img src="https://picsum.photos/seed/blog6/800/450" alt="Ребёнок читает книгу в школьной библиотеке" width="800" height="450" loading="lazy" decoding="async">
-              </figure>
-              <div class="article-card__body">
-                <time class="article-card__date" datetime="2026-04-05">5 апреля 2026</time>
-                <h3 class="article-card__title">Как помочь ребёнку полюбить чтение</h3>
-              </div>
-            </a>
-          </article>
-        </div>
-
-
-
-        <button type="button" class="btn btn-load-more mt-6">Загрузить еще</button>
-      </div>
+        <li>
+          <div class="dropdown dropdown-fit" x-data="{ open: false }">
+            <button class="btn-chip" @click="open = !open">
+              <span class="w-6 h-6 shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19.5 1.875H6.75C5.85489 1.875 4.99645 2.23058 4.36351 2.86351C3.73058 3.49645 3.375 4.35489 3.375 5.25V21C3.375 21.2984 3.49353 21.5845 3.7045 21.7955C3.91548 22.0065 4.20163 22.125 4.5 22.125H18C18.2984 22.125 18.5845 22.0065 18.7955 21.7955C19.0065 21.5845 19.125 21.2984 19.125 21C19.125 20.7016 19.0065 20.4155 18.7955 20.2045C18.5845 19.9935 18.2984 19.875 18 19.875H5.625V19.5C5.625 19.2016 5.74353 18.9155 5.9545 18.7045C6.16548 18.4935 6.45163 18.375 6.75 18.375H19.5C19.7984 18.375 20.0845 18.2565 20.2955 18.0455C20.5065 17.8345 20.625 17.5484 20.625 17.25V3C20.625 2.70163 20.5065 2.41548 20.2955 2.2045C20.0845 1.99353 19.7984 1.875 19.5 1.875ZM18.375 16.125H6.75C6.36669 16.1243 5.98612 16.1896 5.625 16.3181V5.25C5.625 4.95163 5.74353 4.66548 5.9545 4.4545C6.16548 4.24353 6.45163 4.125 6.75 4.125H18.375V16.125Z" fill="#008ED6"/>
+                </svg>
+              </span>
+              <span>1–11 класс</span>
+              <span class="w-3 h-3 shrink-0">
+                <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+            <ul class="dropdown-menu" x-show="open" x-cloak @click.outside="open = false">
+              <li><button class="dropdown-item px-4 active">1–11 класс</button></li>
+              <li><button class="dropdown-item px-4">1–4 класс</button></li>
+              <li><button class="dropdown-item px-4">5–9 класс</button></li>
+              <li><button class="dropdown-item px-4">10–11 класс</button></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
     </div>
+  </div>
   </section>
+
+  <main class="bg-white">
+    <!-- Activity -->
+    <section class="py-6">
+      <div class="container" x-data="{ open: null }">
+        <div class="col-span-full flex flex-col gap-8">
+
+        <div>
+            <div class="mb-4">
+                <h5 class="h5 mt-4 uppercase font-bold">Спортивные</h5>
+            </div>
+            <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 1 ? null : 1">
+            <span class="accordion-title">
+              <span>09:00 – 10:30</span>
+              <span>Робототехника</span>
+            </span>
+            <span>
+              <span class="badge bg-indigo-400/10 text-indigo-500">Технологии</span>
+            </span>
+          </button>
+          <div x-show="open === 1" x-collapse>
+            <div class="accordion-body">
+              <p>Space School — это образовательная платформа, которая помогает детям изучать космос и технологии через интерактивные занятия и проекты.</p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 2 ? null : 2">
+            <span class="accordion-title">
+              <span>10:30 – 12:00</span>
+              <span>Шахматный клуб</span>
+            </span>
+            <span>
+              <span class="badge bg-red-400/10 text-red-400">Наука</span>
+            </span>
+          </button>
+          <div x-show="open === 2" x-collapse>
+            <div class="accordion-body">
+              <p>Развиваем стратегическое мышление и концентрацию через игру в шахматы. Подходит как новичкам, так и опытным игрокам.</p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 3 ? null : 3">
+            <span class="accordion-title">
+              <span>10:00 – 13:30</span>
+              <span>Дебаты на английском</span>
+            </span>
+            <span>
+              <span class="badge bg-green-600/10 text-green-600">Риторика</span>
+            </span>
+          </button>
+          <div x-show="open === 3" x-collapse>
+            <div class="accordion-body">
+              <p>Рисование, живопись и графика — учимся выражать идеи через визуальные образы и развиваем художественный вкус.</p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 4 ? null : 4">
+            <span class="accordion-title">
+              <span>13:30 – 15:00</span>
+              <span>Английский клуб</span>
+            </span>
+            <span>
+              <span class="badge bg-orange-400/10 text-orange-400">Спорт</span>
+            </span>
+          </button>
+          <div x-show="open === 4" x-collapse>
+            <div class="accordion-body">
+              <p>Разговорная практика с носителями языка в неформальной обстановке. Игры, дискуссии и проекты на английском.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+
+        <div>
+            <div class="mb-4">
+                <h5 class="h5 mt-4 uppercase font-bold">Спортивные</h5>
+            </div>
+            <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 1 ? null : 1">
+            <span class="accordion-title">
+              <span>09:00 – 10:30</span>
+              <span>Робототехника</span>
+            </span>
+            <span>
+              <span class="badge bg-indigo-400/10 text-indigo-500">Технологии</span>
+            </span>
+          </button>
+          <div x-show="open === 1" x-collapse>
+            <div class="accordion-body">
+              <p>Space School — это образовательная платформа, которая помогает детям изучать космос и технологии через интерактивные занятия и проекты.</p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 2 ? null : 2">
+            <span class="accordion-title">
+              <span>10:30 – 12:00</span>
+              <span>Шахматный клуб</span>
+            </span>
+            <span>
+              <span class="badge bg-red-400/10 text-red-400">Наука</span>
+            </span>
+          </button>
+          <div x-show="open === 2" x-collapse>
+            <div class="accordion-body">
+              <p>Развиваем стратегическое мышление и концентрацию через игру в шахматы. Подходит как новичкам, так и опытным игрокам.</p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 3 ? null : 3">
+            <span class="accordion-title">
+              <span>10:00 – 13:30</span>
+              <span>Дебаты на английском</span>
+            </span>
+            <span>
+              <span class="badge bg-green-600/10 text-green-600">Риторика</span>
+            </span>
+          </button>
+          <div x-show="open === 3" x-collapse>
+            <div class="accordion-body">
+              <p>Рисование, живопись и графика — учимся выражать идеи через визуальные образы и развиваем художественный вкус.</p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" @click="open = open === 4 ? null : 4">
+            <span class="accordion-title">
+              <span>13:30 – 15:00</span>
+              <span>Английский клуб</span>
+            </span>
+            <span>
+              <span class="badge bg-orange-400/10 text-orange-400">Спорт</span>
+            </span>
+          </button>
+          <div x-show="open === 4" x-collapse>
+            <div class="accordion-body">
+              <p>Разговорная практика с носителями языка в неформальной обстановке. Игры, дискуссии и проекты на английском.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- END Activity -->
   </main>
 
   <footer class="footer mt-auto"
