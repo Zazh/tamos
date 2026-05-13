@@ -28,6 +28,10 @@
         background: transparent;
     }
 
+    .hero-tint .nav-megamenu {
+        background: var(--color-white);
+    }
+
     /* На тонированном фоне дефолтный slate-50 hover у chip/tab-кнопок сливается — затемняем */
     .hero-tint .btn-chip:not(.active):hover,
     .hero-tint .btn-tab:not(.active):hover {
