@@ -452,73 +452,74 @@
           {% if program.activities_subtitle %}<h5 class="h5 mt-4">{{ program.activities_subtitle }}</h5>{% endif %}
         </div>
 
-        {% if activity_items %}
+        {% if featured_activities %}
         <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
-          {% for activity in activity_items %}
+          {% for activity in featured_activities %}
           <div class="accordion-item">
-            <button class="accordion-header" @click="open = open === {{ forloop.counter }} ? null : {{ forloop.counter }}">
+            <button class="accordion-header" @click="open = open === {{ activity.pk }} ? null : {{ activity.pk }}">
               <span class="accordion-title">
-                <span>{{ activity.title }}</span>
-                {% if activity.class_range %}<span>{{ activity.class_range }}</span>{% endif %}
+                <span class="marquee"><span class="marquee-inner">{{ activity.name }}</span></span>
+                {% if activity.class_range_display or activity.days_display %}
+                  <span class="marquee"><span class="marquee-inner">{% if activity.class_range_display %}{{ activity.class_range_display }}{% endif %}{% if activity.class_range_display and activity.days_display %} / {% endif %}{% if activity.days_display %}{{ activity.days_display }}{% endif %}</span></span>
+                {% endif %}
               </span>
               <span class="flex items-center gap-3 shrink-0">
-                {% if activity.category %}
-                <span class="badge {{ activity.category_badge_css }}">{{ activity.category }}</span>
-                {% endif %}
+                <span class="badge {{ activity.section.badge_css }}">{{ activity.section.title }}</span>
                 <span class="w-5 h-5 shrink-0 text-black/40">
-                  <svg class="transition-transform" :class="open === {{ forloop.counter }} && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="transition-transform" :class="open === {{ activity.pk }} && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </span>
               </span>
             </button>
-            {% if activity.description or activity.has_group_card %}
-            <div x-show="open === {{ forloop.counter }}" x-collapse>
+            <div x-show="open === {{ activity.pk }}" x-collapse>
               <div class="accordion-body">
                 {% if activity.description %}<p>{{ activity.description }}</p>{% endif %}
 
-                {% if activity.has_group_card %}
+                {% if activity.groups.all %}
                 <div class="mt-6 grid gap-4">
+                  {% for group in activity.groups.all %}
                   <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
-                    {% if activity.group_title or activity.schedule %}
                     <header>
-                      {% if activity.group_title %}<h6 class="text-lg font-bold leading-tight text-black">{{ activity.group_title }}</h6>{% endif %}
-                      {% if activity.schedule %}<p class="text-sm font-medium text-black/60 mt-1">{{ activity.schedule }}</p>{% endif %}
+                      {% if group.label_display %}<h6 class="text-lg font-bold leading-tight text-black">{{ group.label_display }}</h6>{% endif %}
+                      {% if group.schedule_display %}<p class="text-sm font-medium text-black/60 mt-1">{{ group.schedule_display }}</p>{% endif %}
                     </header>
-                    {% endif %}
                     <dl class="mt-5 grid gap-4 md:grid-cols-2">
-                      {% if activity.students_text %}
+                      {% if group.students_text %}
                       <div>
-                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
-                        <dd class="text-sm font-medium mt-1 text-black">{{ activity.students_text }}{% if activity.students_status %} <span class="{{ activity.students_status_css }} font-bold">· {{ activity.get_students_status_display }}</span>{% endif %}</dd>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">{% trans 'Учащихся' %}</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">
+                          {{ group.students_text }}
+                          {% if group.students_status %}<span class="{{ group.students_status_css }} font-bold">· {{ group.get_students_status_display }}</span>{% endif %}
+                        </dd>
                       </div>
                       {% endif %}
                       {% if activity.location %}
                       <div>
-                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
-                        <dd class="text-sm font-medium mt-1 text-black">{{ activity.location }}</dd>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">{% trans 'Локация' %}</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">{{ activity.location|capfirst }}</dd>
                       </div>
                       {% endif %}
-                      {% if activity.price %}
+                      {% if group.price %}
                       <div class="order-4">
-                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
-                        <dd class="text-base font-bold mt-1 text-black">{{ activity.price }}</dd>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">{% trans 'Стоимость' %}</dt>
+                        <dd class="text-base font-bold mt-1 text-black">{{ group.price_display }}<span class="text-sm font-medium text-black/60">{% trans '/мес' %}</span></dd>
                       </div>
                       {% endif %}
-                      {% if activity.trainer_name %}
+                      {% if activity.teacher %}
                       <div>
-                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
-                        <dd class="text-sm font-medium mt-1 text-black">{{ activity.trainer_name }}</dd>
-                        {% if activity.trainer_bio %}<dd class="text-xs text-black/60 leading-snug mt-1">{{ activity.trainer_bio }}</dd>{% endif %}
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">{% trans 'Тренер' %}</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">{{ activity.teacher.name }}</dd>
+                        {% if activity.teacher.bio %}<dd class="text-xs text-black/60 leading-snug mt-1">{{ activity.teacher.bio }}</dd>{% endif %}
                       </div>
                       {% endif %}
                     </dl>
                   </article>
+                  {% endfor %}
                 </div>
                 {% endif %}
               </div>
             </div>
-            {% endif %}
           </div>
           {% endfor %}
         </div>
@@ -526,11 +527,7 @@
 
         {% if program.activities_cta_text %}
         <div class="mt-8">
-          <button type="button"
-                  class="btn btn-primary"
-                  data-feedback-trigger
-                  data-feedback-title="{{ program.activities_cta_text }}"
-                  data-feedback-origin="program-activities">{{ program.activities_cta_text }}</button>
+          <a href="{% region_url 'activities:list' %}" class="btn btn-primary">{{ program.activities_cta_text }}</a>
         </div>
         {% endif %}
       </div>

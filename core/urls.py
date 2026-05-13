@@ -18,6 +18,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path('<slug:region_slug>/', include('pages.urls')),
     path('<slug:region_slug>/', include('programs.urls')),
+    path('<slug:region_slug>/', include('activities.urls')),
     prefix_default_language=True,
 )
 

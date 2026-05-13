@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Landing — Space School</title>
-    <script type="module" crossorigin src="/static/assets/js/main-BNy9XxMd.js"></script>
-    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-BnvX-uOx.js"></script>
-    <link rel="stylesheet" crossorigin href="/static/assets/css/main-DHVZf7io.css">
+    <script type="module" crossorigin src="/static/assets/js/main-DQDvfXRF.js"></script>
+    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-BWnSCVjP.js"></script>
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-BfEtdGJu.css">
   </head>
   <body>
   <!-- Hero -->
@@ -922,16 +922,49 @@
           <div class="accordion-item">
             <button class="accordion-header" @click="open = open === 1 ? null : 1">
               <span class="accordion-title">
-                <span>09:00 – 10:30</span>
                 <span>Робототехника</span>
+                <span>1–5 класс</span>
               </span>
-              <span>
+              <span class="flex items-center gap-3 shrink-0">
                 <span class="badge bg-indigo-400/10 text-indigo-500">Технологии</span>
+                <span class="w-5 h-5 shrink-0 text-black/40">
+                  <svg class="transition-transform" :class="open === 1 && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
               </span>
             </button>
             <div x-show="open === 1" x-collapse>
               <div class="accordion-body">
                 <p>Space School — это образовательная платформа, которая помогает детям изучать космос и технологии через интерактивные занятия и проекты.</p>
+
+                <div class="mt-6 grid gap-4">
+                  <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                    <header>
+                      <h6 class="text-lg font-bold leading-tight text-black">Основная группа</h6>
+                      <p class="text-sm font-medium text-black/60 mt-1">Пн, Ср · 14:00–15:30</p>
+                    </header>
+                    <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">От 5 учеников <span class="text-emerald-600 font-bold">· Идёт набор</span></dd>
+                      </div>
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">Лаборатория робототехники</dd>
+                      </div>
+                      <div class="order-4">
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                        <dd class="text-base font-bold mt-1 text-black">25 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                      </div>
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">Алишеров Тимур Маратович</dd>
+                        <dd class="text-xs text-black/60 leading-snug mt-1">Инженер-программист, ведёт детские робототехнические соревнования с 2018 года.</dd>
+                      </div>
+                    </dl>
+                  </article>
+                </div>
               </div>
             </div>
           </div>
@@ -939,16 +972,49 @@
           <div class="accordion-item">
             <button class="accordion-header" @click="open = open === 2 ? null : 2">
               <span class="accordion-title">
-                <span>10:30 – 12:00</span>
                 <span>Шахматный клуб</span>
+                <span>1–11 класс</span>
               </span>
-              <span>
+              <span class="flex items-center gap-3 shrink-0">
                 <span class="badge bg-red-400/10 text-red-400">Наука</span>
+                <span class="w-5 h-5 shrink-0 text-black/40">
+                  <svg class="transition-transform" :class="open === 2 && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
               </span>
             </button>
             <div x-show="open === 2" x-collapse>
               <div class="accordion-body">
                 <p>Развиваем стратегическое мышление и концентрацию через игру в шахматы. Подходит как новичкам, так и опытным игрокам.</p>
+
+                <div class="mt-6 grid gap-4">
+                  <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                    <header>
+                      <h6 class="text-lg font-bold leading-tight text-black">Все уровни</h6>
+                      <p class="text-sm font-medium text-black/60 mt-1">Ср, Пт · 15:00–16:30</p>
+                    </header>
+                    <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">До 10 учеников</dd>
+                      </div>
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">Кабинет 204</dd>
+                      </div>
+                      <div class="order-4">
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                        <dd class="text-base font-bold mt-1 text-black">15 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                      </div>
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">Кузнецов Дмитрий Олегович</dd>
+                        <dd class="text-xs text-black/60 leading-snug mt-1">Международный мастер ФИДЕ, рейтинг 2380, ведёт школьников от 1 разряда до КМС.</dd>
+                      </div>
+                    </dl>
+                  </article>
+                </div>
               </div>
             </div>
           </div>
@@ -956,16 +1022,49 @@
           <div class="accordion-item">
             <button class="accordion-header" @click="open = open === 3 ? null : 3">
               <span class="accordion-title">
-                <span>10:00 – 13:30</span>
                 <span>Дебаты на английском</span>
+                <span>8–11 класс</span>
               </span>
-              <span>
-                <span class="badge  bg-green-600/10 text-green-600">Риторика</span>
+              <span class="flex items-center gap-3 shrink-0">
+                <span class="badge bg-green-600/10 text-green-600">Риторика</span>
+                <span class="w-5 h-5 shrink-0 text-black/40">
+                  <svg class="transition-transform" :class="open === 3 && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
               </span>
             </button>
             <div x-show="open === 3" x-collapse>
               <div class="accordion-body">
-                <p>Рисование, живопись и графика — учимся выражать идеи через визуальные образы и развиваем художественный вкус.</p>
+                <p>Учимся аргументировать, слушать оппонента и формулировать мысль на английском. Готовим к городским и международным дебатным турнирам.</p>
+
+                <div class="mt-6 grid gap-4">
+                  <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                    <header>
+                      <h6 class="text-lg font-bold leading-tight text-black">Старшая лига</h6>
+                      <p class="text-sm font-medium text-black/60 mt-1">Вт, Чт · 16:00–17:30</p>
+                    </header>
+                    <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">От 5 учеников <span class="text-emerald-600 font-bold">· Идёт набор</span></dd>
+                      </div>
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">Кабинет 312</dd>
+                      </div>
+                      <div class="order-4">
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                        <dd class="text-base font-bold mt-1 text-black">28 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                      </div>
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">John Smith</dd>
+                        <dd class="text-xs text-black/60 leading-snug mt-1">Носитель языка, преподаватель IELTS Speaking, готовит к Cambridge English Speaking exam.</dd>
+                      </div>
+                    </dl>
+                  </article>
+                </div>
               </div>
             </div>
           </div>
@@ -973,16 +1072,49 @@
           <div class="accordion-item">
             <button class="accordion-header" @click="open = open === 4 ? null : 4">
               <span class="accordion-title">
-                <span>13:30 – 15:00</span>
                 <span>Английский клуб</span>
+                <span>1–7 класс</span>
               </span>
-              <span>
-                <span class="badge   bg-orange-400/10 text-orange-400">Спорт</span>
+              <span class="flex items-center gap-3 shrink-0">
+                <span class="badge bg-orange-400/10 text-orange-400">Спорт</span>
+                <span class="w-5 h-5 shrink-0 text-black/40">
+                  <svg class="transition-transform" :class="open === 4 && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
               </span>
             </button>
             <div x-show="open === 4" x-collapse>
               <div class="accordion-body">
                 <p>Разговорная практика с носителями языка в неформальной обстановке. Игры, дискуссии и проекты на английском.</p>
+
+                <div class="mt-6 grid gap-4">
+                  <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8">
+                    <header>
+                      <h6 class="text-lg font-bold leading-tight text-black">Младшая группа</h6>
+                      <p class="text-sm font-medium text-black/60 mt-1">Пн, Ср, Пт · 13:30–15:00</p>
+                    </header>
+                    <dl class="mt-5 grid gap-4 md:grid-cols-2">
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Учащихся</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">До 10 учеников <span class="text-red-500 font-bold">· Мест нет</span></dd>
+                      </div>
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Локация</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">Кабинет 215</dd>
+                      </div>
+                      <div class="order-4">
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Стоимость</dt>
+                        <dd class="text-base font-bold mt-1 text-black">22 000 ₸<span class="text-sm font-medium text-black/60">/мес</span></dd>
+                      </div>
+                      <div>
+                        <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">Тренер</dt>
+                        <dd class="text-sm font-medium mt-1 text-black">Бекова Айгерим Канатовна</dd>
+                        <dd class="text-xs text-black/60 leading-snug mt-1">Преподаватель английского с международным сертификатом TKT, 7 лет работы с младшими школьниками.</dd>
+                      </div>
+                    </dl>
+                  </article>
+                </div>
               </div>
             </div>
           </div>

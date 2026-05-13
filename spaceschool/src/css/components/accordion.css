@@ -16,6 +16,9 @@
   flex-direction: column;
   align-items: start;
   gap: .125rem;
+  /* min-width:0 у flex-item, чтобы marquee-дети могли реально clip-нуться */
+  min-width: 0;
+  width: 100%;
 
   & > :first-child {
     font-size: var(--text-lg);
@@ -39,6 +42,108 @@
   }
 }
 
+/* ========== Marquee (бегущая строка при overflow) ========== */
+
+.marquee {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-inner {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Класс is-overflowing ставится JS-ом из marquee.js, когда контент шире
+   контейнера. CSS-переменная --marquee-shift = (containerW - innerW),
+   т.е. отрицательное число — насколько уехать влево. */
+.marquee.is-overflowing .marquee-inner {
+  animation: marquee-scroll 10s infinite;
+}
+
+/* Многоточие со стороны обрезки. Псевдоэлементы — символ «…» с градиентом
+   фона, который маскирует текст под ними. По умолчанию фон белый; для
+   карточек на другом фоне можно переопределить через --marquee-bg. */
+.marquee.is-overflowing::before,
+.marquee.is-overflowing::after {
+  content: "…";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  color: inherit;
+  font: inherit;
+  opacity: 0;
+}
+
+.marquee.is-overflowing::after {
+  right: 0;
+  padding-left: 1em;
+  background: linear-gradient(to right, transparent 0, var(--marquee-bg, white) 0.55em);
+  animation: marquee-ellipsis-right 10s infinite;
+}
+
+.marquee.is-overflowing::before {
+  left: 0;
+  padding-right: 1em;
+  background: linear-gradient(to left, transparent 0, var(--marquee-bg, white) 0.55em);
+  animation: marquee-ellipsis-left 10s infinite;
+}
+
+/* Темп: задержка в исходном положении → плавный уезд → пауза слева →
+   быстрый возврат → задержка в исходном.
+   0–15% : стоит исходно
+   15–60%: уезжает (45% времени, ease-in-out)
+   60–65%: пауза в крайнем положении
+   65–85%: возвращается (20% времени, ease-out, быстрее)
+   85–100%: стоит исходно */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+    animation-timing-function: linear;
+  }
+  15% {
+    transform: translateX(0);
+    animation-timing-function: ease-in-out;
+  }
+  60% {
+    transform: translateX(var(--marquee-shift, 0));
+    animation-timing-function: linear;
+  }
+  65% {
+    transform: translateX(var(--marquee-shift, 0));
+    animation-timing-function: ease-out;
+  }
+  85% {
+    transform: translateX(0);
+    animation-timing-function: linear;
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* «…» справа — пока текст стоит в исходном положении (обрезан справа). */
+@keyframes marquee-ellipsis-right {
+  0%, 14% { opacity: 1; }
+  18%, 82% { opacity: 0; }
+  87%, 100% { opacity: 1; }
+}
+
+/* «…» слева — когда текст уехал и обрезан слева. */
+@keyframes marquee-ellipsis-left {
+  0%, 58% { opacity: 0; }
+  61%, 64% { opacity: 1; }
+  68%, 100% { opacity: 0; }
+}
+
 .accordion-item {
   border-top: 1px solid var(--color-gray-300);
 
@@ -58,7 +163,7 @@
   border: none;
   padding: 0;
   text-align: left;
-  gap: 0.25rem;
+  gap: 0.5rem;
 }
 
 .accordion-title {

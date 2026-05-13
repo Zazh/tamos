@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'regions',
     'pages',
     'programs',
+    'activities',
     'navigation',
 ]
 

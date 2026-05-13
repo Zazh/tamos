@@ -1,0 +1,294 @@
+{% extends 'base.html' %}
+{% load i18n region_tags %}
+
+{% block title %}{% trans 'Внеклассные занятия' %} — Tamos Space School{% endblock %}
+
+{% block layout_top %}
+  <section class="hero hero-tint">
+    {% include 'partials/header.html' with active_page='extracurricular' %}
+
+    <div class="px-4 pt-12 pb-6 md:pt-16 md:pb-8">
+      <div class="max-w-screen-xl mx-auto flex flex-col items-center text-center gap-2">
+        <h1 class="h1 font-bold">{% trans 'Space Courses' %}</h1>
+        <p class="leading-tight text-black/70 font-medium">
+          {% trans 'Центр дополнительного образования' %}
+        </p>
+
+
+        <ul class="flex flex-wrap justify-center gap-2 md:gap-4 mt-4">
+          <li>
+            <div class="dropdown dropdown-fit" x-data="{ open: false }">
+              <button class="btn-chip" @click="open = !open">
+                <span class="w-6 h-6 shrink-0">
+                  {# Иконка календаря (Heroicons outline calendar-days) #}
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#008ED6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 3v3M18 3v3M3.75 8.25h16.5M4.5 6h15A1.5 1.5 0 0 1 21 7.5v12A1.5 1.5 0 0 1 19.5 21h-15A1.5 1.5 0 0 1 3 19.5v-12A1.5 1.5 0 0 1 4.5 6z"/>
+                    <path d="M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>
+                  </svg>
+                </span>
+                <span x-text="$store.activitiesFilter.dayLabel()">{% trans 'Любой день' %}</span>
+                <span class="w-3 h-3 shrink-0">
+                  <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <ul class="dropdown-menu" x-show="open" x-cloak @click.outside="open = false">
+                <li><button class="dropdown-item px-4" :class="$store.activitiesFilter.day === null && 'active'" @click="$store.activitiesFilter.day = null; open = false">{% trans 'Любой день' %}</button></li>
+                {% for key, label in weekdays %}
+                  <li><button class="dropdown-item px-4" :class="$store.activitiesFilter.day === '{{ key }}' && 'active'" @click="$store.activitiesFilter.day = '{{ key }}'; open = false">{{ label }}</button></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </li>
+
+          <li>
+            <div class="dropdown dropdown-fit" x-data="{ open: false }">
+              <button class="btn-chip" @click="open = !open">
+                <span class="w-6 h-6 shrink-0">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.3551 4.93335L12.3551 1.93335C12.1246 1.85555 11.875 1.85555 11.6445 1.93335L2.64448 4.93335C2.42973 5.00448 2.24141 5.13869 2.10411 5.31848C1.9668 5.49826 1.88689 5.71527 1.87479 5.94116C1.87377 5.96084 1.87377 5.98055 1.87479 6.00023V13.5002C1.87479 13.7986 1.99332 14.0847 2.2043 14.2957C2.41528 14.5067 2.70142 14.6252 2.99979 14.6252C3.29816 14.6252 3.58431 14.5067 3.79529 14.2957C4.00627 14.0847 4.12479 13.7986 4.12479 13.5002V7.56117L6.34761 8.30179C5.65775 9.62226 5.45275 11.1428 5.76828 12.5988C6.0838 14.0548 6.89988 15.3541 8.07448 16.2705C6.53738 17.0285 5.23651 18.192 4.31229 19.6352C4.22906 19.7589 4.17125 19.8979 4.14222 20.0442C4.11319 20.1904 4.11352 20.341 4.14318 20.4871C4.17284 20.6332 4.23125 20.7719 4.31501 20.8953C4.39877 21.0186 4.50622 21.1241 4.63109 21.2055C4.75597 21.287 4.89579 21.3428 5.04243 21.3697C5.18907 21.3967 5.3396 21.3942 5.48527 21.3624C5.63094 21.3307 5.76885 21.2703 5.89097 21.1848C6.0131 21.0993 6.11701 20.9903 6.19667 20.8643C7.53448 18.8055 9.65604 17.6252 11.9998 17.6252C14.3435 17.6252 16.4651 18.8055 17.8076 20.8643C17.8873 20.9903 17.9912 21.0993 18.1133 21.1848C18.2354 21.2703 18.3733 21.3307 18.519 21.3624C18.6647 21.3942 18.8152 21.3967 18.9618 21.3697C19.1085 21.3428 19.2483 21.287 19.3732 21.2055C19.4981 21.1241 19.6055 21.0186 19.6893 20.8953C19.773 20.7719 19.8314 20.6332 19.8611 20.4871C19.8908 20.341 19.8911 20.1904 19.8621 20.0442C19.833 19.8979 19.7752 19.7589 19.692 19.6352C18.7669 18.1903 17.4643 17.0258 15.9251 16.2677C17.0997 15.3513 17.9158 14.052 18.2313 12.596C18.5468 11.14 18.3418 9.61944 17.652 8.29898L21.3551 7.06429C21.5788 6.98944 21.7733 6.84616 21.9112 6.65471C22.049 6.46326 22.1232 6.23332 22.1232 5.99742C22.1232 5.76151 22.049 5.53157 21.9112 5.34012C21.7733 5.14867 21.5788 5.00539 21.3551 4.93054V4.93335ZM11.9998 4.18335L17.442 6.00023L11.9998 7.81429L6.56229 6.00023L11.9998 4.18335ZM16.1248 11.2502C16.1249 11.8909 15.9758 12.5229 15.6892 13.0959C15.4026 13.669 14.9865 14.1674 14.4738 14.5517C13.9612 14.936 13.366 15.1956 12.7356 15.3099C12.1051 15.4241 11.4567 15.39 10.8418 15.2101C10.2268 15.0302 9.66221 14.7096 9.19272 14.2736C8.72324 13.8376 8.36177 13.2982 8.13699 12.6982C7.9122 12.0982 7.83027 11.4541 7.89769 10.8169C7.96512 10.1798 8.18004 9.56708 8.52542 9.02742L11.6445 10.0671C11.875 10.1446 12.1246 10.1446 12.3551 10.0671L15.4742 9.02742C15.8996 9.69068 16.1254 10.4622 16.1248 11.2502Z" fill="#008ED6"/>
+                  </svg>
+                </span>
+                <span x-text="$store.activitiesFilter.statusLabel()">{% trans 'Любой статус' %}</span>
+                <span class="w-3 h-3 shrink-0">
+                  <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <ul class="dropdown-menu" x-show="open" x-cloak @click.outside="open = false">
+                <li><button class="dropdown-item px-4" :class="$store.activitiesFilter.status === null && 'active'" @click="$store.activitiesFilter.status = null; open = false">{% trans 'Любой статус' %}</button></li>
+                <li><button class="dropdown-item px-4" :class="$store.activitiesFilter.status === 'recruiting' && 'active'" @click="$store.activitiesFilter.status = 'recruiting'; open = false">{% trans 'Идёт набор' %}</button></li>
+                <li><button class="dropdown-item px-4" :class="$store.activitiesFilter.status === 'has_places' && 'active'" @click="$store.activitiesFilter.status = 'has_places'; open = false">{% trans 'Есть свободные места' %}</button></li>
+                <li><button class="dropdown-item px-4" :class="$store.activitiesFilter.status === 'full' && 'active'" @click="$store.activitiesFilter.status = 'full'; open = false">{% trans 'Заполнено' %}</button></li>
+              </ul>
+            </div>
+          </li>
+
+          <li>
+            <div class="dropdown dropdown-fit" x-data="{ open: false }">
+              <button class="btn-chip" @click="open = !open">
+                <span class="w-6 h-6 shrink-0">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.5 1.875H6.75C5.85489 1.875 4.99645 2.23058 4.36351 2.86351C3.73058 3.49645 3.375 4.35489 3.375 5.25V21C3.375 21.2984 3.49353 21.5845 3.7045 21.7955C3.91548 22.0065 4.20163 22.125 4.5 22.125H18C18.2984 22.125 18.5845 22.0065 18.7955 21.7955C19.0065 21.5845 19.125 21.2984 19.125 21C19.125 20.7016 19.0065 20.4155 18.7955 20.2045C18.5845 19.9935 18.2984 19.875 18 19.875H5.625V19.5C5.625 19.2016 5.74353 18.9155 5.9545 18.7045C6.16548 18.4935 6.45163 18.375 6.75 18.375H19.5C19.7984 18.375 20.0845 18.2565 20.2955 18.0455C20.5065 17.8345 20.625 17.5484 20.625 17.25V3C20.625 2.70163 20.5065 2.41548 20.2955 2.2045C20.0845 1.99353 19.7984 1.875 19.5 1.875ZM18.375 16.125H6.75C6.36669 16.1243 5.98612 16.1896 5.625 16.3181V5.25C5.625 4.95163 5.74353 4.66548 5.9545 4.4545C6.16548 4.24353 6.45163 4.125 6.75 4.125H18.375V16.125Z" fill="#008ED6"/>
+                  </svg>
+                </span>
+                <span x-text="$store.activitiesFilter.gradeLabel()">{% trans 'Все классы' %}</span>
+                <span class="w-3 h-3 shrink-0">
+                  <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <ul class="dropdown-menu" x-show="open" x-cloak @click.outside="open = false">
+                <li><button class="dropdown-item px-4" :class="$store.activitiesFilter.grade === null && 'active'" @click="$store.activitiesFilter.grade = null; open = false">{% trans 'Все классы' %}</button></li>
+                {% for cls in grades_range %}
+                  <li><button class="dropdown-item px-4" :class="$store.activitiesFilter.grade === '{{ cls }}' && 'active'" @click="$store.activitiesFilter.grade = '{{ cls }}'; open = false">{% blocktrans with n=cls %}{{ n }} класс{% endblocktrans %}</button></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <section class="bg-white pt-6 pb-12">
+    <div class="container" x-data="{ open: null }">
+      <div class="col-span-full flex flex-col gap-8">
+        {% for bucket in sections %}
+          <div data-activity-section x-show="$store.activitiesFilter.anyGroupVisible($el)">
+            <div class="mb-4">
+              <h5 class="h5 mt-4 uppercase font-bold">{{ bucket.section.title }}</h5>
+            </div>
+            <div class="accordion-activity border-1 border-gray-300 rounded-2xl overflow-hidden">
+              {% for activity in bucket.activities %}
+                <div class="accordion-item" data-activity-accordion x-show="$store.activitiesFilter.anyGroupVisible($el)">
+                  <button class="accordion-header" @click="open = open === {{ activity.pk }} ? null : {{ activity.pk }}">
+                    <span class="accordion-title">
+                      <span class="marquee"><span class="marquee-inner">{{ activity.name }}</span></span>
+                      {% if activity.class_range_display or activity.days_display %}
+                        <span class="marquee"><span class="marquee-inner">{% if activity.class_range_display %}{{ activity.class_range_display }}{% endif %}{% if activity.class_range_display and activity.days_display %} / {% endif %}{% if activity.days_display %}{{ activity.days_display }}{% endif %}</span></span>
+                      {% endif %}
+                    </span>
+                    <span class="w-5 h-5 shrink-0 text-black/40">
+                      <svg class="transition-transform" :class="open === {{ activity.pk }} && '-rotate-90'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <div x-show="open === {{ activity.pk }}" x-collapse>
+                    <div class="accordion-body">
+                      {% if activity.description %}<p>{{ activity.description }}</p>{% endif %}
+
+                      {% if activity.groups.all %}
+                        <div class="mt-6 grid gap-4">
+                          {% for group in activity.groups.all %}
+                            <article class="rounded-xl bg-gray-50 border border-gray-200 px-5 pt-5 pb-6 md:px-6 md:pt-6 md:pb-8"
+                                     data-activity-group
+                                     data-classes="{{ group.classes|join:',' }}"
+                                     data-days="{{ group.days_csv }}"
+                                     data-students-status="{{ group.students_status }}"
+                                     x-show="$store.activitiesFilter.matchGroup($el)">
+                              <header>
+                                {% if group.label_display %}<h6 class="text-lg font-bold leading-tight text-black">{{ group.label_display }}</h6>{% endif %}
+                                {% if group.schedule_display %}<p class="text-sm font-medium text-black/60 mt-1">{{ group.schedule_display }}</p>{% endif %}
+                              </header>
+                              <dl class="mt-5 grid gap-4 md:grid-cols-3">
+                                {% if group.students_text %}
+                                  <div>
+                                    <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">{% trans 'Учащихся' %}</dt>
+                                    <dd class="text-sm font-medium mt-1 text-black">
+                                      {{ group.students_text }}
+                                      {% if group.students_status %}<span class="{{ group.students_status_css }} font-bold">· {{ group.get_students_status_display }}</span>{% endif %}
+                                    </dd>
+                                  </div>
+                                {% endif %}
+
+                                {% if activity.teacher %}
+                                  <div>
+                                    <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">{% trans 'Тренер' %}</dt>
+                                    <dd class="text-sm font-medium mt-1 text-black">{{ activity.teacher.name }}</dd>
+                                    {% if activity.teacher.bio %}<dd class="text-xs text-black/60 leading-snug mt-1">{{ activity.teacher.bio }}</dd>{% endif %}
+                                  </div>
+                                {% endif %}
+
+                                {% if activity.location %}
+                                  <div>
+                                    <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">{% trans 'Локация' %}</dt>
+                                    <dd class="text-sm font-medium mt-1 text-black">{{ activity.location|capfirst }}</dd>
+                                  </div>
+                                {% endif %}
+
+                              </dl>
+
+                              <div class="mt-6">
+                                <button type="button"
+                                        class="btn btn-primary text-sm"
+                                        data-feedback-trigger
+                                        data-feedback-title="{% blocktrans with name=activity.name %}Запись на «{{ name }}»{% endblocktrans %}"
+                                        data-feedback-origin="activity-{{ activity.pk }}-group-{{ group.pk }}">{% trans 'Записаться' %}{% if group.price %} <span class="whitespace-nowrap">· {{ group.price_display }}{% trans '/мес' %}</span>{% endif %}</button>
+                              </div>
+                            </article>
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% empty %}
+          <div class="text-center text-black/60 py-12">
+            {% trans 'В этом филиале пока нет активных кружков. Скоро добавим!' %}
+          </div>
+        {% endfor %}
+
+        {% if sections %}
+          <div class="text-center py-16" x-show="!$store.activitiesFilter.anyVisibleAnywhere()" x-cloak>
+            <p class="text-black/60 mb-4">{% trans 'Нет кружков, подходящих под выбранные фильтры.' %}</p>
+            <button type="button" class="btn btn-primary" @click="$store.activitiesFilter.reset()">
+              {% trans 'Сбросить фильтры' %}
+            </button>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block head %}
+  <script>
+    // Локализованные подписи. i18n-строки уходят в .po;
+    // переводы для kk/en правятся вручную в app/locale/.
+    const ACTIVITIES_LABELS = {
+      anyDay: '{% trans "Любой день" %}',
+      // Полные названия дней — Django-choices, переводы из .po подставляются
+      // через i18n-теги ниже.
+      days: {
+        mon: '{% trans "Понедельник" %}',
+        tue: '{% trans "Вторник" %}',
+        wed: '{% trans "Среда" %}',
+        thu: '{% trans "Четверг" %}',
+        fri: '{% trans "Пятница" %}',
+      },
+      anyStatus: '{% trans "Любой статус" %}',
+      recruiting: '{% trans "Идёт набор" %}',
+      has_places: '{% trans "Есть свободные места" %}',
+      full: '{% trans "Заполнено" %}',
+      allGrades: '{% trans "Все классы" %}',
+      gradeTemplate: '{% blocktrans with n="__N__" %}{{ n }} класс{% endblocktrans %}',
+    };
+
+    document.addEventListener('alpine:init', () => {
+      Alpine.store('activitiesFilter', {
+        // null означает «без фильтра» — показываются все варианты.
+        day: null,     // null | 'mon' | 'tue' | 'wed' | 'thu' | 'fri'
+        status: null,  // null | 'recruiting' | 'has_places' | 'full'
+        grade: null,   // null | '1' | '2' | … | '11'
+
+        reset() {
+          this.day = null;
+          this.status = null;
+          this.grade = null;
+        },
+
+        hasActive() {
+          return this.day !== null || this.status !== null || this.grade !== null;
+        },
+
+        dayLabel() {
+          if (this.day === null) return ACTIVITIES_LABELS.anyDay;
+          return ACTIVITIES_LABELS.days[this.day] || ACTIVITIES_LABELS.anyDay;
+        },
+        statusLabel() {
+          if (this.status === 'recruiting') return ACTIVITIES_LABELS.recruiting;
+          if (this.status === 'has_places') return ACTIVITIES_LABELS.has_places;
+          if (this.status === 'full')       return ACTIVITIES_LABELS.full;
+          return ACTIVITIES_LABELS.anyStatus;
+        },
+        gradeLabel() {
+          if (this.grade === null) return ACTIVITIES_LABELS.allGrades;
+          return ACTIVITIES_LABELS.gradeTemplate.replace('__N__', this.grade);
+        },
+
+        // Проверяет, подходит ли карточка-группа под все 3 фильтра.
+        // Реактивность даёт обращение к this.day/status/grade.
+        matchGroup(el) {
+          const status = el.dataset.studentsStatus;
+
+          if (this.day !== null) {
+            const daysAttr = el.dataset.days || '';
+            const days = daysAttr.split(',').filter(Boolean);
+            if (!days.includes(this.day)) return false;
+          }
+
+          if (this.status !== null && this.status !== status) return false;
+
+          if (this.grade !== null) {
+            const classesAttr = el.dataset.classes || '';
+            const classes = classesAttr.split(',').filter(Boolean).map(Number);
+            if (!classes.includes(parseInt(this.grade))) return false;
+          }
+          return true;
+        },
+
+        anyGroupVisible(el) {
+          const groups = el.querySelectorAll('[data-activity-group]');
+          for (const g of groups) {
+            if (this.matchGroup(g)) return true;
+          }
+          return false;
+        },
+
+        anyVisibleAnywhere() {
+          return this.anyGroupVisible(document.body);
+        },
+      });
+    });
+  </script>
+{% endblock %}

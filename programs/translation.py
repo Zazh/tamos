@@ -1,7 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
 
 from .models import (
-    ProgramActivityItem,
     ProgramAudienceItem,
     ProgramBenefitItem,
     ProgramCertificateFeature,
@@ -73,15 +72,6 @@ class ProgramTeamMemberTranslationOptions(TranslationOptions):
 @register(ProgramCertificateFeature)
 class ProgramCertificateFeatureTranslationOptions(TranslationOptions):
     fields = ('title',)
-
-
-@register(ProgramActivityItem)
-class ProgramActivityItemTranslationOptions(TranslationOptions):
-    fields = (
-        'time_label', 'title', 'class_range', 'category', 'description',
-        'group_title', 'schedule', 'students_text', 'location', 'price',
-        'trainer_name', 'trainer_bio',
-    )
 
 
 @register(ProgramStat)

@@ -4,7 +4,6 @@ from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInl
 from regions.admin import RegionScopedAdminMixin
 
 from .models import (
-    ProgramActivityItem,
     ProgramAudienceItem,
     ProgramBenefitItem,
     ProgramCertificateFeature,
@@ -49,21 +48,6 @@ class ProgramCertificateFeatureInline(TranslationStackedInline):
     fields = ('order', 'title', 'icon_svg')
 
 
-class ProgramActivityItemInline(TranslationStackedInline):
-    model = ProgramActivityItem
-    extra = 0
-    fields = (
-        'order',
-        'title', 'class_range',
-        'category', 'category_color',
-        'description',
-        'group_title', 'schedule',
-        'students_text', 'students_status',
-        'location', 'price',
-        'trainer_name', 'trainer_bio',
-    )
-
-
 class ProgramStatInline(TranslationStackedInline):
     model = ProgramStat
     extra = 0
@@ -86,7 +70,6 @@ class ProgramPageAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
         ProgramVariantCardInline,
         ProgramTeamMemberInline,
         ProgramCertificateFeatureInline,
-        ProgramActivityItemInline,
         ProgramStatInline,
         ProgramFaqItemInline,
     ]

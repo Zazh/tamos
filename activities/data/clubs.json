@@ -1,0 +1,1537 @@
+{
+  "generated_at": "2026-05-12",
+  "source": "Кружки_14__1_.pdf",
+  "sections": [
+    {
+      "id": "sports",
+      "title": "Спортивные дисциплины",
+      "items": [
+        {
+          "id": 1,
+          "name": "Баскетбол",
+          "category": "sports",
+          "teacher": {
+            "name": "Дмитрий",
+            "phone": "+77021227339",
+            "phone_raw": "8 (702) 122-73-39"
+          },
+          "location": "спортзал",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "3,4,5 классы",
+              "classes": [
+                3,
+                4,
+                5
+              ],
+              "price": 35000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:10",
+                  "end": "17:10"
+                },
+                {
+                  "day": "fri",
+                  "start": "16:10",
+                  "end": "17:10"
+                }
+              ]
+            },
+            {
+              "label": "5,6 классы",
+              "classes": [
+                5,
+                6
+              ],
+              "price": 35000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "17:20",
+                  "end": "18:20"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:10",
+                  "end": "17:10"
+                }
+              ]
+            },
+            {
+              "label": "7-10 классы",
+              "classes": [
+                7,
+                8,
+                9,
+                10
+              ],
+              "price": 35000,
+              "schedule": [
+                {
+                  "day": "wed",
+                  "start": "17:20",
+                  "end": "18:30"
+                },
+                {
+                  "day": "fri",
+                  "start": "17:20",
+                  "end": "18:30"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Футбол",
+          "category": "sports",
+          "teacher": {
+            "name": "Владимир",
+            "phone": "+77055055508",
+            "phone_raw": "8 (705) 505-55-08"
+          },
+          "location": "спортзал",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "Младшие",
+              "classes": [],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:10",
+                  "end": "17:10"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:10",
+                  "end": "17:10"
+                }
+              ]
+            },
+            {
+              "label": "Старшие",
+              "classes": [],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "17:20",
+                  "end": "18:20"
+                },
+                {
+                  "day": "thu",
+                  "start": "17:20",
+                  "end": "18:20"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Настольный теннис",
+          "category": "sports",
+          "teacher": {
+            "name": "Владимир",
+            "phone": "+77055055508",
+            "phone_raw": "8 (705) 505-55-08"
+          },
+          "location": "спортзал",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "",
+              "classes": [],
+              "price": 25000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:10",
+                  "end": "17:10"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:10",
+                  "end": "17:10"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Студия танца",
+          "category": "sports",
+          "teacher": {
+            "name": "Руфина",
+            "phone": "+77754437855",
+            "phone_raw": "8 (775) 443-78-55"
+          },
+          "location": "зал хореографии",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "1-4 классы",
+              "classes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "16:55"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "16:55"
+                }
+              ]
+            },
+            {
+              "label": "5-11 классы",
+              "classes": [
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "17:00",
+                  "end": "18:00"
+                },
+                {
+                  "day": "thu",
+                  "start": "17:00",
+                  "end": "18:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Шахматы",
+          "category": "sports",
+          "teacher": {
+            "name": "Эрик",
+            "phone": "+77777423409",
+            "phone_raw": "8 (777) 742-34-09"
+          },
+          "location": "301 каб",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "Начинающие",
+              "classes": [],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            },
+            {
+              "label": "Продолжающие",
+              "classes": [],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "17:00",
+                  "end": "18:00"
+                },
+                {
+                  "day": "wed",
+                  "start": "17:00",
+                  "end": "18:00"
+                },
+                {
+                  "day": "tue",
+                  "start": "17:00",
+                  "end": "18:00"
+                },
+                {
+                  "day": "thu",
+                  "start": "17:00",
+                  "end": "18:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Тхэквондо",
+          "category": "sports",
+          "teacher": {
+            "name": "Руслан",
+            "phone": "+77066562988",
+            "phone_raw": "8 (706) 656-29-88"
+          },
+          "location": "3 этаж",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "",
+              "classes": [],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "creative",
+      "title": "Творческие дисциплины",
+      "items": [
+        {
+          "id": 7,
+          "name": "Глинотерапия",
+          "category": "creative",
+          "teacher": {
+            "name": "Юлия",
+            "phone": "+77072270877",
+            "phone_raw": "8 (707) 227-08-77"
+          },
+          "location": "кабинет ART",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "без ограничений",
+              "classes": [],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "16:50"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "16:50"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "name": "Art-терапия",
+          "category": "creative",
+          "teacher": {
+            "name": "Юлия",
+            "phone": "+77072270877",
+            "phone_raw": "8 (707) 227-08-77"
+          },
+          "location": "кабинет ART",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "1-4 классы",
+              "classes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:15",
+                  "end": "17:00"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:15",
+                  "end": "17:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "Колибри",
+          "category": "creative",
+          "teacher": {
+            "name": "Юлия",
+            "phone": "+77072270877",
+            "phone_raw": "8 (707) 227-08-77"
+          },
+          "location": "кабинет ART",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "1-3 классы",
+              "classes": [
+                1,
+                2,
+                3
+              ],
+              "price": 20000,
+              "schedule": [
+                {
+                  "day": "fri",
+                  "start": "16:00",
+                  "end": "16:50"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "Живопись",
+          "category": "creative",
+          "teacher": {
+            "name": "Акбота",
+            "phone": "+77000932693",
+            "phone_raw": "8 (700) 093-26-93"
+          },
+          "location": "кабинет ART",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "1-4 классы",
+              "classes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "price": 40000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:00",
+                  "end": "16:55"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "16:55"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "Гончарное искусство",
+          "category": "creative",
+          "teacher": {
+            "name": "Акбота",
+            "phone": "+77000932693",
+            "phone_raw": "8 (700) 093-26-93"
+          },
+          "location": "кабинет ART",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "2-9 классы",
+              "classes": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "16:55"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "academic",
+      "title": "Академические дисциплины",
+      "items": [
+        {
+          "id": 12,
+          "name": "Юный исследователь",
+          "category": "academic",
+          "teacher": {
+            "name": "Мираш",
+            "phone": "+77776518370",
+            "phone_raw": "8 (777) 651-83-70"
+          },
+          "location": "308",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "1-2 классы",
+              "classes": [
+                1,
+                2
+              ],
+              "price": 42000,
+              "schedule": [
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "name": "Мастер экспериментов",
+          "category": "academic",
+          "teacher": {
+            "name": "Мираш",
+            "phone": "+77776518370",
+            "phone_raw": "8 (777) 651-83-70"
+          },
+          "location": "308",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "2-3 классы",
+              "classes": [
+                2,
+                3
+              ],
+              "price": 45000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "17:30"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 14,
+          "name": "Химик-следопыт",
+          "category": "academic",
+          "teacher": {
+            "name": "Мираш",
+            "phone": "+77776518370",
+            "phone_raw": "8 (777) 651-83-70"
+          },
+          "location": "308",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "3-4 классы",
+              "classes": [
+                3,
+                4
+              ],
+              "price": 45000,
+              "schedule": [
+                {
+                  "day": "wed",
+                  "start": "16:00",
+                  "end": "17:30"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 15,
+          "name": "Юный химик-аналитик",
+          "category": "academic",
+          "teacher": {
+            "name": "Мираш",
+            "phone": "+77776518370",
+            "phone_raw": "8 (777) 651-83-70"
+          },
+          "location": "308",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "4-5 классы",
+              "classes": [
+                4,
+                5
+              ],
+              "price": 45000,
+              "schedule": [
+                {
+                  "day": "thu",
+                  "start": "17:15",
+                  "end": "18:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 16,
+          "name": "Продвинутый химик",
+          "category": "academic",
+          "teacher": {
+            "name": "Мираш",
+            "phone": "+77776518370",
+            "phone_raw": "8 (777) 651-83-70"
+          },
+          "location": "308",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "6-7 классы",
+              "classes": [
+                6,
+                7
+              ],
+              "price": 45000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "17:15",
+                  "end": "18:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 17,
+          "name": "Занимательная химия (1-3 классы)",
+          "category": "academic",
+          "teacher": {
+            "name": "Мираш",
+            "phone": "+77776518370",
+            "phone_raw": "8 (777) 651-83-70"
+          },
+          "location": "308",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "1-3 классы",
+              "classes": [
+                1,
+                2,
+                3
+              ],
+              "price": 42000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 18,
+          "name": "Занимательная химия (4-6 классы)",
+          "category": "academic",
+          "teacher": {
+            "name": "Мираш",
+            "phone": "+77776518370",
+            "phone_raw": "8 (777) 651-83-70"
+          },
+          "location": "308",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "4-6 классы",
+              "classes": [
+                4,
+                5,
+                6
+              ],
+              "price": 45000,
+              "schedule": [
+                {
+                  "day": "fri",
+                  "start": "17:15",
+                  "end": "18:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 19,
+          "name": "Научный проект: от эксперимента до защиты",
+          "category": "academic",
+          "teacher": {
+            "name": "Дина",
+            "phone": "+77752480855",
+            "phone_raw": "+7 775 248 0855"
+          },
+          "location": "306",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "",
+              "classes": [],
+              "price": 40000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 20,
+          "name": "Soile",
+          "category": "academic",
+          "teacher": {
+            "name": "Жанар",
+            "phone": "+77766294920",
+            "phone_raw": "8 (776) 629-49-20"
+          },
+          "location": "S310",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "1-4 классы",
+              "classes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "16:50"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "16:50"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 21,
+          "name": "Қызықты грамматика",
+          "category": "academic",
+          "teacher": {
+            "name": "Алмагуль",
+            "phone": "+77054479674",
+            "phone_raw": "8 (705) 447-96-74"
+          },
+          "location": "302",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "6 классы",
+              "classes": [
+                6
+              ],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "16:50"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "16:50"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 22,
+          "name": "Кружок казахского языка и литературы",
+          "category": "academic",
+          "teacher": {
+            "name": "Айтбике",
+            "phone": "+77085852027",
+            "phone_raw": "8 (708) 585-20-27"
+          },
+          "location": "",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "5 классы",
+              "classes": [
+                5
+              ],
+              "price": 30000,
+              "schedule": []
+            }
+          ],
+          "notes": "TODO: в исходном PDF не указаны график и локация — уточнить у координатора"
+        },
+        {
+          "id": 23,
+          "name": "SozTime",
+          "category": "academic",
+          "teacher": {
+            "name": "Раушан",
+            "phone": "+77752052405",
+            "phone_raw": "8 (775) 205-24-05"
+          },
+          "location": "",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "1-6 классы",
+              "classes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            }
+          ],
+          "notes": "TODO: в исходном PDF не указана локация — уточнить"
+        },
+        {
+          "id": 24,
+          "name": "Step into IGCSE English",
+          "category": "academic",
+          "teacher": {
+            "name": "Адильжан",
+            "phone": "+77754664080",
+            "phone_raw": "8 (775) 466-40-80"
+          },
+          "location": "313",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "6-7 классы",
+              "classes": [
+                6,
+                7
+              ],
+              "price": 35000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:00",
+                  "end": "16:50"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:00",
+                  "end": "16:50"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 25,
+          "name": "Situational English",
+          "category": "academic",
+          "teacher": {
+            "name": "Карина",
+            "phone": "+77057690957",
+            "phone_raw": "8 (705) 769-09-57"
+          },
+          "location": "213",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "3-4 классы",
+              "classes": [
+                3,
+                4
+              ],
+              "price": 35000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "16:50"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "16:50"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 26,
+          "name": "English Talk Club",
+          "category": "academic",
+          "teacher": {
+            "name": "Мадина",
+            "phone": "+77085086086",
+            "phone_raw": "8 (708) 508-60-86"
+          },
+          "location": "301",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "5-7 классы",
+              "classes": [
+                5,
+                6,
+                7
+              ],
+              "price": 35000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "16:50"
+                },
+                {
+                  "day": "fri",
+                  "start": "16:00",
+                  "end": "16:50"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 27,
+          "name": "Китайский язык",
+          "category": "academic",
+          "teacher": {
+            "name": "Асель",
+            "phone": "+77775151704",
+            "phone_raw": "8 (777) 515-17-04"
+          },
+          "location": "203",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "2-4 классы",
+              "classes": [
+                2,
+                3,
+                4
+              ],
+              "price": 40000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            },
+            {
+              "label": "5-7 классы",
+              "classes": [
+                5,
+                6,
+                7
+              ],
+              "price": 40000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "17:00",
+                  "end": "18:00"
+                },
+                {
+                  "day": "wed",
+                  "start": "17:00",
+                  "end": "18:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 28,
+          "name": "Японский язык",
+          "category": "academic",
+          "teacher": {
+            "name": "Маргулан",
+            "phone": "+77051111181",
+            "phone_raw": "+7 705 111 11 81"
+          },
+          "location": "106",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "",
+              "classes": [],
+              "price": 30000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 29,
+          "name": "Наследники Евклида (для олимпийцев)",
+          "category": "academic",
+          "teacher": {
+            "name": "Асем",
+            "phone": "+77473585969",
+            "phone_raw": "8 (747) 358-59-69"
+          },
+          "location": "220",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "5-6 классы",
+              "classes": [
+                5,
+                6
+              ],
+              "price": 35000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "16:50"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:00",
+                  "end": "16:50"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 30,
+          "name": "Математика без пробелов",
+          "category": "academic",
+          "teacher": {
+            "name": "Асем",
+            "phone": "+77473585969",
+            "phone_raw": "8 (747) 358-59-69"
+          },
+          "location": "220",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "5-6 классы",
+              "classes": [
+                5,
+                6
+              ],
+              "price": 35000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "16:50"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "16:50"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 31,
+          "name": "3D моделирование",
+          "category": "academic",
+          "teacher": {
+            "name": "Темирлан",
+            "phone": "+77774724961",
+            "phone_raw": "8 (777) 472-49-61"
+          },
+          "location": "211",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "2-5 классы",
+              "classes": [
+                2,
+                3,
+                4,
+                5
+              ],
+              "price": 40000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:00",
+                  "end": "16:55"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:00",
+                  "end": "16:55"
+                }
+              ]
+            },
+            {
+              "label": "6-9 классы",
+              "classes": [
+                6,
+                7,
+                8,
+                9
+              ],
+              "price": 40000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "17:00",
+                  "end": "17:55"
+                },
+                {
+                  "day": "wed",
+                  "start": "17:00",
+                  "end": "17:55"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 32,
+          "name": "Space Astro (кружок по астрономии)",
+          "category": "academic",
+          "teacher": {
+            "name": "Артур",
+            "phone": "+77026794756",
+            "phone_raw": "8 (702) 679-47-56"
+          },
+          "location": "306",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "5-9 классы",
+              "classes": [
+                5,
+                6,
+                7,
+                8,
+                9
+              ],
+              "price": 36000,
+              "schedule": [
+                {
+                  "day": "fri",
+                  "start": "17:00",
+                  "end": "18:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 33,
+          "name": "Robotics VEX GO / VEX IQ / WeDo 2",
+          "category": "academic",
+          "teacher": {
+            "name": "Арман",
+            "phone": "+77782160591",
+            "phone_raw": "8 (778) 216-05-91"
+          },
+          "location": "S208",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "1-4 классы",
+              "classes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "price": 35000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 34,
+          "name": "Robotics Arduino",
+          "category": "academic",
+          "teacher": {
+            "name": "Сергей",
+            "phone": "+77012505138",
+            "phone_raw": "8 (701) 250-51-38"
+          },
+          "location": "S208",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "5-9 классы",
+              "classes": [
+                5,
+                6,
+                7,
+                8,
+                9
+              ],
+              "price": 35000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 35,
+          "name": "AS Level Mathematics",
+          "category": "academic",
+          "teacher": {
+            "name": "Аскарбек",
+            "phone": "+77757564443",
+            "phone_raw": "8 (775) 756-44-43"
+          },
+          "location": "311",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "10-11 классы, 1-группа",
+              "classes": [
+                10,
+                11
+              ],
+              "price": 50000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "wed",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "fri",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            },
+            {
+              "label": "10-11 классы, 2-группа",
+              "classes": [
+                10,
+                11
+              ],
+              "price": 50000,
+              "schedule": [
+                {
+                  "day": "mon",
+                  "start": "17:00",
+                  "end": "18:00"
+                },
+                {
+                  "day": "wed",
+                  "start": "17:00",
+                  "end": "18:00"
+                },
+                {
+                  "day": "fri",
+                  "start": "17:00",
+                  "end": "18:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 36,
+          "name": "MathLab: IGCSE (подготовка к экзаменам)",
+          "category": "academic",
+          "teacher": {
+            "name": "Акбота",
+            "phone": "+77785001065",
+            "phone_raw": "8 (778) 500-10-65"
+          },
+          "location": "304",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "7-9 классы",
+              "classes": [
+                7,
+                8,
+                9
+              ],
+              "price": 40000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "16:00",
+                  "end": "17:00"
+                },
+                {
+                  "day": "thu",
+                  "start": "16:00",
+                  "end": "17:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 37,
+          "name": "Разработка игр",
+          "category": "academic",
+          "teacher": {
+            "name": "Темирлан",
+            "phone": "+77774724961",
+            "phone_raw": "8 (777) 472-49-61"
+          },
+          "location": "211",
+          "students": {
+            "min": 5,
+            "max": 20
+          },
+          "groups": [
+            {
+              "label": "",
+              "classes": [],
+              "price": 40000,
+              "schedule": [
+                {
+                  "day": "tue",
+                  "start": "17:00",
+                  "end": "18:00"
+                },
+                {
+                  "day": "thu",
+                  "start": "17:00",
+                  "end": "18:00"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

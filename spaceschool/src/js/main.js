@@ -8,6 +8,7 @@ import { registerSlider } from "./slider.js";
 import { registerCarousel } from "./carousel.js";
 import { registerFeedbackModal } from "./modal.js";
 import { initLeafletMaps } from "./leaflet-map.js";
+import { initMarquee } from "./marquee.js";
 
 Alpine.plugin(collapse);
 registerStarfield(Alpine);
@@ -21,6 +22,7 @@ window.Alpine = Alpine;
 Alpine.start();
 
 document.addEventListener("DOMContentLoaded", initLeafletMaps);
+document.addEventListener("DOMContentLoaded", initMarquee);
 
 /* Meteor parallax */
 document.addEventListener("DOMContentLoaded", () => {

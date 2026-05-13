@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tamos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-10 19:44+0500\n"
+"POT-Creation-Date: 2026-05-13 14:05+0500\n"
 "PO-Revision-Date: 2026-05-10 18:47+0500\n"
 "Last-Translator: \n"
 "Language-Team: Kazakh\n"
@@ -15,6 +15,150 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: activities/models.py:182 templates/activities/list.html:62
+#: templates/activities/list.html:216
+msgid "Идёт набор"
+msgstr "Қабылдау жүргізілуде"
+
+#: activities/models.py:183 templates/activities/list.html:63
+#: templates/activities/list.html:217
+msgid "Есть свободные места"
+msgstr "Бос орындар бар"
+
+#: activities/models.py:184 templates/activities/list.html:64
+#: templates/activities/list.html:218
+msgid "Заполнено"
+msgstr "Толды"
+
+#: activities/models.py:340 templates/activities/list.html:209
+msgid "Понедельник"
+msgstr "Дүйсенбі"
+
+#: activities/models.py:341 templates/activities/list.html:210
+msgid "Вторник"
+msgstr "Сейсенбі"
+
+#: activities/models.py:342 templates/activities/list.html:211
+msgid "Среда"
+msgstr "Сәрсенбі"
+
+#: activities/models.py:343 templates/activities/list.html:212
+msgid "Четверг"
+msgstr "Бейсенбі"
+
+#: activities/models.py:344 templates/activities/list.html:213
+msgid "Пятница"
+msgstr "Жұма"
+
+#: activities/models.py:345
+msgid "Суббота"
+msgstr "Сенбі"
+
+#: activities/models.py:346
+msgid "Воскресенье"
+msgstr "Жексенбі"
+
+#: activities/models.py:349
+msgid "Пн"
+msgstr "Дс"
+
+#: activities/models.py:350
+msgid "Вт"
+msgstr "Сс"
+
+#: activities/models.py:351
+msgid "Ср"
+msgstr "Ср"
+
+#: activities/models.py:352
+msgid "Чт"
+msgstr "Бс"
+
+#: activities/models.py:353
+msgid "Пт"
+msgstr "Жм"
+
+#: activities/models.py:354
+msgid "Сб"
+msgstr "Сб"
+
+#: activities/models.py:355
+msgid "Вс"
+msgstr "Жк"
+
+#: templates/activities/list.html:4
+msgid "Внеклассные занятия"
+msgstr "Сыныптан тыс сабақтар"
+
+#: templates/activities/list.html:12
+msgid "Space Courses"
+msgstr "Space Courses"
+
+#: templates/activities/list.html:14
+msgid "Центр дополнительного образования"
+msgstr "Қосымша білім беру орталығы"
+
+#: templates/activities/list.html:29 templates/activities/list.html:37
+#: templates/activities/list.html:205
+msgid "Любой день"
+msgstr "Кез келген күн"
+
+#: templates/activities/list.html:53 templates/activities/list.html:61
+#: templates/activities/list.html:215
+msgid "Любой статус"
+msgstr "Кез келген мәртебе"
+
+#: templates/activities/list.html:77 templates/activities/list.html:85
+#: templates/activities/list.html:219
+msgid "Все классы"
+msgstr "Барлық сыныптар"
+
+#: templates/activities/list.html:87 templates/activities/list.html:220
+#, python-format
+msgid "%(n)s класс"
+msgstr "%(n)s сынып"
+
+#: templates/activities/list.html:141 templates/programs/detail.html:488
+msgid "Учащихся"
+msgstr "Оқушылар"
+
+#: templates/activities/list.html:151 templates/programs/detail.html:497
+msgid "Локация"
+msgstr "Орын"
+
+#: templates/activities/list.html:158 templates/programs/detail.html:503
+msgid "Стоимость"
+msgstr "Бағасы"
+
+#: templates/activities/list.html:159 templates/programs/detail.html:504
+msgid "/мес"
+msgstr "/ай"
+
+#: templates/activities/list.html:165 templates/programs/detail.html:509
+msgid "Тренер"
+msgstr "Жаттықтырушы"
+
+#: templates/activities/list.html:183
+msgid "В этом филиале пока нет активных кружков. Скоро добавим!"
+msgstr "Бұл филиалда әзірге белсенді үйірмелер жоқ. Көп ұзамай қосамыз!"
+
+#: templates/activities/list.html:189
+msgid "Нет кружков, подходящих под выбранные фильтры."
+msgstr "Таңдалған сүзгілерге сай үйірмелер жоқ."
+
+#: templates/activities/list.html:191
+msgid "Сбросить фильтры"
+msgstr "Сүзгілерді тастау"
+
+#: templates/activities/list.html:172
+#, python-format
+msgid "Запись на «%(name)s»"
+msgstr "«%(name)s» бойынша жазылу"
+
+#: templates/activities/list.html:173
+msgid "Записаться"
+msgstr "Жазылу"
 
 #: templates/base.html:10
 #, python-format
@@ -29,6 +173,66 @@ msgstr ""
 msgid "Tamos Space School"
 msgstr "Tamos Space School"
 
+#: templates/pages/contacts.html:15
+msgid "Хлебные крошки"
+msgstr ""
+
+#: templates/pages/contacts.html:18 templates/pages/home.html:4
+msgid "Главная"
+msgstr "Басты"
+
+#: templates/pages/home.html:132
+msgid "Знакомство со Space School"
+msgstr ""
+
+#: templates/pages/home.html:140
+msgid "Ваш браузер не поддерживает воспроизведение видео."
+msgstr ""
+
+#: templates/pages/home.html:146
+msgid "Включить звук"
+msgstr ""
+
+#: templates/pages/home.html:146
+msgid "Выключить звук"
+msgstr ""
+
+#: templates/partials/feedback_section.html:25
+msgid "Готовы запустить"
+msgstr ""
+
+#: templates/partials/feedback_section.html:26
+msgid "будущее вашего ребёнка?"
+msgstr ""
+
+#: templates/partials/feedback_section.html:29
+msgid "Запишитесь на бесплатную консультацию —"
+msgstr ""
+
+#: templates/partials/feedback_section.html:30
+msgid "расскажем о программе, покажем школу и ответим"
+msgstr ""
+
+#: templates/partials/feedback_section.html:31
+msgid "на все вопросы"
+msgstr ""
+
+#: templates/partials/feedback_section.html:37
+msgid "Запишитесь на бесплатную консультацию"
+msgstr ""
+
+#: templates/partials/feedback_section.html:38
+msgid "Получить консультацию"
+msgstr ""
+
+#: templates/partials/feedback_section.html:43
+msgid "Выберите свой город"
+msgstr ""
+
+#: templates/partials/feedback_section.html:44
+msgid "Записаться в кампус"
+msgstr ""
+
 #: templates/partials/footer.html:32
 msgid ""
 "Space School — международная школа нового поколения, где дети учатся думать "
@@ -39,71 +243,55 @@ msgstr ""
 "университеттеріне түсуге дайындалатын және SAT тапсыру құқығымен қос "
 "сертификат алатын жаңа буын халықаралық мектебі."
 
-#: templates/partials/header.html:20
+#: templates/partials/header.html:27
 msgid "Закрыть"
 msgstr "Жабу"
 
-#: templates/partials/header.html:20 templates/partials/header.html:149
+#: templates/partials/header.html:27
 msgid "Меню"
 msgstr "Мәзір"
 
-#: templates/partials/header.html:36 templates/partials/header.html:150
-msgid "Главная"
-msgstr "Басты"
-
-#: templates/partials/header.html:39 templates/partials/header.html:151
-msgid "О нас"
-msgstr "Біз туралы"
-
-#: templates/partials/header.html:42 templates/partials/header.html:152
+#: templates/programs/detail.html:4
 msgid "Программа"
 msgstr "Бағдарлама"
 
-#: templates/partials/header.html:45 templates/partials/header.html:153
-msgid "Поступление"
-msgstr "Қабылдау"
+#: templates/programs/detail.html:343
+msgid "Предыдущий"
+msgstr ""
 
-#: templates/partials/header.html:154
-msgid "Внеклассные занятия"
-msgstr "Сыныптан тыс сабақтар"
+#: templates/programs/detail.html:346
+msgid "Следующий"
+msgstr ""
 
-#: templates/partials/header.html:155
-msgid "Контакты"
-msgstr "Байланыс"
+#~ msgid "О нас"
+#~ msgstr "Біз туралы"
 
-#: templates/partials/header.html:158
-msgid "Жизнь школы"
-msgstr "Мектеп өмірі"
+#~ msgid "Поступление"
+#~ msgstr "Қабылдау"
 
-#: templates/partials/header.html:159
-msgid "Один день в школе"
-msgstr "Мектептегі бір күн"
+#~ msgid "Контакты"
+#~ msgstr "Байланыс"
 
-#: templates/partials/header.html:160
-msgid "Безопасность"
-msgstr "Қауіпсіздік"
+#~ msgid "Жизнь школы"
+#~ msgstr "Мектеп өмірі"
 
-#: templates/partials/header.html:161
-msgid "Фотогалерея"
-msgstr "Фотогалерея"
+#~ msgid "Один день в школе"
+#~ msgstr "Мектептегі бір күн"
 
-#: templates/partials/header.html:162
-msgid "Школьная форма"
-msgstr "Мектеп формасы"
+#~ msgid "Фотогалерея"
+#~ msgstr "Фотогалерея"
 
-#: templates/partials/header.html:163
-msgid "Школьные принадлежности"
-msgstr "Мектеп жабдықтары"
+#~ msgid "Школьная форма"
+#~ msgstr "Мектеп формасы"
 
-#: templates/partials/header.html:164
-msgid "Питание"
-msgstr "Тамақтану"
+#~ msgid "Школьные принадлежности"
+#~ msgstr "Мектеп жабдықтары"
 
-#: templates/partials/header.html:165
-msgid "Операторы развозки"
-msgstr "Тасымалдау операторлары"
+#~ msgid "Питание"
+#~ msgstr "Тамақтану"
 
-#: templates/partials/header.html:166
-msgid "Блог"
-msgstr "Блог"
+#~ msgid "Операторы развозки"
+#~ msgstr "Тасымалдау операторлары"
 
+#~ msgid "Блог"
+#~ msgstr "Блог"
