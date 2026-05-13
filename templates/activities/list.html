@@ -138,6 +138,14 @@
                                 {% if group.schedule_display %}<p class="text-sm font-medium text-black/60 mt-1">{{ group.schedule_display }}</p>{% endif %}
                               </header>
                               <dl class="mt-5 grid gap-4 md:grid-cols-3">
+                                {% if activity.teacher %}
+                                  <div>
+                                    <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">{% trans 'Тренер' %}</dt>
+                                    <dd class="text-sm font-medium mt-1 text-black">{{ activity.teacher.name }}</dd>
+                                    {% if activity.teacher.bio %}<dd class="text-xs text-black/60 leading-snug mt-1">{{ activity.teacher.bio }}</dd>{% endif %}
+                                  </div>
+                                {% endif %}
+
                                 {% if group.students_text %}
                                   <div>
                                     <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">{% trans 'Учащихся' %}</dt>
@@ -145,14 +153,6 @@
                                       {{ group.students_text }}
                                       {% if group.students_status %}<span class="{{ group.students_status_css }} font-bold">· {{ group.get_students_status_display }}</span>{% endif %}
                                     </dd>
-                                  </div>
-                                {% endif %}
-
-                                {% if activity.teacher %}
-                                  <div>
-                                    <dt class="text-xs uppercase tracking-wide text-black/50 font-medium">{% trans 'Тренер' %}</dt>
-                                    <dd class="text-sm font-medium mt-1 text-black">{{ activity.teacher.name }}</dd>
-                                    {% if activity.teacher.bio %}<dd class="text-xs text-black/60 leading-snug mt-1">{{ activity.teacher.bio }}</dd>{% endif %}
                                   </div>
                                 {% endif %}
 
