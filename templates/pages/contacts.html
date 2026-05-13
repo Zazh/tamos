@@ -63,14 +63,14 @@
         </div>
       </div>
 
-      <div class="col-span-full grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div class="col-span-full grid grid-cols-1 gap-6 lg:grid-cols-3 lg:grid-rows-[auto_1fr] lg:gap-y-0 mb-8">
         {% for dept in departments %}
-          <div>
-            <div class="pt-8 pb-4 border-y border-gray-300">
-              <h3 class="text-lg font-bold">{{ dept.title }}</h3>
-              <p class="pt-4 md:pr-4 leading-tight text-black/70">{{ dept.description }}</p>
+          <div class="lg:grid lg:grid-rows-subgrid lg:row-span-2">
+            <div class="pt-4 pb-4 border-b border-gray-300">
+              <h3 class="text-xl lg:text-lg font-bold">{{ dept.title }}</h3>
+              <p class="pt-4 leading-tight text-black/70">{{ dept.description }}</p>
             </div>
-            <ul class="py-6">
+            <ul class="pt-4 md:py-6">
               {% if dept.phone %}
               <li class="mb-2">
                 <a href="tel:{{ dept.phone }}" class="flex gap-2 font-medium">
