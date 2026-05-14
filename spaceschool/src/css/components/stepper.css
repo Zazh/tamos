@@ -1,0 +1,206 @@
+@layer components {
+  .stepper {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    overflow-x: auto;
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @variant lg {
+      position: relative;
+      flex-direction: column;
+      gap: 3rem;
+      overflow-x: visible;
+      margin-inline: 0;
+      padding-inline: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  /* На мобиле визуальный порядок шагов обратный: 1 слева → 5 справа.
+     Делаем через `order`, а не `row-reverse` — иначе скролл-снэп ставит
+     начальный scrollLeft в конец потока (показывает шаг 5 первым).
+     На десктопе `order: 0` восстанавливает DOM-порядок (5 сверху → 1 снизу). */
+  .stepper-step:nth-child(2) { order: 5; }
+  .stepper-step:nth-child(3) { order: 4; }
+  .stepper-step:nth-child(4) { order: 3; }
+  .stepper-step:nth-child(5) { order: 2; }
+  .stepper-step:nth-child(6) { order: 1; }
+
+  /* На десктопе сброс к DOM-порядку (5 сверху → 1 снизу).
+     `:nth-child(n)` — чтобы совпасть со специфичностью правил выше. */
+  .stepper-step:nth-child(n) {
+    @variant lg {
+      order: 0;
+    }
+  }
+
+  /* Серый трек на фоне (только десктоп) */
+  .stepper-track {
+    display: none;
+
+    @variant lg {
+      display: block;
+      position: absolute;
+      left: 1.5rem;
+      top: -0.5rem;
+      bottom: -0.5rem;
+      width: 4rem;
+      transform: translateX(-50%);
+      background: var(--color-slate-100);
+      border-radius: 9999px;
+    }
+  }
+
+  .stepper-step {
+    position: relative;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: 17rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    @variant lg {
+      width: auto;
+      gap: 2.5rem;
+    }
+  }
+
+  /* Зелёная пилюля «пройденного пути» — дочерняя к .stepper-track.
+     Низ всегда у дна трека; верх двигается по позиции активного шага
+     через `:has() + :nth-of-type()` (см. ниже). Один элемент = один сплошной градиент. */
+  .stepper-glow {
+    display: none;
+  }
+
+  .stepper:has(.stepper-step.active) .stepper-glow {
+    @variant lg {
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 9999px;
+      background: var(--green-gradient, linear-gradient(180deg, #8EE261 0%, #dafad2 100%));
+    }
+  }
+
+  /* Верх пилюли = середина gap над активным шагом.
+     step + gap = 3rem + 3rem = 6rem; +0.5rem — оффсет трека над .stepper;
+     −1.5rem — половина gap (мягко выходит над маркером шапкой).
+     Для самого первого шага клампим к 0 (нет gap сверху). */
+  .stepper:has(.stepper-step:nth-of-type(1).active) .stepper-glow {
+    @variant lg { top: 0; }
+  }
+  .stepper:has(.stepper-step:nth-of-type(2).active) .stepper-glow {
+    @variant lg { top: 6rem; }
+  }
+  .stepper:has(.stepper-step:nth-of-type(3).active) .stepper-glow {
+    @variant lg { top: 12rem; }
+  }
+  .stepper:has(.stepper-step:nth-of-type(4).active) .stepper-glow {
+    @variant lg { top: 18rem; }
+  }
+  .stepper:has(.stepper-step:nth-of-type(5).active) .stepper-glow {
+    @variant lg { top: 24rem; }
+  }
+
+  /* Кружок с номером. На мобиле — жёлтый с чёрным текстом; на десктопе — белый круг. */
+  .stepper-marker {
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+    width: 3rem;
+    aspect-ratio: 1/1;
+    border-radius: 9999px;
+    border: 2px solid var(--color-gold);
+    background: var(--color-white);
+    color: var(--color-black);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-bold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @variant lg {
+      background: var(--color-white);
+      color: var(--color-black);
+      border: 2px solid var(--color-slate-50);
+    }
+  }
+
+  .stepper-step.active .stepper-marker {
+    @variant lg {
+      color: var(--color-emerald-600);
+    }
+  }
+
+  /* Финальный шаг — красный «пульсирующий» маркер с волнами как круги на воде (только десктоп) */
+  .stepper-step.active:first-of-type .stepper-marker {
+    @variant lg {
+      background: var(--color-red-400);
+      color: var(--color-white);
+      border: none;
+    }
+  }
+
+  .stepper-step.active:first-of-type .stepper-marker::before,
+  .stepper-step.active:first-of-type .stepper-marker::after {
+    display: none;
+
+    @variant lg {
+      content: "";
+      display: block;
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: 9999px;
+      background: var(--color-red-400);
+      animation: stepper-ripple 1.8s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+    }
+  }
+
+  /* Вторая волна — со сдвигом на пол-цикла, чтобы создать каскад */
+  .stepper-step.active:first-of-type .stepper-marker::after {
+    @variant lg {
+      animation-delay: 0.9s;
+    }
+  }
+
+  @keyframes stepper-ripple {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    100% {
+      transform: scale(2.6);
+      opacity: 0;
+    }
+  }
+
+  /* Тексты этапа */
+  .stepper-text {
+    position: relative;
+    z-index: 10;
+    line-height: 1.25;
+  }
+
+  .stepper-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .stepper-meta {
+    font-size: var(--text-base);
+    color: rgb(0 0 0 / 0.5);
+    margin-top: 0.25rem;
+  }
+}

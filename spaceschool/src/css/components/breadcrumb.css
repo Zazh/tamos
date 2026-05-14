@@ -6,17 +6,37 @@
     line-height: 1;
   }
 
+  /* На мобиле — горизонтальный скролл, чтобы все крошки сидели на одной строке
+     и оставались в DOM (важно для SEO + структурированных данных).
+     На десктопе — обычный wrap, как и было. */
   .breadcrumb-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 0.5rem;
+    overflow-x: auto;
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @variant md {
+      flex-wrap: wrap;
+      overflow-x: visible;
+      margin-inline: 0;
+      padding-inline: 0;
+    }
   }
 
   .breadcrumb-item {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    flex-shrink: 0;
+    white-space: nowrap;
     color: var(--color-gray-500);
   }
 

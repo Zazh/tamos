@@ -26,6 +26,7 @@
 @import "./components/modal.css";
 @import "./components/content-redactor.css";
 @import "./components/map.css";
+@import "./components/stepper.css";
 
 /* ========== Pages ========== */
 /* @import "./pages/home.css"; */
@@ -82,4 +83,6 @@ body {
 
   --font-sans: "Gotham", ui-sans-serif, system-ui, sans-serif;
   --font-display: "KZ Furore", ui-sans-serif, system-ui, sans-serif;
+
+  --green-gradient: linear-gradient(180deg, #8EE261 0%, #dafad2 100%);
 }

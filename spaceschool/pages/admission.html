@@ -167,24 +167,170 @@
     </div>
   </header>
 
-  <div class="px-4 pt-12 pb-6 md:pt-16 md:pb-8">
-    <div class="max-w-screen-xl mx-auto flex flex-col items-center text-center gap-4">
-      <h1 class="h1 font-bold">Выберите класс</h1>
-      <p class="leading-tight text-black/70 font-medium max-w-2xl">
-        Выберите класс, чтобы увидеть этапы поступления и условия тестирования именно для вашего ребёнка.
-      </p>
-      <div class="flex gap-2 mt-2" role="tablist">
-        <button class="btn-tab active" role="tab" aria-selected="true">С 1 по 5 класс</button>
-        <button class="btn-tab" role="tab" aria-selected="false">С 6 по 11 класс</button>
+  <div class="px-4 pt-6 pb-6 md:pt-8 md:pb-8">
+    <div class="max-w-screen-xl mx-auto">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Хлебные крошки">
+        <ol class="breadcrumb-list">
+          <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link" aria-label="Главная">
+              <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 7.5L8 2.5L14 7.5V13C14 13.5523 13.5523 14 13 14H3C2.4477 14 2 13.5523 2 13V7.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6.5 14V10C6.5 9.72386 6.72386 9.5 7 9.5H9C9.27614 9.5 9.5 9.72386 9.5 10V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="/admission" class="breadcrumb-link">Поступление</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="/admission/kz" class="breadcrumb-link">Казахское отделение</a>
+          </li>
+          <li class="breadcrumb-item" aria-current="page">
+            1 класс
+          </li>
+        </ol>
+      </nav>
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Главная", "item": "/" },
+          { "@type": "ListItem", "position": 2, "name": "Поступление", "item": "/admission" },
+          { "@type": "ListItem", "position": 3, "name": "Казахское отделение", "item": "/admission/kz" },
+          { "@type": "ListItem", "position": 4, "name": "1 класс", "item": "/admission/kz/grade-1" }
+        ]
+      }
+      </script>
+      <!-- END Breadcrumb -->
+
+      <div class="flex flex-col items-center text-center gap-4 mt-8 md:mt-12">
+        <h1 class="h1 font-bold">Поступление в 1 класс</h1>
+        <p class=" text-sm text-black/70 font-medium max-w-2xl">
+          Условия и этапы поступление в казахское отделение 1 класс в частную Муждународную Школу Sapce School в Астане по программе Cambridge Primary
+        </p>
+        <div class="w-full flex items-start gap-3 mt-2 md:flex-wrap md:gap-x-6 md:gap-y-4 md:justify-center">
+          <!-- Отделение: всегда dropdown -->
+          <div class="flex-1 md:flex-initial flex flex-col items-start gap-1.5">
+            <span class="text-sm font-medium text-black/60">Отделение:</span>
+            <div class="dropdown dropdown-fit w-full md:w-auto" x-data="{ open: false }">
+              <button type="button" class="btn-tab active w-full md:w-auto md:min-w-30" @click="open = !open">
+                <span>Казахское</span>
+                <span class="h-3 aspect-square">
+                  <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <ul class="dropdown-menu" x-show="open" @click.outside="open = false" x-cloak>
+                <li><a href="/admission/ru/grade-1" class="dropdown-item">Русское</a></li>
+                <li><a href="/admission/kz/grade-1" class="dropdown-item active">Казахское</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Классы: на десктопе таблист, на мобиле dropdown -->
+          <div class="flex-1 md:flex-initial flex flex-col items-start gap-1.5">
+            <span class="text-sm font-medium text-black/60">Классы:</span>
+
+            <!-- mobile: dropdown -->
+            <div class="dropdown dropdown-fit md:hidden w-full" x-data="{ open: false }">
+              <button type="button" class="btn-tab active w-full" @click="open = !open">
+                <span class="hidden min-[380px]:inline">1 класс</span>
+                <span class="min-[380px]:hidden">1 кл.</span>
+                <span class="h-3 aspect-square">
+                  <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <ul class="dropdown-menu" x-show="open" @click.outside="open = false" x-cloak>
+                <li><a href="/admission/kz/grade-1" class="dropdown-item active">1 класс</a></li>
+                <li><a href="/admission/kz/grade-2-7" class="dropdown-item">2–7 класс</a></li>
+                <li><a href="/admission/kz/grade-8-11" class="dropdown-item">8–11 класс</a></li>
+              </ul>
+            </div>
+
+            <!-- desktop: открытые табы -->
+            <div class="hidden md:flex gap-2" role="tablist" aria-label="Классы">
+              <button class="btn-tab active md:min-w-30" role="tab" aria-selected="true">1 класс</button>
+              <button class="btn-tab md:min-w-30" role="tab" aria-selected="false">2–7 класс</button>
+              <button class="btn-tab md:min-w-30" role="tab" aria-selected="false">8–11 класс</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   </section>
 
   <main class="bg-white">
+    <section class="px-4 pt-10 pb-14 md:py-14">
+      <div class="max-w-screen-xl mx-auto">
+        <header class="text-center mb-8 md:mb-12">
+          <h2 class="h1 font-bold">Стоимость и этапы</h2>
+          <p class="mt-2 text-black/60 font-medium">
+            Программа: Cambridge Primary Certificate
+          </p>
+        </header>
 
+        <div class="lg:grid lg:grid-cols-12 lg:gap-10">
+          <!-- Этапы -->
+          <aside class="lg:col-span-4 xl:col-span-3">
+            <ol class="stepper">
+              <span class="stepper-track" aria-hidden="true">
+                <span class="stepper-glow"></span>
+              </span>
 
+              <li class="stepper-step active">
+                <span class="stepper-marker">5</span>
+                <div class="stepper-text">
+                  <p class="stepper-title">Зачисление</p>
+                  <p class="stepper-meta">Добро пожаловать!</p>
+                </div>
+              </li>
 
+              <li class="stepper-step">
+                <span class="stepper-marker">4</span>
+                <div class="stepper-text">
+                  <p class="stepper-title">Договор и взнос</p>
+                  <p class="stepper-meta">Резервирование места</p>
+                </div>
+              </li>
+
+              <li class="stepper-step">
+                <span class="stepper-marker">3</span>
+                <div class="stepper-text">
+                  <p class="stepper-title">Результат</p>
+                  <p class="stepper-meta">За 3 дня в WhatsApp</p>
+                </div>
+              </li>
+
+              <li class="stepper-step">
+                <span class="stepper-marker">2</span>
+                <div class="stepper-text">
+                  <p class="stepper-title">Тестирование</p>
+                  <p class="stepper-meta">Математика + 3 языка</p>
+                </div>
+              </li>
+
+              <li class="stepper-step">
+                <span class="stepper-marker">1</span>
+                <div class="stepper-text">
+                  <p class="stepper-title">Консультация</p>
+                  <p class="stepper-meta">Запись к менеджеру</p>
+                </div>
+              </li>
+            </ol>
+          </aside>
+
+          <!-- Контент этапа -->
+          <section class="lg:col-span-9 mt-8 lg:mt-0">
+          </section>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="footer mt-auto"
