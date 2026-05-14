@@ -27,6 +27,7 @@
 @import "./components/content-redactor.css";
 @import "./components/map.css";
 @import "./components/stepper.css";
+@import "./components/stage-header.css";
 
 /* ========== Pages ========== */
 /* @import "./pages/home.css"; */

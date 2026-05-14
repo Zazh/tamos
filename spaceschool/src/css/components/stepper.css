@@ -1,48 +1,56 @@
 @layer components {
+  /* На мобиле — горизонтальная полоса с 5 равноудалёнными кружками и серой
+     линией-связкой между ними. Текст шагов (.stepper-text) скрыт; название
+     активного шага выводится отдельно в .stepper-current под трекером.
+     На десктопе (lg+) — вертикальный список с pill-track и .stepper-glow. */
   .stepper {
+    position: relative;
     display: flex;
     flex-direction: row;
-    gap: 1.5rem;
-    overflow-x: auto;
-    margin-inline: -1rem;
-    padding-inline: 1rem;
-    padding-bottom: 0.5rem;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    align-items: center;
+    gap: 0;
 
     @variant lg {
-      position: relative;
       flex-direction: column;
+      align-items: stretch;
       gap: 3rem;
-      overflow-x: visible;
-      margin-inline: 0;
-      padding-inline: 0;
-      padding-bottom: 0;
+    }
+  }
+
+  /* Серая линия-связка между кружками (мобиле).
+     От центра первого до центра последнего маркера: 10%..90%
+     (каждый из 5 равных слотов = 20%, центр — на середине слота). */
+  .stepper::before {
+    content: "";
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 50%;
+    height: 2px;
+    background: var(--color-slate-200);
+    transform: translateY(-50%);
+    z-index: 0;
+
+    @variant lg {
+      display: none;
     }
   }
 
   /* На мобиле визуальный порядок шагов обратный: 1 слева → 5 справа.
-     Делаем через `order`, а не `row-reverse` — иначе скролл-снэп ставит
-     начальный scrollLeft в конец потока (показывает шаг 5 первым).
-     На десктопе `order: 0` восстанавливает DOM-порядок (5 сверху → 1 снизу). */
+     Делаем через `order`, а не `row-reverse`. */
   .stepper-step:nth-child(2) { order: 5; }
   .stepper-step:nth-child(3) { order: 4; }
   .stepper-step:nth-child(4) { order: 3; }
   .stepper-step:nth-child(5) { order: 2; }
   .stepper-step:nth-child(6) { order: 1; }
 
-  /* На десктопе сброс к DOM-порядку (5 сверху → 1 снизу).
-     `:nth-child(n)` — чтобы совпасть со специфичностью правил выше. */
   .stepper-step:nth-child(n) {
     @variant lg {
       order: 0;
     }
   }
 
-  /* Серый трек на фоне (только десктоп) */
+  /* Серый pill-track на фоне (только десктоп) */
   .stepper-track {
     display: none;
 
@@ -60,23 +68,23 @@
   }
 
   .stepper-step {
-    position: relative;
-    scroll-snap-align: start;
-    flex-shrink: 0;
-    width: 17rem;
+    flex: 1 1 0;
+    min-width: 0;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 1rem;
+    position: relative;
+    z-index: 1;
 
     @variant lg {
+      flex: 0 0 auto;
       width: auto;
+      justify-content: flex-start;
       gap: 2.5rem;
     }
   }
 
-  /* Зелёная пилюля «пройденного пути» — дочерняя к .stepper-track.
-     Низ всегда у дна трека; верх двигается по позиции активного шага
-     через `:has() + :nth-of-type()` (см. ниже). Один элемент = один сплошной градиент. */
+  /* Зелёная пилюля «пройденного пути» — дочерняя к .stepper-track. */
   .stepper-glow {
     display: none;
   }
@@ -90,13 +98,10 @@
       bottom: 0;
       border-radius: 9999px;
       background: var(--green-gradient, linear-gradient(180deg, #8EE261 0%, #dafad2 100%));
+      transition: top 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 
-  /* Верх пилюли = середина gap над активным шагом.
-     step + gap = 3rem + 3rem = 6rem; +0.5rem — оффсет трека над .stepper;
-     −1.5rem — половина gap (мягко выходит над маркером шапкой).
-     Для самого первого шага клампим к 0 (нет gap сверху). */
   .stepper:has(.stepper-step:nth-of-type(1).active) .stepper-glow {
     @variant lg { top: 0; }
   }
@@ -113,37 +118,45 @@
     @variant lg { top: 24rem; }
   }
 
-  /* Кружок с номером. На мобиле — жёлтый с чёрным текстом; на десктопе — белый круг. */
+  /* Кружок-маркер. Мобиле: компактный, серый outline; активный — gold-fill.
+     Десктоп: крупный белый с slate-обводкой; активный — emerald. */
   .stepper-marker {
     position: relative;
     z-index: 10;
     flex-shrink: 0;
-    width: 3rem;
+    width: 2.25rem;
     aspect-ratio: 1/1;
     border-radius: 9999px;
-    border: 2px solid var(--color-gold);
+    border: 2px solid var(--color-slate-200);
     background: var(--color-white);
-    color: var(--color-black);
+    color: rgb(0 0 0 / 0.55);
     font-size: var(--text-sm);
     font-weight: var(--font-weight-bold);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 
     @variant lg {
-      background: var(--color-white);
+      width: 3rem;
+      border-color: var(--color-slate-50);
       color: var(--color-black);
-      border: 2px solid var(--color-slate-50);
     }
   }
 
   .stepper-step.active .stepper-marker {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-black);
+
     @variant lg {
+      background: var(--color-white);
+      border-color: #7bdd46;
       color: var(--color-emerald-600);
     }
   }
 
-  /* Финальный шаг — красный «пульсирующий» маркер с волнами как круги на воде (только десктоп) */
+  /* Финальный шаг — красный «пульсирующий» маркер с волнами (только десктоп) */
   .stepper-step.active:first-of-type .stepper-marker {
     @variant lg {
       background: var(--color-red-400);
@@ -168,7 +181,6 @@
     }
   }
 
-  /* Вторая волна — со сдвигом на пол-цикла, чтобы создать каскад */
   .stepper-step.active:first-of-type .stepper-marker::after {
     @variant lg {
       animation-delay: 0.9s;
@@ -186,11 +198,16 @@
     }
   }
 
-  /* Тексты этапа */
+  /* Текст шага: скрыт на мобиле (там показывается .stepper-current), видим на десктопе. */
   .stepper-text {
-    position: relative;
-    z-index: 10;
-    line-height: 1.25;
+    display: none;
+
+    @variant lg {
+      display: block;
+      position: relative;
+      z-index: 10;
+      line-height: 1.25;
+    }
   }
 
   .stepper-title {
@@ -202,5 +219,31 @@
     font-size: var(--text-base);
     color: rgb(0 0 0 / 0.5);
     margin-top: 0.25rem;
+  }
+
+  /* Подпись активного шага под трекером (только мобиле). */
+  .stepper-current {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    line-height: 1.2;
+
+    @variant lg {
+      display: none;
+    }
+  }
+
+  .stepper-current__num {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-bold);
+    color: rgb(0 0 0 / 0.35);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stepper-current__title {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-black);
   }
 }

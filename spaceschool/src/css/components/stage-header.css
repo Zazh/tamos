@@ -1,0 +1,28 @@
+@layer components {
+  .stage-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .stage-header__title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+
+    @variant md {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  .stage-header__lead {
+    margin-top: 0.75rem;
+    font-size: var(--text-sm);
+    line-height: var(--leading-tight);
+    color: color-mix(in srgb, black 60%, transparent);
+    max-width: 50rem;
+
+    @variant md {
+      font-size: var(--text-base);
+    }
+  }
+}

@@ -9,6 +9,7 @@ import { registerCarousel } from "./carousel.js";
 import { registerFeedbackModal } from "./modal.js";
 import { initLeafletMaps } from "./leaflet-map.js";
 import { initMarquee } from "./marquee.js";
+import { initStepperScrollspy } from "./stepper-scrollspy.js";
 
 Alpine.plugin(collapse);
 registerStarfield(Alpine);
@@ -23,6 +24,7 @@ Alpine.start();
 
 document.addEventListener("DOMContentLoaded", initLeafletMaps);
 document.addEventListener("DOMContentLoaded", initMarquee);
+document.addEventListener("DOMContentLoaded", initStepperScrollspy);
 
 /* Meteor parallax */
 document.addEventListener("DOMContentLoaded", () => {

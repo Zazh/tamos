@@ -19,6 +19,17 @@
   }
 }
 
+.h2 {
+  font-family: var(--font-sans), serif;
+  font-size: var(--text-2xl);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.1;
+
+  @variant md {
+    font-size: var(--text-3xl);
+  }
+}
+
 .h5 {
   font-size: var(--text-base);
 
