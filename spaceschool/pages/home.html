@@ -392,7 +392,6 @@
               <button type="button"
                       class="btn btn-default"
                       data-feedback-trigger
-                      data-feedback-city
                       data-feedback-title="Выберите свой город"
                       data-feedback-origin="feedback-section-city">Записаться в кампус</button>
             </div>
@@ -612,14 +611,12 @@
         </div>
 
         <!--
-          Город: показывается только когда триггер открыл модалку
-          с атрибутом data-feedback-city. Локальный x-data управляет
-          открытием меню и выбранным значением; скрытый input
-          name="city" попадает в форму при сабмите.
+          Город: в Django поле рендерится, когда активных регионов > 1,
+          и предзаполняется текущим регионом. Тут — статичный прототип
+          с двумя захардкоженными опциями для наглядной верстки.
         -->
         <div class="modal-feedback__field"
-             x-show="$store.feedback.city"
-             x-data="{ open: false, value: '' }"
+             x-data="{ open: false, value: 'Астана' }"
              @click.outside="open = false">
           <label class="modal-feedback__label">Город</label>
           <div class="modal-feedback__select">
@@ -648,7 +645,7 @@
               </li>
             </ul>
           </div>
-          <input type="hidden" name="city" :value="value" :required="$store.feedback.city">
+          <input type="hidden" name="city" :value="value" required>
         </div>
 
         <div class="modal-feedback__field">

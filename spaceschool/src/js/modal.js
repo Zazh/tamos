@@ -5,11 +5,9 @@ export function registerFeedbackModal(Alpine) {
     open: false,
     title: DEFAULT_TITLE,
     origin: "",
-    city: false,
-    show(title, origin, { city = false } = {}) {
+    show(title, origin) {
       this.title = title && title.trim() ? title.trim() : DEFAULT_TITLE;
       this.origin = origin || (typeof window !== "undefined" ? window.location.pathname : "");
-      this.city = !!city;
       this.open = true;
     },
     hide() {
@@ -23,7 +21,6 @@ export function registerFeedbackModal(Alpine) {
     event.preventDefault();
     const title = trigger.getAttribute("data-feedback-title");
     const origin = trigger.getAttribute("data-feedback-origin");
-    const city = trigger.hasAttribute("data-feedback-city");
-    Alpine.store("feedback").show(title, origin, { city });
+    Alpine.store("feedback").show(title, origin);
   });
 }
