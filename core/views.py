@@ -6,7 +6,7 @@ from django.utils.translation import override
 from regions.models import Region
 
 # Pages exposed in sitemap.xml. Add new public pages here.
-SEO_PAGES = ['pages:home', 'pages:contacts', 'pages:gallery']
+SEO_PAGES = ['pages:home', 'pages:contacts', 'gallery:list']
 
 
 def root_redirect(request):
@@ -43,7 +43,7 @@ def llms_txt(request):
         'site_url': request.build_absolute_uri('/').rstrip('/'),
         'home_url': request.build_absolute_uri(reverse('pages:home', kwargs={'region_slug': slug})),
         'contacts_url': request.build_absolute_uri(reverse('pages:contacts', kwargs={'region_slug': slug})),
-        'gallery_url': request.build_absolute_uri(reverse('pages:gallery', kwargs={'region_slug': slug})),
+        'gallery_url': request.build_absolute_uri(reverse('gallery:list', kwargs={'region_slug': slug})),
     }
     return render(request, 'llms.txt', ctx, content_type='text/plain; charset=utf-8')
 

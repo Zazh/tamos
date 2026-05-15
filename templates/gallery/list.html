@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load i18n region_tags %}
+
+{% block title %}{% trans 'Фотогалерея' %} — Tamos Space School{% endblock %}
+{% block meta_description %}{% trans 'Фотохроника жизни школы: учебные будни, достижения, мероприятия и робототехника.' %}{% endblock %}
+
+{% block layout_top %}
+  {% include 'partials/header.html' with active_page='gallery' %}
+{% endblock %}
+
+{% block content %}
+  <section class="bg-white py-6"
+           x-data="{
+             open: false,
+             index: 0,
+             items: [],
+             openAt(i) { this.index = i; this.open = true; },
+             close() { this.open = false; },
+             prev() { if (this.index > 0) this.index--; },
+             next() { if (this.index < this.items.length - 1) this.index++; }
+           }"
+           x-init="items = [...$el.querySelectorAll('.mosaic-card img')].map(i => i.dataset.full || i.src)"
+           x-effect="document.body.style.overflow = open ? 'hidden' : ''"
+           @keydown.escape.window="if (open) close()"
+           @keydown.arrow-left.window="if (open) prev()"
+           @keydown.arrow-right.window="if (open) next()">
+    <div class="container">
+      <div class="col-span-full">
+        <nav class="breadcrumb" aria-label="{% trans 'Хлебные крошки' %}">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item">
+              <a href="{% region_url 'pages:home' %}" class="breadcrumb-link">{% trans 'Главная' %}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+              {% trans 'Фотогалерея' %}
+            </li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="col-span-full">
+        <div class="mb-6">
+          <h1 class="h1 font-bold">{% trans 'Фотогалерея' %}</h1>
+        </div>
+
+        {% if categories %}
+          <div class="btn-filter-group my-6">
+            <a href="{% region_url 'gallery:list' %}"
+               class="btn btn-filter {% if not current_category_slug %}active{% endif %}">
+              {% trans 'Все' %}
+            </a>
+            {% for cat in categories %}
+              <a href="{% region_url 'gallery:list' %}?category={{ cat.slug }}"
+                 class="btn btn-filter {% if current_category_slug == cat.slug %}active{% endif %}">
+                {{ cat.name }}
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if images %}
+          <ul class="mosaic">
+            {% for image in images %}
+              <li class="mosaic-card{% if image.is_wide %} mosaic-card-wide{% endif %}"
+                  @click="openAt({{ forloop.counter0 }})">
+                <img src="{{ image.image_compressed.url }}"
+                     data-full="{{ image.image.url }}"
+                     alt="{{ image.alt_display }}"
+                     loading="{% if forloop.counter0 < 4 %}eager{% else %}lazy{% endif %}"
+                     decoding="async">
+              </li>
+            {% endfor %}
+          </ul>
+
+          {% if page_obj.has_next %}
+            <a href="?{% if current_category_slug %}category={{ current_category_slug }}&{% endif %}page={{ page_obj.next_page_number }}"
+               class="btn btn-load-more mt-6">
+              {% trans 'Загрузить еще' %}
+            </a>
+          {% endif %}
+        {% else %}
+          <p class="text-black/60 py-8">
+            {% trans 'Пока нет фото в этой категории.' %}
+          </p>
+        {% endif %}
+
+        <div class="modal-overlay"
+             x-show="open" x-cloak
+             @click.self="close()"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0">
+          <div class="modal-gallery"
+               x-transition:enter="transition ease-out duration-200"
+               x-transition:enter-start="opacity-0 scale-95"
+               x-transition:enter-end="opacity-100 scale-100"
+               x-transition:leave="transition ease-in duration-150"
+               x-transition:leave-start="opacity-100 scale-100"
+               x-transition:leave-end="opacity-0 scale-95">
+            <div class="modal-gallery__image">
+              <img :src="items[index]" alt="">
+            </div>
+            <button type="button"
+                    class="btn-nav modal-gallery__nav modal-gallery__nav--prev"
+                    @click="prev()"
+                    :disabled="index === 0"
+                    aria-label="{% trans 'Предыдущее' %}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+            <button type="button"
+                    class="btn-nav modal-gallery__nav modal-gallery__nav--next"
+                    @click="next()"
+                    :disabled="index === items.length - 1"
+                    aria-label="{% trans 'Следующее' %}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

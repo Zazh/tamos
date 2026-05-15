@@ -58,7 +58,9 @@ INSTALLED_APPS = [
     'admission',
     'blog',
     'events',
+    'gallery',
     'navigation',
+    'feedback',
 ]
 
 MIDDLEWARE = [
