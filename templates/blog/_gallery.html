@@ -1,0 +1,50 @@
+{% load i18n %}
+{% comment %}
+  Фотогалерея для блога. Рендерится фильтром `render_galleries` при
+  обработке шорткода `[[gallery slug=NAME]]` в BlogPost.content.
+
+  Карусель — Alpine: scrollLeft на ширину карточки + column-gap.
+  CSS: .content-gallery-figure / .content-gallery в
+  spaceschool/src/css/components/content-redactor.css.
+
+  context:
+    gallery — BlogGallery с .images.all() (prefetch_related в фильтре).
+{% endcomment %}
+{% if gallery.images.all %}
+<figure class="content-gallery-figure"
+        x-data="{
+          scroll(dir) {
+            const track = $refs.track;
+            const item = track.querySelector('li');
+            if (!item) return;
+            const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+            track.scrollBy({ left: dir * (item.offsetWidth + gap), behavior: 'smooth' });
+          }
+        }">
+  <ul class="content-gallery" x-ref="track">
+    {% for image in gallery.images.all %}
+      <li>
+        <figure>
+          <img src="{% if image.image_compressed %}{{ image.image_compressed.url }}{% else %}{{ image.image.url }}{% endif %}"
+               alt="{{ image.alt_display }}"
+               loading="lazy"
+               decoding="async">
+          {% if image.caption %}
+            <figcaption>{{ image.caption }}</figcaption>
+          {% endif %}
+        </figure>
+      </li>
+    {% endfor %}
+  </ul>
+  <button type="button" class="btn-nav btn-nav--prev" @click="scroll(-1)" aria-label="{% trans 'Предыдущее' %}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 18l-6-6 6-6"/>
+    </svg>
+  </button>
+  <button type="button" class="btn-nav btn-nav--next" @click="scroll(1)" aria-label="{% trans 'Следующее' %}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18l6-6-6-6"/>
+    </svg>
+  </button>
+</figure>
+{% endif %}

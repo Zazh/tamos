@@ -1,6 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import BlogCategory, BlogPost, BlogTag
+from .models import BlogCategory, BlogGalleryImage, BlogPost, BlogTag
 
 
 @register(BlogCategory)
@@ -16,3 +16,8 @@ class BlogTagTranslationOptions(TranslationOptions):
 @register(BlogPost)
 class BlogPostTranslationOptions(TranslationOptions):
     fields = ('title', 'lead', 'content', 'cover_caption', 'cover_alt')
+
+
+@register(BlogGalleryImage)
+class BlogGalleryImageTranslationOptions(TranslationOptions):
+    fields = ('caption', 'alt')

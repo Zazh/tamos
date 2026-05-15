@@ -165,3 +165,91 @@ class BlogPost(models.Model):
     @property
     def cover_alt_display(self) -> str:
         return (self.cover_alt or '').strip() or self.title
+
+
+class BlogGallery(models.Model):
+    """Фотогалерея внутри статьи. Вставляется шорткодом
+    `[[gallery slug=NAME]]` в `BlogPost.content` (см.
+    `templatetags/blog_extras.render_galleries`).
+
+    Один пост может содержать несколько галерей; slug уникален в пределах поста.
+    """
+
+    post = models.ForeignKey(
+        BlogPost,
+        verbose_name='Статья',
+        on_delete=models.CASCADE,
+        related_name='galleries',
+    )
+    slug = models.SlugField(
+        'Slug',
+        max_length=64,
+        help_text='Ссылка в шорткоде: [[gallery slug=ЭТО]]. Уникален в пределах статьи.',
+    )
+    title = models.CharField(
+        'Название',
+        max_length=200,
+        blank=True,
+        help_text='Внутренняя метка для админки; не выводится на сайте.',
+    )
+    order = models.PositiveSmallIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Фотогалерея'
+        verbose_name_plural = 'Фотогалереи'
+        ordering = ['order', 'pk']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['post', 'slug'],
+                name='blog_gallery_post_slug_unique',
+            ),
+        ]
+
+    def __str__(self):
+        return self.title or self.slug or f'Gallery #{self.pk}'
+
+
+class BlogGalleryImage(models.Model):
+    """Снимок в галерее. Подпись и alt переводятся."""
+
+    gallery = models.ForeignKey(
+        BlogGallery,
+        verbose_name='Галерея',
+        on_delete=models.CASCADE,
+        related_name='images',
+    )
+    image = models.ImageField('Изображение', upload_to='blog/galleries/')
+    image_webp = ImageSpecField(
+        source='image',
+        format='WEBP',
+        options={'quality': BLOG_IMAGE_QUALITY},
+    )
+    image_compressed = ImageSpecField(
+        source='image',
+        options={'quality': BLOG_IMAGE_QUALITY, 'optimize': True},
+    )
+    caption = models.CharField(
+        'Подпись',
+        max_length=300,
+        blank=True,
+        help_text='Опциональный figcaption под картинкой.',
+    )
+    alt = models.CharField(
+        'Alt-текст',
+        max_length=300,
+        blank=True,
+        help_text='Для SEO/доступности. Если пусто — подставляется подпись или название галереи.',
+    )
+    order = models.PositiveSmallIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Фото в галерее'
+        verbose_name_plural = 'Фото в галерее'
+        ordering = ['order', 'pk']
+
+    def __str__(self):
+        return self.caption or f'Image #{self.pk}'
+
+    @property
+    def alt_display(self) -> str:
+        return (self.alt or '').strip() or (self.caption or '').strip() or str(self.gallery)

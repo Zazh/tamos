@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n region_tags %}
+{% load i18n region_tags blog_extras %}
 
 {% block title %}{{ post.title }} — Tamos Space School{% endblock %}
 {% block meta_description %}{{ post.lead|default:post.title|truncatechars:200 }}{% endblock %}
@@ -134,7 +134,7 @@
             <p>{{ post.lead }}</p>
           {% endif %}
 
-          {{ post.content|safe }}
+          {{ post.content|render_galleries:post }}
         </div>
 
         {% if post.tags.all %}
