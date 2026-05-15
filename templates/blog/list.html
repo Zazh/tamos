@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load i18n region_tags %}
+
+{% block title %}{% trans 'Блог' %} — Tamos Space School{% endblock %}
+{% block meta_description %}{% trans 'Новости и статьи Tamos Space School: школьная жизнь, спорт, достижения и события.' %}{% endblock %}
+
+{% block layout_top %}
+  {% include 'partials/header.html' with active_page='blog' %}
+{% endblock %}
+
+{% block content %}
+  <section class="bg-white py-6">
+    <div class="container">
+      <div class="col-span-full">
+        <nav class="breadcrumb" aria-label="{% trans 'Хлебные крошки' %}">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item">
+              <a href="{% region_url 'pages:home' %}" class="breadcrumb-link">{% trans 'Главная' %}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+              {% trans 'Блог' %}
+            </li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="col-span-full">
+        <div class="mb-6">
+          <h1 class="h1 font-bold">{% trans 'Блог' %}</h1>
+        </div>
+
+        {% if current_tag %}
+          <p class="mb-4 text-sm text-black/70">
+            {% blocktrans with tag=current_tag.name %}Записи по тегу <strong>#{{ tag }}</strong>{% endblocktrans %}
+            · <a href="{% region_url 'blog:list' %}" class="text-brand underline">{% trans 'Сбросить' %}</a>
+          </p>
+        {% endif %}
+
+        {% if categories %}
+          <div class="btn-filter-group my-6">
+            <a href="{% region_url 'blog:list' %}"
+               class="btn btn-filter {% if not current_category_slug %}active{% endif %}">
+              {% trans 'Все' %}
+            </a>
+            {% for cat in categories %}
+              <a href="{% region_url 'blog:list' %}?category={{ cat.slug }}"
+                 class="btn btn-filter {% if current_category_slug == cat.slug %}active{% endif %}">
+                {{ cat.name }}
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if posts %}
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {% for post in posts %}
+              <article class="article-card">
+                <a href="{% region_url 'blog:detail' slug=post.slug %}" class="article-card__link">
+                  <figure class="article-card__image">
+                    {% include 'partials/cover_image.html' with source=post.cover_image image=post.cover_image_compressed alt=post.cover_alt_display priority=forloop.first %}
+                  </figure>
+                  <div class="article-card__body">
+                    <time class="article-card__date" datetime="{{ post.published_at|date:'Y-m-d' }}">
+                      {{ post.published_at|date:'j E Y' }}
+                    </time>
+                    <h3 class="article-card__title">{{ post.title }}</h3>
+                  </div>
+                </a>
+              </article>
+            {% endfor %}
+          </div>
+
+          {% if page_obj.has_next %}
+            {% with request.GET.urlencode as qs %}
+              <a href="?{% if current_category_slug %}category={{ current_category_slug }}&{% endif %}{% if current_tag_slug %}tag={{ current_tag_slug }}&{% endif %}page={{ page_obj.next_page_number }}"
+                 class="btn btn-load-more mt-6">
+                {% trans 'Загрузить еще' %}
+              </a>
+            {% endwith %}
+          {% endif %}
+        {% else %}
+          <p class="text-black/60 py-8">
+            {% trans 'Пока нет публикаций в этой категории.' %}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

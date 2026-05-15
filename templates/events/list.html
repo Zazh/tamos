@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load i18n region_tags %}
+
+{% block title %}{% trans 'Мероприятия' %} — Tamos Space School{% endblock %}
+{% block meta_description %}{% trans 'Анонсы и отчёты о мероприятиях Tamos Space School.' %}{% endblock %}
+
+{% block layout_top %}
+  {% include 'partials/header.html' with active_page='events' %}
+{% endblock %}
+
+{% block content %}
+  <section class="bg-white py-6">
+    <div class="container">
+      <div class="col-span-full">
+        <nav class="breadcrumb" aria-label="{% trans 'Хлебные крошки' %}">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item">
+              <a href="{% region_url 'pages:home' %}" class="breadcrumb-link">{% trans 'Главная' %}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+              {% trans 'Мероприятия' %}
+            </li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="col-span-full">
+        <div class="mb-6">
+          <h1 class="h1 font-bold">{% trans 'Мероприятия' %}</h1>
+        </div>
+
+        {% if events %}
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {% for event in events %}
+              <article class="article-card">
+                <a href="{% region_url 'events:detail' slug=event.slug %}" class="article-card__link">
+                  <figure class="article-card__image">
+                    {% include 'partials/cover_image.html' with source=event.cover_image image=event.cover_image_compressed alt=event.cover_alt_display priority=forloop.first %}
+                  </figure>
+                  <div class="article-card__body">
+                    <time class="article-card__date" datetime="{{ event.published_at|date:'Y-m-d' }}">
+                      {{ event.published_at|date:'j E Y' }}
+                    </time>
+                    <h3 class="article-card__title">{{ event.title }}</h3>
+                  </div>
+                </a>
+              </article>
+            {% endfor %}
+          </div>
+
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-load-more mt-6">
+              {% trans 'Загрузить еще' %}
+            </a>
+          {% endif %}
+        {% else %}
+          <p class="text-black/60 py-8">
+            {% trans 'Пока нет анонсов мероприятий.' %}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

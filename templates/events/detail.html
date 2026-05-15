@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load i18n region_tags %}
+
+{% block title %}{{ event.title }} — Tamos Space School{% endblock %}
+{% block meta_description %}{{ event.lead|default:event.title|truncatechars:200 }}{% endblock %}
+{% block og_title %}{{ event.title }}{% endblock %}
+{% block og_description %}{{ event.lead|default:event.title|truncatechars:200 }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_image %}{% if event.cover_image %}{{ request.scheme }}://{{ request.get_host }}{{ event.cover_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+{% block layout_top %}
+  {% include 'partials/header.html' with active_page='events' %}
+{% endblock %}
+
+{% block content %}
+  <section class="bg-white py-6">
+    <div class="container">
+      <div class="col-span-full">
+        <nav class="breadcrumb" aria-label="{% trans 'Хлебные крошки' %}">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item">
+              <a href="{% region_url 'pages:home' %}" class="breadcrumb-link">{% trans 'Главная' %}</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% region_url 'events:list' %}" class="breadcrumb-link">{% trans 'Мероприятия' %}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+              {{ event.title|truncatechars:60 }}
+            </li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="col-span-full lg:col-span-8 mb-8">
+        <div class="mb-6 border-b border-gray-300 py-6">
+          <h1 class="h1 font-bold mt-4">{{ event.title }}</h1>
+
+          <div class="flex justify-between items-center gap-6 mt-4">
+            <ul class="flex gap-6">
+              <li class="text-sm font-medium flex items-center gap-2">
+                <span class="w-4 h-4">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/>
+                    <path d="M16 3v4"/>
+                    <path d="M8 3v4"/>
+                    <path d="M4 11h16"/>
+                  </svg>
+                </span>
+                <time datetime="{{ event.published_at|date:'Y-m-d' }}">{{ event.published_at|date:'j E Y' }}</time>
+              </li>
+            </ul>
+
+            <div class="dropdown"
+                 data-label-share="{% trans 'Поделиться' %}"
+                 data-label-copy="{% trans 'Копировать' %}"
+                 data-label-copied="{% trans 'Скопировано' %}"
+                 x-data="{
+                   open: false,
+                   copied: false,
+                   labels: {
+                     share: $el.dataset.labelShare,
+                     copy: $el.dataset.labelCopy,
+                     copied: $el.dataset.labelCopied,
+                   },
+                   get pageUrl() { return window.location.href; },
+                   get pageTitle() { return document.title; },
+                   waUrl() { return 'https://wa.me/?text=' + encodeURIComponent(this.pageTitle + ' ' + this.pageUrl); },
+                   tgUrl() { return 'https://t.me/share/url?url=' + encodeURIComponent(this.pageUrl) + '&text=' + encodeURIComponent(this.pageTitle); },
+                   copy() {
+                     navigator.clipboard.writeText(this.pageUrl);
+                     this.copied = true;
+                     setTimeout(() => this.copied = false, 1500);
+                   }
+                 }">
+              <button type="button" class="text-sm flex items-center gap-2 cursor-pointer" @click="open = !open" :aria-expanded="open">
+                <span class="w-4 h-4">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 4v4c-6.575 1.028-9.02 5.65-10 10 2.547-2.83 5.5-4.5 10-4.5v4l7-7-7-7z"/>
+                  </svg>
+                </span>
+                <span class="font-medium" x-text="labels.share"></span>
+              </button>
+              <ul class="dropdown-menu" x-show="open" x-cloak @click.outside="open = false">
+                <li>
+                  <a :href="waUrl()" target="_blank" rel="noopener noreferrer" class="dropdown-item normal-case">
+                    <span class="dropdown-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/>
+                        <path d="M9 10a.5 .5 0 0 0 1 0V9a.5 .5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0-1h-1a.5 .5 0 0 0 0 1"/>
+                      </svg>
+                    </span>
+                    <span>WhatsApp</span>
+                  </a>
+                </li>
+                <li>
+                  <a :href="tgUrl()" target="_blank" rel="noopener noreferrer" class="dropdown-item normal-case">
+                    <span class="dropdown-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 10l-4 4l6 6l4-16l-18 7l4 2l2 6l3-4"/>
+                      </svg>
+                    </span>
+                    <span>Telegram</span>
+                  </a>
+                </li>
+                <li>
+                  <button type="button" class="dropdown-item normal-case" @click="copy()">
+                    <span class="dropdown-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 10a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z"/>
+                        <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
+                      </svg>
+                    </span>
+                    <span x-text="copied ? labels.copied : labels.copy"></span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-redactor">
+          <figure>
+            {% include 'partials/cover_image.html' with source=event.cover_image image=event.cover_image_compressed alt=event.cover_alt_display priority=True width=1504 height=818 %}
+            {% if event.cover_caption %}
+              <figcaption>{{ event.cover_caption }}</figcaption>
+            {% endif %}
+          </figure>
+
+          {% if event.lead %}
+            <p>{{ event.lead }}</p>
+          {% endif %}
+
+          {{ event.content|safe }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if related_events %}
+    <section class="bg-white pb-12">
+      <div class="container">
+        <div class="col-span-full">
+          <h2 class="text-xl font-bold mb-6">{% trans 'Другие мероприятия' %}</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {% for related in related_events %}
+              <article class="article-card">
+                <a href="{% region_url 'events:detail' slug=related.slug %}" class="article-card__link">
+                  <figure class="article-card__image">
+                    {% include 'partials/cover_image.html' with source=related.cover_image image=related.cover_image_compressed alt=related.cover_alt_display %}
+                  </figure>
+                  <div class="article-card__body">
+                    <time class="article-card__date" datetime="{{ related.published_at|date:'Y-m-d' }}">
+                      {{ related.published_at|date:'j E Y' }}
+                    </time>
+                    <h3 class="article-card__title">{{ related.title }}</h3>
+                  </div>
+                </a>
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}

@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'programs',
     'activities',
     'admission',
+    'blog',
+    'events',
     'navigation',
 ]
 

@@ -28,12 +28,12 @@
     "src": "src/fonts/gotham_medium.otf"
   },
   "src/js/main.js": {
-    "file": "assets/js/main-DQDvfXRF.js",
+    "file": "assets/js/main-qR9bUb6g.js",
     "name": "main",
     "src": "src/js/main.js",
     "isEntry": true,
     "css": [
-      "assets/css/main-BfEtdGJu.css"
+      "assets/css/main-BV8a_EHb.css"
     ],
     "assets": [
       "assets/fonts/gotham_book-sprPKk5v.otf",

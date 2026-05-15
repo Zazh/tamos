@@ -20,6 +20,8 @@ urlpatterns += i18n_patterns(
     path('<slug:region_slug>/', include('programs.urls')),
     path('<slug:region_slug>/', include('activities.urls')),
     path('<slug:region_slug>/', include('admission.urls')),
+    path('<slug:region_slug>/', include('blog.urls')),
+    path('<slug:region_slug>/', include('events.urls')),
     prefix_default_language=True,
 )
 
