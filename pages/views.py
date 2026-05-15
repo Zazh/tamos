@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
+from django.views.generic import DetailView, TemplateView
 
-from .models import ContactsPage, HomePage
+from .models import ContactsPage, FlatPage, HomePage
 
 
 class HomeView(TemplateView):
@@ -24,3 +24,22 @@ class ContactsView(TemplateView):
         ctx['contacts'] = contacts
         ctx['departments'] = list(contacts.departments.all())
         return ctx
+
+
+class FlatPageView(DetailView):
+    """Статичная контентная страница: about, uniform, privacy и т.п.
+
+    Подсветка NavItem — через `active_page = page.slug` в шаблоне.
+    """
+
+    template_name = 'pages/flat.html'
+    context_object_name = 'page'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            FlatPage.objects.filter(
+                region=self.request.region,
+                is_published=True,
+            ),
+            slug=self.kwargs['slug'],
+        )

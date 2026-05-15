@@ -6,6 +6,8 @@ from imagekit.models import ImageSpecField
 HERO_QUALITY = 95
 # Карусель — обычная компрессия, картинки крутятся быстро.
 GALLERY_QUALITY = 80
+# Обложки статичных страниц — как у блога.
+FLAT_IMAGE_QUALITY = 85
 
 
 class HomePage(models.Model):
@@ -244,3 +246,93 @@ class ContactsDepartment(models.Model):
 
     def __str__(self):
         return self.title or f'Department #{self.pk}'
+
+
+class FlatPage(models.Model):
+    """
+    Статичная контентная страница per-region: «О нас», «Школьная форма»,
+    «Питание», «Политика конфиденциальности» и т.п.
+
+    Шаблон `templates/pages/flat.html` — упрощённый blog-detail
+    (без даты, share, тегов, хлебных крошек и related-блока).
+
+    Линкуется в навигацию через `NavItem.flat_page` (FK). NavItem.url_name
+    у таких пунктов остаётся пустым — резолв идёт по FK.
+    """
+
+    region = models.ForeignKey(
+        'regions.Region',
+        verbose_name='Регион',
+        on_delete=models.PROTECT,
+        related_name='flat_pages',
+    )
+
+    slug = models.SlugField(
+        'Slug',
+        max_length=80,
+        help_text='Сегмент URL: about, uniform, privacy и т.п. '
+                  'Уникален в пределах региона.',
+    )
+    title = models.CharField('Заголовок (h1)', max_length=200)
+    lead = models.TextField(
+        'Лид',
+        blank=True,
+        help_text='Опционально: 1–2 предложения для превью и meta description.',
+    )
+
+    cover_image = models.ImageField(
+        'Обложка',
+        upload_to='pages/flat/covers/',
+        blank=True,
+        null=True,
+        help_text='Опциональная обложка над контентом. Если пусто — секция '
+                  'с картинкой не отрисовывается.',
+    )
+    cover_image_webp = ImageSpecField(
+        source='cover_image',
+        format='WEBP',
+        options={'quality': FLAT_IMAGE_QUALITY},
+    )
+    cover_image_compressed = ImageSpecField(
+        source='cover_image',
+        options={'quality': FLAT_IMAGE_QUALITY, 'optimize': True},
+    )
+    cover_caption = models.CharField(
+        'Подпись под обложкой',
+        max_length=300,
+        blank=True,
+    )
+    cover_alt = models.CharField(
+        'Alt-текст обложки',
+        max_length=300,
+        blank=True,
+        help_text='Для SEO/доступности. Если пусто — подставляется title.',
+    )
+
+    content = models.TextField(
+        'Содержимое (HTML)',
+        help_text='HTML рендерится через |safe. Используй h2/h3/h4, p, ul/ol/li, '
+                  'blockquote+cite, a, img, figure+figcaption, small.',
+    )
+
+    is_published = models.BooleanField('Опубликована', default=True, db_index=True)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Статичная страница'
+        verbose_name_plural = 'Статичные страницы'
+        ordering = ['region', 'slug']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['region', 'slug'],
+                name='pages_flatpage_region_slug_unique',
+            ),
+        ]
+
+    def __str__(self):
+        return f'{self.title} — {self.region}'
+
+    @property
+    def cover_alt_display(self) -> str:
+        return (self.cover_alt or '').strip() or self.title

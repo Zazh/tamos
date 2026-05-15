@@ -56,7 +56,18 @@ class NavItem(models.Model):
         'URL name',
         max_length=120,
         blank=True,
-        help_text='Django URL name, напр. pages:about. Пусто — пункт-заглушка с href="#".',
+        help_text='Django URL name, напр. pages:home. Пусто — пункт-заглушка с href="#". '
+                  'Если задан flat_page, поле игнорируется.',
+    )
+    flat_page = models.ForeignKey(
+        'pages.FlatPage',
+        verbose_name='Статичная страница',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='nav_items',
+        help_text='Если задано — ссылка ведёт на FlatPage (приоритет над url_name). '
+                  'Регион подставляется автоматически.',
     )
     is_top_nav = models.BooleanField(
         'В шапке',
@@ -80,5 +91,5 @@ class NavItem(models.Model):
 
     @property
     def is_placeholder(self):
-        """True если ссылка ещё не привязана к view (url_name пустой)."""
-        return not self.url_name
+        """True если ссылка ещё не привязана ни к view, ни к FlatPage."""
+        return not self.url_name and self.flat_page_id is None

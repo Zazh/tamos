@@ -64,10 +64,40 @@
         </li>
       </ul>
     </div>
-    <div class="max-w-screen-xl mx-auto border-t-1 border-t-white/20 mt-8 text-center">
-      <p class="text-white/70 pt-6 text-sm font-medium uppercase">
+    <div class="max-w-screen-xl mx-auto border-t-1 border-t-white/20 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+      <p class="text-white/70 text-sm font-medium uppercase">
         © {% now "Y" %} Tamos Space School
       </p>
+
+      {# Документы: маленький dropdown, открывается вверх (футер у низа страницы) #}
+      <div class="dropdown dropdown-up text-white/70"
+           x-data="{ open: false }"
+           @click.outside="open = false"
+           @keydown.escape.window="open = false">
+        <button type="button"
+                class="dropdown-toggle"
+                :aria-expanded="open"
+                @click="open = !open">
+          <span>{% trans 'Документы' %}</span>
+          <span class="dropdown-icon">
+            <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </button>
+        <ul class="dropdown-menu" x-show="open" x-cloak>
+          <li>
+            <a href="{% region_url 'pages:flat' slug='privacy' %}" class="dropdown-item">
+              {% trans 'Политика конфиденциальности' %}
+            </a>
+          </li>
+          <li>
+            <a href="{% region_url 'pages:flat' slug='oferta' %}" class="dropdown-item">
+              {% trans 'Публичная оферта' %}
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 

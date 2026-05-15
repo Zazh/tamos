@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load i18n region_tags %}
+
+{% block title %}{{ page.title }} — Tamos Space School{% endblock %}
+{% block meta_description %}{{ page.lead|default:page.title|truncatechars:200 }}{% endblock %}
+{% block og_title %}{{ page.title }}{% endblock %}
+{% block og_description %}{{ page.lead|default:page.title|truncatechars:200 }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_image %}{% if page.cover_image %}{{ request.scheme }}://{{ request.get_host }}{{ page.cover_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+{% block layout_top %}
+  {# active_page = page.slug. Конвенция: slug FlatPage совпадает со slug NavItem. #}
+  {% include 'partials/header.html' with active_page=page.slug %}
+{% endblock %}
+
+{% block content %}
+  <section class="bg-white py-6">
+    <div class="container">
+      <div class="col-span-full lg:col-span-8 mb-8">
+        <div class="mb-6 border-b border-gray-300 py-6">
+          <h1 class="h1 font-bold">{{ page.title }}</h1>
+        </div>
+
+        <div class="content-redactor">
+          {% if page.cover_image %}
+            <figure>
+              {% include 'partials/cover_image.html' with source=page.cover_image image=page.cover_image_compressed alt=page.cover_alt_display priority=True width=1504 height=818 %}
+              {% if page.cover_caption %}
+                <figcaption>{{ page.cover_caption }}</figcaption>
+              {% endif %}
+            </figure>
+          {% endif %}
+
+          {% if page.lead %}
+            <p>{{ page.lead }}</p>
+          {% endif %}
+
+          {{ page.content|safe }}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

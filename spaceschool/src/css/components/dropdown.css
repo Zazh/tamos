@@ -77,4 +77,11 @@
     width: 100%;
     min-width: 0;
   }
+
+  /* Открытие вверх — для триггеров, прижатых к низу страницы (футер). */
+  .dropdown-up .dropdown-menu {
+    top: auto;
+    bottom: 100%;
+    margin-bottom: 0.5rem;
+  }
 }

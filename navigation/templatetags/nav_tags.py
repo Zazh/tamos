@@ -8,15 +8,30 @@ register = template.Library()
 def nav_url(context, item):
     """
     URL для пункта навигации NavItem с учётом текущего региона.
-    Пустой `url_name` или NoReverseMatch → `#` (пункт-заглушка, страница
-    ещё не реализована — ссылка видна, но никуда не ведёт).
+
+    Приоритет:
+      1) `item.flat_page` → reverse('pages:flat', slug=...) — статичные
+         страницы (О нас, форма, privacy и т.п.).
+      2) `item.url_name` → reverse(url_name) — обычные view-страницы.
+      3) иначе → `#` (заглушка).
     """
-    if not item.url_name:
-        return '#'
     request = context.get('request')
     region = getattr(request, 'region', None) if request else None
-    kwargs = {'region_slug': region.slug} if region is not None else {}
+    region_kwargs = {'region_slug': region.slug} if region is not None else {}
+
+    if item.flat_page_id:
+        try:
+            return reverse(
+                'pages:flat',
+                kwargs={**region_kwargs, 'slug': item.flat_page.slug},
+            )
+        except NoReverseMatch:
+            return '#'
+
+    if not item.url_name:
+        return '#'
+
     try:
-        return reverse(item.url_name, kwargs=kwargs)
+        return reverse(item.url_name, kwargs=region_kwargs)
     except NoReverseMatch:
         return '#'
