@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+{% load static i18n region_tags %}
+
+{% block title %}{{ variant.h1 }} — Tamos Space School{% endblock %}
+{% block meta_description %}{{ variant.hero_lead|default:variant.h1 }}{% endblock %}
+
+{% block layout_top %}
+  <section class="hero hero-tint">
+    {% include 'partials/header.html' with nav_theme='light' active_page='admission' %}
+
+    <div class="px-4 pt-6 pb-6 md:pt-8 md:pb-8">
+      <div class="max-w-screen-xl mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="{% trans 'Хлебные крошки' %}">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item">
+              <a href="{% region_url 'pages:home' %}" class="breadcrumb-link" aria-label="{% trans 'Главная' %}">
+                <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 7.5L8 2.5L14 7.5V13C14 13.5523 13.5523 14 13 14H3C2.4477 14 2 13.5523 2 13V7.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M6.5 14V10C6.5 9.72386 6.72386 9.5 7 9.5H9C9.27614 9.5 9.5 9.72386 9.5 10V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% region_url 'admission:root' %}" class="breadcrumb-link">{{ page.breadcrumb_root_label }}</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% region_url 'admission:department' department_slug=current_department.slug %}" class="breadcrumb-link">{{ current_department.name }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+              {{ current_grade.name }}
+            </li>
+          </ol>
+        </nav>
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "{% trans 'Главная' %}", "item": "{{ request.scheme }}://{{ request.get_host }}{% region_url 'pages:home' %}" },
+            { "@type": "ListItem", "position": 2, "name": "{{ page.breadcrumb_root_label }}", "item": "{{ request.scheme }}://{{ request.get_host }}{% region_url 'admission:root' %}" },
+            { "@type": "ListItem", "position": 3, "name": "{{ current_department.name }}", "item": "{{ request.scheme }}://{{ request.get_host }}{% region_url 'admission:department' department_slug=current_department.slug %}" },
+            { "@type": "ListItem", "position": 4, "name": "{{ current_grade.name }}", "item": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}" }
+          ]
+        }
+        </script>
+
+        <div class="flex flex-col items-center text-center gap-4 mt-8 md:mt-12">
+          <h1 class="h1 font-bold">{{ variant.h1 }}</h1>
+          {% if variant.hero_lead %}
+            <p class="text-sm text-black/70 font-medium max-w-2xl">{{ variant.hero_lead }}</p>
+          {% endif %}
+
+          <div class="w-full flex items-start gap-3 mt-2 md:flex-wrap md:gap-x-6 md:gap-y-4 md:justify-center">
+            <!-- Отделение: всегда dropdown -->
+            <div class="flex-1 md:flex-initial flex flex-col items-start gap-1.5">
+              <span class="text-sm font-medium text-black/60">{{ page.department_dropdown_label }}</span>
+              <div class="dropdown dropdown-fit w-full md:w-auto" x-data="{ open: false }">
+                <button type="button" class="btn-tab active w-full md:w-auto md:min-w-30" @click="open = !open">
+                  <span>{{ current_department.name }}</span>
+                  <span class="h-3 aspect-square">
+                    <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </button>
+                <ul class="dropdown-menu" x-show="open" @click.outside="open = false" x-cloak>
+                  {% for d in all_departments %}
+                    <li><a href="{% region_url 'admission:department' department_slug=d.slug %}" class="dropdown-item{% if d.pk == current_department.pk %} active{% endif %}">{{ d.name }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+
+            <!-- Классы: на десктопе tablist, на мобиле dropdown -->
+            <div class="flex-1 md:flex-initial flex flex-col items-start gap-1.5">
+              <span class="text-sm font-medium text-black/60">{{ page.grade_dropdown_label }}</span>
+
+              <!-- mobile: dropdown -->
+              <div class="dropdown dropdown-fit md:hidden w-full" x-data="{ open: false }">
+                <button type="button" class="btn-tab active w-full" @click="open = !open">
+                  {% if current_grade.short_name %}
+                    <span class="hidden min-[380px]:inline">{{ current_grade.name }}</span>
+                    <span class="min-[380px]:hidden">{{ current_grade.short_name }}</span>
+                  {% else %}
+                    <span>{{ current_grade.name }}</span>
+                  {% endif %}
+                  <span class="h-3 aspect-square">
+                    <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </button>
+                <ul class="dropdown-menu" x-show="open" @click.outside="open = false" x-cloak>
+                  {% for g in available_grades %}
+                    <li><a href="{% region_url 'admission:detail' department_slug=current_department.slug grade_slug=g.slug %}" class="dropdown-item{% if g.pk == current_grade.pk %} active{% endif %}">{{ g.name }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <!-- desktop: открытые табы -->
+              <div class="hidden md:flex gap-2" role="tablist" aria-label="{{ page.grade_dropdown_label }}">
+                {% for g in available_grades %}
+                  <a href="{% region_url 'admission:detail' department_slug=current_department.slug grade_slug=g.slug %}"
+                     class="btn-tab md:min-w-30{% if g.pk == current_grade.pk %} active{% endif %}"
+                     role="tab"
+                     aria-selected="{% if g.pk == current_grade.pk %}true{% else %}false{% endif %}">{{ g.name }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <section class="px-4 pt-6 pb-14 md:pb-14 md:pt-14 bg-white">
+    <div class="max-w-screen-xl mx-auto">
+      <div class="lg:grid lg:grid-cols-12 lg:gap-10">
+        <!-- Этапы (stepper) -->
+        <aside class="lg:col-span-4 xl:col-span-3 sticky top-0 lg:top-8 self-start z-20 -mx-4 px-4 py-3 lg:mx-0 lg:px-0 lg:py-0 bg-white/95 backdrop-blur lg:bg-transparent lg:backdrop-blur-none"
+               data-stepper-spy>
+          <ol class="stepper">
+            <span class="stepper-track" aria-hidden="true">
+              <span class="stepper-glow"></span>
+            </span>
+
+            <li class="stepper-step" data-stage="5">
+              <span class="stepper-marker">5</span>
+              <div class="stepper-text">
+                <p class="stepper-title">{{ page.stage_consultation_title }}</p>
+                {% if page.stage_consultation_meta %}<p class="stepper-meta">{{ page.stage_consultation_meta }}</p>{% endif %}
+              </div>
+            </li>
+
+            <li class="stepper-step" data-stage="4">
+              <span class="stepper-marker">4</span>
+              <div class="stepper-text">
+                <p class="stepper-title">{{ page.stage_enrollment_title }}</p>
+                {% if page.stage_enrollment_meta %}<p class="stepper-meta">{{ page.stage_enrollment_meta }}</p>{% endif %}
+              </div>
+            </li>
+
+            <li class="stepper-step" data-stage="3">
+              <span class="stepper-marker">3</span>
+              <div class="stepper-text">
+                <p class="stepper-title">{{ page.stage_contract_title }}</p>
+                {% if page.stage_contract_meta %}<p class="stepper-meta">{{ page.stage_contract_meta }}</p>{% endif %}
+              </div>
+            </li>
+
+            <li class="stepper-step" data-stage="2">
+              <span class="stepper-marker">2</span>
+              <div class="stepper-text">
+                <p class="stepper-title">{{ page.stage_result_title }}</p>
+                {% if page.stage_result_meta %}<p class="stepper-meta">{{ page.stage_result_meta }}</p>{% endif %}
+              </div>
+            </li>
+
+            <li class="stepper-step active" data-stage="1">
+              <span class="stepper-marker">1</span>
+              <div class="stepper-text">
+                <p class="stepper-title">{{ page.stage_testing_title }}</p>
+                {% if page.stage_testing_meta %}<p class="stepper-meta">{{ page.stage_testing_meta }}</p>{% endif %}
+              </div>
+            </li>
+          </ol>
+
+          <p class="stepper-current" data-stepper-current aria-live="polite">
+            <span class="stepper-current__num">01</span>
+            <span class="stepper-current__title">{{ page.stage_testing_title }}</span>
+          </p>
+        </aside>
+
+        <!-- Контент этапа -->
+        <section class="lg:col-span-8 xl:col-span-9 mt-10 lg:mt-0">
+          <!-- Этап 01 — Тестирование -->
+          <header class="stage-header" data-stage="1">
+            <h3 class="stage-header__title">
+              <span>01 —</span>
+              {{ page.testing_section_title }}
+            </h3>
+            {% if variant.testing_lead %}<p class="stage-header__lead">{{ variant.testing_lead }}</p>{% endif %}
+          </header>
+
+          {% if testing_features %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {% for feat in testing_features %}
+                <div class="feature-card gap-8">
+                  <span class="flex justify-center items-center w-15 aspect-square rounded-full text-secondary bg-white">
+                    {{ feat.icon_svg|safe }}
+                  </span>
+                  <div>
+                    <p class="feature-card__title">{{ feat.title }}</p>
+                    <p class="text-sm leading-tight text-black/60 mb-2">{{ feat.description }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if page.testing_rules_text %}
+            <p class="mt-6 text-sm text-black/60 leading-tight">{{ page.testing_rules_text }}</p>
+          {% endif %}
+
+          {% if page.testing_price_value %}
+            <div class="mt-6 inline-flex flex-col items-start gap-1 px-5 py-4 bg-gold/15 rounded-lg">
+              <span class="text-xs font-medium text-black/70">{{ page.testing_price_label }}</span>
+              <span class="text-2xl font-bold leading-none">{{ page.testing_price_value }}</span>
+            </div>
+          {% endif %}
+
+          <!-- Этап 02 — Результат -->
+          <header class="stage-header mt-12 md:mt-16" data-stage="2">
+            <h3 class="stage-header__title">
+              <span>02 —</span>
+              {{ page.result_section_title }}
+            </h3>
+            {% if variant.result_intro or variant.result_detail %}
+              <div class="stage-header__lead space-y-3">
+                {% if variant.result_intro %}<p class="font-medium">{{ variant.result_intro }}</p>{% endif %}
+                {% if variant.result_detail %}<p>{{ variant.result_detail }}</p>{% endif %}
+              </div>
+            {% endif %}
+          </header>
+
+          <!-- Этап 03 — Договор и взнос -->
+          <header class="stage-header mt-12 md:mt-16" data-stage="3">
+            <h3 class="stage-header__title">
+              <span>03 —</span>
+              {{ page.contract_section_title }}
+            </h3>
+            {% if variant.pricing_lead %}<p class="stage-header__lead">{{ variant.pricing_lead }}</p>{% endif %}
+          </header>
+
+          {% if pricing_plans %}
+            <ul class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+              {% for plan in pricing_plans %}
+                <li class="rounded-2xl p-5 md:p-6 {{ plan.bg_css }} flex flex-col gap-6">
+                  <span class="flex justify-between items-center">
+                    {{ plan.icon_svg|safe }}
+                    {% if plan.badge_text %}
+                      <span class="badge bg-gold self-start">{{ plan.badge_text }}</span>
+                    {% else %}
+                      <span class="badge invisible self-start">—</span>
+                    {% endif %}
+                  </span>
+                  <div class="mt-auto text-black/60">
+                    <p class="text-sm font-medium">{{ plan.label }}</p>
+                    <p class="text-2xl md:text-3xl font-bold leading-none mt-2 nowrap">
+                      <span class="text-black">{{ plan.price_value }}</span>
+                      <span class="text-base font-medium text-black/60">{{ plan.price_currency }}</span>
+                    </p>
+                    {% if plan.note %}<p class="text-xs leading-tight mt-2 h-8">{{ plan.note }}</p>{% endif %}
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% if page.enrollment_fee_text %}
+            <p class="mt-6 text-sm md:text-base text-black/60">{{ page.enrollment_fee_text|safe }}</p>
+          {% endif %}
+
+          {% if included_items or excluded_items %}
+            <div class="mt-12">
+              {% if included_items %}
+                <h4 class="text-lg md:text-xl font-bold text-black mb-4">{{ page.pricing_included_title }}</h4>
+                <ul class="divide-y divide-slate-200 text-sm md:text-base text-black/60">
+                  {% for item in included_items %}
+                    <li class="flex items-start gap-3 font-medium py-3">
+                      <svg class="w-6 h-6 text-secondary shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16.2806 9.21937C16.3504 9.28903 16.4057 9.37175 16.4434 9.46279C16.4812 9.55384 16.5006 9.65144 16.5006 9.75C16.5006 9.84856 16.4812 9.94616 16.4434 10.0372C16.4057 10.1283 16.3504 10.211 16.2806 10.2806L11.0306 15.5306C10.961 15.6004 10.8783 15.6557 10.7872 15.6934C10.6962 15.7312 10.5986 15.7506 10.5 15.7506C10.4014 15.7506 10.3038 15.7312 10.2128 15.6934C10.1218 15.6557 10.039 15.6004 9.96938 15.5306L7.71938 13.2806C7.57865 13.1399 7.49959 12.949 7.49959 12.75C7.49959 12.551 7.57865 12.3601 7.71938 12.2194C7.86011 12.0786 8.05098 11.9996 8.25 11.9996C8.44903 11.9996 8.6399 12.0786 8.78063 12.2194L10.5 13.9397L15.2194 9.21937C15.289 9.14964 15.3718 9.09432 15.4628 9.05658C15.5538 9.01884 15.6514 8.99941 15.75 8.99941C15.8486 8.99941 15.9462 9.01884 16.0372 9.05658C16.1283 9.09432 16.211 9.14964 16.2806 9.21937ZM21.75 12C21.75 13.9284 21.1782 15.8134 20.1068 17.4168C19.0355 19.0202 17.5127 20.2699 15.7312 21.0078C13.9496 21.7458 11.9892 21.9389 10.0979 21.5627C8.20656 21.1865 6.46928 20.2579 5.10571 18.8943C3.74215 17.5307 2.81355 15.7934 2.43735 13.9021C2.06114 12.0108 2.25422 10.0504 2.99218 8.26884C3.73013 6.48726 4.97982 4.96452 6.58319 3.89317C8.18657 2.82183 10.0716 2.25 12 2.25C14.585 2.25273 17.0634 3.28084 18.8913 5.10872C20.7192 6.93661 21.7473 9.41498 21.75 12ZM20.25 12C20.25 10.3683 19.7662 8.77325 18.8596 7.41655C17.9531 6.05984 16.6646 5.00242 15.1571 4.37799C13.6497 3.75357 11.9909 3.59019 10.3905 3.90852C8.79017 4.22685 7.32016 5.01259 6.16637 6.16637C5.01259 7.32015 4.22685 8.79016 3.90853 10.3905C3.5902 11.9908 3.75358 13.6496 4.378 15.1571C5.00242 16.6646 6.05984 17.9531 7.41655 18.8596C8.77326 19.7661 10.3683 20.25 12 20.25C14.1873 20.2475 16.2843 19.3775 17.8309 17.8309C19.3775 16.2843 20.2475 14.1873 20.25 12Z" fill="currentColor"/>
+                      </svg>
+                      <span>{{ item.text }}</span>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+
+              {% if excluded_items %}
+                <hr class="my-6 border-slate-200">
+                <h4 class="text-lg md:text-xl font-bold text-black mb-4">{{ page.pricing_excluded_title }}</h4>
+                <ul class="divide-y divide-slate-200 text-sm md:text-base text-black/60">
+                  {% for item in excluded_items %}
+                    <li class="flex items-start gap-3 font-medium py-3">
+                      <svg class="w-6 h-6 text-black/30 shrink-0" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 6L14 14M14 6L6 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <span>{{ item.text }}</span>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <!-- Этап 04 — Зачисление -->
+          <header class="stage-header mt-12 md:mt-16" data-stage="4">
+            <h3 class="stage-header__title">
+              <span>04 —</span>
+              {{ page.enrollment_section_title }}
+            </h3>
+            {% if page.enrollment_lead %}<p class="stage-header__lead">{{ page.enrollment_lead }}</p>{% endif %}
+          </header>
+
+          {% if documents %}
+            <div>
+              <h4 class="text-lg md:text-xl font-bold text-black mb-4">{{ page.documents_title }}</h4>
+              <ol class="text-sm md:text-base text-black/60">
+                {% for doc in documents %}
+                  <li class="flex items-start gap-3 border-slate-200 border-b font-medium py-2">
+                    <span class="flex justify-center items-center w-6 h-6 rounded-full bg-slate-100 text-xs font-bold text-black/60 shrink-0 mt-0.5">{{ forloop.counter }}</span>
+                    <span>{{ doc.text }}</span>
+                  </li>
+                {% endfor %}
+              </ol>
+            </div>
+          {% endif %}
+
+          <!-- Этап 05 — Консультация -->
+          <header class="stage-header mt-12 md:mt-16" data-stage="5">
+            <h3 class="stage-header__title">
+              <span>05 —</span>
+              {{ page.consultation_section_title }}
+            </h3>
+            {% if page.consultation_lead %}<p class="stage-header__lead">{{ page.consultation_lead }}</p>{% endif %}
+          </header>
+
+          <div class="mb-16">
+            <button type="button"
+                    class="btn btn-primary"
+                    data-feedback-trigger
+                    data-feedback-title="{{ page.consultation_cta_text }}"
+                    data-feedback-origin="admission-{{ current_department.slug }}-{{ current_grade.slug }}">
+              {{ page.consultation_cta_text }}
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+{% endblock %}
