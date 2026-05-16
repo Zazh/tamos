@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Заявка #1 — Backoffice — Tamos Space School</title>
+    <script type="module" src="/src/js/main.js"></script>
+  </head>
+  <body>
+    <div class="bo-shell" x-data="{ sidebar: false, audit: false }" :class="sidebar && 'bo-sidebar-open'">
+      <aside class="bo-sidebar"></aside>
+      <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false"></div>
+
+      <div class="bo-body">
+        <header class="bo-topbar">
+          <button class="bo-burger" @click="sidebar = true"><svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+          <div class="bo-topbar-title">Заявка #1</div>
+          <div class="bo-user">
+            <span class="bo-user-name">Aidarbek</span>
+            <button class="bo-logout">Выйти</button>
+          </div>
+        </header>
+
+        <main class="bo-main">
+          <!-- Хлебные крошки -->
+          <a href="#" class="bo-back">← К списку заявок</a>
+
+          <!-- Header -->
+          <header class="bo-detail-head">
+            <div>
+              <h1 class="bo-page-title">Айгерим Болатова</h1>
+              <p class="bo-page-subtitle">Заявка #1 · Астана · 12 мая, 14:30</p>
+            </div>
+            <span class="bo-badge bo-badge-lg bo-badge-new">Новая</span>
+          </header>
+
+          <!-- Quick actions -->
+          <div class="bo-actions">
+            <form class="bo-action-form" method="post" action="#">
+              <input type="hidden" name="status" value="in_progress">
+              <button type="submit" class="bo-action-btn bo-action-in_progress">В работу</button>
+            </form>
+            <form class="bo-action-form" method="post" action="#">
+              <input type="hidden" name="status" value="done">
+              <button type="submit" class="bo-action-btn bo-action-done">Закрыть успешно</button>
+            </form>
+            <form class="bo-action-form" method="post" action="#">
+              <input type="hidden" name="status" value="rejected">
+              <button type="submit" class="bo-action-btn bo-action-rejected">Отказ</button>
+            </form>
+          </div>
+
+          <!-- Detail grid -->
+          <div class="bo-detail-grid">
+            <!-- Left: contact + audit -->
+            <section class="bo-panel">
+              <h2 class="bo-panel-title">Контакт</h2>
+              <dl class="bo-dl">
+                <dt>Имя</dt><dd>Айгерим Болатова</dd>
+                <dt>Телефон</dt><dd><a href="tel:+77012345678" class="bo-link">+7 701 234 56 78</a></dd>
+                <dt>Город</dt><dd>Астана</dd>
+                <dt>Регион</dt><dd>Астана</dd>
+                <dt>Заголовок модалки</dt><dd>«Поступить в 1 класс»</dd>
+                <dt>Источник (origin)</dt><dd><code class="bo-cell-mono">admission-cambridge-grade-1</code></dd>
+              </dl>
+
+              <h2 class="bo-panel-title bo-panel-title-collapsible" @click="audit = !audit">
+                Аудит
+                <span class="bo-panel-toggle" :class="audit && 'bo-panel-toggle-open'">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+                </span>
+              </h2>
+              <dl class="bo-dl" x-show="audit" x-cloak>
+                <dt>Создана</dt><dd>12 мая 2026, 14:30</dd>
+                <dt>Обновлена</dt><dd>12 мая 2026, 14:30</dd>
+                <dt>Согласие на обработку</dt><dd>12 мая 2026, 14:30 (v1)</dd>
+                <dt>IP</dt><dd><code class="bo-cell-mono">127.0.0.1</code></dd>
+                <dt>User-Agent</dt><dd class="bo-cell-mono bo-cell-wrap">Mozilla/5.0</dd>
+              </dl>
+            </section>
+
+            <!-- Right: edit form -->
+            <form class="bo-panel" method="post" action="#">
+              <h2 class="bo-panel-title">Обработка</h2>
+
+              <div class="bo-field">
+                <label class="bo-label" for="id_status">Статус</label>
+                <select id="id_status" name="status" class="bo-select">
+                  <option value="new" selected>Новая</option>
+                  <option value="in_progress">В работе</option>
+                  <option value="done">Закрыта успешно</option>
+                  <option value="rejected">Отказ/спам</option>
+                </select>
+              </div>
+
+              <div class="bo-field">
+                <label class="bo-label" for="id_category">Категория</label>
+                <select id="id_category" name="category" class="bo-select">
+                  <option value="admission" selected>Поступление</option>
+                  <option value="program">Программа</option>
+                  <option value="activity">Внеклассные</option>
+                  <option value="general">Общая</option>
+                </select>
+              </div>
+
+              <div class="bo-field">
+                <label class="bo-label" for="id_note">Заметка менеджера</label>
+                <textarea id="id_note" name="manager_note" class="bo-textarea" rows="4" placeholder="Что по звонку, договорённости, причина отказа."></textarea>
+              </div>
+
+              <div class="bo-form-foot">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+              </div>
+            </form>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Заявки — Backoffice — Tamos Space School</title>
+    <script type="module" src="/src/js/main.js"></script>
+  </head>
+  <body>
+    <div class="bo-shell" x-data="{ sidebar: false }" :class="sidebar && 'bo-sidebar-open'">
+
+      <!-- Sidebar (заглушка — реальная в Django) -->
+      <aside class="bo-sidebar"></aside>
+      <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false"></div>
+
+      <div class="bo-body">
+        <header class="bo-topbar">
+          <button class="bo-burger" @click="sidebar = true" aria-label="Меню">
+            <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <div class="bo-topbar-title">Заявки</div>
+          <div class="bo-user">
+            <span class="bo-user-name">Aidarbek</span>
+            <button class="bo-logout">Выйти</button>
+          </div>
+        </header>
+
+        <main class="bo-main">
+          <!-- Status chips (по counts) -->
+          <div class="bo-chip-bar" role="tablist" aria-label="Фильтр по статусу">
+            <a href="#" class="bo-chip bo-chip-active" role="tab" aria-selected="true">
+              <span class="bo-chip-label">Все</span>
+              <span class="bo-chip-count">12</span>
+            </a>
+            <a href="#" class="bo-chip" role="tab">
+              <span class="bo-chip-dot bo-chip-dot-new"></span>
+              <span class="bo-chip-label">Новые</span>
+              <span class="bo-chip-count">7</span>
+            </a>
+            <a href="#" class="bo-chip" role="tab">
+              <span class="bo-chip-dot bo-chip-dot-in_progress"></span>
+              <span class="bo-chip-label">В работе</span>
+              <span class="bo-chip-count">2</span>
+            </a>
+            <a href="#" class="bo-chip" role="tab">
+              <span class="bo-chip-dot bo-chip-dot-done"></span>
+              <span class="bo-chip-label">Закрыто</span>
+              <span class="bo-chip-count">2</span>
+            </a>
+            <a href="#" class="bo-chip" role="tab">
+              <span class="bo-chip-dot bo-chip-dot-rejected"></span>
+              <span class="bo-chip-label">Отказ</span>
+              <span class="bo-chip-count">1</span>
+            </a>
+          </div>
+
+          <!-- Filter row -->
+          <form class="bo-filter-bar" method="get">
+            <div class="bo-filter-search">
+              <svg class="bo-icon bo-filter-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input type="search" name="q" class="bo-filter-input" placeholder="Имя, телефон, источник, заметка…" value="">
+            </div>
+
+            <select name="category" class="bo-filter-select">
+              <option value="">Все категории</option>
+              <option value="admission">Поступление</option>
+              <option value="program">Программа</option>
+              <option value="activity">Внеклассные</option>
+              <option value="general">Общая</option>
+            </select>
+
+            <select name="region" class="bo-filter-select">
+              <option value="">Все регионы</option>
+              <option value="astana">Астана</option>
+              <option value="aktau">Актау</option>
+            </select>
+
+            <button type="submit" class="bo-filter-apply">Применить</button>
+            <a href="?" class="bo-filter-reset">Сброс</a>
+          </form>
+
+          <!-- Table (desktop) -->
+          <div class="bo-table-wrap">
+            <table class="bo-table">
+              <thead>
+                <tr>
+                  <th class="bo-th">Статус</th>
+                  <th class="bo-th">Контакт</th>
+                  <th class="bo-th">Регион · Город</th>
+                  <th class="bo-th">Источник</th>
+                  <th class="bo-th bo-th-right">Создана</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bo-tr" onclick="location.href='#'">
+                  <td class="bo-td"><span class="bo-badge bo-badge-new">Новая</span></td>
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Айгерим Болатова</div>
+                    <div class="bo-cell-muted">+7 701 234 56 78</div>
+                  </td>
+                  <td class="bo-td">
+                    <div>Астана</div>
+                    <div class="bo-cell-muted">Астана</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-mono">admission-cambridge-grade-1</div>
+                    <div class="bo-cell-muted">Поступление</div>
+                  </td>
+                  <td class="bo-td bo-td-right">
+                    <div class="bo-cell-muted">12 мая, 14:30</div>
+                  </td>
+                </tr>
+                <tr class="bo-tr">
+                  <td class="bo-td"><span class="bo-badge bo-badge-in_progress">В работе</span></td>
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Мадина Жанибек</div>
+                    <div class="bo-cell-muted">+7 707 111 22 33</div>
+                  </td>
+                  <td class="bo-td">
+                    <div>Астана</div>
+                    <div class="bo-cell-muted">Астана</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-mono">activity-1-group-2</div>
+                    <div class="bo-cell-muted">Внеклассные</div>
+                  </td>
+                  <td class="bo-td bo-td-right">
+                    <div class="bo-cell-muted">8 мая, 11:00</div>
+                  </td>
+                </tr>
+                <tr class="bo-tr">
+                  <td class="bo-td"><span class="bo-badge bo-badge-done">Закрыто</span></td>
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Ержан Назаров</div>
+                    <div class="bo-cell-muted">+7 708 432 10 99</div>
+                  </td>
+                  <td class="bo-td">
+                    <div>Актау</div>
+                    <div class="bo-cell-muted">Актау</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-mono">feedback-primary</div>
+                    <div class="bo-cell-muted">Общая</div>
+                  </td>
+                  <td class="bo-td bo-td-right">
+                    <div class="bo-cell-muted">6 мая, 09:15</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Cards (mobile) — рендерятся параллельно, видны только на <md -->
+          <ul class="bo-cards">
+            <li class="bo-card">
+              <div class="bo-card-head">
+                <span class="bo-badge bo-badge-new">Новая</span>
+                <time class="bo-cell-muted">12 мая, 14:30</time>
+              </div>
+              <div class="bo-card-name">Айгерим Болатова</div>
+              <div class="bo-card-meta">
+                <span>+7 701 234 56 78</span>
+                <span>·</span>
+                <span>Астана</span>
+              </div>
+              <div class="bo-card-foot">
+                <span class="bo-cell-mono">admission-cambridge-grade-1</span>
+                <span class="bo-cell-muted">Поступление</span>
+              </div>
+            </li>
+            <li class="bo-card">
+              <div class="bo-card-head">
+                <span class="bo-badge bo-badge-in_progress">В работе</span>
+                <time class="bo-cell-muted">8 мая, 11:00</time>
+              </div>
+              <div class="bo-card-name">Мадина Жанибек</div>
+              <div class="bo-card-meta">
+                <span>+7 707 111 22 33</span>
+                <span>·</span>
+                <span>Астана</span>
+              </div>
+              <div class="bo-card-foot">
+                <span class="bo-cell-mono">activity-1-group-2</span>
+                <span class="bo-cell-muted">Внеклассные</span>
+              </div>
+            </li>
+          </ul>
+
+          <!-- Pagination -->
+          <nav class="bo-pagination" aria-label="Пагинация">
+            <span class="bo-pagination-info">Стр. 1 из 1 · всего 12</span>
+            <div class="bo-pagination-buttons">
+              <a href="#" class="bo-page bo-page-disabled" aria-disabled="true">← Назад</a>
+              <a href="#" class="bo-page bo-page-disabled" aria-disabled="true">Вперёд →</a>
+            </div>
+          </nav>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

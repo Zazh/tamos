@@ -61,7 +61,12 @@ INSTALLED_APPS = [
     'gallery',
     'navigation',
     'feedback',
+    'backoffice',
 ]
+
+# Backoffice (custom CMS) login redirect target.
+LOGIN_URL = 'backoffice:login'
+LOGIN_REDIRECT_URL = 'backoffice:dashboard'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -193,6 +198,15 @@ DJANGO_VITE = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# File upload limits.
+# - Глобальный лимит body: 50 MB (покрывает шоурил 35 MB + hero 5 MB + og 5 MB
+#   в одном POST с запасом).
+# - Шоурил: 35 MB (client-side check в boVideoPreview).
+# - Hero / OG картинки: 5 MB каждая (server-side в HomePageEditForm.clean_*).
+# - До 2.5 MB Django держит в RAM (default), больше — в temp файле на диске.
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024    # 50 MB body
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2_621_440           # 2.5 MB in RAM, остальное на диск
 
 
 # Production hardening: applied when DEBUG is off.

@@ -1,0 +1,6 @@
+<div class="bo-field{% if class_extra %} {{ class_extra }}{% endif %}">
+  <label class="bo-label" for="{{ field.id_for_label }}">{{ label|default:field.label }}</label>
+  {{ field }}
+  {% for err in field.errors %}<p class="bo-help" style="color:#b91c1c">{{ err }}</p>{% endfor %}
+  {% if help %}<p class="bo-help">{{ help|safe }}</p>{% endif %}
+</div>

@@ -1,0 +1,7 @@
+{% if messages %}
+  <div class="bo-messages">
+    {% for message in messages %}
+      <div class="bo-message bo-message-{{ message.level_tag|default:'info' }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}

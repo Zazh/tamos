@@ -1,0 +1,49 @@
+{% load static django_vite i18n backoffice_tags %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'ru' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+
+  <title>{% block title %}{{ bo_page_title|default:"Backoffice" }} — Tamos Space School{% endblock %}</title>
+
+  <link rel="icon" href="{% static 'favicon/favicon.ico' %}" sizes="any">
+  <link rel="icon" href="{% static 'favicon/favicon.svg' %}" type="image/svg+xml">
+  <meta name="theme-color" content="#000F21">
+
+  {% vite_hmr_client %}
+  {% vite_asset 'src/js/main.js' %}
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="bo-shell" x-data="{ sidebar: false }" :class="sidebar && 'bo-sidebar-open'">
+
+    {% include 'backoffice/_sidebar.html' %}
+
+    <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false" aria-hidden="true"></div>
+
+    <div class="bo-body">
+      <header class="bo-topbar">
+        <button type="button" class="bo-burger" @click="sidebar = true" aria-label="{% trans 'Открыть меню' %}">
+          {% bo_icon 'burger' %}
+        </button>
+
+        <div class="bo-topbar-title">{% block topbar_title %}{{ bo_page_title|default:"" }}{% endblock %}</div>
+
+        <div class="bo-user">
+          <span class="bo-user-name">{{ request.user.get_full_name|default:request.user.get_username }}</span>
+          <form method="post" action="{% url 'backoffice:logout' %}" class="bo-logout-form">
+            {% csrf_token %}
+            <button type="submit" class="bo-logout">{% trans "Выйти" %}</button>
+          </form>
+        </div>
+      </header>
+
+      <main class="bo-main">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+</body>
+</html>

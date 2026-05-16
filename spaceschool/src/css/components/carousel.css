@@ -14,8 +14,8 @@
  * Разметка:
  *   <div class="carousel-infinity">
  *     <ul class="carousel-track">
- *       <li class="carousel-item"><img .../></li>
- *       <li class="carousel-item"><img .../></li>
+ *       <li class="carousel-item carousel-item-wide"><img .../></li>
+ *       <li class="carousel-item carousel-item-tall"><img .../></li>
  *       ...
  *     </ul>
  *     <ul class="carousel-track" aria-hidden="true">
@@ -23,9 +23,15 @@
  *     </ul>
  *   </div>
  *
- * Размеры карточек чередуются через :nth-child(odd/even):
- *   нечётные — широкие (342×223), чётные — высокие (325×352).
- * Достаточно вывести items циклом, без модификаторов на разметке.
+ * Размер карточки задаётся модификатором по orientation картинки:
+ *   .carousel-item-wide  — 342×223 (горизонтальная)
+ *   .carousel-item-tall  — 325×352 (вертикальная)
+ *   .carousel-item-square — 320×320 (квадратная)
+ *
+ * Раньше использовался :nth-child(odd/even) — но это требовало, чтобы
+ * порядок картинок строго чередовался по ориентации. Теперь модель
+ * `HomeGalleryImage.orientation` определяется автоматически по ratio
+ * при загрузке, и в backoffice менеджер DnD'ит карточки в нужный порядок.
  * ========================================================== */
 
 @layer components {
@@ -58,6 +64,13 @@
     border-radius: 1rem;
   }
 
+  /* Slot диктует размер по ПОЗИЦИИ: odd = wide, even = tall.
+     View (HomeView) принудительно ставит картинки через strict_zip_arrange,
+     так что обычно реальная orientation совпадает со slot'ом. Если нет
+     (например, 5 wide и 0 tall) — `object-fit: cover` обрежет картинку
+     под slot. Менеджер увидит warning в backoffice и сможет добавить
+     недостающие orientation'ы. */
+
   .carousel-item:nth-child(odd) {
     width: 21.5rem;
     aspect-ratio: 342 / 223;
@@ -67,6 +80,10 @@
     width: 20rem;
     aspect-ratio: 325 / 352;
   }
+
+  /* Когда реальная orientation НЕ совпадает со slot'ом — `object-fit: cover`
+     возьмёт центр. Можно подкрутить object-position под конкретный случай,
+     если потребуется (например для портретов сдвинуть к верху). */
 
   .carousel-item img {
     display: block;

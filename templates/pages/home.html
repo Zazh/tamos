@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load static i18n %}
 
-{% block title %}{% trans 'Главная' %} — Tamos Space School{% endblock %}
+{% block title %}{{ home.effective_seo_title|default:'Tamos Space School' }}{% endblock %}
+{% block meta_description %}{{ home.effective_seo_description|default:default_description }}{% endblock %}
+{% block og_title %}{{ home.effective_og_title|default:'Tamos Space School' }}{% endblock %}
+{% block og_description %}{{ home.effective_og_description|default:default_description }}{% endblock %}
+{% block og_image %}{% if home.effective_og_image %}{{ request.scheme }}://{{ request.get_host }}{{ home.effective_og_image.url }}{% endif %}{% endblock %}
 
 {% block layout_top %}
   <!-- Hero -->
@@ -21,12 +25,16 @@
         </div>
       </div>
       <ul class="flex flex-col md:flex-row justify-center gap-2 w-full max-w-screen-md">
-        <li><button class="btn btn-primary w-[16rem] text-nowrap md:w-auto">{{ home.hero_cta_primary_text }}</button></li>
+        <li><button type="button"
+                    class="btn btn-primary w-[16rem] text-nowrap md:w-auto"
+                    data-feedback-trigger
+                    data-feedback-title="{{ home.effective_cta_primary_modal_title }}"
+                    data-feedback-origin="hero-primary">{{ home.hero_cta_primary_text }}</button></li>
         <li><button type="button"
                     class="btn btn-default w-[16rem] text-nowrap md:w-auto"
                     data-feedback-trigger
-                    data-feedback-title="{{ home.hero_cta_secondary_text }}"
-                    data-feedback-origin="hero">{{ home.hero_cta_secondary_text }}</button></li>
+                    data-feedback-title="{{ home.effective_cta_secondary_modal_title }}"
+                    data-feedback-origin="hero-secondary">{{ home.hero_cta_secondary_text }}</button></li>
       </ul>
     </div>
 
@@ -99,7 +107,7 @@
     <div class="carousel-infinity" x-data x-carousel-scroll>
       <ul class="carousel-track">
         {% for img in gallery %}
-        <li class="carousel-item">
+        <li class="carousel-item carousel-item-{{ img.orientation }}">
           <picture>
             <source srcset="{{ img.image_webp.url }}" type="image/webp">
             <img src="{{ img.image_compressed.url }}" alt="{{ img.alt_text }}" loading="lazy">
@@ -109,7 +117,7 @@
       </ul>
       <ul class="carousel-track" aria-hidden="true">
         {% for img in gallery %}
-        <li class="carousel-item">
+        <li class="carousel-item carousel-item-{{ img.orientation }}">
           <picture>
             <source srcset="{{ img.image_webp.url }}" type="image/webp">
             <img src="{{ img.image_compressed.url }}" alt="" loading="lazy">
@@ -125,23 +133,44 @@
   {% if home.video_file %}
   <!-- Video -->
   <section class="bg-white">
-    <div class="relative" x-data="{ muted: true }">
+    <div class="relative" x-data="heroVideo">
       <video x-ref="video"
              class="block w-full h-auto"
-             muted playsinline loop preload="metadata"
+             muted playsinline loop preload="none"
+             {% if home.video_poster %}poster="{{ home.video_poster.url }}"{% elif home.hero_image %}poster="{{ home.hero_image.url }}"{% endif %}
              aria-label="{% trans 'Знакомство со Space School' %}"
-             @volumechange="muted = $event.target.muted"
-             x-init="if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-                     new IntersectionObserver(
-                       ([e]) => e.isIntersecting ? $el.play().catch(() => {}) : $el.pause(),
-                       { threshold: 0 }
-                     ).observe($el)">
+             @volumechange="muted = $refs.video.muted"
+             @click="state !== 'playing' && playManual()">
         <source src="{{ home.video_file.url }}" type="video/mp4">
         {% trans 'Ваш браузер не поддерживает воспроизведение видео.' %}
       </video>
+
+      <button x-show="state === 'click_to_play'"
+              x-cloak
+              type="button"
+              @click="playManual"
+              class="absolute inset-0 m-auto w-20 h-20 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              aria-label="{% trans 'Запустить видео' %}">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-10 h-10 ml-1" aria-hidden="true">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </button>
+
+      <div x-show="state === 'no_video'"
+           x-cloak
+           class="absolute bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md p-3 bg-black/70 backdrop-blur-sm text-white text-sm rounded-lg">
+        <p class="mb-2">{% trans "Медленное соединение — видео не запущено автоматически." %}</p>
+        <button type="button" @click="loadAnyway"
+                class="underline hover:no-underline font-medium">
+          {% trans "Загрузить всё равно" %}
+        </button>
+      </div>
+
       <button type="button"
+              x-show="state === 'playing'"
+              x-cloak
               class="absolute bottom-4 right-4 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-sm text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              @click="$refs.video.muted = !$refs.video.muted"
+              @click="toggleMute"
               :aria-pressed="(!muted).toString()"
               :aria-label="muted ? '{% trans 'Включить звук' %}' : '{% trans 'Выключить звук' %}'">
         <svg x-show="muted" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6" aria-hidden="true">

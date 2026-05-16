@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Дашборд — Backoffice — Tamos Space School</title>
+    <script type="module" src="/src/js/main.js"></script>
+  </head>
+  <body>
+    <div class="bo-shell" x-data="{ sidebar: false }" :class="sidebar && 'bo-sidebar-open'">
+
+      <!-- Sidebar -->
+      <aside class="bo-sidebar" aria-label="Главное меню">
+        <header class="bo-sidebar-head">
+          <a href="/" class="bo-brand">
+            <span class="bo-brand-logo">
+              <svg viewBox="0 0 37 35" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path fill="currentColor" d="M18.2552 34.3157C19.6096 32.6607 20.6 30.6866 21.1022 28.5208h-5.694C15.9104 30.6866 16.9008 32.6607 18.2552 34.3157Z"/>
+                <path fill="currentColor" d="M25.7704 26.3362V28.5198h10.7383L21.0165 1.71352C20.4534 0.762195 19.4256 0.125198 18.2538 0.125198C17.082 0.125198 16.0565 0.762195 15.4934 1.71352L0 28.5198h10.7383V26.3362l4.2939-4.3685.0011-1.8515c0-3.448 1.2081-6.6093 3.2205-9.0704 2.0135 2.4611 3.2216 5.6223 3.2216 9.0704v1.8515z"/>
+              </svg>
+            </span>
+            <span class="bo-brand-text">
+              <span class="bo-brand-name">Tamos</span>
+              <span class="bo-brand-label">Backoffice</span>
+            </span>
+          </a>
+          <button class="bo-sidebar-close" @click="sidebar = false" aria-label="Закрыть меню">
+            <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="6" y1="6" x2="18" y2="18"/>
+              <line x1="18" y1="6" x2="6" y2="18"/>
+            </svg>
+          </button>
+        </header>
+
+        <nav class="bo-nav">
+          <!-- Section 1: Main -->
+          <ul class="bo-nav-list">
+            <li>
+              <a href="#" class="bo-nav-link active" aria-current="page">
+                <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="3" width="7" height="7" rx="1"/>
+                  <rect x="14" y="3" width="7" height="7" rx="1"/>
+                  <rect x="3" y="14" width="7" height="7" rx="1"/>
+                  <rect x="14" y="14" width="7" height="7" rx="1"/>
+                </svg>
+                <span class="bo-nav-label">Дашборд</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="bo-nav-link has-alert">
+                <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M22 12h-6l-2 3h-4l-2-3H2"/>
+                  <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
+                </svg>
+                <span class="bo-nav-label">Заявки</span>
+                <span class="bo-nav-badge">7</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Section 2: Content -->
+          <div class="bo-nav-section">
+            <h3 class="bo-nav-section-title">Контент</h3>
+            <ul class="bo-nav-list">
+              <li>
+                <a href="#" class="bo-nav-link">
+                  <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 12l9-9 9 9"/>
+                    <path d="M5 10v10a1 1 0 0 0 1 1h3v-6h6v6h3a1 1 0 0 0 1-1V10"/>
+                  </svg>
+                  <span class="bo-nav-label">Главная</span>
+                  <svg class="bo-icon bo-icon-ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                </a>
+              </li>
+              <li><a href="#" class="bo-nav-link"><span class="bo-nav-label">Контакты</span></a></li>
+              <li><a href="#" class="bo-nav-link"><span class="bo-nav-label">Программа</span></a></li>
+              <li><a href="#" class="bo-nav-link"><span class="bo-nav-label">Поступление</span></a></li>
+              <li><a href="#" class="bo-nav-link"><span class="bo-nav-label">Активности</span></a></li>
+            </ul>
+          </div>
+
+          <!-- Section 3: Feed -->
+          <div class="bo-nav-section">
+            <h3 class="bo-nav-section-title">Лента</h3>
+            <ul class="bo-nav-list">
+              <li><a href="#" class="bo-nav-link"><span class="bo-nav-label">Блог</span></a></li>
+              <li><a href="#" class="bo-nav-link"><span class="bo-nav-label">События</span></a></li>
+              <li><a href="#" class="bo-nav-link"><span class="bo-nav-label">Галерея</span></a></li>
+              <li><a href="#" class="bo-nav-link"><span class="bo-nav-label">Доп. страницы</span></a></li>
+            </ul>
+          </div>
+
+          <!-- Section 4: Settings -->
+          <div class="bo-nav-section">
+            <h3 class="bo-nav-section-title">Настройки</h3>
+            <ul class="bo-nav-list">
+              <li><a href="#" class="bo-nav-link"><span class="bo-nav-label">Меню сайта</span></a></li>
+              <li><a href="#" class="bo-nav-link"><span class="bo-nav-label">Регионы</span></a></li>
+              <li><a href="#" class="bo-nav-link"><span class="bo-nav-label">Пользователи</span></a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Overlay (mobile) -->
+      <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false" aria-hidden="true"></div>
+
+      <!-- Body: topbar + main -->
+      <div class="bo-body">
+        <header class="bo-topbar">
+          <button class="bo-burger" @click="sidebar = true" aria-label="Открыть меню">
+            <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+
+          <div class="bo-topbar-title">Дашборд</div>
+
+          <div class="bo-user">
+            <span class="bo-user-name">Aidarbek</span>
+            <button type="submit" class="bo-logout">Выйти</button>
+          </div>
+        </header>
+
+        <main class="bo-main">
+          <header class="bo-page-head">
+            <h1 class="bo-page-title">Добро пожаловать, Aidarbek</h1>
+            <p class="bo-page-subtitle">Раздел будет наполнен в следующих шагах: контент, заявки, навигация, медиа.</p>
+          </header>
+
+          <section class="bo-empty">
+            Здесь появятся виджеты CMS.
+          </section>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

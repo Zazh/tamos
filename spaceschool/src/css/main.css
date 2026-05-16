@@ -32,6 +32,10 @@
 /* ========== Pages ========== */
 /* @import "./pages/home.css"; */
 /* @import "./pages/about.css"; */
+@import "./pages/backoffice-auth.css";
+@import "./pages/backoffice-shell.css";
+@import "./pages/backoffice-leads.css";
+@import "./pages/backoffice-content.css";
 
 /* ========== Global ========== */
 [x-cloak] {

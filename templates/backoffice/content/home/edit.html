@@ -1,0 +1,279 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n backoffice_tags %}
+
+{% block content %}
+  <a href="{% url 'backoffice:content_home_list' %}" class="bo-back">← {% trans "К списку" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div x-data="{ lang: 'ru' }">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{% blocktrans with region=home.region.name %}Главная — {{ region }}{% endblocktrans %}</h1>
+        <p class="bo-page-subtitle">{% blocktrans with date=home.updated_at|date:"j E, H:i" %}Singleton-контент главной страницы региона. Обновлено {{ date }}.{% endblocktrans %}</p>
+      </div>
+    </header>
+
+    <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык контента' %}">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+        {% trans "Русский" %}<span class="bo-tab-meta">{% trans "основной" %}</span>
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
+        Қазақша<span class="bo-tab-meta">{% trans "fallback ru" %}</span>
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
+        English<span class="bo-tab-meta">{% trans "fallback ru" %}</span>
+      </button>
+    </div>
+
+    <form id="home-edit-form" method="post" action="" enctype="multipart/form-data" class="bo-form">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="bo-messages">
+          {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endif %}
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">Hero — картинка</h2>
+
+        <div class="bo-media-preview bo-media-preview-starfield"
+             x-data
+             x-starfield="{ density: 'medium', twinkle: 'high', shooting: 'low' }">
+          <img src="{{ home.hero_image.url }}" alt="hero preview">
+        </div>
+
+        <div class="bo-media-controls">
+          <label class="bo-media-replace">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>{% trans "Изменить картинку" %}</span>
+            <input type="file" name="{{ form.hero_image.html_name }}" accept="image/png,image/webp">
+          </label>
+        </div>
+
+        {% field_help 'homepage.hero_image' %}
+      </section>
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">Hero — текст</h2>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_badge_text' label='Бадж над заголовком' %}
+        {% field_help 'homepage.hero_badge_text' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_title' label='Заголовок hero (h1)' %}
+        {% field_help 'homepage.hero_title' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_subtitle' label='Подзаголовок hero (h2)' %}
+        {% field_help 'homepage.hero_subtitle' %}
+      </section>
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">Hero — кнопка primary</h2>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_cta_primary_text' label='Текст кнопки' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_cta_primary_modal_title' label='Заголовок модалки (опц)' %}
+        </div>
+        {% field_help 'homepage.hero_cta_primary' %}
+      </section>
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">Hero — кнопка secondary</h2>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_cta_secondary_text' label='Текст кнопки' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_cta_secondary_modal_title' label='Заголовок модалки (опц)' %}
+        </div>
+        {% field_help 'homepage.hero_cta_secondary' %}
+      </section>
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">{% trans "О нас" %}</h2>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='about_label' label='Лейбл секции' %}
+        {% field_help 'homepage.about_label' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='about_title' label='Заголовок секции' %}
+        {% field_help 'homepage.about_title' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='about_body' label='Текст секции' %}
+        {% field_help 'homepage.about_body' %}
+      </section>
+
+      <section class="bo-panel" x-data="boVideoPreview()" x-init="init()">
+        <h2 class="bo-panel-title">{% trans "Шоурил" %}</h2>
+
+        {% if home.video_file %}
+          <div class="bo-media-preview">
+            <video x-ref="player" src="{{ home.video_file.url }}" controls preload="metadata"
+                   {% if home.video_poster %}poster="{{ home.video_poster.url }}"{% endif %}
+                   @loadedmetadata="onMeta($event)"></video>
+          </div>
+
+          <div class="bo-media-meta">
+            <span><strong>{% trans "Размер" %}:</strong> {{ video_size_human }}</span>
+            <span x-show="dims" x-cloak><strong>{% trans "Разрешение" %}:</strong> <span x-text="dims"></span></span>
+            <span x-show="dur" x-cloak><strong>{% trans "Длительность" %}:</strong> <span x-text="dur"></span></span>
+            {% if home.video_poster %}
+              <span><strong>Poster:</strong> ✓ <a href="{{ home.video_poster.url }}" target="_blank" class="bo-link">сгенерирован</a></span>
+            {% else %}
+              <span style="color:#b91c1c"><strong>Poster:</strong> ✗ не сгенерирован</span>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="bo-media-preview">
+            <div style="color:rgba(255,255,255,.6); font-size:.875rem">{% trans "Видео не загружено" %}</div>
+          </div>
+        {% endif %}
+
+        <div class="bo-media-controls">
+          <label class="bo-media-replace">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            <span x-text="picking || '{% trans "Изменить видео" %}'"></span>
+            <input type="file" name="{{ form.video_file.html_name }}" accept="video/mp4,video/quicktime,video/webm" @change="onPick($event)">
+          </label>
+        </div>
+
+        <div class="bo-media-error" x-show="error" x-cloak x-text="error"></div>
+
+        <p class="bo-help">{% trans "Poster (cover) автоматически генерируется из 1-й секунды видео при сохранении через ffmpeg. Отображается до старта воспроизведения." %}</p>
+
+        {% field_help 'homepage.video_file' %}
+      </section>
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">SEO &amp; Social</h2>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_title' label='SEO title' %}
+        {% field_help 'homepage.seo_title' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_description' label='SEO description' %}
+        {% field_help 'homepage.seo_description' %}
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='og_title' label='OG title (соцсети)' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='og_description' label='OG description (соцсети)' %}
+        </div>
+        {% field_help 'homepage.og_title' %}
+
+        <div class="bo-field">
+          <label class="bo-label">{% trans "OG-картинка (для шеринга)" %}</label>
+          {% if home.og_image %}
+            <div class="bo-media-preview" style="min-height:180px">
+              <img src="{{ home.og_image.url }}" alt="og preview">
+            </div>
+          {% else %}
+            <div class="bo-media-preview" style="min-height:120px">
+              <div style="color:rgba(255,255,255,.6); font-size:.875rem">{% trans "Не загружена — fallback на hero_image" %}</div>
+            </div>
+          {% endif %}
+          <div class="bo-media-controls">
+            <label class="bo-media-replace">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>{% trans "Изменить OG-картинку" %}</span>
+              <input type="file" name="{{ form.og_image.html_name }}" accept="image/jpeg,image/png,image/webp">
+            </label>
+          </div>
+          {% field_help 'homepage.og_image' %}
+        </div>
+      </section>
+    </form>
+
+    <section class="bo-panel"
+             x-data="boGallery"
+             data-upload-url="{% url 'backoffice:content_home_gallery_upload' pk=home.pk %}"
+             data-reorder-url="{% url 'backoffice:content_home_gallery_reorder' pk=home.pk %}"
+             data-update-url-template="{% url 'backoffice:content_home_gallery_update' pk=home.pk gpk=0 %}"
+             data-delete-url-template="{% url 'backoffice:content_home_gallery_delete' pk=home.pk gpk=0 %}"
+             data-items-script="bo-gallery-data-{{ home.pk }}">
+
+      <script id="bo-gallery-data-{{ home.pk }}" type="application/json">{{ gallery_items_json|safe }}</script>
+
+      <h2 class="bo-panel-title">{% trans "Галерея на главной" %}</h2>
+      <p class="bo-help">{% trans "Карусель под hero-блоком. Перетащи файлы сюда — ориентация определится автоматически, картинки расставятся чередованием «широкая → высокая». Порядок можно менять перетаскиванием карточек." %}</p>
+
+      <label class="bo-dropzone"
+             :class="dragging && 'bo-dropzone-active'"
+             @dragover.prevent="dragging = true"
+             @dragleave.prevent="dragging = false"
+             @drop.prevent="onDrop($event)">
+        <input type="file" multiple accept="image/*" class="bo-dropzone-input" @change="onPick($event)">
+        <div class="bo-dropzone-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div class="bo-dropzone-text">
+          <strong>{% trans "Перетащи файлы сюда" %}</strong>
+          <span>{% trans "или нажми — выберешь несколько за раз" %}</span>
+        </div>
+        <div class="bo-dropzone-status" x-show="uploading" x-cloak>{% trans "Загрузка…" %}</div>
+      </label>
+
+      <div class="bo-message bo-message-error" x-show="error" x-cloak x-text="error"></div>
+
+      <ul class="bo-gallery-grid" x-ref="grid">
+        <template x-for="(item, idx) in items" :key="item.pk">
+          <li class="bo-gallery-card" :data-pk="item.pk">
+            <div class="bo-gallery-card-thumb">
+              <img :src="item.url" alt="" loading="lazy">
+              <span class="bo-gallery-card-badge" :class="'bo-gallery-card-badge-' + item.orientation">
+                <span x-text="item.orientation === 'wide' ? 'широкая' : item.orientation === 'tall' ? 'высокая' : 'квадрат'"></span>
+              </span>
+              <span class="bo-gallery-card-warn"
+                    x-show="isWarn(idx, item)"
+                    x-cloak
+                    :title="'Слот ожидает ' + expectedLabel(idx) + ', а картинка — ' + item.orientation"
+                    aria-label="Несоответствие слоту">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </span>
+              <button type="button" class="bo-gallery-card-drag" aria-label="{% trans 'Перетащить' %}" title="{% trans 'Перетащить для смены порядка' %}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>
+              </button>
+              <button type="button" class="bo-gallery-card-delete" @click="remove(item)" aria-label="{% trans 'Удалить' %}" title="{% trans 'Удалить картинку' %}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+              </button>
+            </div>
+
+            <div class="bo-gallery-card-alt">
+              <input type="text"
+                     class="bo-input bo-input-sm"
+                     :value="item['alt_text_' + lang]"
+                     :placeholder="lang === 'ru' ? 'Alt-текст (для SEO/доступности)' : '(пусто — берётся из ru)'"
+                     @input="item['alt_text_' + lang] = $event.target.value"
+                     @change="saveAlt(item)">
+            </div>
+          </li>
+        </template>
+      </ul>
+
+      <div class="bo-gallery-empty" x-show="items.length === 0" x-cloak>
+        {% trans "Картинок пока нет. Перетащи файлы в зону выше." %}
+      </div>
+    </section>
+
+    <div class="bo-form-foot bo-form-foot-sticky"
+         x-data="boFormSteps"
+         data-form-id="home-edit-form"
+         data-steps-json='{{ steps_json|safe }}'>
+      <ul class="bo-steps">
+        <template x-for="step in steps" :key="step.id">
+          <li class="bo-step" :class="stepClass(step)" :title="step.label + ' — ' + step.filled + '/' + step.total + (step.required ? ' (обязательно)' : '')">
+            <span class="bo-step-dot"></span>
+            <span class="bo-step-label" x-text="step.label"></span>
+            <span class="bo-step-count" x-text="step.filled + '/' + step.total"></span>
+            <span class="bo-step-req" x-show="step.required" x-cloak title="{% trans 'Обязательный шаг' %}">*</span>
+          </li>
+        </template>
+      </ul>
+
+      <div class="bo-form-foot-actions">
+        <a href="{% url 'backoffice:content_home_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+        <button type="submit" form="home-edit-form"
+                class="btn btn-primary"
+                :disabled="!canSave"
+                :class="!canSave && 'bo-btn-disabled'"
+                :title="canSave ? '' : blockedReason">{% trans "Сохранить" %}</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

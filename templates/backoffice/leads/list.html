@@ -1,0 +1,141 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include 'backoffice/_messages.html' %}
+
+  {# Status chips со счётчиками. URL уже посчитан во view. #}
+  <div class="bo-chip-bar" role="tablist" aria-label="{% trans 'Фильтр по статусу' %}">
+    {% for chip in status_chips %}
+      <a href="{{ chip.url }}"
+         class="bo-chip{% if chip.active %} bo-chip-active{% endif %}"
+         role="tab"
+         aria-selected="{% if chip.active %}true{% else %}false{% endif %}">
+        {% if chip.code %}<span class="bo-chip-dot bo-chip-dot-{{ chip.code }}"></span>{% endif %}
+        <span class="bo-chip-label">{{ chip.label }}</span>
+        <span class="bo-chip-count">{{ chip.count }}</span>
+      </a>
+    {% endfor %}
+  </div>
+
+  {# (Reset: чистая ссылка без querystring) #}
+  <form class="bo-filter-bar" method="get">
+    {% if filters.status %}<input type="hidden" name="status" value="{{ filters.status }}">{% endif %}
+
+    <div class="bo-filter-search">
+      <svg class="bo-icon bo-filter-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="search" name="q" class="bo-filter-input"
+             placeholder="{% trans 'Имя, телефон, источник, заметка…' %}"
+             value="{{ filters.q }}">
+    </div>
+
+    <select name="category" class="bo-filter-select">
+      <option value="">{% trans "Все категории" %}</option>
+      {% for code, label in categories %}
+        <option value="{{ code }}"{% if filters.category == code %} selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+
+    {% if all_regions %}
+      <select name="region" class="bo-filter-select">
+        <option value="">{% trans "Все регионы" %}</option>
+        {% for r in all_regions %}
+          <option value="{{ r.slug }}"{% if filters.region == r.slug %} selected{% endif %}>{{ r.name }}</option>
+        {% endfor %}
+      </select>
+    {% endif %}
+
+    <button type="submit" class="bo-filter-apply">{% trans "Применить" %}</button>
+    <a href="{% url 'backoffice:leads_list' %}" class="bo-filter-reset">{% trans "Сброс" %}</a>
+  </form>
+
+  {% if page.object_list %}
+    {# Desktop table #}
+    <div class="bo-table-wrap">
+      <table class="bo-table">
+        <thead>
+          <tr>
+            <th class="bo-th">{% trans "Статус" %}</th>
+            <th class="bo-th">{% trans "Контакт" %}</th>
+            <th class="bo-th">{% trans "Регион · Город" %}</th>
+            <th class="bo-th">{% trans "Источник" %}</th>
+            <th class="bo-th bo-th-right">{% trans "Создана" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lead in page.object_list %}
+            <tr class="bo-tr" onclick="location.href='{% url 'backoffice:lead_detail' pk=lead.pk %}'">
+              <td class="bo-td"><span class="bo-badge bo-badge-{{ lead.status }}">{{ lead.get_status_display }}</span></td>
+              <td class="bo-td">
+                <div class="bo-cell-strong">{{ lead.name }}</div>
+                <div class="bo-cell-muted">{{ lead.phone }}</div>
+              </td>
+              <td class="bo-td">
+                <div>{{ lead.region.name }}</div>
+                {% if lead.city %}<div class="bo-cell-muted">{{ lead.city }}</div>{% endif %}
+              </td>
+              <td class="bo-td">
+                {% if lead.origin %}<div class="bo-cell-mono">{{ lead.origin }}</div>{% endif %}
+                <div class="bo-cell-muted">{{ lead.get_category_display }}</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <div class="bo-cell-muted">{{ lead.created_at|date:"j E, H:i" }}</div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {# Mobile cards #}
+    <ul class="bo-cards">
+      {% for lead in page.object_list %}
+        <li class="bo-card" onclick="location.href='{% url 'backoffice:lead_detail' pk=lead.pk %}'">
+          <div class="bo-card-head">
+            <span class="bo-badge bo-badge-{{ lead.status }}">{{ lead.get_status_display }}</span>
+            <time class="bo-cell-muted">{{ lead.created_at|date:"j E, H:i" }}</time>
+          </div>
+          <div class="bo-card-name">{{ lead.name }}</div>
+          <div class="bo-card-meta">
+            <span>{{ lead.phone }}</span>
+            {% if lead.city %}<span>·</span><span>{{ lead.city }}</span>{% endif %}
+          </div>
+          <div class="bo-card-foot">
+            {% if lead.origin %}<span class="bo-cell-mono">{{ lead.origin }}</span>{% else %}<span></span>{% endif %}
+            <span class="bo-cell-muted">{{ lead.get_category_display }}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <nav class="bo-pagination" aria-label="{% trans 'Пагинация' %}">
+      <span class="bo-pagination-info">
+        {% blocktrans with cur=page.number total=paginator.num_pages count=paginator.count %}Стр. {{ cur }} из {{ total }} · всего {{ count }}{% endblocktrans %}
+      </span>
+      <div class="bo-pagination-buttons">
+        {% if page.has_previous %}
+          <a href="?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ page.previous_page_number }}" class="bo-page">← {% trans "Назад" %}</a>
+        {% else %}
+          <span class="bo-page bo-page-disabled">← {% trans "Назад" %}</span>
+        {% endif %}
+        {% if page.has_next %}
+          <a href="?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ page.next_page_number }}" class="bo-page">{% trans "Вперёд" %} →</a>
+        {% else %}
+          <span class="bo-page bo-page-disabled">{% trans "Вперёд" %} →</span>
+        {% endif %}
+      </div>
+    </nav>
+  {% else %}
+    <div class="bo-list-empty">
+      {% if filters.q or filters.status or filters.category or filters.region %}
+        {% trans "По выбранным фильтрам заявок не найдено." %}
+        <br><a href="{% url 'backoffice:leads_list' %}" class="bo-link">{% trans "Сбросить фильтры" %}</a>
+      {% else %}
+        {% trans "Заявок пока нет." %}
+      {% endif %}
+    </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head">
+    <h1 class="bo-page-title">{% trans "Главная" %}</h1>
+    <p class="bo-page-subtitle">{% trans "Singleton-страница для каждого региона. Выберите регион для редактирования." %}</p>
+  </div>
+
+  {% if rows %}
+    <div class="bo-table-wrap">
+      <table class="bo-table">
+        <thead>
+          <tr>
+            <th class="bo-th">{% trans "Регион" %}</th>
+            <th class="bo-th">{% trans "Заголовок hero" %}</th>
+            <th class="bo-th">{% trans "Картинок в галерее" %}</th>
+            <th class="bo-th bo-th-right">{% trans "Обновлено" %}</th>
+            <th class="bo-th bo-th-right"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for home in rows %}
+            <tr class="bo-tr" onclick="location.href='{% url 'backoffice:content_home_edit' pk=home.pk %}'">
+              <td class="bo-td">
+                <div class="bo-cell-strong">{{ home.region.name }}</div>
+                <div class="bo-cell-muted">{{ home.region.slug }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-muted bo-cell-clip">{{ home.hero_title|striptags|default:'—' }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-muted">{{ home.gallery_count }}</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <div class="bo-cell-muted">{{ home.updated_at|date:"j E, H:i" }}</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <a href="{% url 'backoffice:content_home_edit' pk=home.pk %}" class="bo-row-edit">{% trans "Редактировать →" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="bo-cards">
+      {% for home in rows %}
+        <li class="bo-card" onclick="location.href='{% url 'backoffice:content_home_edit' pk=home.pk %}'">
+          <div class="bo-card-head">
+            <span class="bo-cell-strong">{{ home.region.name }}</span>
+            <time class="bo-cell-muted">{{ home.updated_at|date:"j E, H:i" }}</time>
+          </div>
+          <div class="bo-card-meta">
+            <span>Hero: «{{ home.hero_title|striptags|truncatechars:60 }}»</span>
+          </div>
+          <div class="bo-card-foot">
+            <span class="bo-cell-muted">{{ home.gallery_count }} {% trans "картинок" %}</span>
+            <span class="bo-row-edit">{% trans "Редактировать →" %}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="bo-list-empty">
+      {% trans "Главные страницы создаются миграцией. Если регион новый — обратись к разработчику." %}
+    </div>
+  {% endif %}
+{% endblock %}

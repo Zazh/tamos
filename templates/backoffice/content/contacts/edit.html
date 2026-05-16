@@ -1,0 +1,142 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  <a href="{% url 'backoffice:content_contacts_list' %}" class="bo-back">← {% trans "К списку" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div x-data="{ lang: 'ru' }">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{% blocktrans with region=contacts.region.name %}Контакты — {{ region }}{% endblocktrans %}</h1>
+        <p class="bo-page-subtitle">{% blocktrans with date=contacts.updated_at|date:"j E, H:i" %}Singleton-контент страницы «Контакты». Обновлено {{ date }}.{% endblocktrans %}</p>
+      </div>
+    </header>
+
+    <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык контента' %}">
+      <button type="button" role="tab"
+              class="bo-tab"
+              :class="lang === 'ru' && 'bo-tab-active'"
+              :aria-selected="lang === 'ru'"
+              @click="lang = 'ru'">
+        {% trans "Русский" %}
+        <span class="bo-tab-meta">{% trans "основной" %}</span>
+      </button>
+      <button type="button" role="tab"
+              class="bo-tab"
+              :class="lang === 'kk' && 'bo-tab-active'"
+              :aria-selected="lang === 'kk'"
+              @click="lang = 'kk'">
+        Қазақша
+        <span class="bo-tab-meta">{% trans "fallback ru" %}</span>
+      </button>
+      <button type="button" role="tab"
+              class="bo-tab"
+              :class="lang === 'en' && 'bo-tab-active'"
+              :aria-selected="lang === 'en'"
+              @click="lang = 'en'">
+        English
+        <span class="bo-tab-meta">{% trans "fallback ru" %}</span>
+      </button>
+    </div>
+
+    <form method="post" action="" class="bo-form">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="bo-messages">
+          {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endif %}
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">{% trans "Регион" %}</h2>
+        <div class="bo-field">
+          <label class="bo-label">{% trans "Регион" %}</label>
+          <input type="text" class="bo-input" value="{{ contacts.region.name }}" readonly>
+        </div>
+      </section>
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">{% trans "Вводный блок" %}</h2>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='intro_title' label='Заголовок' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='intro_text' label='Описание' help='Параграф под заголовком.' %}
+      </section>
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">{% trans "Офис (overlay над картой)" %}</h2>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='office_name' label='Название офиса' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='office_address' label='Адрес' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='office_hours' label='Часы работы' help='Напр. «Пн–Пт, 09:00–18:00».' %}
+      </section>
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">{% trans "Карта (Leaflet · CartoDB light_nolabels)" %}</h2>
+
+        <div class="bo-row-3">
+          {% include 'backoffice/content/_field.html' with field=form.latitude label='Широта' %}
+          {% include 'backoffice/content/_field.html' with field=form.longitude label='Долгота' %}
+          {% include 'backoffice/content/_field.html' with field=form.map_zoom label='Zoom' %}
+        </div>
+        <p class="bo-help">{% trans "Если широта или долгота пуста — карта не отрисуется, покажется серая заглушка." %}</p>
+      </section>
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">{% trans "Отделы" %}</h2>
+        <p class="bo-help">{% trans "Поступление, Партнёрство, Вакансии и т.д. Порядок задаётся числом." %}</p>
+
+        {{ formset.management_form }}
+        {% if formset.non_form_errors %}
+          <div class="bo-messages">
+            {% for err in formset.non_form_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+          </div>
+        {% endif %}
+
+        <ul class="bo-formset bo-formset-stacked">
+          {% for f in formset %}
+            <li class="bo-formset-item bo-formset-item-stacked{% if not f.instance.pk %} bo-formset-item-empty{% endif %}">
+              {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+
+              <div class="bo-formset-head">
+                <h3 class="bo-formset-item-title">
+                  {% if f.instance.pk %}{{ f.instance.title|default:'Без названия' }}{% else %}{% trans "Новый отдел" %}{% endif %}
+                </h3>
+                {% if f.instance.pk %}
+                  <label class="bo-label-checkbox">
+                    {{ f.DELETE }}
+                    <span>{% trans "Удалить" %}</span>
+                  </label>
+                {% endif %}
+              </div>
+
+              <div class="bo-row-3">
+                {% include 'backoffice/content/_field.html' with field=f.order label='Порядок' %}
+                {% include 'backoffice/content/_field.html' with field=f.phone label='Телефон' %}
+                {% include 'backoffice/content/_field.html' with field=f.email label='Email' %}
+              </div>
+
+              {% include 'backoffice/content/_field_translatable.html' with form=f base='title' label='Название отдела' %}
+
+              {% include 'backoffice/content/_field_translatable.html' with form=f base='description' label='Описание' %}
+
+              {% include 'backoffice/content/_field_translatable.html' with form=f base='hours' label='Часы работы' help='Если пусто — строка скрыта на сайте.' %}
+            </li>
+          {% endfor %}
+        </ul>
+
+        <p class="bo-help">{% trans "Чтобы добавить ещё один отдел — сохрани форму, появится новый пустой блок." %}</p>
+      </section>
+
+      <div class="bo-form-foot bo-form-foot-sticky">
+        <a href="{% url 'backoffice:content_contacts_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+        <button type="submit" class="btn btn-primary">{% trans "Сохранить" %}</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Дашборд" %} — Backoffice{% endblock %}
+
+{% block content %}
+<header class="bo-page-head">
+  <h1 class="bo-page-title">{% trans "Добро пожаловать" %}, {{ request.user.get_full_name|default:request.user.get_username }}</h1>
+  <p class="bo-page-subtitle">{% trans "Раздел будет наполнен в следующих шагах: контент, заявки, навигация, медиа." %}</p>
+</header>
+
+<section class="bo-empty">
+  {% trans "Здесь появятся разделы CMS." %}
+</section>
+{% endblock %}

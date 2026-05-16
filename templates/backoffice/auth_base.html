@@ -1,0 +1,23 @@
+{% load static django_vite i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'ru' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+
+  <title>{% block title %}Backoffice — Tamos Space School{% endblock %}</title>
+
+  <link rel="icon" href="{% static 'favicon/favicon.ico' %}" sizes="any">
+  <link rel="icon" href="{% static 'favicon/favicon.svg' %}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{% static 'favicon/apple-touch-icon.png' %}">
+  <meta name="theme-color" content="#000F21">
+
+  {% vite_hmr_client %}
+  {% vite_asset 'src/js/main.js' %}
+  {% block head %}{% endblock %}
+</head>
+<body class="auth-body">
+  {% block body %}{% endblock %}
+</body>
+</html>

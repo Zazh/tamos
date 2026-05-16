@@ -10,10 +10,16 @@ class HomePageTranslationOptions(TranslationOptions):
         'hero_title',
         'hero_subtitle',
         'hero_cta_primary_text',
+        'hero_cta_primary_modal_title',
         'hero_cta_secondary_text',
+        'hero_cta_secondary_modal_title',
         'about_label',
         'about_title',
         'about_body',
+        'seo_title',
+        'seo_description',
+        'og_title',
+        'og_description',
     )
 
 

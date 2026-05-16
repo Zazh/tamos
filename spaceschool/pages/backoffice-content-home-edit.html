@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Главная — Астана — Backoffice — Tamos Space School</title>
+    <script type="module" src="/src/js/main.js"></script>
+  </head>
+  <body>
+    <div class="bo-shell" x-data="{ sidebar: false }" :class="sidebar && 'bo-sidebar-open'">
+      <aside class="bo-sidebar"></aside>
+      <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false"></div>
+
+      <div class="bo-body">
+        <header class="bo-topbar">
+          <button class="bo-burger" @click="sidebar = true" aria-label="Меню">
+            <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="bo-topbar-title">Главная — Астана</div>
+          <div class="bo-user">
+            <span class="bo-user-name">Aidarbek</span>
+            <button class="bo-logout">Выйти</button>
+          </div>
+        </header>
+
+        <main class="bo-main" x-data="{ lang: 'ru' }">
+          <a href="#" class="bo-back">← К списку</a>
+
+          <header class="bo-detail-head">
+            <div>
+              <h1 class="bo-page-title">Главная — Астана</h1>
+              <p class="bo-page-subtitle">Singleton-контент главной страницы региона. Обновлено 11 мая, 18:42.</p>
+            </div>
+          </header>
+
+          <!-- Sticky language tab-bar -->
+          <div class="bo-tabs" role="tablist" aria-label="Язык контента">
+            <button type="button" role="tab"
+                    class="bo-tab"
+                    :class="lang === 'ru' && 'bo-tab-active'"
+                    :aria-selected="lang === 'ru'"
+                    @click="lang = 'ru'">
+              Русский
+              <span class="bo-tab-meta">основной</span>
+            </button>
+            <button type="button" role="tab"
+                    class="bo-tab"
+                    :class="lang === 'kk' && 'bo-tab-active'"
+                    :aria-selected="lang === 'kk'"
+                    @click="lang = 'kk'">
+              Қазақша
+              <span class="bo-tab-meta">fallback ru</span>
+            </button>
+            <button type="button" role="tab"
+                    class="bo-tab"
+                    :class="lang === 'en' && 'bo-tab-active'"
+                    :aria-selected="lang === 'en'"
+                    @click="lang = 'en'">
+              English
+              <span class="bo-tab-meta">fallback ru</span>
+            </button>
+          </div>
+
+          <form method="post" action="#" enctype="multipart/form-data" class="bo-form">
+            <!-- Region (read-only) -->
+            <section class="bo-panel">
+              <h2 class="bo-panel-title">Регион</h2>
+              <div class="bo-field">
+                <label class="bo-label">Регион</label>
+                <input type="text" class="bo-input" value="Астана" readonly>
+              </div>
+            </section>
+
+            <!-- Hero -->
+            <section class="bo-panel">
+              <h2 class="bo-panel-title">Hero</h2>
+
+              <!-- Image (language-neutral) -->
+              <div class="bo-field">
+                <label class="bo-label" for="id_hero_image">Фон hero</label>
+                <div class="bo-file">
+                  <img src="/media/home/hero/building.png" alt="Текущая hero" class="bo-file-preview">
+                  <div class="bo-file-controls">
+                    <input type="file" id="id_hero_image" name="hero_image" class="bo-file-input">
+                    <p class="bo-help">WebP и сжатая версии генерируются автоматически.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Translatable fields -->
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Бадж над заголовком</label>
+                <input type="text" class="bo-input" name="hero_badge_text_ru" value="Лучшая школа в Астане" x-show="lang === 'ru'">
+                <input type="text" class="bo-input" name="hero_badge_text_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                <input type="text" class="bo-input" name="hero_badge_text_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Заголовок hero (h1)</label>
+                <textarea class="bo-textarea bo-textarea-html" name="hero_title_ru" rows="4" x-show="lang === 'ru'">&lt;span class="hero-fit"&gt;Лучшее образование&lt;/span&gt;</textarea>
+                <textarea class="bo-textarea bo-textarea-html" name="hero_title_kk" rows="4" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak></textarea>
+                <textarea class="bo-textarea bo-textarea-html" name="hero_title_en" rows="4" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak></textarea>
+                <p class="bo-help">HTML-разметка (рендерится через |safe). Используй <code>&lt;span class="hero-fit"&gt;</code>, <code>&lt;span class="text-gold"&gt;</code> для акцента.</p>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Подзаголовок hero (h2)</label>
+                <textarea class="bo-textarea" name="hero_subtitle_ru" rows="3" x-show="lang === 'ru'">Cambridge и IB в одной школе</textarea>
+                <textarea class="bo-textarea" name="hero_subtitle_kk" rows="3" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak></textarea>
+                <textarea class="bo-textarea" name="hero_subtitle_en" rows="3" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak></textarea>
+              </div>
+
+              <div class="bo-row-2">
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">CTA основная (текст)</label>
+                  <input type="text" class="bo-input" name="hero_cta_primary_text_ru" value="Записаться" x-show="lang === 'ru'">
+                  <input type="text" class="bo-input" name="hero_cta_primary_text_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                  <input type="text" class="bo-input" name="hero_cta_primary_text_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+                </div>
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">CTA вторичная (текст)</label>
+                  <input type="text" class="bo-input" name="hero_cta_secondary_text_ru" value="Узнать больше" x-show="lang === 'ru'">
+                  <input type="text" class="bo-input" name="hero_cta_secondary_text_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                  <input type="text" class="bo-input" name="hero_cta_secondary_text_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+                </div>
+              </div>
+            </section>
+
+            <!-- About -->
+            <section class="bo-panel">
+              <h2 class="bo-panel-title">О нас</h2>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Лейбл секции</label>
+                <input type="text" class="bo-input" name="about_label_ru" value="Кому подходит" x-show="lang === 'ru'">
+                <input type="text" class="bo-input" name="about_label_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                <input type="text" class="bo-input" name="about_label_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Заголовок секции</label>
+                <textarea class="bo-textarea" name="about_title_ru" rows="2" x-show="lang === 'ru'">Откройте мир знаний</textarea>
+                <textarea class="bo-textarea" name="about_title_kk" rows="2" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak></textarea>
+                <textarea class="bo-textarea" name="about_title_en" rows="2" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak></textarea>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Текст секции</label>
+                <textarea class="bo-textarea" name="about_body_ru" rows="6" x-show="lang === 'ru'">Описание школы…</textarea>
+                <textarea class="bo-textarea" name="about_body_kk" rows="6" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak></textarea>
+                <textarea class="bo-textarea" name="about_body_en" rows="6" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak></textarea>
+                <p class="bo-help">Пустая строка = новый параграф.</p>
+              </div>
+            </section>
+
+            <!-- Video -->
+            <section class="bo-panel">
+              <h2 class="bo-panel-title">Видео</h2>
+              <div class="bo-field">
+                <label class="bo-label" for="id_video_file">Файл видео</label>
+                <div class="bo-file">
+                  <video src="/media/home/video/intro.mp4" class="bo-file-preview-video" muted></video>
+                  <div class="bo-file-controls">
+                    <input type="file" id="id_video_file" name="video_file" class="bo-file-input">
+                    <p class="bo-help">Mp4 для видео-блока. Если пусто — блок не отрисовывается.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Inline: gallery -->
+            <section class="bo-panel">
+              <h2 class="bo-panel-title">Галерея на главной</h2>
+              <p class="bo-help">Карусель под hero-блоком. Перетаскивание не реализовано — порядок задаётся числом.</p>
+
+              <input type="hidden" name="gallery-TOTAL_FORMS" value="3">
+              <input type="hidden" name="gallery-INITIAL_FORMS" value="2">
+
+              <ul class="bo-formset">
+                <li class="bo-formset-item">
+                  <div class="bo-formset-thumb">
+                    <img src="/media/home/gallery/library.jpg" alt="Library">
+                  </div>
+                  <div class="bo-formset-fields">
+                    <div class="bo-row-3">
+                      <div class="bo-field">
+                        <label class="bo-label">Картинка</label>
+                        <input type="file" class="bo-file-input" name="gallery-0-image">
+                      </div>
+                      <div class="bo-field">
+                        <label class="bo-label">Порядок</label>
+                        <input type="number" class="bo-input" name="gallery-0-order" value="0">
+                      </div>
+                      <div class="bo-field bo-field-delete">
+                        <label class="bo-label-checkbox">
+                          <input type="checkbox" name="gallery-0-DELETE">
+                          <span>Удалить</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="bo-field bo-field-translatable">
+                      <label class="bo-label">Alt-текст</label>
+                      <input type="text" class="bo-input" name="gallery-0-alt_text_ru" value="Библиотека школы" x-show="lang === 'ru'">
+                      <input type="text" class="bo-input" name="gallery-0-alt_text_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                      <input type="text" class="bo-input" name="gallery-0-alt_text_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="bo-formset-item">
+                  <div class="bo-formset-thumb">
+                    <img src="/media/home/gallery/kid.png" alt="Kid">
+                  </div>
+                  <div class="bo-formset-fields">
+                    <div class="bo-row-3">
+                      <div class="bo-field">
+                        <label class="bo-label">Картинка</label>
+                        <input type="file" class="bo-file-input" name="gallery-1-image">
+                      </div>
+                      <div class="bo-field">
+                        <label class="bo-label">Порядок</label>
+                        <input type="number" class="bo-input" name="gallery-1-order" value="1">
+                      </div>
+                      <div class="bo-field bo-field-delete">
+                        <label class="bo-label-checkbox">
+                          <input type="checkbox" name="gallery-1-DELETE">
+                          <span>Удалить</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="bo-field bo-field-translatable">
+                      <label class="bo-label">Alt-текст</label>
+                      <input type="text" class="bo-input" name="gallery-1-alt_text_ru" value="Дети на занятии" x-show="lang === 'ru'">
+                      <input type="text" class="bo-input" name="gallery-1-alt_text_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                      <input type="text" class="bo-input" name="gallery-1-alt_text_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+                    </div>
+                  </div>
+                </li>
+
+                <!-- Empty form (для добавления) -->
+                <li class="bo-formset-item bo-formset-item-empty">
+                  <div class="bo-formset-thumb bo-formset-thumb-empty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  </div>
+                  <div class="bo-formset-fields">
+                    <div class="bo-row-3">
+                      <div class="bo-field">
+                        <label class="bo-label">Картинка (новая)</label>
+                        <input type="file" class="bo-file-input" name="gallery-2-image">
+                      </div>
+                      <div class="bo-field">
+                        <label class="bo-label">Порядок</label>
+                        <input type="number" class="bo-input" name="gallery-2-order" value="2">
+                      </div>
+                      <div class="bo-field bo-field-delete"></div>
+                    </div>
+                    <div class="bo-field bo-field-translatable">
+                      <label class="bo-label">Alt-текст</label>
+                      <input type="text" class="bo-input" name="gallery-2-alt_text_ru" value="" x-show="lang === 'ru'">
+                      <input type="text" class="bo-input" name="gallery-2-alt_text_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                      <input type="text" class="bo-input" name="gallery-2-alt_text_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+
+              <p class="bo-help">Чтобы добавить ещё одну картинку — сохрани форму, появится новый пустой блок.</p>
+            </section>
+
+            <!-- Foot: actions -->
+            <div class="bo-form-foot bo-form-foot-sticky">
+              <a href="#" class="bo-action-rejected bo-action-btn">Отмена</a>
+              <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+          </form>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

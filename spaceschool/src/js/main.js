@@ -10,6 +10,8 @@ import { registerFeedbackModal } from "./modal.js";
 import { initLeafletMaps } from "./leaflet-map.js";
 import { initMarquee } from "./marquee.js";
 import { initStepperScrollspy } from "./stepper-scrollspy.js";
+import { registerBackofficeGallery } from "./backoffice-gallery.js";
+import { registerHeroVideo } from "./hero-video.js";
 
 Alpine.plugin(collapse);
 registerStarfield(Alpine);
@@ -17,6 +19,8 @@ registerGlass(Alpine);
 registerSlider(Alpine);
 registerCarousel(Alpine);
 registerFeedbackModal(Alpine);
+registerBackofficeGallery(Alpine);
+registerHeroVideo(Alpine);
 
 
 window.Alpine = Alpine;

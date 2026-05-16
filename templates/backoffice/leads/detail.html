@@ -1,0 +1,109 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  <a href="{% url 'backoffice:leads_list' %}" class="bo-back">← {% trans "К списку заявок" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <header class="bo-detail-head">
+    <div>
+      <h1 class="bo-page-title">{{ lead.name }}</h1>
+      <p class="bo-page-subtitle">
+        {% blocktrans with id=lead.pk region=lead.region.name date=lead.created_at|date:"j E, H:i" %}Заявка #{{ id }} · {{ region }} · {{ date }}{% endblocktrans %}
+      </p>
+    </div>
+    <span class="bo-badge bo-badge-lg bo-badge-{{ lead.status }}">{{ lead.get_status_display }}</span>
+  </header>
+
+  {# Quick-action кнопки. Не показываем кнопку текущего статуса. #}
+  <div class="bo-actions">
+    {% if lead.status != 'in_progress' %}
+      <form class="bo-action-form" method="post" action="{% url 'backoffice:lead_quick_status' pk=lead.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="in_progress">
+        <input type="hidden" name="next" value="{% url 'backoffice:lead_detail' pk=lead.pk %}">
+        <button type="submit" class="bo-action-btn bo-action-in_progress">{% trans "В работу" %}</button>
+      </form>
+    {% endif %}
+    {% if lead.status != 'done' %}
+      <form class="bo-action-form" method="post" action="{% url 'backoffice:lead_quick_status' pk=lead.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="done">
+        <input type="hidden" name="next" value="{% url 'backoffice:lead_detail' pk=lead.pk %}">
+        <button type="submit" class="bo-action-btn bo-action-done">{% trans "Закрыть успешно" %}</button>
+      </form>
+    {% endif %}
+    {% if lead.status != 'rejected' %}
+      <form class="bo-action-form" method="post" action="{% url 'backoffice:lead_quick_status' pk=lead.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="rejected">
+        <input type="hidden" name="next" value="{% url 'backoffice:lead_detail' pk=lead.pk %}">
+        <button type="submit" class="bo-action-btn bo-action-rejected">{% trans "Отказ" %}</button>
+      </form>
+    {% endif %}
+  </div>
+
+  <div class="bo-detail-grid" x-data="{ audit: false }">
+    {# Left: contact + audit #}
+    <section class="bo-panel">
+      <h2 class="bo-panel-title">{% trans "Контакт" %}</h2>
+      <dl class="bo-dl">
+        <dt>{% trans "Имя" %}</dt><dd>{{ lead.name }}</dd>
+        <dt>{% trans "Телефон" %}</dt><dd><a href="tel:{{ lead.phone|cut:' ' }}" class="bo-link">{{ lead.phone }}</a></dd>
+        {% if lead.city %}<dt>{% trans "Город (из формы)" %}</dt><dd>{{ lead.city }}</dd>{% endif %}
+        <dt>{% trans "Регион" %}</dt><dd>{{ lead.region.name }}</dd>
+        {% if lead.title %}<dt>{% trans "Заголовок модалки" %}</dt><dd>«{{ lead.title }}»</dd>{% endif %}
+        {% if lead.origin %}<dt>{% trans "Источник (origin)" %}</dt><dd><code class="bo-cell-mono">{{ lead.origin }}</code></dd>{% endif %}
+      </dl>
+
+      <h2 class="bo-panel-title bo-panel-title-collapsible" @click="audit = !audit" role="button" tabindex="0" @keydown.enter="audit = !audit" @keydown.space.prevent="audit = !audit">
+        {% trans "Аудит" %}
+        <span class="bo-panel-toggle" :class="audit && 'bo-panel-toggle-open'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </h2>
+      <dl class="bo-dl" x-show="audit" x-cloak>
+        <dt>{% trans "Создана" %}</dt><dd>{{ lead.created_at|date:"j E Y, H:i" }}</dd>
+        <dt>{% trans "Обновлена" %}</dt><dd>{{ lead.updated_at|date:"j E Y, H:i" }}</dd>
+        <dt>{% trans "Согласие" %}</dt><dd>{{ lead.consented_at|date:"j E Y, H:i" }} ({{ lead.policy_version }})</dd>
+        {% if lead.ip_address %}<dt>IP</dt><dd><code class="bo-cell-mono">{{ lead.ip_address }}</code></dd>{% endif %}
+        {% if lead.user_agent %}<dt>User-Agent</dt><dd class="bo-cell-mono bo-cell-wrap">{{ lead.user_agent }}</dd>{% endif %}
+      </dl>
+    </section>
+
+    {# Right: edit form #}
+    <form class="bo-panel" method="post" action="">
+      {% csrf_token %}
+      <h2 class="bo-panel-title">{% trans "Обработка" %}</h2>
+
+      <div class="bo-field">
+        <label class="bo-label" for="{{ form.status.id_for_label }}">{% trans "Статус" %}</label>
+        <select id="{{ form.status.id_for_label }}" name="{{ form.status.name }}" class="bo-select">
+          {% for code, label in form.status.field.choices %}
+            <option value="{{ code }}"{% if code == form.status.value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+        {% for error in form.status.errors %}<p class="bo-cell-muted" style="color:#b91c1c">{{ error }}</p>{% endfor %}
+      </div>
+
+      <div class="bo-field">
+        <label class="bo-label" for="{{ form.category.id_for_label }}">{% trans "Категория" %}</label>
+        <select id="{{ form.category.id_for_label }}" name="{{ form.category.name }}" class="bo-select">
+          {% for code, label in form.category.field.choices %}
+            <option value="{{ code }}"{% if code == form.category.value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="bo-field">
+        <label class="bo-label" for="{{ form.manager_note.id_for_label }}">{% trans "Заметка менеджера" %}</label>
+        <textarea id="{{ form.manager_note.id_for_label }}" name="{{ form.manager_note.name }}" class="bo-textarea" rows="5" placeholder="{% trans 'Что по звонку, договорённости, причина отказа.' %}">{{ form.manager_note.value|default:'' }}</textarea>
+      </div>
+
+      <div class="bo-form-foot">
+        <button type="submit" class="btn btn-primary">{% trans "Сохранить" %}</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

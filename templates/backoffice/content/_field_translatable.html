@@ -1,0 +1,11 @@
+{% load backoffice_tags %}
+<div class="bo-field bo-field-translatable">
+  <label class="bo-label">{{ label }}</label>
+  {% for lang in translation_langs %}{% with name=base|add:'_'|add:lang %}{% with bf=form|getfield:name %}{% if bf %}
+    <div x-show="lang === '{{ lang }}'"{% if not forloop.first %} x-cloak{% endif %} class="bo-field-translatable-slot">
+      {{ bf }}
+      {% for err in bf.errors %}<p class="bo-help" style="color:#b91c1c">{{ err }}</p>{% endfor %}
+    </div>
+  {% endif %}{% endwith %}{% endwith %}{% endfor %}
+  {% if help %}<p class="bo-help">{{ help|safe }}</p>{% endif %}
+</div>

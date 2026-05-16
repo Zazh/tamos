@@ -11,7 +11,12 @@ class HomeView(TemplateView):
         ctx = super().get_context_data(**kwargs)
         home = get_object_or_404(HomePage, region=self.request.region)
         ctx['home'] = home
-        ctx['gallery'] = list(home.gallery.all())
+        # Принудительный strict-zip: позиция в карусели диктует size-slot
+        # (см. carousel.css `:nth-child`). Менеджер мог поставить порядок
+        # вручную через DnD; на frontend всё равно гарантируем чередование
+        # wide→tall→wide→tall — fallback на cover-crop если не совпадает.
+        from .models import HomeGalleryImage
+        ctx['gallery'] = HomeGalleryImage.strict_zip_arrange(home.gallery.all())
         return ctx
 
 

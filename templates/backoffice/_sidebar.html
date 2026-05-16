@@ -1,0 +1,57 @@
+{% load backoffice_tags %}
+{# Партиал. Ожидает в контексте: bo_nav (list of sections), bo_active (string id). #}
+
+<aside class="bo-sidebar" aria-label="Главное меню">
+  <header class="bo-sidebar-head">
+    <a href="{% url 'backoffice:dashboard' %}" class="bo-brand">
+      <span class="bo-brand-logo">
+        <svg viewBox="0 0 37 35" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill="currentColor" d="M18.2552 34.3157C19.6096 32.6607 20.6 30.6866 21.1022 28.5208h-5.694C15.9104 30.6866 16.9008 32.6607 18.2552 34.3157Z"/>
+          <path fill="currentColor" d="M25.7704 26.3362V28.5198h10.7383L21.0165 1.71352C20.4534 0.762195 19.4256 0.125198 18.2538 0.125198C17.082 0.125198 16.0565 0.762195 15.4934 1.71352L0 28.5198h10.7383V26.3362l4.2939-4.3685.0011-1.8515c0-3.448 1.2081-6.6093 3.2205-9.0704 2.0135 2.4611 3.2216 5.6223 3.2216 9.0704v1.8515z"/>
+        </svg>
+      </span>
+      <span class="bo-brand-text">
+        <span class="bo-brand-name">Tamos</span>
+        <span class="bo-brand-label">Backoffice</span>
+      </span>
+    </a>
+    <button type="button" class="bo-sidebar-close" @click="sidebar = false" aria-label="Закрыть меню">
+      {% bo_icon 'close' %}
+    </button>
+  </header>
+
+  <nav class="bo-nav">
+    {% for section in bo_nav %}
+      {% if section.label %}
+        <div class="bo-nav-section">
+          <h3 class="bo-nav-section-title">{{ section.label }}</h3>
+          <ul class="bo-nav-list">
+            {% for item in section.items %}
+              <li>
+                <a href="{{ item.url }}" class="bo-nav-link{% if item.id == bo_active %} active{% endif %}{% if item.badge %} has-alert{% endif %}"{% if item.id == bo_active %} aria-current="page"{% endif %}{% if item.external %} target="_blank" rel="noopener"{% endif %}>
+                  {% bo_icon item.icon %}
+                  <span class="bo-nav-label">{{ item.label }}</span>
+                  {% if item.badge %}<span class="bo-nav-badge" aria-label="{{ item.badge }} новых">{{ item.badge }}</span>{% endif %}
+                  {% if item.external %}{% bo_icon 'external' extra='bo-icon-ext' %}{% endif %}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% else %}
+        <ul class="bo-nav-list">
+          {% for item in section.items %}
+            <li>
+              <a href="{{ item.url }}" class="bo-nav-link{% if item.id == bo_active %} active{% endif %}{% if item.badge %} has-alert{% endif %}"{% if item.id == bo_active %} aria-current="page"{% endif %}{% if item.external %} target="_blank" rel="noopener"{% endif %}>
+                {% bo_icon item.icon %}
+                <span class="bo-nav-label">{{ item.label }}</span>
+                {% if item.badge %}<span class="bo-nav-badge" aria-label="{{ item.badge }} новых">{{ item.badge }}</span>{% endif %}
+                {% if item.external %}{% bo_icon 'external' extra='bo-icon-ext' %}{% endif %}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endfor %}
+  </nav>
+</aside>

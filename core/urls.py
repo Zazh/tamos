@@ -8,6 +8,7 @@ from .views import llms_txt, robots_txt, root_redirect, sitemap_xml
 
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
+    path('backoffice/', include('backoffice.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
     path('robots.txt', robots_txt, name='robots'),
     path('llms.txt', llms_txt, name='llms'),

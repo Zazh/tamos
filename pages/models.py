@@ -1,5 +1,6 @@
 from django.db import models
 from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFit
 
 
 # Hero — минимальная компрессия (большой decorative фасад, важна детализация).
@@ -8,6 +9,8 @@ HERO_QUALITY = 95
 GALLERY_QUALITY = 80
 # Обложки статичных страниц — как у блога.
 FLAT_IMAGE_QUALITY = 85
+# Карусель на главной — max 352px CSS slot, 2× retina = ~700, округлим до 800.
+GALLERY_MAX_DIMENSION = 800
 
 
 class HomePage(models.Model):
@@ -66,7 +69,19 @@ class HomePage(models.Model):
                   '(виден только на десктопе).',
     )
     hero_cta_primary_text = models.CharField('Текст основной CTA', max_length=80)
+    hero_cta_primary_modal_title = models.CharField(
+        'Заголовок модалки primary CTA',
+        max_length=80,
+        blank=True,
+        help_text='Если пусто — fallback на текст кнопки.',
+    )
     hero_cta_secondary_text = models.CharField('Текст вторичной CTA', max_length=80)
+    hero_cta_secondary_modal_title = models.CharField(
+        'Заголовок модалки secondary CTA',
+        max_length=80,
+        blank=True,
+        help_text='Если пусто — fallback на текст кнопки.',
+    )
 
     # --- About-Us section ---
     about_label = models.CharField(
@@ -83,13 +98,61 @@ class HomePage(models.Model):
         help_text='Пустая строка = новый параграф.',
     )
 
-    # --- Video ---
+    # --- Шоурил (видео) ---
     video_file = models.FileField(
-        'Видео',
+        'Шоурил',
         upload_to='home/video/',
         blank=True,
         null=True,
         help_text='Mp4 для видео-блока. Если пусто — блок не отрисовывается.',
+    )
+    video_poster = models.ImageField(
+        'Poster (1-й кадр)',
+        upload_to='home/video_posters/',
+        blank=True,
+        null=True,
+        help_text='Автоматически генерируется из 1-й секунды видео при сохранении. '
+                  'Показывается до старта воспроизведения (важен для UX на медленном '
+                  'соединении и для SEO).',
+    )
+    video_poster_webp = ImageSpecField(
+        source='video_poster',
+        format='WEBP',
+        options={'quality': 85},
+    )
+
+    # --- SEO ---
+    seo_title = models.CharField(
+        'SEO title (<title>)',
+        max_length=80,
+        blank=True,
+        help_text='50–60 символов. Если пусто — fallback на hero_title.',
+    )
+    seo_description = models.CharField(
+        'SEO description (meta)',
+        max_length=200,
+        blank=True,
+        help_text='150–160 символов. Если пусто — fallback на hero_subtitle.',
+    )
+    og_image = models.ImageField(
+        'OG/share картинка',
+        upload_to='home/og/',
+        blank=True,
+        null=True,
+        help_text='1200×630 для соцсетей. Если пусто — fallback на hero_image '
+                  '(но он прозрачный — в соцсетях будет некрасиво).',
+    )
+    og_title = models.CharField(
+        'OG title',
+        max_length=80,
+        blank=True,
+        help_text='Если пусто — fallback на seo_title → hero_title.',
+    )
+    og_description = models.CharField(
+        'OG description',
+        max_length=300,
+        blank=True,
+        help_text='Если пусто — fallback на seo_description → hero_subtitle.',
     )
 
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
@@ -101,9 +164,106 @@ class HomePage(models.Model):
     def __str__(self):
         return f'Главная — {self.region}'
 
+    def save(self, *args, **kwargs):
+        # Хранит state до save — после super().save() сравним и решим, нужна
+        # ли генерация poster'а.
+        video_changed = False
+        if self.pk:
+            try:
+                old = type(self).objects.only('video_file').get(pk=self.pk)
+                video_changed = (old.video_file.name or '') != (self.video_file.name or '')
+            except type(self).DoesNotExist:
+                video_changed = True
+        else:
+            video_changed = bool(self.video_file)
+
+        super().save(*args, **kwargs)
+
+        if video_changed and self.video_file:
+            self._generate_video_poster()
+
+    def _generate_video_poster(self):
+        """Извлечь 1-й кадр (на 1-й секунде) через ffmpeg, сохранить в video_poster.
+
+        Если ffmpeg недоступен или видео битое — silent failure (poster останется
+        пустым, frontend покажет fallback hero_image).
+        """
+        import subprocess, tempfile, os
+        from django.core.files import File
+
+        video_path = self.video_file.path
+        if not os.path.exists(video_path):
+            return
+
+        with tempfile.NamedTemporaryFile(suffix='.jpg', delete=False) as tmp:
+            tmp_path = tmp.name
+
+        try:
+            # -ss 1 (seek to 1 second) — обычно после fade-in / интро
+            # -vframes 1 — взять один кадр
+            # -q:v 2 — высокое JPEG качество
+            result = subprocess.run(
+                ['ffmpeg', '-y', '-ss', '1', '-i', video_path,
+                 '-vframes', '1', '-q:v', '2',
+                 '-vf', "scale='min(1920,iw)':-2",
+                 tmp_path],
+                capture_output=True, timeout=30,
+            )
+            if result.returncode != 0 or not os.path.getsize(tmp_path):
+                return
+            base = os.path.splitext(os.path.basename(video_path))[0]
+            with open(tmp_path, 'rb') as f:
+                self.video_poster.save(f'{base}_poster.jpg', File(f), save=False)
+            type(self).objects.filter(pk=self.pk).update(video_poster=self.video_poster.name)
+        except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+            return
+        finally:
+            try: os.unlink(tmp_path)
+            except OSError: pass
+
+    @property
+    def effective_seo_title(self) -> str:
+        from django.utils.html import strip_tags
+        return self.seo_title or strip_tags(self.hero_title or '').strip()
+
+    @property
+    def effective_seo_description(self) -> str:
+        return self.seo_description or (self.hero_subtitle or '').replace('\n', ' ').strip()
+
+    @property
+    def effective_og_title(self) -> str:
+        return self.og_title or self.effective_seo_title
+
+    @property
+    def effective_og_description(self) -> str:
+        return self.og_description or self.effective_seo_description
+
+    @property
+    def effective_og_image(self):
+        return self.og_image or self.hero_image
+
+    @property
+    def effective_cta_primary_modal_title(self) -> str:
+        return self.hero_cta_primary_modal_title or self.hero_cta_primary_text
+
+    @property
+    def effective_cta_secondary_modal_title(self) -> str:
+        return self.hero_cta_secondary_modal_title or self.hero_cta_secondary_text
+
 
 class HomeGalleryImage(models.Model):
-    """Картинка карусели на главной. Заливается через inline в админке HomePage."""
+    """Картинка карусели на главной. Заливается через DnD-grid в backoffice.
+
+    `orientation` определяется автоматически по соотношению сторон при save()
+    и задаёт CSS-слот в `carousel.css` (.carousel-item-wide / -tall / -square).
+    Менеджер расставляет порядок через DnD; warning подсвечивается, если
+    орientation не подходит под расчётный slot позиции.
+    """
+
+    class Orientation(models.TextChoices):
+        WIDE = 'wide', 'Широкая'      # ratio > 1.15  → слот 342×223
+        TALL = 'tall', 'Высокая'      # ratio < 0.95  → слот 325×352
+        SQUARE = 'square', 'Квадратная'
 
     home_page = models.ForeignKey(
         HomePage,
@@ -116,10 +276,19 @@ class HomeGalleryImage(models.Model):
         source='image',
         format='WEBP',
         options={'quality': GALLERY_QUALITY},
+        processors=[ResizeToFit(GALLERY_MAX_DIMENSION, GALLERY_MAX_DIMENSION, upscale=False)],
     )
     image_compressed = ImageSpecField(
         source='image',
         options={'quality': GALLERY_QUALITY, 'optimize': True},
+        processors=[ResizeToFit(GALLERY_MAX_DIMENSION, GALLERY_MAX_DIMENSION, upscale=False)],
+    )
+    orientation = models.CharField(
+        'Ориентация',
+        max_length=8,
+        choices=Orientation.choices,
+        default=Orientation.SQUARE,
+        help_text='Определяется автоматически при загрузке (wide/tall/square).',
     )
     alt_text = models.CharField('Alt-текст', max_length=200, blank=True)
     order = models.PositiveSmallIntegerField('Порядок', default=0)
@@ -131,6 +300,77 @@ class HomeGalleryImage(models.Model):
 
     def __str__(self):
         return self.alt_text or f'Image #{self.pk}'
+
+    def save(self, *args, **kwargs):
+        if self.image and (
+            not self.pk
+            or 'image' in (kwargs.get('update_fields') or ())
+            or self._image_changed()
+        ):
+            self.orientation = self._detect_orientation()
+        super().save(*args, **kwargs)
+
+    def _image_changed(self) -> bool:
+        if not self.pk:
+            return True
+        try:
+            old = type(self).objects.only('image').get(pk=self.pk)
+        except type(self).DoesNotExist:
+            return True
+        return old.image.name != self.image.name
+
+    def _detect_orientation(self) -> str:
+        """Открыть оригинал через Pillow, вычислить ratio width/height.
+
+        - ratio > 1.15 → wide (горизонтальная)
+        - ratio < 0.95 → tall (вертикальная)
+        - между      → square (квадратная)
+
+        Если файл недоступен / не открывается — square (безопасный дефолт).
+        """
+        from PIL import Image, UnidentifiedImageError
+        try:
+            with Image.open(self.image) as im:
+                w, h = im.size
+        except (FileNotFoundError, UnidentifiedImageError, OSError):
+            return self.Orientation.SQUARE
+        if h == 0:
+            return self.Orientation.SQUARE
+        ratio = w / h
+        if ratio > 1.15:
+            return self.Orientation.WIDE
+        if ratio < 0.95:
+            return self.Orientation.TALL
+        return self.Orientation.SQUARE
+
+    @classmethod
+    def strict_zip_arrange(cls, images):
+        """Расставить картинки в строгом порядке: wide → tall → wide → tall →…
+
+        - Сначала идут чередующиеся пары (W, T, W, T, …) пока есть запас обоих
+        - Хвост (оставшиеся wide или tall) приклеивается в конец
+        - Square — всегда в конец
+
+        Используется в:
+        - backoffice upload (auto-arrange после загрузки)
+        - frontend HomeView (принудительный порядок в карусели)
+
+        Не сохраняет в БД — возвращает упорядоченный список. Порядок внутри
+        каждой группы сохраняется (по текущему order, потом по pk).
+        """
+        sorted_imgs = sorted(images, key=lambda i: (i.order, i.pk))
+        wide = [i for i in sorted_imgs if i.orientation == cls.Orientation.WIDE]
+        tall = [i for i in sorted_imgs if i.orientation == cls.Orientation.TALL]
+        square = [i for i in sorted_imgs if i.orientation == cls.Orientation.SQUARE]
+
+        result = []
+        while wide and tall:
+            result.append(wide.pop(0))
+            result.append(tall.pop(0))
+        result.extend(wide)
+        result.extend(tall)
+        result.extend(square)
+        return result
 
 
 class ContactsPage(models.Model):
