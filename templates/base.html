@@ -7,9 +7,9 @@
 
   {# Дефолтное описание для SEO + соцсетей. Список городов собирается автоматически из БД (regions_inline_list), новый регион попадёт сюда без правок. Страницы могут переопределить через {% block meta_description %} / {% block og_description %} / {% block twitter_description %}. #}
   {% regions_inline_list as cities %}
-  {% blocktrans asvar default_description with cities=cities %}Tamos Space School — международная школа Cambridge Assessment International Education. {{ cities }}.{% endblocktrans %}
+  {% blocktrans asvar default_description with cities=cities %}Space School — международная школа Cambridge Assessment International Education. {{ cities }}.{% endblocktrans %}
 
-  <title>{% block title %}Tamos Space School{% endblock %}</title>
+  <title>{% block title %}Space School{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}{{ default_description }}{% endblock %}">
 
   <link rel="icon" href="{% static 'favicon/favicon.ico' %}" sizes="any">
@@ -17,23 +17,23 @@
   <link rel="icon" href="{% static 'favicon/favicon-96x96.png' %}" type="image/png" sizes="96x96">
   <link rel="apple-touch-icon" href="{% static 'favicon/apple-touch-icon.png' %}">
   <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
-  <meta name="apple-mobile-web-app-title" content="Tamos Space School">
+  <meta name="apple-mobile-web-app-title" content="Space School">
   <meta name="theme-color" content="#0A5DC2">
 
   {# Open Graph + Twitter Card. og:image должен быть абсолютным URL — иначе соцсети его не подцепят. #}
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
-  <meta property="og:site_name" content="Tamos Space School">
+  <meta property="og:site_name" content="Space School">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   <meta property="og:locale" content="{% if LANGUAGE_CODE == 'kk' %}kk_KZ{% elif LANGUAGE_CODE == 'en' %}en_US{% else %}ru_RU{% endif %}">
-  <meta property="og:title" content="{% block og_title %}{% trans "Tamos Space School" %}{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}{% trans "Space School" %}{% endblock %}">
   <meta property="og:description" content="{% block og_description %}{{ default_description }}{% endblock %}">
   <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'favicon/og-image.jpg' %}{% endblock %}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Tamos Space School">
+  <meta property="og:image:alt" content="Space School">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{% block twitter_title %}{% trans "Tamos Space School" %}{% endblock %}">
+  <meta name="twitter:title" content="{% block twitter_title %}{% trans "Space School" %}{% endblock %}">
   <meta name="twitter:description" content="{% block twitter_description %}{{ default_description }}{% endblock %}">
   <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'favicon/og-image.jpg' %}{% endblock %}">
 

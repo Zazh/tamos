@@ -27,7 +27,7 @@ def fix_leads(apps, schema_editor):
 
         hero_lead = (
             f'Условия и этапы поступления в {dept}, {grade}, '
-            f'в частную международную школу Tamos Space School по программе Cambridge Primary.'
+            f'в частную международную школу Space School по программе Cambridge Primary.'
         )
         pricing_lead = (
             f'Стоимость обучения для {grade} ({dept}) на 2026–2027 учебный год. '

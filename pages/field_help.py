@@ -238,7 +238,7 @@ HOMEPAGE_SEO_TITLE = """
 <ul>
   <li><strong>50–60 символов</strong> (Google обрезает после 600px ≈ 60 симв)</li>
   <li>Главное ключевое слово в первой трети</li>
-  <li>Бренд в конце: «Что-то ключевое — Tamos Space School»</li>
+  <li>Бренд в конце: «Что-то ключевое — Space School»</li>
   <li>Уникальный для каждой страницы</li>
 </ul>
 
@@ -246,7 +246,7 @@ HOMEPAGE_SEO_TITLE = """
 <p>Если пусто — на сайте используется <code>hero_title</code> (без HTML-разметки).</p>
 
 <h4>🤖 AI-prompt</h4>
-<blockquote>Напиши SEO-title для главной страницы международной школы [НАЗВАНИЕ] в городе [ГОРОД]. 50–60 символов. Главное ключевое слово в первой трети. Закончи брендом: «— Tamos Space School». Уникально, не клише.</blockquote>
+<blockquote>Напиши SEO-title для главной страницы международной школы [НАЗВАНИЕ] в городе [ГОРОД]. 50–60 символов. Главное ключевое слово в первой трети. Закончи брендом: «— Space School». Уникально, не клише.</blockquote>
 """
 
 
@@ -317,6 +317,254 @@ HOMEPAGE_OG_DESCRIPTION = """
 """
 
 
+CONTACTSPAGE_INTRO_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Главный заголовок страницы «Контакты». Видится первым.</p>
+
+<h4>✨ Текущий референс</h4>
+<blockquote>Свяжитесь с нами</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До <strong>120 символов</strong>, без HTML</li>
+  <li>1 строка, не вопрос (вопрос звучит мягче в подзаголовке)</li>
+</ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши h1 для страницы «Контакты» международной школы [НАЗВАНИЕ] в городе [ГОРОД]. До 120 символов, утвердительное обещание (не вопрос).</blockquote>
+"""
+
+
+CONTACTSPAGE_INTRO_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Параграф под заголовком — что школа предлагает посетителю на этой странице (адрес, телефон, формы связи).</p>
+
+<h4>✨ Текущий референс</h4>
+<blockquote>Мы готовы ответить на любые вопросы о школе, поступлении и образовательных программах. Выберите удобный способ связи.</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>1–2 предложения, <strong>120–250 символов</strong></li>
+  <li>Без HTML, без списков</li>
+  <li>Упоминание города НЕ обязательно (фильтр городов уже на странице)</li>
+</ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши краткий intro для страницы «Контакты». 1–2 предложения (120–250 симв) — школа готова ответить, варианты связи раскрывает страница. Без воды.</blockquote>
+"""
+
+
+CONTACTSPAGE_OFFICE_NAME = """
+<h4>📝 Назначение</h4>
+<p>Название точки на overlay-карточке над картой. Если у школы один кампус — это его имя; если два — название района.</p>
+
+<h4>✨ Текущий референс</h4>
+<ul>
+  <li>Астана: «Главный офис»</li>
+  <li>Актау: «Школа Space School в Актау»</li>
+</ul>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До <strong>120 символов</strong>, 1 строка</li></ul>
+"""
+
+
+CONTACTSPAGE_OFFICE_ADDRESS = """
+<h4>📝 Назначение</h4>
+<p>Полный адрес офиса под названием. Рендерится одной строкой.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До <strong>255 символов</strong>, без HTML</li>
+  <li>Формат: «улица, дом, индекс, город»</li>
+</ul>
+"""
+
+
+CONTACTSPAGE_OFFICE_HOURS = """
+<h4>📝 Назначение</h4>
+<p>Часы работы офиса под адресом. Это часы main desk, не каждого отдела отдельно — отделы задают свои часы внутри карточек.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Пн–Пт, 09:00–18:00</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До <strong>120 символов</strong>, 1 строка</li></ul>
+"""
+
+
+CONTACTSPAGE_MAP = """
+<h4>📝 Назначение</h4>
+<p>Точка маркера на интерактивной карте Leaflet (CartoDB light_nolabels). Координаты — десятичные градусы (формат WGS84), zoom — целое 1–19.</p>
+
+<h4>📐 Технические ограничения</h4>
+<ul>
+  <li><strong>Широта (latitude)</strong>: число от -90 до 90, 6 знаков после точки (точность ~10 см). Пример: <code>51.093900</code></li>
+  <li><strong>Долгота (longitude)</strong>: число от -180 до 180, 6 знаков. Пример: <code>71.401100</code></li>
+  <li><strong>Zoom</strong>: целое 1–19. 16 — улица + здание, 13 — район, 10 — город</li>
+</ul>
+
+<h4>✨ Как найти координаты</h4>
+<p>Открой Google Maps → ПКМ на здании → клик по координатам в первой строке (скопирует в clipboard в формате «51.093900, 71.401100»). Первое число — широта, второе — долгота.</p>
+
+<h4>⚠️ Если поля пусты</h4>
+<p>Карта не отрисуется, на сайте будет серая заглушка с текстом «координаты не заданы».</p>
+"""
+
+
+CONTACTSPAGE_SEO_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;title&gt;</code> в head — отображается во вкладке браузера и в поисковой выдаче Google.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li><strong>50–60 символов</strong></li>
+  <li>Структура: «Контакты — [Город], адрес и телефон — Space School»</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — на сайте используется <code>intro_title</code>.</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши SEO-title для страницы «Контакты» школы [НАЗВАНИЕ] в [ГОРОД]. 50–60 символов. Включи слова «контакты» / «адрес» / «телефон» + бренд в конце.</blockquote>
+"""
+
+
+CONTACTSPAGE_SEO_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;meta name="description"&gt;</code> — описание в поисковой выдаче под заголовком.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li><strong>150–160 символов</strong></li>
+  <li>Содержит: адрес/район + способы связи (телефон, email, форма)</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>intro_text</code>.</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши meta description для страницы «Контакты» школы [НАЗВАНИЕ] в [ГОРОД]. 150–160 симв. Адрес/район + перечень способов связи (телефон, email, форма). Без воды.</blockquote>
+"""
+
+
+CONTACTSPAGE_OG_IMAGE = """
+<h4>📝 Назначение</h4>
+<p>Картинка, которая показывается при шеринге ссылки на страницу контактов в соцсетях/мессенджерах.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>Размер: <strong>1200×630</strong> (1.91:1)</li>
+  <li>Формат: JPEG или PNG, до <strong>5 MB</strong></li>
+  <li>На картинке: фото фасада / интерьера ресепшна / схема проезда</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — на сайте OG-картинки не будет (страница контактов редко шерится, это OK). На главной — отдельная og_image.</p>
+"""
+
+
+CONTACTSPAGE_OG_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок в превью соцсетей при шеринге ссылки на «Контакты».</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 60 символов, без эмодзи</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — <code>seo_title</code>, затем <code>intro_title</code>.</p>
+"""
+
+
+CONTACTSPAGE_OG_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Описание под заголовком в превью соцсетей.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До 200 символов</li>
+  <li>Главное в первых 60</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — <code>seo_description</code>, затем <code>intro_text</code>.</p>
+"""
+
+
+CONTACTSDEPARTMENT_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Название отдела (Поступление, Партнёрство, Вакансии, Пресса, Жалобы и т.д.). Видится первым в карточке.</p>
+
+<h4>✨ Текущий референс</h4>
+<ul>
+  <li>«Поступление»</li>
+  <li>«Партнёрство»</li>
+  <li>«Вакансии»</li>
+</ul>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До <strong>120 символов</strong>, 1 строка, без HTML</li></ul>
+"""
+
+
+CONTACTSDEPARTMENT_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Краткое описание под названием отдела — за что отвечает и куда обращаться.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Запись на тур, тестирование, документы для поступления.</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>1–2 предложения, <strong>80–200 символов</strong></li>
+  <li>Без HTML</li>
+</ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши описание для отдела «[НАЗВАНИЕ]» школы. 1–2 предложения (80–200 симв) — за что отвечает, кого приглашают обращаться.</blockquote>
+"""
+
+
+CONTACTSDEPARTMENT_HOURS = """
+<h4>📝 Назначение</h4>
+<p>Часы работы конкретного отдела (если отличаются от main desk).</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Пн–Пт, 09:00–18:00</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До 120 символов, 1 строка</li>
+  <li>Если пусто — строка с часами в карточке не покажется на сайте</li>
+</ul>
+"""
+
+
+CONTACTSDEPARTMENT_PHONE = """
+<h4>📝 Назначение</h4>
+<p>Телефон для звонка в отдел. Рендерится как кликабельная <code>tel:</code>-ссылка.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До 40 символов</li>
+  <li>Формат: «+7 (000) 000-00-00» или E.164 «+70000000000»</li>
+  <li>Если пусто — строка не отрисуется в карточке</li>
+</ul>
+"""
+
+
+CONTACTSDEPARTMENT_EMAIL = """
+<h4>📝 Назначение</h4>
+<p>Email отдела. Рендерится как кликабельная <code>mailto:</code>-ссылка.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>Валидный email-адрес</li>
+  <li>Если пусто — строка не отрисуется</li>
+</ul>
+"""
+
+
 def _h(html, ai_processable=True):
     """Конструктор записи в FIELD_HELP.
 
@@ -348,6 +596,26 @@ FIELD_HELP = {
     'homepage.seo_description': _h(HOMEPAGE_SEO_DESCRIPTION),
     'homepage.og_title': _h(HOMEPAGE_OG_TITLE),
     'homepage.og_description': _h(HOMEPAGE_OG_DESCRIPTION),
+
+    # ContactsPage
+    'contactspage.intro_title': _h(CONTACTSPAGE_INTRO_TITLE),
+    'contactspage.intro_text': _h(CONTACTSPAGE_INTRO_TEXT),
+    'contactspage.office_name': _h(CONTACTSPAGE_OFFICE_NAME),
+    'contactspage.office_address': _h(CONTACTSPAGE_OFFICE_ADDRESS),
+    'contactspage.office_hours': _h(CONTACTSPAGE_OFFICE_HOURS),
+    'contactspage.map': _h(CONTACTSPAGE_MAP, ai_processable=False),
+    'contactspage.seo_title': _h(CONTACTSPAGE_SEO_TITLE),
+    'contactspage.seo_description': _h(CONTACTSPAGE_SEO_DESCRIPTION),
+    'contactspage.og_image': _h(CONTACTSPAGE_OG_IMAGE, ai_processable=False),
+    'contactspage.og_title': _h(CONTACTSPAGE_OG_TITLE),
+    'contactspage.og_description': _h(CONTACTSPAGE_OG_DESCRIPTION),
+
+    # ContactsDepartment (inline)
+    'contactsdepartment.title': _h(CONTACTSDEPARTMENT_TITLE),
+    'contactsdepartment.description': _h(CONTACTSDEPARTMENT_DESCRIPTION),
+    'contactsdepartment.hours': _h(CONTACTSDEPARTMENT_HOURS),
+    'contactsdepartment.phone': _h(CONTACTSDEPARTMENT_PHONE, ai_processable=False),
+    'contactsdepartment.email': _h(CONTACTSDEPARTMENT_EMAIL, ai_processable=False),
 }
 
 

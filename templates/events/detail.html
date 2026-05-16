@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n region_tags %}
 
-{% block title %}{{ event.title }} — Tamos Space School{% endblock %}
+{% block title %}{{ event.title }} — Space School{% endblock %}
 {% block meta_description %}{{ event.lead|default:event.title|truncatechars:200 }}{% endblock %}
 {% block og_title %}{{ event.title }}{% endblock %}
 {% block og_description %}{{ event.lead|default:event.title|truncatechars:200 }}{% endblock %}

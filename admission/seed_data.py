@@ -311,7 +311,7 @@ def build_variant_content(dept_slug: str, grade_slug: str) -> dict:
         'h1': f'Поступление в {grade_nom}',
         'hero_lead': (
             f'Условия и этапы поступления в {dept_label}, {grade_nom}, '
-            f'в частную международную школу Tamos Space School по программе Cambridge.'
+            f'в частную международную школу Space School по программе Cambridge.'
         ),
         'testing_lead': (
             'Вступительное тестирование длится 20–60 минут на языке отделения. '

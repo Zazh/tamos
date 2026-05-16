@@ -384,7 +384,7 @@ def _variant_content(dept_slug: str, grade_slug: str) -> dict:
 
     hero_lead = (
         f'Условия и этапы поступления в {dept_label}, {grade_label}, '
-        f'в частную международную школу Tamos Space School по программе Cambridge Primary.'
+        f'в частную международную школу Space School по программе Cambridge Primary.'
     )
     testing_lead = (
         'Вступительное тестирование длится 20–60 минут на языке отделения. Родитель '
