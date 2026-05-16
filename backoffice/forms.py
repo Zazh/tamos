@@ -164,6 +164,15 @@ class HomePageEditForm(forms.ModelForm):
 
     HTML_FIELDS = frozenset({'hero_title'})
 
+    # Поля, которые рендерятся ВНЕ тега <form id="home-edit-form"> (например SEO
+    # после галереи). Им нужен HTML5-атрибут form="home-edit-form", иначе их
+    # значения не уйдут с submit'ом.
+    OUT_OF_FORM_BASES = frozenset({
+        'seo_title', 'seo_description', 'og_title', 'og_description',
+    })
+    OUT_OF_FORM_FILE_FIELDS = frozenset({'og_image'})
+    FORM_ID = 'home-edit-form'
+
     # Server-side лимиты на каждый файл-апроад (доп. защита поверх глобального
     # DATA_UPLOAD_MAX_MEMORY_SIZE в settings).
     IMAGE_MAX_BYTES = 5 * 1024 * 1024
@@ -176,6 +185,10 @@ class HomePageEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         _apply_backoffice_widget_classes(self, html_fields=self.HTML_FIELDS)
+        for name, field in self.fields.items():
+            base = _strip_lang(name)
+            if base in self.OUT_OF_FORM_BASES or name in self.OUT_OF_FORM_FILE_FIELDS:
+                field.widget.attrs['form'] = self.FORM_ID
 
     def _check_max_size(self, file, limit, kind):
         """Soft size-проверка для одного файла. Если файл превышает лимит —

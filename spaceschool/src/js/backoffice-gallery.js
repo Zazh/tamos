@@ -125,11 +125,12 @@ function boFormSteps() {
         }
       }
       this.form = document.getElementById(this.formId);
-      if (this.form) {
-        // input → дебаунсим (быстрый набор), change → сразу (потеря фокуса)
-        this.form.addEventListener("input", (e) => this.onFieldChange(e, true));
-        this.form.addEventListener("change", (e) => this.onFieldChange(e, false));
-      }
+      // Слушаем document, не form: некоторые tracked поля (SEO/og_image) лежат
+      // ВНЕ form-tag и связаны с формой через HTML5 form="..." атрибут — события
+      // от них до <form> не bubble'ятся. Фильтр по name in fieldFilled оставляет
+      // только нужные.
+      document.addEventListener("input", (e) => this.onFieldChange(e, true));
+      document.addEventListener("change", (e) => this.onFieldChange(e, false));
       this.recompute();
     },
 

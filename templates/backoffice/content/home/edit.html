@@ -6,11 +6,25 @@
 
   {% include 'backoffice/_messages.html' %}
 
-  <div x-data="{ lang: 'ru' }">
+  <div class="bo-content-stack" x-data="{ lang: 'ru' }">
     <header class="bo-detail-head">
       <div>
         <h1 class="bo-page-title">{% blocktrans with region=home.region.name %}Главная — {{ region }}{% endblocktrans %}</h1>
         <p class="bo-page-subtitle">{% blocktrans with date=home.updated_at|date:"j E, H:i" %}Singleton-контент главной страницы региона. Обновлено {{ date }}.{% endblocktrans %}</p>
+      </div>
+      <div class="bo-detail-head-actions">
+        <a :href="'/' + lang + '/{{ home.region.slug }}/'"
+           target="_blank"
+           rel="noopener"
+           class="bo-action-btn bo-action-preview"
+           :title="'{% trans "Открыть страницу в новой вкладке на текущем языке" %} (' + lang.toUpperCase() + ')'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          <span>{% trans "Просмотреть на сайте" %}</span>
+        </a>
       </div>
     </header>
 
@@ -78,7 +92,10 @@
       </section>
 
       <section class="bo-panel">
-        <h2 class="bo-panel-title">Hero — текст</h2>
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">Hero — текст</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["hero_badge_text","hero_title","hero_subtitle"]' home=home %}
+        </header>
 
         {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_badge_text' label='Бадж над заголовком' %}
         {% field_help 'homepage.hero_badge_text' %}
@@ -91,7 +108,10 @@
       </section>
 
       <section class="bo-panel">
-        <h2 class="bo-panel-title">Hero — кнопка primary</h2>
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">Hero — кнопка primary</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["hero_cta_primary_text","hero_cta_primary_modal_title"]' home=home %}
+        </header>
 
         <div class="bo-row-2">
           {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_cta_primary_text' label='Текст кнопки' %}
@@ -101,7 +121,10 @@
       </section>
 
       <section class="bo-panel">
-        <h2 class="bo-panel-title">Hero — кнопка secondary</h2>
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">Hero — кнопка secondary</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["hero_cta_secondary_text","hero_cta_secondary_modal_title"]' home=home %}
+        </header>
 
         <div class="bo-row-2">
           {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_cta_secondary_text' label='Текст кнопки' %}
@@ -111,7 +134,10 @@
       </section>
 
       <section class="bo-panel">
-        <h2 class="bo-panel-title">{% trans "О нас" %}</h2>
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "О нас" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["about_label","about_title","about_body"]' home=home %}
+        </header>
 
         {% include 'backoffice/content/_field_translatable.html' with form=form base='about_label' label='Лейбл секции' %}
         {% field_help 'homepage.about_label' %}
@@ -162,65 +188,6 @@
         <p class="bo-help">{% trans "Poster (cover) автоматически генерируется из 1-й секунды видео при сохранении через ffmpeg. Отображается до старта воспроизведения." %}</p>
 
         {% field_help 'homepage.video_file' %}
-      </section>
-
-      <section class="bo-panel">
-        <h2 class="bo-panel-title">SEO &amp; Social</h2>
-
-        <div class="bo-panel-action"
-             x-data="boAutoSEO"
-             data-url="{% url 'backoffice:content_home_seo' pk=home.pk %}"
-             data-form-id="home-edit-form"
-             data-source-fields="hero_title,hero_subtitle,about_title,about_body">
-          <button type="button"
-                  class="btn btn-default bo-translate-btn"
-                  :class="loading && 'bo-btn-disabled'"
-                  :disabled="loading"
-                  @click="run()"
-                  title="{% trans 'Сгенерировать SEO/OG для всех 3 языков из RU контента (hero, about). Заполняет только пустые поля.' %}">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
-              <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
-            </svg>
-            <span x-show="!loading">{% trans "Авто-генерация SEO" %}</span>
-            <span x-show="loading" x-cloak>{% trans "Генерируем…" %}</span>
-          </button>
-          <small class="bo-translate-status" x-show="status && !error" x-cloak x-text="status"></small>
-          <small class="bo-translate-error" x-show="error" x-cloak x-text="error"></small>
-        </div>
-
-        {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_title' label='SEO title' %}
-        {% field_help 'homepage.seo_title' %}
-
-        {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_description' label='SEO description' %}
-        {% field_help 'homepage.seo_description' %}
-
-        <div class="bo-row-2">
-          {% include 'backoffice/content/_field_translatable.html' with form=form base='og_title' label='OG title (соцсети)' %}
-          {% include 'backoffice/content/_field_translatable.html' with form=form base='og_description' label='OG description (соцсети)' %}
-        </div>
-        {% field_help 'homepage.og_title' %}
-
-        <div class="bo-field">
-          <label class="bo-label">{% trans "OG-картинка (для шеринга)" %}</label>
-          {% if home.og_image %}
-            <div class="bo-media-preview" style="min-height:180px">
-              <img src="{{ home.og_image.url }}" alt="og preview">
-            </div>
-          {% else %}
-            <div class="bo-media-preview" style="min-height:120px">
-              <div style="color:rgba(255,255,255,.6); font-size:.875rem">{% trans "Не загружена — fallback на hero_image" %}</div>
-            </div>
-          {% endif %}
-          <div class="bo-media-controls">
-            <label class="bo-media-replace">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span>{% trans "Изменить OG-картинку" %}</span>
-              <input type="file" name="{{ form.og_image.html_name }}" accept="image/jpeg,image/png,image/webp">
-            </label>
-          </div>
-          {% field_help 'homepage.og_image' %}
-        </div>
       </section>
     </form>
 
@@ -292,6 +259,66 @@
 
       <div class="bo-gallery-empty" x-show="items.length === 0" x-cloak>
         {% trans "Картинок пока нет. Перетащи файлы в зону выше." %}
+      </div>
+    </section>
+
+    <section class="bo-panel">
+      <header class="bo-panel-head">
+        <h2 class="bo-panel-title">SEO &amp; Social</h2>
+        <div class="bo-block-translate"
+             x-data="boAutoSEO"
+             data-url="{% url 'backoffice:content_home_seo' pk=home.pk %}"
+             data-form-id="home-edit-form"
+             data-source-fields="hero_title,hero_subtitle,about_title,about_body">
+          <button type="button"
+                  class="bo-block-translate-btn"
+                  :class="loading && 'bo-btn-disabled'"
+                  :disabled="loading"
+                  @click="run()"
+                  :title="error || status || '{% trans "Сгенерировать SEO/OG для всех 3 языков из RU контента. Заполняет только пустые." %}'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+              <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+            </svg>
+            <span x-show="!loading">{% trans "Авто-генерация SEO" %}</span>
+            <span x-show="loading" x-cloak>{% trans "Генерируем…" %}</span>
+          </button>
+          <small class="bo-block-translate-status" x-show="status && !error" x-cloak x-text="status"></small>
+          <small class="bo-block-translate-error" x-show="error" x-cloak x-text="error"></small>
+        </div>
+      </header>
+
+      {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_title' label='SEO title' %}
+      {% field_help 'homepage.seo_title' %}
+
+      {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_description' label='SEO description' %}
+      {% field_help 'homepage.seo_description' %}
+
+      <div class="bo-row-2">
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='og_title' label='OG title (соцсети)' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='og_description' label='OG description (соцсети)' %}
+      </div>
+      {% field_help 'homepage.og_title' %}
+
+      <div class="bo-field">
+        <label class="bo-label">{% trans "OG-картинка (для шеринга)" %}</label>
+        {% if home.og_image %}
+          <div class="bo-media-preview" style="min-height:180px">
+            <img src="{{ home.og_image.url }}" alt="og preview">
+          </div>
+        {% else %}
+          <div class="bo-media-preview" style="min-height:120px">
+            <div style="color:rgba(255,255,255,.6); font-size:.875rem">{% trans "Не загружена — fallback на hero_image" %}</div>
+          </div>
+        {% endif %}
+        <div class="bo-media-controls">
+          <label class="bo-media-replace">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>{% trans "Изменить OG-картинку" %}</span>
+            <input type="file" form="home-edit-form" name="{{ form.og_image.html_name }}" accept="image/jpeg,image/png,image/webp">
+          </label>
+        </div>
+        {% field_help 'homepage.og_image' %}
       </div>
     </section>
 

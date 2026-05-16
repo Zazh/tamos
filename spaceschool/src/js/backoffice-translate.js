@@ -25,11 +25,18 @@ function getCookie(name) {
   return match ? decodeURIComponent(match[2]) : "";
 }
 
+/* Опции на компонент:
+ * - data-url, data-form-id — обязательные.
+ * - data-bases-json — список base полей. Если пуст/не задан — fallback на «все
+ *   translatable из формы» (не используется в текущем UI, но безопасный default).
+ * - data-force="1" — перетирать непустые KK/EN. Требует confirm() если хоть
+ *   одно KK/EN было заполнено. Без force заполняются только пустые. */
 function boAutoTranslate() {
   return {
     url: "",
     formId: "",
     bases: [],
+    force: false,
     loading: false,
     status: "",
     error: "",
@@ -38,6 +45,7 @@ function boAutoTranslate() {
       const root = this.$root;
       this.url = root.dataset.url || "";
       this.formId = root.dataset.formId || "";
+      this.force = root.dataset.force === "1" || root.dataset.force === "true";
       try {
         this.bases = JSON.parse(root.dataset.basesJson || "[]");
       } catch (e) {
@@ -51,13 +59,13 @@ function boAutoTranslate() {
       return form.querySelector(`[name="${base}_${lang}"]`);
     },
 
-    /* Собрать поля для перевода. Для каждой пары (base × target):
-     * - если target-инпут НЕпустой → пропустить (не перетираем работу менеджера);
-     * - если RU-инпут пустой → пропустить (нечего переводить);
-     * - иначе добавить в payload. */
+    /* Собираем payload для сервера.
+     * Без force — пропускаем пары, где KK/EN уже заполнен.
+     * С force — отправляем ВСЕ пары, где есть RU (заполненные KK/EN перетрутся). */
     collect() {
       const payload = { kk: {}, en: {} };
       let pending = 0;
+      let willOverwrite = 0;
       for (const base of this.bases) {
         const ru = this._input(base, "ru");
         if (!ru) continue;
@@ -67,12 +75,13 @@ function boAutoTranslate() {
           const target = this._input(base, lang);
           if (!target) continue;
           const targetValue = (target.value || "").trim();
-          if (targetValue) continue;
+          if (targetValue && !this.force) continue;
+          if (targetValue) willOverwrite += 1;
           payload[lang][base] = ru.value;
           pending += 1;
         }
       }
-      return { payload, pending };
+      return { payload, pending, willOverwrite };
     },
 
     async run() {
@@ -80,10 +89,19 @@ function boAutoTranslate() {
       this.error = "";
       this.status = "";
 
-      const { payload, pending } = this.collect();
+      const { payload, pending, willOverwrite } = this.collect();
       if (pending === 0) {
-        this.status = "Все KK/EN поля уже заполнены — нечего переводить.";
+        this.status = this.force
+          ? "Нет RU-контента в этом блоке — нечего переводить."
+          : "Все KK/EN поля уже заполнены — нечего переводить.";
         return;
+      }
+
+      if (this.force && willOverwrite > 0) {
+        const ok = confirm(
+          `Перевести блок принудительно? ${willOverwrite} уже заполненных KK/EN полей будут перезаписаны.`
+        );
+        if (!ok) return;
       }
 
       this.loading = true;
@@ -120,8 +138,9 @@ function boAutoTranslate() {
           for (const [base, text] of Object.entries(fields)) {
             const input = this._input(base, lang);
             if (!input) continue;
-            // Перепроверим что пользователь не успел заполнить за время запроса
-            if ((input.value || "").trim()) continue;
+            // Без force: ещё раз проверим что пользователь не успел заполнить
+            // за время запроса. С force: всегда пишем.
+            if (!this.force && (input.value || "").trim()) continue;
             input.value = text;
             input.dispatchEvent(new Event("input", { bubbles: true }));
             input.dispatchEvent(new Event("change", { bubbles: true }));
