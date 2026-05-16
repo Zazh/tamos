@@ -36,6 +36,7 @@ function boAutoTranslate() {
     url: "",
     formId: "",
     bases: [],
+    prefix: "",
     force: false,
     loading: false,
     status: "",
@@ -45,6 +46,7 @@ function boAutoTranslate() {
       const root = this.$root;
       this.url = root.dataset.url || "";
       this.formId = root.dataset.formId || "";
+      this.prefix = root.dataset.prefix || "";  // для inline-formset, напр. "departments-0-"
       this.force = root.dataset.force === "1" || root.dataset.force === "true";
       try {
         this.bases = JSON.parse(root.dataset.basesJson || "[]");
@@ -56,7 +58,19 @@ function boAutoTranslate() {
     _input(base, lang) {
       const form = document.getElementById(this.formId);
       if (!form) return null;
-      return form.querySelector(`[name="${base}_${lang}"]`);
+      const name = `${this.prefix}${base}_${lang}`;
+      // form.elements включает поля, привязанные к форме через HTML5
+      // form="..." атрибут, даже если они лежат вне DOM-tree <form>.
+      // SEO-блок и og_image в edit-страницах рендерятся ВНЕ <form>
+      // (после inline-formset), поэтому querySelector внутри form не нашёл бы их.
+      return form.elements[name] || form.querySelector(`[name="${CSS.escape(name)}"]`);
+    },
+
+    /* Имя поля для отправки на сервер. Для основной формы — `base`,
+     * для inline-formset — с префиксом (чтобы при возврате с сервера мы
+     * могли заполнить правильный инпут). */
+    _serverKey(base) {
+      return `${this.prefix}${base}`;
     },
 
     /* Собираем payload для сервера.
@@ -77,7 +91,7 @@ function boAutoTranslate() {
           const targetValue = (target.value || "").trim();
           if (targetValue && !this.force) continue;
           if (targetValue) willOverwrite += 1;
-          payload[lang][base] = ru.value;
+          payload[lang][this._serverKey(base)] = ru.value;
           pending += 1;
         }
       }
@@ -135,11 +149,14 @@ function boAutoTranslate() {
 
         for (const lang of ["kk", "en"]) {
           const fields = translations[lang] || {};
-          for (const [base, text] of Object.entries(fields)) {
+          for (const [serverKey, text] of Object.entries(fields)) {
+            // Снимаем prefix обратно — для inline-formset серверный ключ
+            // содержит его, а _input ожидает «голый» base.
+            const base = this.prefix && serverKey.startsWith(this.prefix)
+              ? serverKey.slice(this.prefix.length)
+              : serverKey;
             const input = this._input(base, lang);
             if (!input) continue;
-            // Без force: ещё раз проверим что пользователь не успел заполнить
-            // за время запроса. С force: всегда пишем.
             if (!this.force && (input.value || "").trim()) continue;
             input.value = text;
             input.dispatchEvent(new Event("input", { bubbles: true }));
@@ -206,7 +223,9 @@ function boAutoSEO() {
     _input(name) {
       const form = document.getElementById(this.formId);
       if (!form) return null;
-      return form.querySelector(`[name="${name}"]`);
+      // form.elements находит поля, привязанные к форме через HTML5 form= атрибут
+      // — SEO/OG поля рендерятся ВНЕ <form>, через form.querySelector их не найти.
+      return form.elements[name] || form.querySelector(`[name="${CSS.escape(name)}"]`);
     },
 
     /* Собираем RU контент. Берём `<base>_ru` для каждого base в sourceFields. */

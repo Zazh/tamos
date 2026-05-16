@@ -173,7 +173,22 @@ MODELTRANSLATION_FALLBACK_LANGUAGES = {
 # Gemini API — авто-перевод RU → KK/EN translatable CMS-полей в backoffice.
 # Пустой ключ = фича отключена (view вернёт 503 с понятной ошибкой).
 GEMINI_API_KEY = config('API_GEMINI_KEY', default='')
-GEMINI_MODEL = config('GEMINI_MODEL', default='gemini-2.5-flash')
+
+# Список моделей в порядке приоритета — _call_gemini пробует первую,
+# при retryable-ошибке (404/429/5xx/невалидный JSON) переходит к следующей.
+# 3-pro — primary, 3-flash — если pro недоступен / rate-limited, 2.5-pro —
+# безопасный fallback на стабильную предыдущую версию.
+# Через запятую, пробелы вокруг игнорируются.
+GEMINI_MODELS = [
+    m.strip()
+    for m in config('GEMINI_MODELS', default='gemini-3-pro-preview,gemini-2.5-pro,gemini-2.5-flash').split(',')
+    if m.strip()
+]
+# Legacy: если задан старый GEMINI_MODEL (одиночная строка) и нет GEMINI_MODELS
+# в env, использовать его без fallback'а — backward-compat.
+_legacy_model = config('GEMINI_MODEL', default='')
+if _legacy_model and config('GEMINI_MODELS', default='') == '':
+    GEMINI_MODELS = [_legacy_model]
 
 
 # Static files (CSS, JavaScript, Images)

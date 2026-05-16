@@ -37,15 +37,15 @@ _LANG_NAMES = {
 # Подмешивается в SEO-prompt'ы как контекст бренда (полное название, ниша, тон).
 # При смене позиционирования синхронизируй этот блок с positioning.md.
 SCHOOL_CONTEXT = (
-    'Tamos Space School — международная частная школа в Астане и Актау с '
+    'Space School — международная частная школа в Астане и Актау с '
     'физико-математическим уклоном и космической тематикой, аккредитованная '
     'Cambridge International Education. Программа Cambridge от Primary до A-Level, '
     'двойной аттестат (казахстанский + Cambridge), выпускники поступают как в '
     'NU и другие казахстанские вузы, так и в зарубежные (через SAT). '
-    'Полное брендовое название — «Tamos Space School», латиницей, не сокращать.'
+    'Полное брендовое название — «Space School», латиницей, не сокращать.'
 )
 
-_PROMPT_TEMPLATE = """Ты — переводчик для CMS международной школы Tamos (для детей, родителей, маркетинг).
+_PROMPT_TEMPLATE = """Ты — переводчик для CMS международной школы Space School (для детей, родителей, маркетинг).
 Переведи значения полей с русского на {target_name}.
 
 Правила:
@@ -63,20 +63,21 @@ INPUT (JSON):
 """
 
 
-def _call_gemini(prompt: str, *, timeout: float = 30.0) -> str:
-    """Низкоуровневый POST на Gemini с `responseMimeType=application/json`.
+# Коды ошибок, при которых имеет смысл fallback на следующую модель.
+# 401/403 не повторяем — там проблема с ключом / биллингом, fallback не поможет.
+# 400 не повторяем — это плохой payload (наш JSON), у всех моделей один результат.
+_RETRYABLE_HTTP_CODES = {404, 408, 409, 429, 500, 502, 503, 504}
 
-    Возвращает текст из первого candidate (это будет JSON-строка, парсит её
-    вызывающая сторона). Кидает `TranslationConfigError` / `TranslationError`
-    с понятными сообщениями.
+
+def _try_one_model(model: str, prompt: str, api_key: str, timeout: float) -> str:
+    """Один POST-вызов к конкретной модели. Не делает fallback.
+
+    Поднимает:
+    - `TranslationConfigError` (401/403) — фатально, fallback не поможет.
+    - `_RetryableModelError` (404/429/5xx/parse error) — caller перейдёт к
+      следующей модели в списке.
+    - `TranslationError` (400, URLError, прочее) — фатально, не ретраим.
     """
-    api_key = getattr(settings, 'GEMINI_API_KEY', '') or ''
-    if not api_key:
-        raise TranslationConfigError(
-            'GEMINI_API_KEY не задан в .env. Добавь API_GEMINI_KEY=... и перезапусти контейнер.'
-        )
-
-    model = getattr(settings, 'GEMINI_MODEL', 'gemini-2.5-flash')
     url = f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}'
 
     body = {
@@ -101,27 +102,70 @@ def _call_gemini(prompt: str, *, timeout: float = 30.0) -> str:
             detail = e.read().decode('utf-8', errors='replace')[:400]
         except Exception:
             pass
-        logger.warning('Gemini HTTPError %s: %s', e.code, detail)
+        logger.warning('Gemini[%s] HTTPError %s: %s', model, e.code, detail)
         if e.code in (401, 403):
             raise TranslationConfigError(
                 f'Gemini вернул {e.code} — проверь API_GEMINI_KEY и доступ к модели {model}.'
             ) from e
-        raise TranslationError(f'Gemini HTTP {e.code}: {detail[:200]}') from e
+        if e.code in _RETRYABLE_HTTP_CODES:
+            raise _RetryableModelError(f'Gemini[{model}] HTTP {e.code}: {detail[:200]}') from e
+        raise TranslationError(f'Gemini[{model}] HTTP {e.code}: {detail[:200]}') from e
     except urllib.error.URLError as e:
-        raise TranslationError(f'Не удалось достучаться до Gemini: {e.reason}') from e
+        # Network-level (timeout, DNS) — пробуем следующую модель (может endpoint этой
+        # пингуется хуже из-за региона). Если все падают — последняя ошибка пробросится.
+        raise _RetryableModelError(f'Gemini[{model}] не достучались: {e.reason}') from e
 
     try:
         parsed = json.loads(raw)
     except ValueError as e:
-        raise TranslationError(f'Невалидный JSON от Gemini API: {raw[:200]}') from e
+        raise _RetryableModelError(f'Gemini[{model}] невалидный JSON: {raw[:200]}') from e
 
     try:
         return parsed['candidates'][0]['content']['parts'][0]['text']
     except (KeyError, IndexError, TypeError) as e:
         finish = parsed.get('candidates', [{}])[0].get('finishReason') if isinstance(parsed, dict) else None
-        raise TranslationError(
-            f'Не нашёл текст в ответе Gemini (finishReason={finish}). Сырое: {raw[:200]}'
+        raise _RetryableModelError(
+            f'Gemini[{model}] не нашёл текст (finishReason={finish}). Сырое: {raw[:200]}'
         ) from e
+
+
+class _RetryableModelError(TranslationError):
+    """Внутренняя метка: caller может перейти к следующей модели в fallback chain."""
+
+
+def _call_gemini(prompt: str, *, timeout: float = 30.0) -> str:
+    """Высокоуровневый вызов с fallback по списку моделей из settings.
+
+    Пробегается по `settings.GEMINI_MODELS` в порядке приоритета. Первая
+    успешная модель возвращает ответ. На retryable-ошибках (404/429/5xx/
+    невалидный JSON/network) → переходит к следующей модели. Конфиг-ошибки
+    (401/403) и плохой payload (400) — мгновенно фатальны (fallback не поможет).
+    """
+    api_key = getattr(settings, 'GEMINI_API_KEY', '') or ''
+    if not api_key:
+        raise TranslationConfigError(
+            'GEMINI_API_KEY не задан в .env. Добавь API_GEMINI_KEY=... и перезапусти контейнер.'
+        )
+
+    models = list(getattr(settings, 'GEMINI_MODELS', None) or ['gemini-2.5-flash'])
+    if not models:
+        raise TranslationConfigError('GEMINI_MODELS пуст — задай хотя бы одну модель в .env.')
+
+    last_error: TranslationError | None = None
+    for i, model in enumerate(models):
+        try:
+            text = _try_one_model(model, prompt, api_key, timeout)
+            if i > 0:
+                logger.info('Gemini fallback сработал: %s (после %d неудач)', model, i)
+            return text
+        except _RetryableModelError as e:
+            last_error = e
+            continue  # пробуем следующую модель
+
+    # Все модели исчерпаны — кидаем последнюю ошибку как обычный TranslationError
+    raise TranslationError(
+        f'Все {len(models)} Gemini-модели не ответили. Последняя ошибка: {last_error}'
+    ) from last_error
 
 
 def translate_fields(values: dict[str, str], target_lang: str, *, timeout: float = 30.0) -> dict[str, str]:
@@ -164,7 +208,7 @@ def translate_fields(values: dict[str, str], target_lang: str, *, timeout: float
     return {k: str(v) for k, v in translated.items() if k in cleaned}
 
 
-_SEO_PROMPT_TEMPLATE = """Ты — SEO-копирайтер для сайта международной школы Tamos Space School.
+_SEO_PROMPT_TEMPLATE = """Ты — SEO-копирайтер для сайта международной школы Space School.
 
 Контекст бренда:
 {school_context}
@@ -172,7 +216,7 @@ _SEO_PROMPT_TEMPLATE = """Ты — SEO-копирайтер для сайта м
 На входе — контент главной страницы региона (в т.ч. с HTML-тегами; игнорируй разметку, бери смысл текста). Сгенерируй SEO/OG поля для трёх языков: русский (ru), казахский (kk), английский (en).
 
 Поля на каждый язык:
-- "seo_title" — заголовок <title>. До 60 символов. Должен содержать «Tamos Space School» (или локализованный аналог: на kk — «Tamos Space School», на en — «Tamos Space School») и ключевую суть страницы.
+- "seo_title" — заголовок <title>. До 60 символов. Должен содержать «Space School» (или локализованный аналог: на kk — «Space School», на en — «Space School») и ключевую суть страницы.
 - "seo_description" — meta description. До 160 символов. Чёткое описание ценности для родителя, без воды, без «лучшая школа в мире» клише.
 - "og_title" — для соцсетей (Facebook/LinkedIn/Telegram). До 70 символов. Эмоциональнее чем seo_title.
 - "og_description" — описание для шеринга. До 200 символов. Чуть свободнее тоном, чем seo_description.
