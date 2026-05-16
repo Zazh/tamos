@@ -24,6 +24,28 @@
       <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
         English<span class="bo-tab-meta">{% trans "fallback ru" %}</span>
       </button>
+
+      <div class="bo-tab-action-wrap"
+           x-data="boAutoTranslate"
+           data-url="{% url 'backoffice:content_home_translate' pk=home.pk %}"
+           data-form-id="home-edit-form"
+           data-bases-json='{{ translatable_bases_json|safe }}'>
+        <button type="button"
+                class="bo-tab bo-tab-action"
+                :class="loading && 'bo-btn-disabled'"
+                :disabled="loading"
+                @click="run()"
+                :title="error || status || '{% trans "Перевести пустые KK/EN из RU через Gemini" %}'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+            <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+          </svg>
+          <span x-show="!loading">{% trans "Авто-перевод" %}</span>
+          <span x-show="loading" x-cloak>{% trans "Переводим…" %}</span>
+        </button>
+        <small class="bo-tab-action-status" x-show="status && !error" x-cloak x-text="status"></small>
+        <small class="bo-tab-action-error" x-show="error" x-cloak x-text="error"></small>
+      </div>
     </div>
 
     <form id="home-edit-form" method="post" action="" enctype="multipart/form-data" class="bo-form">
@@ -144,6 +166,28 @@
 
       <section class="bo-panel">
         <h2 class="bo-panel-title">SEO &amp; Social</h2>
+
+        <div class="bo-panel-action"
+             x-data="boAutoSEO"
+             data-url="{% url 'backoffice:content_home_seo' pk=home.pk %}"
+             data-form-id="home-edit-form"
+             data-source-fields="hero_title,hero_subtitle,about_title,about_body">
+          <button type="button"
+                  class="btn btn-default bo-translate-btn"
+                  :class="loading && 'bo-btn-disabled'"
+                  :disabled="loading"
+                  @click="run()"
+                  title="{% trans 'Сгенерировать SEO/OG для всех 3 языков из RU контента (hero, about). Заполняет только пустые поля.' %}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+              <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+            </svg>
+            <span x-show="!loading">{% trans "Авто-генерация SEO" %}</span>
+            <span x-show="loading" x-cloak>{% trans "Генерируем…" %}</span>
+          </button>
+          <small class="bo-translate-status" x-show="status && !error" x-cloak x-text="status"></small>
+          <small class="bo-translate-error" x-show="error" x-cloak x-text="error"></small>
+        </div>
 
         {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_title' label='SEO title' %}
         {% field_help 'homepage.seo_title' %}

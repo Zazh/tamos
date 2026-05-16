@@ -11,6 +11,7 @@ import { initLeafletMaps } from "./leaflet-map.js";
 import { initMarquee } from "./marquee.js";
 import { initStepperScrollspy } from "./stepper-scrollspy.js";
 import { registerBackofficeGallery } from "./backoffice-gallery.js";
+import { registerBackofficeTranslate } from "./backoffice-translate.js";
 import { registerHeroVideo } from "./hero-video.js";
 
 Alpine.plugin(collapse);
@@ -20,6 +21,7 @@ registerSlider(Alpine);
 registerCarousel(Alpine);
 registerFeedbackModal(Alpine);
 registerBackofficeGallery(Alpine);
+registerBackofficeTranslate(Alpine);
 registerHeroVideo(Alpine);
 
 

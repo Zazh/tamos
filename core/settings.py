@@ -170,6 +170,11 @@ MODELTRANSLATION_FALLBACK_LANGUAGES = {
     'en': ('ru',),
 }
 
+# Gemini API — авто-перевод RU → KK/EN translatable CMS-полей в backoffice.
+# Пустой ключ = фича отключена (view вернёт 503 с понятной ошибкой).
+GEMINI_API_KEY = config('API_GEMINI_KEY', default='')
+GEMINI_MODEL = config('GEMINI_MODEL', default='gemini-2.5-flash')
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

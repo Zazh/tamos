@@ -20,6 +20,8 @@ urlpatterns = [
     path('content/home/<int:pk>/gallery/reorder/', views.content_home_gallery_reorder, name='content_home_gallery_reorder'),
     path('content/home/<int:pk>/gallery/<int:gpk>/', views.content_home_gallery_update, name='content_home_gallery_update'),
     path('content/home/<int:pk>/gallery/<int:gpk>/delete/', views.content_home_gallery_delete, name='content_home_gallery_delete'),
+    path('content/home/<int:pk>/translate/', views.content_home_translate, name='content_home_translate'),
+    path('content/home/<int:pk>/seo/', views.content_home_seo, name='content_home_seo'),
     path('content/contacts/', views.content_contacts_list, name='content_contacts_list'),
     path('content/contacts/<int:pk>/', views.content_contacts_edit, name='content_contacts_edit'),
 ]

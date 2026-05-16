@@ -868,6 +868,93 @@
     }
   }
 
+  /* ============ Auto-translate / SEO (Gemini) ============ */
+
+  /* 4-й элемент в .bo-tabs — action-кнопка «Авто-перевод» с gold-акцентом */
+  .bo-tab-action-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin-left: auto;
+    flex-wrap: nowrap;
+  }
+
+  .bo-tab-action {
+    border-color: color-mix(in srgb, var(--color-gold) 35%, var(--color-gray-200));
+    color: var(--color-black);
+    background: color-mix(in srgb, var(--color-gold) 6%, var(--color-white));
+
+    & svg {
+      width: 1rem;
+      height: 1rem;
+      color: var(--color-gold);
+      flex-shrink: 0;
+    }
+
+    @variant hover {
+      background: color-mix(in srgb, var(--color-gold) 14%, var(--color-white));
+      border-color: var(--color-gold);
+      color: var(--color-black);
+    }
+  }
+
+  .bo-tab-action-status,
+  .bo-tab-action-error {
+    font-size: .75rem;
+    line-height: 1.2;
+    max-width: 14rem;
+    white-space: normal;
+  }
+
+  .bo-tab-action-status { color: var(--color-gray-500); }
+  .bo-tab-action-error  { color: #b91c1c; }
+
+  /* Action-блок внутри секции (например, «Авто-генерация SEO» под title) */
+  .bo-panel-action {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin: -.25rem 0 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Универсальная gold-action кнопка (общая для SEO/translate-в-секции) */
+  .bo-translate-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .55rem 1rem;
+    font-size: .875rem;
+    font-weight: 500;
+    color: var(--color-black);
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: .625rem;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+
+    & svg {
+      width: 1.125rem;
+      height: 1.125rem;
+      color: var(--color-gold);
+    }
+
+    @variant hover {
+      background: var(--color-slate-50);
+      border-color: var(--color-gold);
+    }
+  }
+
+  .bo-translate-status,
+  .bo-translate-error {
+    font-size: .8125rem;
+    line-height: 1.3;
+    max-width: 18rem;
+  }
+
+  .bo-translate-status { color: var(--color-gray-500); }
+  .bo-translate-error  { color: #b91c1c; }
+
   /* ============ Sticky form footer ============ */
 
   .bo-form-foot-sticky {

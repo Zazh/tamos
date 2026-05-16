@@ -11,6 +11,12 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_http_methods, require_POST
 
+from core.gemini_translate import (
+    TranslationConfigError,
+    TranslationError,
+    generate_seo,
+    translate_fields,
+)
 from feedback.models import Lead
 from pages.models import ContactsPage, HomeGalleryImage, HomePage
 from regions.models import Region
@@ -22,6 +28,7 @@ from .forms import (
     LeadEditForm,
     LoginForm,
     TRANSLATION_LANGS,
+    HOME_TRANSLATABLE,
 )
 from .shortcuts import backoffice_required, region_scoped, render_backoffice
 
@@ -315,7 +322,6 @@ def _homepage_steps(home):
     ]
     seo_fields = [
         'seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_description_ru',
-        'og_image',
     ]
     video_fields = ['video_file']
 
@@ -390,6 +396,7 @@ def content_home_edit(request, pk):
             'gallery_items_json': json.dumps(gallery_items),
             'video_size_human': video_size_human,
             'steps_json': json.dumps(steps),
+            'translatable_bases_json': json.dumps(list(HOME_TRANSLATABLE)),
         },
     )
 
@@ -473,6 +480,102 @@ def content_home_gallery_delete(request, pk, gpk):
     img = get_object_or_404(HomeGalleryImage, pk=gpk, home_page=home)
     img.delete()
     return JsonResponse({'ok': True})
+
+
+# ----- auto-translate -------------------------------------------------------
+#
+# Gemini-based авто-перевод пустых KK/EN translatable-полей. Сервер не пишет
+# в БД — возвращает переведённые значения, клиент заполняет инпуты, менеджер
+# смотрит и сабмитит общую форму сам.
+
+# Защита от мусорных payload'ов и слишком длинных значений.
+TRANSLATE_MAX_FIELDS_PER_LANG = 30
+TRANSLATE_MAX_VALUE_CHARS = 5000
+
+
+@require_POST
+@backoffice_required
+def content_home_translate(request, pk):
+    """POST {by_lang: {kk: {field: ru_text, ...}, en: {...}}} →
+       {translations: {kk: {field: text}, en: {field: text}}}.
+
+    Region-scope обязательный (404 на чужой регион). Сам HomePage только
+    для авторизации — сервер не использует значения из БД, только из payload
+    (менеджер мог изменить RU и ещё не сохранить).
+    """
+    _get_home_for_user(request, pk)  # 404 если не в region-scope
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    by_lang = payload.get('by_lang') or {}
+    if not isinstance(by_lang, dict):
+        return JsonResponse({'error': 'by_lang must be an object'}, status=400)
+
+    result: dict[str, dict[str, str]] = {}
+    for lang, values in by_lang.items():
+        if lang not in {'kk', 'en'}:
+            continue
+        if not isinstance(values, dict):
+            continue
+        sanitized = {
+            str(k): str(v)[:TRANSLATE_MAX_VALUE_CHARS]
+            for k, v in list(values.items())[:TRANSLATE_MAX_FIELDS_PER_LANG]
+            if v and str(v).strip()
+        }
+        if not sanitized:
+            continue
+        try:
+            result[lang] = translate_fields(sanitized, lang)
+        except TranslationConfigError as e:
+            return JsonResponse({'error': str(e)}, status=503)
+        except TranslationError as e:
+            return JsonResponse({'error': str(e)}, status=502)
+
+    return JsonResponse({'translations': result})
+
+
+SEO_SOURCE_MAX_FIELDS = 12
+SEO_SOURCE_MAX_CHARS = 8000
+
+
+@require_POST
+@backoffice_required
+def content_home_seo(request, pk):
+    """POST {content: {field: ru_text, ...}} → {seo: {lang: {seo_field: text}}}.
+
+    Сервер не использует значения из БД — берёт всё из payload (менеджер мог
+    править RU и ещё не сохранить). Region-scope обязательный.
+    """
+    _get_home_for_user(request, pk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    content = payload.get('content') or {}
+    if not isinstance(content, dict):
+        return JsonResponse({'error': 'content must be an object'}, status=400)
+
+    sanitized = {
+        str(k): str(v)[:SEO_SOURCE_MAX_CHARS]
+        for k, v in list(content.items())[:SEO_SOURCE_MAX_FIELDS]
+        if v and str(v).strip()
+    }
+    if not sanitized:
+        return JsonResponse({'error': 'Нет исходного контента для SEO. Заполни хотя бы hero_title/about_body на RU.'}, status=400)
+
+    try:
+        seo = generate_seo(sanitized)
+    except TranslationConfigError as e:
+        return JsonResponse({'error': str(e)}, status=503)
+    except TranslationError as e:
+        return JsonResponse({'error': str(e)}, status=502)
+
+    return JsonResponse({'seo': seo})
 
 
 @never_cache

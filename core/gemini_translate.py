@@ -1,0 +1,245 @@
+"""Gemini-based авто-перевод CMS-полей для backoffice.
+
+Один REST-вызов на пачку полей (1 целевой язык за раз). Используется
+`generativelanguage.googleapis.com` с `responseMimeType=application/json` —
+модель сама возвращает валидный JSON, парсим без выкрутасов.
+
+Ключ читается из settings.GEMINI_API_KEY. Если ключ пустой — функция
+кидает `TranslationConfigError` (backoffice view конвертит в 503).
+"""
+from __future__ import annotations
+
+import json
+import logging
+import urllib.error
+import urllib.request
+
+from django.conf import settings
+
+logger = logging.getLogger(__name__)
+
+
+class TranslationError(Exception):
+    """Базовая ошибка перевода — для всех ретраябл/нет ситуаций."""
+
+
+class TranslationConfigError(TranslationError):
+    """Ключ не настроен или модель недоступна — config-level."""
+
+
+_LANG_NAMES = {
+    'kk': 'казахский',
+    'en': 'английский',
+    'ru': 'русский',
+}
+
+# Краткое позиционирование школы — source of truth: tamos/memory/positioning.md.
+# Подмешивается в SEO-prompt'ы как контекст бренда (полное название, ниша, тон).
+# При смене позиционирования синхронизируй этот блок с positioning.md.
+SCHOOL_CONTEXT = (
+    'Tamos Space School — международная частная школа в Астане и Актау с '
+    'физико-математическим уклоном и космической тематикой, аккредитованная '
+    'Cambridge International Education. Программа Cambridge от Primary до A-Level, '
+    'двойной аттестат (казахстанский + Cambridge), выпускники поступают как в '
+    'NU и другие казахстанские вузы, так и в зарубежные (через SAT). '
+    'Полное брендовое название — «Tamos Space School», латиницей, не сокращать.'
+)
+
+_PROMPT_TEMPLATE = """Ты — переводчик для CMS международной школы Tamos (для детей, родителей, маркетинг).
+Переведи значения полей с русского на {target_name}.
+
+Правила:
+1. Сохрани HTML-теги в точности (например <span class="hero-fit">, <strong>, <br>). Переводи только текст между тегами.
+2. Сохрани все CSS-классы и атрибуты внутри тегов (class="hero-fit", class="text-gold" и т.п.) — НЕ переводи их.
+3. Сохрани переносы строк \\n — они смысловые.
+4. Тон: дружелюбный, для родителей школьников. Без машинного канцелярита.
+5. Длина перевода — близко к оригиналу (±20%); это UI-копия, важно не «растечься».
+6. Не добавляй пояснений, кавычек или markdown — только перевод.
+
+Верни строго JSON-объект, где ключи совпадают с input один-в-один, значения — переведённые строки.
+
+INPUT (JSON):
+{payload}
+"""
+
+
+def _call_gemini(prompt: str, *, timeout: float = 30.0) -> str:
+    """Низкоуровневый POST на Gemini с `responseMimeType=application/json`.
+
+    Возвращает текст из первого candidate (это будет JSON-строка, парсит её
+    вызывающая сторона). Кидает `TranslationConfigError` / `TranslationError`
+    с понятными сообщениями.
+    """
+    api_key = getattr(settings, 'GEMINI_API_KEY', '') or ''
+    if not api_key:
+        raise TranslationConfigError(
+            'GEMINI_API_KEY не задан в .env. Добавь API_GEMINI_KEY=... и перезапусти контейнер.'
+        )
+
+    model = getattr(settings, 'GEMINI_MODEL', 'gemini-2.5-flash')
+    url = f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}'
+
+    body = {
+        'contents': [{'parts': [{'text': prompt}]}],
+        'generationConfig': {
+            'temperature': 0.2,
+            'responseMimeType': 'application/json',
+        },
+    }
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(body).encode('utf-8'),
+        headers={'Content-Type': 'application/json'},
+        method='POST',
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            raw = resp.read().decode('utf-8')
+    except urllib.error.HTTPError as e:
+        detail = ''
+        try:
+            detail = e.read().decode('utf-8', errors='replace')[:400]
+        except Exception:
+            pass
+        logger.warning('Gemini HTTPError %s: %s', e.code, detail)
+        if e.code in (401, 403):
+            raise TranslationConfigError(
+                f'Gemini вернул {e.code} — проверь API_GEMINI_KEY и доступ к модели {model}.'
+            ) from e
+        raise TranslationError(f'Gemini HTTP {e.code}: {detail[:200]}') from e
+    except urllib.error.URLError as e:
+        raise TranslationError(f'Не удалось достучаться до Gemini: {e.reason}') from e
+
+    try:
+        parsed = json.loads(raw)
+    except ValueError as e:
+        raise TranslationError(f'Невалидный JSON от Gemini API: {raw[:200]}') from e
+
+    try:
+        return parsed['candidates'][0]['content']['parts'][0]['text']
+    except (KeyError, IndexError, TypeError) as e:
+        finish = parsed.get('candidates', [{}])[0].get('finishReason') if isinstance(parsed, dict) else None
+        raise TranslationError(
+            f'Не нашёл текст в ответе Gemini (finishReason={finish}). Сырое: {raw[:200]}'
+        ) from e
+
+
+def translate_fields(values: dict[str, str], target_lang: str, *, timeout: float = 30.0) -> dict[str, str]:
+    """Перевести dict ru-значений на `target_lang`.
+
+    Args:
+        values: {field_name: ru_text}. Пустые/None значения пропускаются.
+        target_lang: 'kk' или 'en'.
+        timeout: секунд на ответ Gemini.
+
+    Returns:
+        {field_name: translated_text} — тот же набор ключей, что во вход.
+        Поля, которые модель не вернула — выпадут (но в норме не должны).
+
+    Raises:
+        TranslationConfigError: ключ пуст / 401/403 от API.
+        TranslationError: всё остальное (network, 5xx, невалидный JSON).
+    """
+    if target_lang not in _LANG_NAMES or target_lang == 'ru':
+        raise TranslationError(f'Неподдерживаемый target_lang: {target_lang!r}')
+
+    cleaned = {k: v for k, v in values.items() if v and str(v).strip()}
+    if not cleaned:
+        return {}
+
+    prompt = _PROMPT_TEMPLATE.format(
+        target_name=_LANG_NAMES[target_lang],
+        payload=json.dumps(cleaned, ensure_ascii=False, indent=2),
+    )
+    text = _call_gemini(prompt, timeout=timeout)
+
+    try:
+        translated = json.loads(text)
+    except ValueError as e:
+        raise TranslationError(f'Модель вернула не-JSON: {text[:200]}') from e
+
+    if not isinstance(translated, dict):
+        raise TranslationError(f'Модель вернула не-объект: {text[:200]}')
+
+    return {k: str(v) for k, v in translated.items() if k in cleaned}
+
+
+_SEO_PROMPT_TEMPLATE = """Ты — SEO-копирайтер для сайта международной школы Tamos Space School.
+
+Контекст бренда:
+{school_context}
+
+На входе — контент главной страницы региона (в т.ч. с HTML-тегами; игнорируй разметку, бери смысл текста). Сгенерируй SEO/OG поля для трёх языков: русский (ru), казахский (kk), английский (en).
+
+Поля на каждый язык:
+- "seo_title" — заголовок <title>. До 60 символов. Должен содержать «Tamos Space School» (или локализованный аналог: на kk — «Tamos Space School», на en — «Tamos Space School») и ключевую суть страницы.
+- "seo_description" — meta description. До 160 символов. Чёткое описание ценности для родителя, без воды, без «лучшая школа в мире» клише.
+- "og_title" — для соцсетей (Facebook/LinkedIn/Telegram). До 70 символов. Эмоциональнее чем seo_title.
+- "og_description" — описание для шеринга. До 200 символов. Чуть свободнее тоном, чем seo_description.
+
+Правила:
+1. Без markdown, без кавычек вокруг текста, без эмодзи.
+2. На казахском и английском — нативные формулировки, не калька с RU.
+3. Тон — для родителя школьника: спокойный, доверительный, без хайпа.
+4. Уважай лимиты длины — это hard cap для UI.
+
+Контент страницы (RU):
+{payload}
+
+Верни строго JSON-объект в формате:
+{{
+  "ru": {{"seo_title": "...", "seo_description": "...", "og_title": "...", "og_description": "..."}},
+  "kk": {{"seo_title": "...", "seo_description": "...", "og_title": "...", "og_description": "..."}},
+  "en": {{"seo_title": "...", "seo_description": "...", "og_title": "...", "og_description": "..."}}
+}}
+Без обёрток, без дополнительных ключей."""
+
+
+SEO_OUTPUT_FIELDS = ('seo_title', 'seo_description', 'og_title', 'og_description')
+SEO_OUTPUT_LANGS = ('ru', 'kk', 'en')
+
+
+def generate_seo(content: dict[str, str], *, timeout: float = 45.0) -> dict[str, dict[str, str]]:
+    """Сгенерировать SEO/OG поля на основе контента страницы.
+
+    Args:
+        content: {field_name: text} на русском (источник правды).
+                 Хорошие источники: hero_title, hero_subtitle, about_title, about_body.
+                 HTML внутри значений допустим — Gemini игнорирует разметку.
+        timeout: секунд на ответ.
+
+    Returns:
+        {lang: {seo_field: text}} для языков из SEO_OUTPUT_LANGS.
+
+    Raises:
+        TranslationConfigError / TranslationError — см. _call_gemini.
+    """
+    cleaned = {k: str(v) for k, v in content.items() if v and str(v).strip()}
+    if not cleaned:
+        return {}
+
+    prompt = _SEO_PROMPT_TEMPLATE.format(
+        school_context=SCHOOL_CONTEXT,
+        payload=json.dumps(cleaned, ensure_ascii=False, indent=2),
+    )
+    text = _call_gemini(prompt, timeout=timeout)
+
+    try:
+        parsed = json.loads(text)
+    except ValueError as e:
+        raise TranslationError(f'Модель вернула не-JSON: {text[:200]}') from e
+
+    if not isinstance(parsed, dict):
+        raise TranslationError(f'Модель вернула не-объект: {text[:200]}')
+
+    result: dict[str, dict[str, str]] = {}
+    for lang in SEO_OUTPUT_LANGS:
+        per_lang = parsed.get(lang)
+        if not isinstance(per_lang, dict):
+            continue
+        result[lang] = {
+            field: str(per_lang[field])
+            for field in SEO_OUTPUT_FIELDS
+            if field in per_lang and per_lang[field]
+        }
+    return result

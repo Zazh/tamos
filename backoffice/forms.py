@@ -140,7 +140,7 @@ class LeadEditForm(forms.ModelForm):
 # region не редактируется (singleton; menu-нав определяет регион). updated_at
 # auto_now — не в форме.
 
-_HOME_TRANSLATABLE = (
+HOME_TRANSLATABLE = (
     'hero_badge_text',
     'hero_title',
     'hero_subtitle',
@@ -171,7 +171,7 @@ class HomePageEditForm(forms.ModelForm):
 
     class Meta:
         model = HomePage
-        fields = ('hero_image', 'video_file', 'og_image') + _localized(*_HOME_TRANSLATABLE)
+        fields = ('hero_image', 'video_file', 'og_image') + _localized(*HOME_TRANSLATABLE)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
