@@ -22,6 +22,7 @@ from pages.models import ContactsPage, HomeGalleryImage, HomePage
 from regions.models import Region
 
 from .forms import (
+    CONTACTS_TRANSLATABLE,
     ContactsDepartmentFormSet,
     ContactsPageEditForm,
     HomePageEditForm,
@@ -397,6 +398,7 @@ def content_home_edit(request, pk):
             'video_size_human': video_size_human,
             'steps_json': json.dumps(steps),
             'translatable_bases_json': json.dumps(list(HOME_TRANSLATABLE)),
+            'home_translate_url': reverse('backoffice:content_home_translate', kwargs={'pk': home.pk}),
         },
     )
 
@@ -595,14 +597,96 @@ def content_contacts_list(request):
     )
 
 
+def _get_contacts_for_user(request, pk):
+    """region-scoped ContactsPage или 404."""
+    qs = region_scoped(ContactsPage.objects.all(), request.user)
+    return get_object_or_404(qs, pk=pk)
+
+
+def _contactspage_steps(contacts, formset=None):
+    """Шаги stepper'а для completeness на edit-странице ContactsPage.
+
+    Шаги:
+    - Основа RU (обязательный): intro + office + map (lat/lng + zoom).
+    - Перевод KZ / EN: те же intro+office (без map — координаты language-neutral).
+    - SEO (опц): seo/og поля на RU.
+    - Отделы: считаем сколько отделов имеют непустые title+description+phone+email.
+    """
+    def is_filled(field_name):
+        val = getattr(contacts, field_name, '')
+        if hasattr(val, 'name'):
+            return bool(val and val.name)
+        return bool(val and str(val).strip())
+
+    ru_fields = [
+        'intro_title_ru',
+        'intro_text_ru',
+        'office_name_ru',
+        'office_address_ru',
+        'office_hours_ru',
+        'latitude',
+        'longitude',
+    ]
+    kk_fields = [
+        'intro_title_kk', 'intro_text_kk',
+        'office_name_kk', 'office_address_kk', 'office_hours_kk',
+    ]
+    en_fields = [
+        'intro_title_en', 'intro_text_en',
+        'office_name_en', 'office_address_en', 'office_hours_en',
+    ]
+    seo_fields = [
+        'seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_description_ru',
+    ]
+
+    def step(id, label, fields, required=False):
+        initial = {f: is_filled(f) for f in fields}
+        filled = sum(1 for v in initial.values() if v)
+        return {
+            'id': id,
+            'label': label,
+            'fields': fields,
+            'initial': initial,
+            'filled': filled,
+            'total': len(fields),
+            'required': required,
+        }
+
+    # Departments — считаем по живым (не помеченным DELETE и не пустым) формам.
+    # Этот шаг — read-only счётчик: stepper не отслеживает изменения формсета
+    # на лету (departments — inline formset, его pk-структуру JS не знает).
+    dept_total = contacts.departments.count()
+    dept_filled = sum(
+        1 for d in contacts.departments.all()
+        if (d.title or '').strip() and (d.description or '').strip()
+        and ((d.phone or '').strip() or (d.email or '').strip())
+    )
+
+    return [
+        step('ru', 'Основа (RU)', ru_fields, required=True),
+        step('kk', 'Перевод KZ', kk_fields),
+        step('en', 'Перевод EN', en_fields),
+        step('seo', 'SEO', seo_fields),
+        {
+            'id': 'departments',
+            'label': 'Отделы',
+            'fields': [],
+            'initial': {},
+            'filled': dept_filled,
+            'total': dept_total or 1,  # избегаем 0/0 — показываем «0/1»
+            'required': False,
+            'readonly': True,
+        },
+    ]
+
+
 @never_cache
 @backoffice_required
 def content_contacts_edit(request, pk):
-    qs = region_scoped(ContactsPage.objects.select_related('region'), request.user)
-    contacts = get_object_or_404(qs, pk=pk)
+    contacts = _get_contacts_for_user(request, pk)
 
     if request.method == 'POST':
-        form = ContactsPageEditForm(request.POST, instance=contacts)
+        form = ContactsPageEditForm(request.POST, request.FILES, instance=contacts)
         formset = ContactsDepartmentFormSet(request.POST, instance=contacts, prefix='departments')
         if form.is_valid() and formset.is_valid():
             form.save()
@@ -612,6 +696,13 @@ def content_contacts_edit(request, pk):
     else:
         form = ContactsPageEditForm(instance=contacts)
         formset = ContactsDepartmentFormSet(instance=contacts, prefix='departments')
+
+    steps = _contactspage_steps(contacts, formset)
+
+    # Bases для inline-departments auto-translate. Каждая форма формсета имеет
+    # отдельный prefix `departments-N-*`, frontend Alpine-компонент находит их
+    # по data-form-id + data-prefix.
+    department_translatable_bases = ['title', 'description', 'hours']
 
     return render_backoffice(
         request,
@@ -623,5 +714,90 @@ def content_contacts_edit(request, pk):
             'form': form,
             'formset': formset,
             'translation_langs': TRANSLATION_LANGS,
+            'steps_json': json.dumps(steps),
+            'translatable_bases_json': json.dumps(list(CONTACTS_TRANSLATABLE)),
+            'department_translatable_bases_json': json.dumps(department_translatable_bases),
         },
     )
+
+
+@require_POST
+@backoffice_required
+def content_contacts_translate(request, pk):
+    """RU→KK/EN перевод для ContactsPage через Gemini. Структура payload
+    идентична `content_home_translate` — менеджер мог поменять RU и не сохранить,
+    сервер берёт значения из payload (не из БД).
+
+    Используется и для основной формы (intro/office/SEO), и для каждого
+    department отдельно. По имени поля сервер не различает — просто переводит
+    словарь `{name: ru_text}`.
+    """
+    _get_contacts_for_user(request, pk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    by_lang = payload.get('by_lang') or {}
+    if not isinstance(by_lang, dict):
+        return JsonResponse({'error': 'by_lang must be an object'}, status=400)
+
+    result: dict[str, dict[str, str]] = {}
+    for lang, values in by_lang.items():
+        if lang not in {'kk', 'en'}:
+            continue
+        if not isinstance(values, dict):
+            continue
+        sanitized = {
+            str(k): str(v)[:TRANSLATE_MAX_VALUE_CHARS]
+            for k, v in list(values.items())[:TRANSLATE_MAX_FIELDS_PER_LANG]
+            if v and str(v).strip()
+        }
+        if not sanitized:
+            continue
+        try:
+            result[lang] = translate_fields(sanitized, lang)
+        except TranslationConfigError as e:
+            return JsonResponse({'error': str(e)}, status=503)
+        except TranslationError as e:
+            return JsonResponse({'error': str(e)}, status=502)
+
+    return JsonResponse({'translations': result})
+
+
+@require_POST
+@backoffice_required
+def content_contacts_seo(request, pk):
+    """AI-генерация SEO/OG для ContactsPage. Использует intro_title/intro_text
+    + office_name/office_address как источник (передаются в payload, не из БД)."""
+    _get_contacts_for_user(request, pk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    content = payload.get('content') or {}
+    if not isinstance(content, dict):
+        return JsonResponse({'error': 'content must be an object'}, status=400)
+
+    sanitized = {
+        str(k): str(v)[:SEO_SOURCE_MAX_CHARS]
+        for k, v in list(content.items())[:SEO_SOURCE_MAX_FIELDS]
+        if v and str(v).strip()
+    }
+    if not sanitized:
+        return JsonResponse(
+            {'error': 'Нет исходного контента для SEO. Заполни хотя бы intro_title/intro_text на RU.'},
+            status=400,
+        )
+
+    try:
+        seo = generate_seo(sanitized)
+    except TranslationConfigError as e:
+        return JsonResponse({'error': str(e)}, status=503)
+    except TranslationError as e:
+        return JsonResponse({'error': str(e)}, status=502)
+
+    return JsonResponse({'seo': seo})

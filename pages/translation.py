@@ -36,6 +36,10 @@ class ContactsPageTranslationOptions(TranslationOptions):
         'office_name',
         'office_address',
         'office_hours',
+        'seo_title',
+        'seo_description',
+        'og_title',
+        'og_description',
     )
 
 

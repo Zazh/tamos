@@ -1,17 +1,21 @@
 {% load i18n %}
 {% comment %}
   Per-block force-translate button (Gemini RU → KK/EN).
-  Параметры:
-    home    — HomePage instance (для URL).
-    bases   — JSON-строка со списком base полей (e.g. '["hero_title","hero_subtitle"]').
-  Кнопка переводит указанные base поля принудительно (перезапись KK/EN).
-  Если хотя бы один KK/EN уже заполнен — JS показывает confirm() перед запросом.
+  Параметры (обязательные):
+    translate_url — backoffice-URL для перевода (e.g. content_home_translate / content_contacts_translate)
+    form_id       — id обёртки <form> на странице (e.g. 'home-edit-form' / 'contacts-edit-form')
+    bases         — JSON-строка со списком base полей (e.g. '["hero_title","hero_subtitle"]')
+  Параметры (опц):
+    prefix        — префикс name полей для inline-formset (e.g. 'departments-0-')
+  Кнопка переводит указанные base поля принудительно (перезапись KK/EN). Если
+  хотя бы один KK/EN уже заполнен — JS показывает confirm() перед запросом.
 {% endcomment %}
 <div class="bo-block-translate"
      x-data="boAutoTranslate"
-     data-url="{% url 'backoffice:content_home_translate' pk=home.pk %}"
-     data-form-id="home-edit-form"
+     data-url="{{ translate_url }}"
+     data-form-id="{{ form_id }}"
      data-bases-json='{{ bases }}'
+     {% if prefix %}data-prefix="{{ prefix }}"{% endif %}
      data-force="1">
   <button type="button"
           class="bo-block-translate-btn"

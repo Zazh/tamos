@@ -156,6 +156,11 @@ function boFormSteps() {
 
     recompute() {
       this.steps = this.steps.map(step => {
+        // readonly шаги (departments) считают на сервере при загрузке и не
+        // пересчитываются в JS — у них fields пустой.
+        if (step.readonly) {
+          return { ...step, complete: step.filled === step.total };
+        }
         const filled = step.fields.filter(n => this.fieldFilled[n]).length;
         return { ...step, filled, complete: filled === step.total };
       });

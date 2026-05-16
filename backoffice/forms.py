@@ -220,27 +220,67 @@ class HomePageEditForm(forms.ModelForm):
                                     self.VIDEO_MAX_BYTES, 'шоурил')
 
 
-_CONTACTS_TRANSLATABLE = (
+CONTACTS_TRANSLATABLE = (
     'intro_title',
     'intro_text',
     'office_name',
     'office_address',
     'office_hours',
+    'seo_title',
+    'seo_description',
+    'og_title',
+    'og_description',
 )
 
 
 class ContactsPageEditForm(forms.ModelForm):
+    """Редактирование ContactsPage с явными `_ru/_kk/_en` полями для каждого
+    translatable поля из translation.py. Структурно повторяет HomePageEditForm."""
+
+    # SEO/OG-блок рендерится после inline-formset (Departments). Поля, попадающие
+    # вне основного <form id="contacts-edit-form">, получают HTML5-атрибут form=,
+    # иначе их значения не уйдут с submit'ом. См. аналогичный паттерн в
+    # HomePageEditForm.
+    OUT_OF_FORM_BASES = frozenset({
+        'seo_title', 'seo_description', 'og_title', 'og_description',
+    })
+    OUT_OF_FORM_FILE_FIELDS = frozenset({'og_image'})
+    FORM_ID = 'contacts-edit-form'
+
+    IMAGE_MAX_BYTES = 5 * 1024 * 1024
+
     class Meta:
         model = ContactsPage
         fields = (
             'latitude',
             'longitude',
             'map_zoom',
-        ) + _localized(*_CONTACTS_TRANSLATABLE)
+            'og_image',
+        ) + _localized(*CONTACTS_TRANSLATABLE)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         _apply_backoffice_widget_classes(self)
+        for name, field in self.fields.items():
+            base = _strip_lang(name)
+            if base in self.OUT_OF_FORM_BASES or name in self.OUT_OF_FORM_FILE_FIELDS:
+                field.widget.attrs['form'] = self.FORM_ID
+
+    def _check_max_size(self, file, limit, kind):
+        if not file or not hasattr(file, 'size'):
+            return file
+        mb = file.size / 1024 / 1024
+        limit_mb = limit // (1024 * 1024)
+        if file.size > limit:
+            raise forms.ValidationError(
+                f'Файл {mb:.1f} MB больше лимита {limit_mb} MB для «{kind}». '
+                'Сожми через CloudConvert / TinyPNG.'
+            )
+        return file
+
+    def clean_og_image(self):
+        return self._check_max_size(self.cleaned_data.get('og_image'),
+                                    self.IMAGE_MAX_BYTES, 'OG-картинка')
 
 
 _CONTACTS_DEPARTMENT_TRANSLATABLE = ('title', 'description', 'hours')

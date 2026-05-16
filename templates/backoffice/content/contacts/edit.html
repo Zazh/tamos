@@ -1,47 +1,70 @@
 {% extends 'backoffice/base.html' %}
-{% load i18n %}
+{% load i18n l10n backoffice_tags %}
 
 {% block content %}
+  {% url 'backoffice:content_contacts_translate' pk=contacts.pk as contacts_translate_url %}
+
   <a href="{% url 'backoffice:content_contacts_list' %}" class="bo-back">← {% trans "К списку" %}</a>
 
   {% include 'backoffice/_messages.html' %}
 
-  <div x-data="{ lang: 'ru' }">
+  <div class="bo-content-stack" x-data="{ lang: 'ru' }">
     <header class="bo-detail-head">
       <div>
         <h1 class="bo-page-title">{% blocktrans with region=contacts.region.name %}Контакты — {{ region }}{% endblocktrans %}</h1>
         <p class="bo-page-subtitle">{% blocktrans with date=contacts.updated_at|date:"j E, H:i" %}Singleton-контент страницы «Контакты». Обновлено {{ date }}.{% endblocktrans %}</p>
       </div>
+      <div class="bo-detail-head-actions">
+        <a :href="'/' + lang + '/{{ contacts.region.slug }}/contacts/'"
+           target="_blank"
+           rel="noopener"
+           class="bo-action-btn bo-action-preview"
+           :title="'{% trans "Открыть страницу в новой вкладке на текущем языке" %} (' + lang.toUpperCase() + ')'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          <span>{% trans "Просмотреть на сайте" %}</span>
+        </a>
+      </div>
     </header>
 
     <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык контента' %}">
-      <button type="button" role="tab"
-              class="bo-tab"
-              :class="lang === 'ru' && 'bo-tab-active'"
-              :aria-selected="lang === 'ru'"
-              @click="lang = 'ru'">
-        {% trans "Русский" %}
-        <span class="bo-tab-meta">{% trans "основной" %}</span>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+        {% trans "Русский" %}<span class="bo-tab-meta">{% trans "основной" %}</span>
       </button>
-      <button type="button" role="tab"
-              class="bo-tab"
-              :class="lang === 'kk' && 'bo-tab-active'"
-              :aria-selected="lang === 'kk'"
-              @click="lang = 'kk'">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
         Қазақша
-        <span class="bo-tab-meta">{% trans "fallback ru" %}</span>
       </button>
-      <button type="button" role="tab"
-              class="bo-tab"
-              :class="lang === 'en' && 'bo-tab-active'"
-              :aria-selected="lang === 'en'"
-              @click="lang = 'en'">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
         English
-        <span class="bo-tab-meta">{% trans "fallback ru" %}</span>
       </button>
+
+      <div class="bo-tab-action-wrap"
+           x-data="boAutoTranslate"
+           data-url="{{ contacts_translate_url }}"
+           data-form-id="contacts-edit-form"
+           data-bases-json='{{ translatable_bases_json|safe }}'>
+        <button type="button"
+                class="bo-tab bo-tab-action"
+                :class="loading && 'bo-btn-disabled'"
+                :disabled="loading"
+                @click="run()"
+                :title="error || status || '{% trans "Перевести пустые KK/EN из RU через Gemini" %}'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+            <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+          </svg>
+          <span x-show="!loading">{% trans "Авто-перевод" %}</span>
+          <span x-show="loading" x-cloak>{% trans "Переводим…" %}</span>
+        </button>
+        <small class="bo-tab-action-status" x-show="status && !error" x-cloak x-text="status"></small>
+        <small class="bo-tab-action-error" x-show="error" x-cloak x-text="error"></small>
+      </div>
     </div>
 
-    <form method="post" action="" class="bo-form">
+    <form id="contacts-edit-form" method="post" action="" enctype="multipart/form-data" class="bo-form">
       {% csrf_token %}
 
       {% if form.non_field_errors %}
@@ -51,45 +74,64 @@
       {% endif %}
 
       <section class="bo-panel">
-        <h2 class="bo-panel-title">{% trans "Регион" %}</h2>
-        <div class="bo-field">
-          <label class="bo-label">{% trans "Регион" %}</label>
-          <input type="text" class="bo-input" value="{{ contacts.region.name }}" readonly>
-        </div>
-      </section>
-
-      <section class="bo-panel">
-        <h2 class="bo-panel-title">{% trans "Вводный блок" %}</h2>
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Вводный блок" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["intro_title","intro_text"]' translate_url=contacts_translate_url form_id='contacts-edit-form' %}
+        </header>
 
         {% include 'backoffice/content/_field_translatable.html' with form=form base='intro_title' label='Заголовок' %}
+        {% field_help 'contactspage.intro_title' %}
 
-        {% include 'backoffice/content/_field_translatable.html' with form=form base='intro_text' label='Описание' help='Параграф под заголовком.' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='intro_text' label='Описание' %}
+        {% field_help 'contactspage.intro_text' %}
       </section>
 
       <section class="bo-panel">
-        <h2 class="bo-panel-title">{% trans "Офис (overlay над картой)" %}</h2>
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Офис (overlay над картой)" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["office_name","office_address","office_hours"]' translate_url=contacts_translate_url form_id='contacts-edit-form' %}
+        </header>
 
         {% include 'backoffice/content/_field_translatable.html' with form=form base='office_name' label='Название офиса' %}
+        {% field_help 'contactspage.office_name' %}
 
         {% include 'backoffice/content/_field_translatable.html' with form=form base='office_address' label='Адрес' %}
+        {% field_help 'contactspage.office_address' %}
 
-        {% include 'backoffice/content/_field_translatable.html' with form=form base='office_hours' label='Часы работы' help='Напр. «Пн–Пт, 09:00–18:00».' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='office_hours' label='Часы работы' %}
+        {% field_help 'contactspage.office_hours' %}
       </section>
 
       <section class="bo-panel">
         <h2 class="bo-panel-title">{% trans "Карта (Leaflet · CartoDB light_nolabels)" %}</h2>
+
+        <div class="bo-map-preview"
+             x-data="boMapPreview"
+             data-form-id="contacts-edit-form"
+             data-initial-lat="{{ contacts.latitude|default_if_none:''|unlocalize }}"
+             data-initial-lng="{{ contacts.longitude|default_if_none:''|unlocalize }}"
+             data-initial-zoom="{{ contacts.map_zoom|default:16|unlocalize }}">
+          <div class="bo-map-canvas" x-ref="map"></div>
+          <div class="bo-map-empty" x-show="!hasCoords" x-cloak>
+            {% trans "Введи широту и долготу, чтобы увидеть точку на карте." %}
+          </div>
+        </div>
+        <p class="bo-help">{% trans "Кликни по карте, чтобы поставить точку. Перетащи маркер, чтобы уточнить положение. Кнопки +/- слева сверху меняют zoom (сохранится автоматически)." %}</p>
 
         <div class="bo-row-3">
           {% include 'backoffice/content/_field.html' with field=form.latitude label='Широта' %}
           {% include 'backoffice/content/_field.html' with field=form.longitude label='Долгота' %}
           {% include 'backoffice/content/_field.html' with field=form.map_zoom label='Zoom' %}
         </div>
-        <p class="bo-help">{% trans "Если широта или долгота пуста — карта не отрисуется, покажется серая заглушка." %}</p>
+
+        {% field_help 'contactspage.map' %}
       </section>
 
       <section class="bo-panel">
-        <h2 class="bo-panel-title">{% trans "Отделы" %}</h2>
-        <p class="bo-help">{% trans "Поступление, Партнёрство, Вакансии и т.д. Порядок задаётся числом." %}</p>
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Отделы" %}</h2>
+        </header>
+        <p class="bo-help">{% trans "Поступление, Партнёрство, Вакансии и т.д. Порядок задаётся числом. Контактные поля (телефон/email) — language-neutral, переводятся только title/description/hours." %}</p>
 
         {{ formset.management_form }}
         {% if formset.non_form_errors %}
@@ -107,12 +149,15 @@
                 <h3 class="bo-formset-item-title">
                   {% if f.instance.pk %}{{ f.instance.title|default:'Без названия' }}{% else %}{% trans "Новый отдел" %}{% endif %}
                 </h3>
-                {% if f.instance.pk %}
-                  <label class="bo-label-checkbox">
-                    {{ f.DELETE }}
-                    <span>{% trans "Удалить" %}</span>
-                  </label>
-                {% endif %}
+                <div class="bo-formset-head-actions">
+                  {% include 'backoffice/content/_block_translate.html' with bases='["title","description","hours"]' translate_url=contacts_translate_url form_id='contacts-edit-form' prefix=f.prefix|add:'-' %}
+                  {% if f.instance.pk %}
+                    <label class="bo-label-checkbox">
+                      {{ f.DELETE }}
+                      <span>{% trans "Удалить" %}</span>
+                    </label>
+                  {% endif %}
+                </div>
               </div>
 
               <div class="bo-row-3">
@@ -122,21 +167,104 @@
               </div>
 
               {% include 'backoffice/content/_field_translatable.html' with form=f base='title' label='Название отдела' %}
+              {% field_help 'contactsdepartment.title' %}
 
               {% include 'backoffice/content/_field_translatable.html' with form=f base='description' label='Описание' %}
+              {% field_help 'contactsdepartment.description' %}
 
               {% include 'backoffice/content/_field_translatable.html' with form=f base='hours' label='Часы работы' help='Если пусто — строка скрыта на сайте.' %}
+              {% field_help 'contactsdepartment.hours' %}
             </li>
           {% endfor %}
         </ul>
 
-        <p class="bo-help">{% trans "Чтобы добавить ещё один отдел — сохрани форму, появится новый пустой блок." %}</p>
+        <p class="bo-help">{% trans "Чтобы добавить ещё один отдел — заполни блок «Новый отдел» внизу и сохрани форму, появится новый пустой блок." %}</p>
       </section>
-
-      <div class="bo-form-foot bo-form-foot-sticky">
-        <a href="{% url 'backoffice:content_contacts_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
-        <button type="submit" class="btn btn-primary">{% trans "Сохранить" %}</button>
-      </div>
     </form>
+
+    <section class="bo-panel">
+      <header class="bo-panel-head">
+        <h2 class="bo-panel-title">SEO &amp; Social</h2>
+        <div class="bo-block-translate"
+             x-data="boAutoSEO"
+             data-url="{% url 'backoffice:content_contacts_seo' pk=contacts.pk %}"
+             data-form-id="contacts-edit-form"
+             data-source-fields="intro_title,intro_text,office_name,office_address">
+          <button type="button"
+                  class="bo-block-translate-btn"
+                  :class="loading && 'bo-btn-disabled'"
+                  :disabled="loading"
+                  @click="run()"
+                  :title="error || status || '{% trans "Сгенерировать SEO/OG для всех 3 языков из RU контента. Заполняет только пустые." %}'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+              <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+            </svg>
+            <span x-show="!loading">{% trans "Авто-генерация SEO" %}</span>
+            <span x-show="loading" x-cloak>{% trans "Генерируем…" %}</span>
+          </button>
+          <small class="bo-block-translate-status" x-show="status && !error" x-cloak x-text="status"></small>
+          <small class="bo-block-translate-error" x-show="error" x-cloak x-text="error"></small>
+        </div>
+      </header>
+
+      {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_title' label='SEO title' %}
+      {% field_help 'contactspage.seo_title' %}
+
+      {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_description' label='SEO description' %}
+      {% field_help 'contactspage.seo_description' %}
+
+      <div class="bo-row-2">
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='og_title' label='OG title (соцсети)' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='og_description' label='OG description (соцсети)' %}
+      </div>
+      {% field_help 'contactspage.og_title' %}
+
+      <div class="bo-field">
+        <label class="bo-label">{% trans "OG-картинка (для шеринга)" %}</label>
+        {% if contacts.og_image %}
+          <div class="bo-media-preview" style="min-height:180px">
+            <img src="{{ contacts.og_image.url }}" alt="og preview">
+          </div>
+        {% else %}
+          <div class="bo-media-preview" style="min-height:120px">
+            <div style="color:rgba(255,255,255,.6); font-size:.875rem">{% trans "Не загружена — на сайте OG-картинки не будет" %}</div>
+          </div>
+        {% endif %}
+        <div class="bo-media-controls">
+          <label class="bo-media-replace">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>{% trans "Изменить OG-картинку" %}</span>
+            <input type="file" form="contacts-edit-form" name="{{ form.og_image.html_name }}" accept="image/jpeg,image/png,image/webp">
+          </label>
+        </div>
+        {% field_help 'contactspage.og_image' %}
+      </div>
+    </section>
+
+    <div class="bo-form-foot bo-form-foot-sticky"
+         x-data="boFormSteps"
+         data-form-id="contacts-edit-form"
+         data-steps-json='{{ steps_json|safe }}'>
+      <ul class="bo-steps">
+        <template x-for="step in steps" :key="step.id">
+          <li class="bo-step" :class="stepClass(step)" :title="step.label + ' — ' + step.filled + '/' + step.total + (step.required ? ' (обязательно)' : '')">
+            <span class="bo-step-dot"></span>
+            <span class="bo-step-label" x-text="step.label"></span>
+            <span class="bo-step-count" x-text="step.filled + '/' + step.total"></span>
+            <span class="bo-step-req" x-show="step.required" x-cloak title="{% trans 'Обязательный шаг' %}">*</span>
+          </li>
+        </template>
+      </ul>
+
+      <div class="bo-form-foot-actions">
+        <a href="{% url 'backoffice:content_contacts_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+        <button type="submit" form="contacts-edit-form"
+                class="btn btn-primary"
+                :disabled="!canSave"
+                :class="!canSave && 'bo-btn-disabled'"
+                :title="canSave ? '' : blockedReason">{% trans "Сохранить" %}</button>
+      </div>
+    </div>
   </div>
 {% endblock %}

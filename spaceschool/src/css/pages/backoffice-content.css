@@ -363,12 +363,70 @@
     align-items: center;
     justify-content: space-between;
     gap: .75rem;
+    flex-wrap: wrap;
+  }
+
+  .bo-formset-head-actions {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    flex-wrap: wrap;
   }
 
   .bo-formset-item-title {
     font-size: var(--text-base);
     font-weight: var(--font-weight-bold);
     margin: 0;
+  }
+
+  /* ============ Leaflet preview в backoffice (Contacts edit) ============ */
+  /* aspect-ratio совпадает с публичной картой на десктопе (16/6 в pages/contacts.html),
+     чтобы менеджер видел ровно то же кадрирование/zoom что и пользователь сайта. */
+  .bo-map-preview {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 6;
+    border-radius: .75rem;
+    overflow: hidden;
+    border: 1px solid var(--color-gray-200);
+    background: var(--color-slate-50);
+    margin-bottom: .75rem;
+  }
+
+  .bo-map-canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Намёк менеджеру, что по карте можно кликать (leaflet ставит grab по
+     умолчанию, что вводит в заблуждение). Маркер draggable — у него grab/grabbing
+     остаётся. */
+  .bo-map-canvas.leaflet-container {
+    cursor: crosshair;
+  }
+  .bo-map-canvas .leaflet-marker-draggable {
+    cursor: grab;
+  }
+  .bo-map-canvas .leaflet-marker-draggable:active {
+    cursor: grabbing;
+  }
+
+  /* Leaflet вкатывает default-Z для своих контролов ~1000 — не трогаем */
+  .bo-map-canvas .leaflet-container {
+    background: var(--color-slate-50);
+  }
+
+  .bo-map-empty {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    color: var(--color-gray-500);
+    font-size: .875rem;
+    background: var(--color-slate-50);
   }
 
   /* ============ Help disclosure (инструкции) ============ */

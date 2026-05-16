@@ -6,3 +6,13 @@
   inset: 0;
   background-color: var(--color-gray-300);
 }
+
+/* Leaflet проставляет z-index до 1000 на свои controls (zoom-кнопки) и до 700
+   на popup-pane. Без stacking context эти z-индексы конкурируют с overlay'ями
+   страницы (megamenu z-40, sticky header'ы, модалки). `isolation: isolate`
+   создаёт новый stacking context — все внутренние z-индексы Leaflet остаются
+   замкнутыми внутри карты, наружу контейнер занимает обычный auto. Затрагивает
+   и публичную страницу, и backoffice preview. */
+.leaflet-container {
+  isolation: isolate;
+}

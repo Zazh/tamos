@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load i18n region_tags %}
 
-{% block title %}{{ contacts.intro_title }} — Tamos Space School{% endblock %}
+{% block title %}{{ contacts.effective_seo_title|default:contacts.intro_title }} — Space School{% endblock %}
+{% block meta_description %}{{ contacts.effective_seo_description|default:default_description }}{% endblock %}
+{% block og_title %}{{ contacts.effective_og_title|default:contacts.intro_title }}{% endblock %}
+{% block og_description %}{{ contacts.effective_og_description|default:default_description }}{% endblock %}
+{% block og_image %}{% if contacts.effective_og_image %}{{ request.scheme }}://{{ request.get_host }}{{ contacts.effective_og_image.url }}{% endif %}{% endblock %}
 
 {% block layout_top %}
   {% include 'partials/header.html' with active_page='contacts' %}
@@ -47,7 +51,7 @@
                data-map-leaflet
                data-coordinates="{{ contacts.coordinates }}"
                data-zoom="{{ contacts.map_zoom }}"></div>
-          <div class="w-65 bg-white rounded-xl p-4 absolute bottom-6 left-6 z-[1000] border border-gray-300">
+          <div class="w-65 bg-white rounded-xl p-4 absolute bottom-6 left-6 z-10 border border-gray-300">
             <ul class="flex flex-col gap-2">
               <li>
                 <span class="font-bold">{{ contacts.office_name }}</span>

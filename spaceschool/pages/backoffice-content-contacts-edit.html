@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Контакты — Астана — Backoffice — Tamos Space School</title>
+    <title>Контакты — Астана — Backoffice — Space School</title>
     <script type="module" src="/src/js/main.js"></script>
   </head>
   <body>
@@ -23,13 +23,19 @@
           </div>
         </header>
 
-        <main class="bo-main" x-data="{ lang: 'ru' }">
+        <main class="bo-main bo-content-stack" x-data="{ lang: 'ru' }">
           <a href="#" class="bo-back">← К списку</a>
 
           <header class="bo-detail-head">
             <div>
               <h1 class="bo-page-title">Контакты — Астана</h1>
               <p class="bo-page-subtitle">Singleton-контент страницы «Контакты». Обновлено 11 мая, 18:42.</p>
+            </div>
+            <div class="bo-detail-head-actions">
+              <a href="#" target="_blank" rel="noopener" class="bo-action-btn bo-action-preview" title="Открыть в новой вкладке">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                <span>Просмотреть на сайте</span>
+              </a>
             </div>
           </header>
 
@@ -95,7 +101,7 @@
 
               <div class="bo-field bo-field-translatable">
                 <label class="bo-label">Название офиса</label>
-                <input type="text" class="bo-input" name="office_name_ru" value="Школа Tamos Astana" x-show="lang === 'ru'">
+                <input type="text" class="bo-input" name="office_name_ru" value="Школа Space School Astana" x-show="lang === 'ru'">
                 <input type="text" class="bo-input" name="office_name_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
                 <input type="text" class="bo-input" name="office_name_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
               </div>
@@ -118,6 +124,12 @@
             <!-- Map -->
             <section class="bo-panel">
               <h2 class="bo-panel-title">Карта (Leaflet · CartoDB light_nolabels)</h2>
+
+              <div class="bo-map-preview">
+                <div class="bo-map-canvas"></div>
+                <div class="bo-map-empty" hidden>Введи широту и долготу, чтобы увидеть точку на карте.</div>
+              </div>
+
               <div class="bo-row-3">
                 <div class="bo-field">
                   <label class="bo-label">Широта</label>
@@ -147,10 +159,15 @@
                 <li class="bo-formset-item bo-formset-item-stacked">
                   <div class="bo-formset-head">
                     <h3 class="bo-formset-item-title">Отдел #1</h3>
-                    <label class="bo-label-checkbox">
-                      <input type="checkbox" name="departments-0-DELETE">
-                      <span>Удалить</span>
-                    </label>
+                    <div class="bo-formset-head-actions">
+                      <div class="bo-block-translate">
+                        <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                      </div>
+                      <label class="bo-label-checkbox">
+                        <input type="checkbox" name="departments-0-DELETE">
+                        <span>Удалить</span>
+                      </label>
+                    </div>
                   </div>
 
                   <div class="bo-row-3">
@@ -275,8 +292,28 @@
             </section>
 
             <div class="bo-form-foot bo-form-foot-sticky">
-              <a href="#" class="bo-action-rejected bo-action-btn">Отмена</a>
-              <button type="submit" class="btn btn-primary">Сохранить</button>
+              <ul class="bo-steps">
+                <li class="bo-step bo-step-complete">
+                  <span class="bo-step-dot"></span>
+                  <span class="bo-step-label">Основа (RU)</span>
+                  <span class="bo-step-count">7/7</span>
+                  <span class="bo-step-req">*</span>
+                </li>
+                <li class="bo-step bo-step-empty">
+                  <span class="bo-step-dot"></span>
+                  <span class="bo-step-label">Перевод KZ</span>
+                  <span class="bo-step-count">0/5</span>
+                </li>
+                <li class="bo-step bo-step-partial">
+                  <span class="bo-step-dot"></span>
+                  <span class="bo-step-label">SEO</span>
+                  <span class="bo-step-count">2/4</span>
+                </li>
+              </ul>
+              <div class="bo-form-foot-actions">
+                <a href="#" class="bo-action-rejected bo-action-btn">Отмена</a>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+              </div>
             </div>
           </form>
         </main>

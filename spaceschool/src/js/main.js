@@ -7,7 +7,7 @@ import { registerGlass } from "./glass.js";
 import { registerSlider } from "./slider.js";
 import { registerCarousel } from "./carousel.js";
 import { registerFeedbackModal } from "./modal.js";
-import { initLeafletMaps } from "./leaflet-map.js";
+import { initLeafletMaps, boMapPreview } from "./leaflet-map.js";
 import { initMarquee } from "./marquee.js";
 import { initStepperScrollspy } from "./stepper-scrollspy.js";
 import { registerBackofficeGallery } from "./backoffice-gallery.js";
@@ -23,6 +23,7 @@ registerFeedbackModal(Alpine);
 registerBackofficeGallery(Alpine);
 registerBackofficeTranslate(Alpine);
 registerHeroVideo(Alpine);
+Alpine.data("boMapPreview", boMapPreview);
 
 
 window.Alpine = Alpine;

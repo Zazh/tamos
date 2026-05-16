@@ -430,6 +430,40 @@ class ContactsPage(models.Model):
         help_text='Целое 1–19 (Leaflet/CartoDB). 16 — улица + здание.',
     )
 
+    # --- SEO ---
+    seo_title = models.CharField(
+        'SEO title (<title>)',
+        max_length=80,
+        blank=True,
+        help_text='50–60 символов. Если пусто — fallback на intro_title.',
+    )
+    seo_description = models.CharField(
+        'SEO description (meta)',
+        max_length=200,
+        blank=True,
+        help_text='150–160 символов. Если пусто — fallback на intro_text.',
+    )
+    og_image = models.ImageField(
+        'OG/share картинка',
+        upload_to='contacts/og/',
+        blank=True,
+        null=True,
+        help_text='1200×630 для соцсетей. Если пусто — на сайте OG-картинки '
+                  'не будет (контакты — обычно не share-target).',
+    )
+    og_title = models.CharField(
+        'OG title',
+        max_length=80,
+        blank=True,
+        help_text='Если пусто — fallback на seo_title → intro_title.',
+    )
+    og_description = models.CharField(
+        'OG description',
+        max_length=300,
+        blank=True,
+        help_text='Если пусто — fallback на seo_description → intro_text.',
+    )
+
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     class Meta:
@@ -451,6 +485,26 @@ class ContactsPage(models.Model):
         if self.latitude is None or self.longitude is None:
             return ''
         return f'{self.latitude:.6f},{self.longitude:.6f}'
+
+    @property
+    def effective_seo_title(self) -> str:
+        return self.seo_title or (self.intro_title or '').strip()
+
+    @property
+    def effective_seo_description(self) -> str:
+        return self.seo_description or (self.intro_text or '').replace('\n', ' ').strip()
+
+    @property
+    def effective_og_title(self) -> str:
+        return self.og_title or self.effective_seo_title
+
+    @property
+    def effective_og_description(self) -> str:
+        return self.og_description or self.effective_seo_description
+
+    @property
+    def effective_og_image(self):
+        return self.og_image or None
 
 
 class ContactsDepartment(models.Model):

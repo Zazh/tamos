@@ -94,7 +94,7 @@
       <section class="bo-panel">
         <header class="bo-panel-head">
           <h2 class="bo-panel-title">Hero — текст</h2>
-          {% include 'backoffice/content/_block_translate.html' with bases='["hero_badge_text","hero_title","hero_subtitle"]' home=home %}
+          {% include 'backoffice/content/_block_translate.html' with bases='["hero_badge_text","hero_title","hero_subtitle"]' translate_url=home_translate_url form_id='home-edit-form' %}
         </header>
 
         {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_badge_text' label='Бадж над заголовком' %}
@@ -110,7 +110,7 @@
       <section class="bo-panel">
         <header class="bo-panel-head">
           <h2 class="bo-panel-title">Hero — кнопка primary</h2>
-          {% include 'backoffice/content/_block_translate.html' with bases='["hero_cta_primary_text","hero_cta_primary_modal_title"]' home=home %}
+          {% include 'backoffice/content/_block_translate.html' with bases='["hero_cta_primary_text","hero_cta_primary_modal_title"]' translate_url=home_translate_url form_id='home-edit-form' %}
         </header>
 
         <div class="bo-row-2">
@@ -123,7 +123,7 @@
       <section class="bo-panel">
         <header class="bo-panel-head">
           <h2 class="bo-panel-title">Hero — кнопка secondary</h2>
-          {% include 'backoffice/content/_block_translate.html' with bases='["hero_cta_secondary_text","hero_cta_secondary_modal_title"]' home=home %}
+          {% include 'backoffice/content/_block_translate.html' with bases='["hero_cta_secondary_text","hero_cta_secondary_modal_title"]' translate_url=home_translate_url form_id='home-edit-form' %}
         </header>
 
         <div class="bo-row-2">
@@ -136,7 +136,7 @@
       <section class="bo-panel">
         <header class="bo-panel-head">
           <h2 class="bo-panel-title">{% trans "О нас" %}</h2>
-          {% include 'backoffice/content/_block_translate.html' with bases='["about_label","about_title","about_body"]' home=home %}
+          {% include 'backoffice/content/_block_translate.html' with bases='["about_label","about_title","about_body"]' translate_url=home_translate_url form_id='home-edit-form' %}
         </header>
 
         {% include 'backoffice/content/_field_translatable.html' with form=form base='about_label' label='Лейбл секции' %}
