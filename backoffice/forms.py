@@ -10,6 +10,16 @@ from pages.models import (
     ContactsPage,
     HomePage,
 )
+from programs.models import (
+    ProgramAudienceItem,
+    ProgramBenefitItem,
+    ProgramCertificateFeature,
+    ProgramFaqItem,
+    ProgramPage,
+    ProgramStat,
+    ProgramTeamMember,
+    ProgramVariantCard,
+)
 
 
 # Языки modeltranslation для backoffice-форм. Источник правды — settings.
@@ -35,12 +45,19 @@ def _strip_lang(name):
     return name
 
 
-def _apply_backoffice_widget_classes(form, *, html_fields=()):
+def _apply_backoffice_widget_classes(form, *, html_fields=(), compact_fields=()):
     """Прокинуть нужный bo-class на каждый widget формы — чтобы шаблон не
     рендерил input'ы вручную, а просто ставил `{{ form.field }}` где надо.
 
     Также для translatable полей расставляет placeholder с подсказкой
     fallback на ru.
+
+    Параметры:
+      html_fields — base-имена textarea-полей с HTML-разметкой (rows=4 моноспейс).
+      compact_fields — base-имена textarea-полей, которые визуально должны быть
+        однострочными (заголовки/подзаголовки секций — TextField в модели только
+        ради совместимости со старым content'ом, в UI это короткие однострочники).
+        rows=1, без auto-resize вверх.
     """
     for name, field in form.fields.items():
         widget = field.widget
@@ -53,8 +70,13 @@ def _apply_backoffice_widget_classes(form, *, html_fields=()):
             classes = ['bo-textarea']
             if base_name in html_fields:
                 classes.append('bo-textarea-html')
+                attrs.setdefault('rows', 4)  # HTML-разметке нужно место
+            elif base_name in compact_fields:
+                classes.append('bo-textarea-compact')
+                attrs['rows'] = 1  # принудительно — даже если уже выставлен
+            else:
+                attrs.setdefault('rows', 2)  # Описания компактные, пользователь может растянуть
             attrs['class'] = ' '.join(classes)
-            attrs.setdefault('rows', 4)
         elif isinstance(widget, (forms.NumberInput, forms.TextInput,
                                  forms.EmailInput, forms.URLInput)):
             attrs['class'] = 'bo-input'
@@ -306,4 +328,337 @@ ContactsDepartmentFormSet = inlineformset_factory(
     form=ContactsDepartmentItemForm,
     extra=1,
     can_delete=True,
+)
+
+
+# ===== Content: ProgramPage edit forms ======================================
+#
+# ProgramPage — самый большой лендинг (Hero + 7 секций с inline-моделями +
+# секция «Внеклассные» без inline + SEO/OG). Все 7 inline сохраняются вместе
+# с основной формой в одном POST'е (Contacts-pattern).
+
+PROGRAM_TRANSLATABLE = (
+    'hero_badge_text',
+    'hero_title',
+    'hero_subtitle',
+    'hero_cta_primary_text',
+    'hero_cta_secondary_text',
+    'audience_label',
+    'audience_title',
+    'audience_subtitle',
+    'benefits_label',
+    'benefits_title',
+    'benefits_subtitle',
+    'programs_label',
+    'programs_title',
+    'programs_subtitle',
+    'programs_cta_text',
+    'team_label',
+    'team_title',
+    'team_subtitle',
+    'certificate_label',
+    'certificate_title',
+    'certificate_subtitle',
+    'certificate_cta_text',
+    'activities_label',
+    'activities_title',
+    'activities_subtitle',
+    'activities_cta_text',
+    'stats_label',
+    'stats_title',
+    'stats_intro_text',
+    'faq_label',
+    'faq_title',
+    'seo_title',
+    'seo_description',
+    'og_title',
+    'og_description',
+)
+
+
+class ProgramPageEditForm(forms.ModelForm):
+    """Редактирование ProgramPage. Структурно повторяет HomePageEditForm/
+    ContactsPageEditForm — но самая большая (35 translatable полей × 3 языка =
+    105 полей + 5 ImageField'ов + 4 числовых SEO).
+    """
+
+    HTML_FIELDS = frozenset({'hero_title'})
+
+    # Поля-заголовки секций — в модели TextField (исторически), в UI это короткие
+    # однострочные подписи. rows=1 чтобы не занимать пол-экрана пустым местом.
+    COMPACT_FIELDS = frozenset({
+        'audience_title', 'audience_subtitle',
+        'benefits_title', 'benefits_subtitle',
+        'programs_title', 'programs_subtitle',
+        'team_title', 'team_subtitle',
+        'certificate_title', 'certificate_subtitle',
+        'activities_title', 'activities_subtitle',
+        'stats_title',
+        'faq_title',
+        'hero_subtitle',
+    })
+
+    # SEO/OG-блок рендерится в шаблоне вне основного <form id="program-edit-form">
+    # (после inline-formset'ов). Поля получают HTML5-атрибут form= чтобы их
+    # значения уходили с submit'ом — паттерн HomePageEditForm/ContactsPageEditForm.
+    OUT_OF_FORM_BASES = frozenset({
+        'seo_title', 'seo_description', 'og_title', 'og_description',
+    })
+    OUT_OF_FORM_FILE_FIELDS = frozenset({'og_image'})
+    FORM_ID = 'program-edit-form'
+
+    IMAGE_MAX_BYTES = 5 * 1024 * 1024
+
+    class Meta:
+        model = ProgramPage
+        fields = (
+            'audience_photo_woman',
+            'audience_photo_library',
+            'benefits_photo_kid',
+            'certificate_preview_image',
+            'stats_photo',
+            'og_image',
+        ) + _localized(*PROGRAM_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(
+            self,
+            html_fields=self.HTML_FIELDS,
+            compact_fields=self.COMPACT_FIELDS,
+        )
+        for name, field in self.fields.items():
+            base = _strip_lang(name)
+            if base in self.OUT_OF_FORM_BASES or name in self.OUT_OF_FORM_FILE_FIELDS:
+                field.widget.attrs['form'] = self.FORM_ID
+
+    def _check_max_size(self, file, limit, kind):
+        if not file or not hasattr(file, 'size'):
+            return file
+        mb = file.size / 1024 / 1024
+        limit_mb = limit // (1024 * 1024)
+        if file.size > limit:
+            raise forms.ValidationError(
+                f'Файл {mb:.1f} MB больше лимита {limit_mb} MB для «{kind}». '
+                'Сожми через CloudConvert / TinyPNG.'
+            )
+        return file
+
+    def clean_audience_photo_woman(self):
+        return self._check_max_size(self.cleaned_data.get('audience_photo_woman'),
+                                    self.IMAGE_MAX_BYTES, 'фото девушки')
+
+    def clean_audience_photo_library(self):
+        return self._check_max_size(self.cleaned_data.get('audience_photo_library'),
+                                    self.IMAGE_MAX_BYTES, 'фото библиотеки')
+
+    def clean_benefits_photo_kid(self):
+        return self._check_max_size(self.cleaned_data.get('benefits_photo_kid'),
+                                    self.IMAGE_MAX_BYTES, 'фото ученика')
+
+    def clean_certificate_preview_image(self):
+        return self._check_max_size(self.cleaned_data.get('certificate_preview_image'),
+                                    self.IMAGE_MAX_BYTES, 'образец сертификата')
+
+    def clean_stats_photo(self):
+        return self._check_max_size(self.cleaned_data.get('stats_photo'),
+                                    self.IMAGE_MAX_BYTES, 'фото школы')
+
+    def clean_og_image(self):
+        return self._check_max_size(self.cleaned_data.get('og_image'),
+                                    self.IMAGE_MAX_BYTES, 'OG-картинка')
+
+
+# --- 7 inline-formset форм ---------------------------------------------------
+
+_PROGRAM_AUDIENCE_TRANSLATABLE = ('title', 'description')
+_PROGRAM_BENEFIT_TRANSLATABLE = ('title', 'description')
+_PROGRAM_VARIANT_TRANSLATABLE = ('badge_text', 'title', 'tags', 'features', 'footer_label', 'footer_value')
+_PROGRAM_TEAM_TRANSLATABLE = ('name', 'role', 'meta', 'quote')
+_PROGRAM_CERT_FEATURE_TRANSLATABLE = ('title',)
+_PROGRAM_STAT_TRANSLATABLE = ('value', 'label')
+_PROGRAM_FAQ_TRANSLATABLE = ('question', 'answer')
+
+
+def _relax_required(form, bases):
+    """Сделать `required=False` для всех `_ru/_kk/_en` полей перечисленных bases.
+
+    Используется в инлайн-формах с фиксированным числом слотов (audience / benefit /
+    cert / stat): менеджер может оставить слот пустым (placeholder для будущего
+    контента). Публичный шаблон скрывает пустые карточки через `{% if item.title %}`.
+    """
+    for base in bases:
+        for lang in TRANSLATION_LANGS:
+            name = f'{base}_{lang}'
+            if name in form.fields:
+                form.fields[name].required = False
+
+
+def _limit_chars(form, bases, limit):
+    """Ограничить длину `_ru/_kk/_en` полей перечисленных bases.
+
+    Источник правды для лимита — UX: длина должна быть такой, чтобы перевод
+    RU→KK/EN (обычно +30…50% символов) гарантированно помещался в карточку на
+    публичной странице без переноса. Применяется к коротким заголовкам в
+    inline-карточках audience/benefit/cert.
+    """
+    for base in bases:
+        for lang in TRANSLATION_LANGS:
+            name = f'{base}_{lang}'
+            if name in form.fields:
+                form.fields[name].max_length = limit
+                form.fields[name].widget.attrs['maxlength'] = limit
+
+
+class ProgramAudienceItemForm(forms.ModelForm):
+    class Meta:
+        model = ProgramAudienceItem
+        fields = ('order', 'icon_svg') + _localized(*_PROGRAM_AUDIENCE_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+        _relax_required(self, _PROGRAM_AUDIENCE_TRANSLATABLE)
+        _limit_chars(self, ('title',), 60)
+
+
+class ProgramBenefitItemForm(forms.ModelForm):
+    class Meta:
+        model = ProgramBenefitItem
+        fields = ('order',) + _localized(*_PROGRAM_BENEFIT_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+        _relax_required(self, _PROGRAM_BENEFIT_TRANSLATABLE)
+        _limit_chars(self, ('title',), 60)
+
+
+class ProgramVariantCardForm(forms.ModelForm):
+    class Meta:
+        model = ProgramVariantCard
+        fields = ('order', 'badge_style') + _localized(*_PROGRAM_VARIANT_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+
+
+class ProgramTeamMemberForm(forms.ModelForm):
+    class Meta:
+        model = ProgramTeamMember
+        fields = ('order', 'photo') + _localized(*_PROGRAM_TEAM_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+
+
+class ProgramCertificateFeatureForm(forms.ModelForm):
+    class Meta:
+        model = ProgramCertificateFeature
+        fields = ('order', 'icon_svg') + _localized(*_PROGRAM_CERT_FEATURE_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+        _relax_required(self, _PROGRAM_CERT_FEATURE_TRANSLATABLE)
+        _limit_chars(self, ('title',), 60)
+
+
+class ProgramStatForm(forms.ModelForm):
+    class Meta:
+        model = ProgramStat
+        fields = ('order',) + _localized(*_PROGRAM_STAT_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+        _relax_required(self, _PROGRAM_STAT_TRANSLATABLE)
+
+
+class ProgramFaqItemForm(forms.ModelForm):
+    class Meta:
+        model = ProgramFaqItem
+        fields = ('order',) + _localized(*_PROGRAM_FAQ_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+
+
+def _program_formset(model, form, related_name, *, extra=1, can_delete=True, max_num=None):
+    """Build inlineformset для inline-модели Программы.
+
+    `extra=0, can_delete=False, max_num=4` — для секций с фиксированным числом
+    слотов (audience / benefit / cert / stat). View предварительно гарантирует,
+    что у программы ровно 4 строки для этих моделей (см. `_ensure_program_fixed_sections`).
+    """
+    kwargs = dict(
+        parent_model=ProgramPage,
+        model=model,
+        form=form,
+        extra=extra,
+        can_delete=can_delete,
+        fk_name='program_page',
+    )
+    if max_num is not None:
+        kwargs['max_num'] = max_num
+        kwargs['validate_max'] = True
+    return inlineformset_factory(**kwargs)
+
+
+# Фиксированные секции — ровно 4 слота. `extra=0` + `can_delete=False` + `max_num=4`.
+# View использует `_ensure_program_fixed_sections` для гарантии 4 существующих строк.
+ProgramAudienceFormSet = _program_formset(
+    ProgramAudienceItem, ProgramAudienceItemForm, 'audience_items',
+    extra=0, can_delete=False, max_num=4,
+)
+ProgramBenefitFormSet = _program_formset(
+    ProgramBenefitItem, ProgramBenefitItemForm, 'benefit_items',
+    extra=0, can_delete=False, max_num=4,
+)
+ProgramVariantFormSet = _program_formset(ProgramVariantCard, ProgramVariantCardForm, 'variant_cards')
+ProgramTeamFormSet = _program_formset(ProgramTeamMember, ProgramTeamMemberForm, 'team_members')
+ProgramCertificateFeatureFormSet = _program_formset(
+    ProgramCertificateFeature, ProgramCertificateFeatureForm, 'certificate_features',
+    extra=0, can_delete=False, max_num=4,
+)
+ProgramStatFormSet = _program_formset(
+    ProgramStat, ProgramStatForm, 'stats',
+    extra=0, can_delete=False, max_num=4,
+)
+ProgramFaqFormSet = _program_formset(ProgramFaqItem, ProgramFaqItemForm, 'faq_items')
+
+
+# Имена related_name'ов, у которых должно быть ровно 4 строки. Используется в
+# `_ensure_program_fixed_sections` (views.py) для гарантии 4 существующих
+# строк перед инициализацией formset'а.
+PROGRAM_FIXED_SLOT_SECTIONS = (
+    ('audience_items', ProgramAudienceItem),
+    ('benefit_items', ProgramBenefitItem),
+    ('certificate_features', ProgramCertificateFeature),
+    ('stats', ProgramStat),
+)
+PROGRAM_FIXED_SLOT_COUNT = 4
+
+
+# Конфигурация inline-formset'ов для шаблона (порядок и связка name → prefix).
+# Используется и views (создание/save), и template (отрисовка).
+# Каждая запись: (prefix, formset_class, related_name на модели, человеко-читаемый label, list translatable bases).
+PROGRAM_INLINE_FORMSETS = (
+    ('audience_items', ProgramAudienceFormSet, 'audience_items',
+     'Карточки «Кому подходит»', list(_PROGRAM_AUDIENCE_TRANSLATABLE)),
+    ('benefit_items', ProgramBenefitFormSet, 'benefit_items',
+     'Карточки «Что получает»', list(_PROGRAM_BENEFIT_TRANSLATABLE)),
+    ('variant_cards', ProgramVariantFormSet, 'variant_cards',
+     'Карточки программ', list(_PROGRAM_VARIANT_TRANSLATABLE)),
+    ('team_members', ProgramTeamFormSet, 'team_members',
+     'Члены команды', list(_PROGRAM_TEAM_TRANSLATABLE)),
+    ('certificate_features', ProgramCertificateFeatureFormSet, 'certificate_features',
+     'Карточки «Аттестат»', list(_PROGRAM_CERT_FEATURE_TRANSLATABLE)),
+    ('stats', ProgramStatFormSet, 'stats',
+     'Цифры', list(_PROGRAM_STAT_TRANSLATABLE)),
+    ('faq_items', ProgramFaqFormSet, 'faq_items',
+     'Вопросы FAQ', list(_PROGRAM_FAQ_TRANSLATABLE)),
 )

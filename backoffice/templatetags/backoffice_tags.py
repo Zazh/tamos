@@ -128,6 +128,24 @@ def getfield(form, name):
         return None
 
 
+@register.filter
+def getbyindex(seq, i):
+    """Индексный доступ к sequence из шаблона. Нужен потому что нельзя
+    `seq.0`/`seq.1` если ключи — числа. Используется в backoffice/content/program/edit.html
+    для распаковки конфигурации `formsets` (список из 7 кортежей)."""
+    try:
+        return seq[int(i)]
+    except (IndexError, TypeError, ValueError):
+        return None
+
+
+@register.filter(name='getattr')
+def getattr_filter(obj, name):
+    """`{{ obj|getattr:'field_name' }}` — атрибут по строке. Используется в
+    `_photo_field.html` чтобы получить ImageField по имени переменной."""
+    return getattr(obj, name, None)
+
+
 @register.simple_tag
 def field_help(key):
     """Раскрывающаяся инструкция для CMS-поля. Контент из `pages.field_help`.

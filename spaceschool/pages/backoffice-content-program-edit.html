@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Программа — Астана — Backoffice — Space School</title>
+    <script type="module" src="/src/js/main.js"></script>
+  </head>
+  <body>
+    <div class="bo-shell" x-data="{ sidebar: false }" :class="sidebar && 'bo-sidebar-open'">
+      <aside class="bo-sidebar"></aside>
+      <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false"></div>
+
+      <div class="bo-body">
+        <header class="bo-topbar">
+          <button class="bo-burger" @click="sidebar = true" aria-label="Меню">
+            <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="bo-topbar-title">Программа — Астана</div>
+          <div class="bo-user">
+            <span class="bo-user-name">Aidarbek</span>
+            <button class="bo-logout">Выйти</button>
+          </div>
+        </header>
+
+        <main class="bo-main bo-content-stack" x-data="{ lang: 'ru' }">
+          <a href="#" class="bo-back">← К списку</a>
+
+          <header class="bo-detail-head">
+            <div>
+              <h1 class="bo-page-title">Программа — Астана</h1>
+              <p class="bo-page-subtitle">Лендинг «Программа» региона. 7 inline-секций: аудитория, что получает, программы, команда, аттестат, цифры, FAQ. Секция «Внеклассные» — только текст (карточки берутся из активностей).</p>
+            </div>
+            <div class="bo-detail-head-actions">
+              <a href="#" target="_blank" rel="noopener" class="bo-action-btn bo-action-preview" title="Открыть в новой вкладке">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                <span>Просмотреть на сайте</span>
+              </a>
+            </div>
+          </header>
+
+          <div class="bo-tabs" role="tablist" aria-label="Язык контента">
+            <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+              Русский<span class="bo-tab-meta">основной</span>
+            </button>
+            <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
+              Қазақша
+            </button>
+            <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
+              English
+            </button>
+
+            <div class="bo-tab-action-wrap">
+              <button type="button" class="bo-tab bo-tab-action">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/><path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/></svg>
+                <span>Авто-перевод</span>
+              </button>
+            </div>
+          </div>
+
+          <form id="program-edit-form" method="post" action="#" enctype="multipart/form-data" class="bo-form">
+
+            <!-- Hero -->
+            <section class="bo-panel">
+              <header class="bo-panel-head">
+                <h2 class="bo-panel-title">Hero</h2>
+                <div class="bo-block-translate">
+                  <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                </div>
+              </header>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Бадж над заголовком</label>
+                <input type="text" class="bo-input" name="hero_badge_text_ru" value="Международная школа в Астане" x-show="lang === 'ru'">
+                <input type="text" class="bo-input" name="hero_badge_text_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                <input type="text" class="bo-input" name="hero_badge_text_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Заголовок hero (h1, HTML)</label>
+                <textarea class="bo-textarea bo-textarea-html" name="hero_title_ru" rows="4" x-show="lang === 'ru'">&lt;span class="hero-fit"&gt;Школа для детей&lt;/span&gt;</textarea>
+                <textarea class="bo-textarea bo-textarea-html" name="hero_title_kk" rows="4" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak></textarea>
+                <textarea class="bo-textarea bo-textarea-html" name="hero_title_en" rows="4" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak></textarea>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Подзаголовок hero (h2)</label>
+                <textarea class="bo-textarea" name="hero_subtitle_ru" rows="3" x-show="lang === 'ru'">От 1 до 11 класса · Cambridge + IB</textarea>
+                <textarea class="bo-textarea" name="hero_subtitle_kk" rows="3" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak></textarea>
+                <textarea class="bo-textarea" name="hero_subtitle_en" rows="3" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak></textarea>
+              </div>
+
+              <div class="bo-row-2">
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">CTA основная (текст)</label>
+                  <input type="text" class="bo-input" name="hero_cta_primary_text_ru" value="Записаться" x-show="lang === 'ru'">
+                </div>
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">CTA вторичная (текст)</label>
+                  <input type="text" class="bo-input" name="hero_cta_secondary_text_ru" value="Получить консультацию" x-show="lang === 'ru'">
+                </div>
+              </div>
+            </section>
+
+            <!-- Section: Audience -->
+            <section class="bo-panel">
+              <header class="bo-panel-head">
+                <h2 class="bo-panel-title">Секция «Кому подходит»</h2>
+                <div class="bo-block-translate">
+                  <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                </div>
+              </header>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Лейбл</label>
+                <input type="text" class="bo-input" name="audience_label_ru" value="Кому подходит" x-show="lang === 'ru'">
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Заголовок</label>
+                <textarea class="bo-textarea" name="audience_title_ru" rows="2" x-show="lang === 'ru'">Программа для целеустремлённых</textarea>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Подзаголовок</label>
+                <textarea class="bo-textarea" name="audience_subtitle_ru" rows="2" x-show="lang === 'ru'"></textarea>
+              </div>
+
+              <div class="bo-row-2">
+                <div class="bo-field">
+                  <label class="bo-label">Фото слева (круг, девушка)</label>
+                  <div class="bo-media-preview" style="min-height:180px">
+                    <img src="/media/programs/audience/woman.png" alt="">
+                  </div>
+                  <div class="bo-media-controls">
+                    <label class="bo-media-replace">
+                      <span>Изменить</span>
+                      <input type="file" name="audience_photo_woman" accept="image/*">
+                    </label>
+                  </div>
+                </div>
+                <div class="bo-field">
+                  <label class="bo-label">Фото справа (прямоугольник, библиотека)</label>
+                  <div class="bo-media-preview" style="min-height:180px">
+                    <img src="/media/programs/audience/library.jpg" alt="">
+                  </div>
+                  <div class="bo-media-controls">
+                    <label class="bo-media-replace">
+                      <span>Изменить</span>
+                      <input type="file" name="audience_photo_library" accept="image/*">
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Inline: audience-items -->
+              <h3 class="bo-subpanel-title">Карточки «Кому подходит»</h3>
+              <input type="hidden" name="audience_items-TOTAL_FORMS" value="5">
+              <input type="hidden" name="audience_items-INITIAL_FORMS" value="4">
+              <ul class="bo-formset bo-formset-stacked">
+                <li class="bo-formset-item bo-formset-item-stacked">
+                  <div class="bo-formset-head">
+                    <h3 class="bo-formset-item-title">Целеустремлённым</h3>
+                    <div class="bo-formset-head-actions">
+                      <div class="bo-block-translate">
+                        <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                      </div>
+                      <label class="bo-label-checkbox">
+                        <input type="checkbox" name="audience_items-0-DELETE">
+                        <span>Удалить</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="bo-row-2">
+                    <div class="bo-field">
+                      <label class="bo-label">Порядок</label>
+                      <input type="number" class="bo-input" name="audience_items-0-order" value="0">
+                    </div>
+                    <div class="bo-field">
+                      <label class="bo-label">SVG-иконка (HTML)</label>
+                      <textarea class="bo-textarea bo-textarea-html" name="audience_items-0-icon_svg" rows="3">&lt;svg class="h-9" …&gt;</textarea>
+                      <p class="bo-help">Менеджеру лучше не трогать — иконки правит разработчик.</p>
+                    </div>
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Заголовок</label>
+                    <input type="text" class="bo-input" name="audience_items-0-title_ru" value="Целеустремлённым" x-show="lang === 'ru'">
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Описание</label>
+                    <textarea class="bo-textarea" name="audience_items-0-description_ru" rows="2" x-show="lang === 'ru'">Кто хочет поступить в топ-вузы</textarea>
+                  </div>
+                </li>
+                <li class="bo-formset-item bo-formset-item-stacked bo-formset-item-empty">
+                  <div class="bo-formset-head">
+                    <h3 class="bo-formset-item-title">Новая карточка</h3>
+                  </div>
+                  <div class="bo-field">
+                    <label class="bo-label">Заголовок</label>
+                    <input type="text" class="bo-input" name="audience_items-4-title_ru" value="">
+                  </div>
+                </li>
+              </ul>
+            </section>
+
+            <!-- Section: Benefits -->
+            <section class="bo-panel">
+              <header class="bo-panel-head">
+                <h2 class="bo-panel-title">Секция «Что получает»</h2>
+                <div class="bo-block-translate">
+                  <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                </div>
+              </header>
+
+              <div class="bo-row-2">
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">Лейбл</label>
+                  <input type="text" class="bo-input" name="benefits_label_ru" value="Что получает">
+                </div>
+                <div class="bo-field">
+                  <label class="bo-label">Фото справа (ученик)</label>
+                  <div class="bo-media-preview" style="min-height:160px">
+                    <img src="/media/programs/benefits/kid.png" alt="">
+                  </div>
+                  <div class="bo-media-controls">
+                    <label class="bo-media-replace">
+                      <span>Изменить</span>
+                      <input type="file" name="benefits_photo_kid" accept="image/*">
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Заголовок</label>
+                <textarea class="bo-textarea" name="benefits_title_ru" rows="2">Результат программы</textarea>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Подзаголовок</label>
+                <textarea class="bo-textarea" name="benefits_subtitle_ru" rows="2"></textarea>
+              </div>
+
+              <!-- Inline: benefit-items -->
+              <h3 class="bo-subpanel-title">Карточки «Что получает» (нумерация 1/2/3/4 автоматическая)</h3>
+              <input type="hidden" name="benefit_items-TOTAL_FORMS" value="5">
+              <input type="hidden" name="benefit_items-INITIAL_FORMS" value="4">
+              <ul class="bo-formset bo-formset-stacked">
+                <li class="bo-formset-item bo-formset-item-stacked">
+                  <div class="bo-formset-head">
+                    <h3 class="bo-formset-item-title">Двойной аттестат</h3>
+                    <div class="bo-formset-head-actions">
+                      <div class="bo-block-translate">
+                        <button type="button" class="bo-block-translate-btn">Перевести</button>
+                      </div>
+                      <label class="bo-label-checkbox">
+                        <input type="checkbox" name="benefit_items-0-DELETE">
+                        <span>Удалить</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="bo-field">
+                    <label class="bo-label">Порядок</label>
+                    <input type="number" class="bo-input" name="benefit_items-0-order" value="0">
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Заголовок</label>
+                    <input type="text" class="bo-input" name="benefit_items-0-title_ru" value="Двойной аттестат">
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Описание</label>
+                    <textarea class="bo-textarea" name="benefit_items-0-description_ru" rows="2">Cambridge + KZ</textarea>
+                  </div>
+                </li>
+              </ul>
+            </section>
+
+            <!-- Section: Programs (variant cards) -->
+            <section class="bo-panel">
+              <header class="bo-panel-head">
+                <h2 class="bo-panel-title">Секция «Программы»</h2>
+                <div class="bo-block-translate">
+                  <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                </div>
+              </header>
+
+              <div class="bo-row-2">
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">Лейбл</label>
+                  <input type="text" class="bo-input" name="programs_label_ru" value="Программы">
+                </div>
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">CTA в секции (текст)</label>
+                  <input type="text" class="bo-input" name="programs_cta_text_ru" value="Узнать больше">
+                </div>
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Заголовок</label>
+                <textarea class="bo-textarea" name="programs_title_ru" rows="2">Две программы — один путь</textarea>
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Подзаголовок</label>
+                <textarea class="bo-textarea" name="programs_subtitle_ru" rows="2"></textarea>
+              </div>
+
+              <h3 class="bo-subpanel-title">Карточки программ (Начальная / Старшая)</h3>
+              <input type="hidden" name="variant_cards-TOTAL_FORMS" value="3">
+              <input type="hidden" name="variant_cards-INITIAL_FORMS" value="2">
+              <ul class="bo-formset bo-formset-stacked">
+                <li class="bo-formset-item bo-formset-item-stacked">
+                  <div class="bo-formset-head">
+                    <h3 class="bo-formset-item-title">Начальная</h3>
+                    <div class="bo-formset-head-actions">
+                      <div class="bo-block-translate">
+                        <button type="button" class="bo-block-translate-btn">Перевести</button>
+                      </div>
+                      <label class="bo-label-checkbox">
+                        <input type="checkbox" name="variant_cards-0-DELETE">
+                        <span>Удалить</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="bo-row-3">
+                    <div class="bo-field">
+                      <label class="bo-label">Порядок</label>
+                      <input type="number" class="bo-input" name="variant_cards-0-order" value="0">
+                    </div>
+                    <div class="bo-field bo-field-translatable">
+                      <label class="bo-label">Бадж</label>
+                      <input type="text" class="bo-input" name="variant_cards-0-badge_text_ru" value="1–4 класс">
+                    </div>
+                    <div class="bo-field">
+                      <label class="bo-label">Стиль баджа</label>
+                      <select class="bo-input" name="variant_cards-0-badge_style">
+                        <option value="gold" selected>Золотой (начальная)</option>
+                        <option value="secondary">Синий (старшая)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Заголовок карточки</label>
+                    <input type="text" class="bo-input" name="variant_cards-0-title_ru" value="Cambridge Primary">
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Тэги (каждая строка = бейдж)</label>
+                    <textarea class="bo-textarea" name="variant_cards-0-tags_ru" rows="3">Cambridge Primary
+KZ программа</textarea>
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Список фич (каждая строка = пункт с галочкой)</label>
+                    <textarea class="bo-textarea" name="variant_cards-0-features_ru" rows="4">Математика на английском
+Углублённый английский
+Программирование с 1 класса</textarea>
+                  </div>
+                  <div class="bo-row-2">
+                    <div class="bo-field bo-field-translatable">
+                      <label class="bo-label">Метка футера</label>
+                      <input type="text" class="bo-input" name="variant_cards-0-footer_label_ru" value="Выпускник получает:">
+                    </div>
+                    <div class="bo-field bo-field-translatable">
+                      <label class="bo-label">Значение футера</label>
+                      <input type="text" class="bo-input" name="variant_cards-0-footer_value_ru" value="Cambridge Primary Certificate">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </section>
+
+            <!-- Section: Team -->
+            <section class="bo-panel">
+              <header class="bo-panel-head">
+                <h2 class="bo-panel-title">Секция «Команда»</h2>
+                <div class="bo-block-translate">
+                  <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                </div>
+              </header>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Лейбл</label>
+                <input type="text" class="bo-input" name="team_label_ru" value="Команда">
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Заголовок</label>
+                <textarea class="bo-textarea" name="team_title_ru" rows="2">Команда профессионалов</textarea>
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Подзаголовок</label>
+                <textarea class="bo-textarea" name="team_subtitle_ru" rows="2"></textarea>
+              </div>
+
+              <h3 class="bo-subpanel-title">Члены команды</h3>
+              <input type="hidden" name="team_members-TOTAL_FORMS" value="5">
+              <input type="hidden" name="team_members-INITIAL_FORMS" value="4">
+              <ul class="bo-formset bo-formset-stacked">
+                <li class="bo-formset-item bo-formset-item-stacked">
+                  <div class="bo-formset-head">
+                    <h3 class="bo-formset-item-title">Айгерим Жанаева</h3>
+                    <div class="bo-formset-head-actions">
+                      <div class="bo-block-translate">
+                        <button type="button" class="bo-block-translate-btn">Перевести</button>
+                      </div>
+                      <label class="bo-label-checkbox">
+                        <input type="checkbox" name="team_members-0-DELETE">
+                        <span>Удалить</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="bo-row-2">
+                    <div class="bo-field">
+                      <label class="bo-label">Порядок</label>
+                      <input type="number" class="bo-input" name="team_members-0-order" value="0">
+                    </div>
+                    <div class="bo-field">
+                      <label class="bo-label">Фото</label>
+                      <div class="bo-media-preview" style="min-height:120px">
+                        <img src="/media/programs/team/1.jpg" alt="">
+                      </div>
+                      <div class="bo-media-controls">
+                        <label class="bo-media-replace">
+                          <span>Изменить</span>
+                          <input type="file" name="team_members-0-photo" accept="image/*">
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Имя</label>
+                    <input type="text" class="bo-input" name="team_members-0-name_ru" value="Айгерим Жанаева">
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Должность</label>
+                    <input type="text" class="bo-input" name="team_members-0-role_ru" value="Директор">
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Мета-строка</label>
+                    <input type="text" class="bo-input" name="team_members-0-meta_ru" value="PhD · 20 лет в международном образовании">
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Цитата</label>
+                    <textarea class="bo-textarea" name="team_members-0-quote_ru" rows="3"></textarea>
+                  </div>
+                </li>
+              </ul>
+            </section>
+
+            <!-- Section: Certificate -->
+            <section class="bo-panel">
+              <header class="bo-panel-head">
+                <h2 class="bo-panel-title">Секция «Аттестат»</h2>
+                <div class="bo-block-translate">
+                  <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                </div>
+              </header>
+
+              <div class="bo-row-2">
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">Лейбл</label>
+                  <input type="text" class="bo-input" name="certificate_label_ru" value="Двойной аттестат">
+                </div>
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">CTA («Посмотреть сертификат»)</label>
+                  <input type="text" class="bo-input" name="certificate_cta_text_ru" value="Подробнее">
+                </div>
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Заголовок</label>
+                <textarea class="bo-textarea" name="certificate_title_ru" rows="2">Документ международного образца</textarea>
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Подзаголовок</label>
+                <textarea class="bo-textarea" name="certificate_subtitle_ru" rows="2"></textarea>
+              </div>
+
+              <div class="bo-field">
+                <label class="bo-label">Образец сертификата (картинка)</label>
+                <div class="bo-media-preview" style="min-height:200px">
+                  <div style="color:rgba(255,255,255,.6); font-size:.875rem">Не загружена — на сайте показывается mock</div>
+                </div>
+                <div class="bo-media-controls">
+                  <label class="bo-media-replace">
+                    <span>Изменить</span>
+                    <input type="file" name="certificate_preview_image" accept="image/*">
+                  </label>
+                </div>
+              </div>
+
+              <h3 class="bo-subpanel-title">Карточки-фичи «Аттестат» (4 glass-card)</h3>
+              <input type="hidden" name="certificate_features-TOTAL_FORMS" value="5">
+              <input type="hidden" name="certificate_features-INITIAL_FORMS" value="4">
+              <ul class="bo-formset bo-formset-stacked">
+                <li class="bo-formset-item bo-formset-item-stacked">
+                  <div class="bo-formset-head">
+                    <h3 class="bo-formset-item-title">Признание в 125 странах</h3>
+                    <div class="bo-formset-head-actions">
+                      <label class="bo-label-checkbox">
+                        <input type="checkbox" name="certificate_features-0-DELETE">
+                        <span>Удалить</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="bo-row-2">
+                    <div class="bo-field">
+                      <label class="bo-label">Порядок</label>
+                      <input type="number" class="bo-input" name="certificate_features-0-order" value="0">
+                    </div>
+                    <div class="bo-field">
+                      <label class="bo-label">SVG-иконка (HTML)</label>
+                      <textarea class="bo-textarea bo-textarea-html" name="certificate_features-0-icon_svg" rows="2"></textarea>
+                    </div>
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Заголовок</label>
+                    <input type="text" class="bo-input" name="certificate_features-0-title_ru" value="Признание в 125 странах">
+                  </div>
+                </li>
+              </ul>
+            </section>
+
+            <!-- Section: Activities (только текстовые поля; карточки берутся из activities.Activity is_featured) -->
+            <section class="bo-panel">
+              <header class="bo-panel-head">
+                <h2 class="bo-panel-title">Секция «Внеклассные»</h2>
+                <div class="bo-block-translate">
+                  <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                </div>
+              </header>
+              <p class="bo-help">Сами карточки активностей берутся из приложения «Активности» (галочка <strong>«В подборке на главной/программы»</strong> на активности). Здесь — только тексты обрамляющей секции.</p>
+
+              <div class="bo-row-2">
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">Лейбл</label>
+                  <input type="text" class="bo-input" name="activities_label_ru" value="Внеклассные">
+                </div>
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">CTA («Смотреть все активности»)</label>
+                  <input type="text" class="bo-input" name="activities_cta_text_ru" value="Смотреть все активности">
+                </div>
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Заголовок</label>
+                <textarea class="bo-textarea" name="activities_title_ru" rows="2">После уроков</textarea>
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Подзаголовок</label>
+                <textarea class="bo-textarea" name="activities_subtitle_ru" rows="2"></textarea>
+              </div>
+            </section>
+
+            <!-- Section: Stats -->
+            <section class="bo-panel">
+              <header class="bo-panel-head">
+                <h2 class="bo-panel-title">Секция «В цифрах»</h2>
+                <div class="bo-block-translate">
+                  <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                </div>
+              </header>
+
+              <div class="bo-row-2">
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">Лейбл</label>
+                  <input type="text" class="bo-input" name="stats_label_ru" value="В цифрах">
+                </div>
+                <div class="bo-field">
+                  <label class="bo-label">Фото школы (справа от цифр)</label>
+                  <div class="bo-media-preview" style="min-height:160px">
+                    <img src="/media/programs/stats/school-building.jpg" alt="">
+                  </div>
+                  <div class="bo-media-controls">
+                    <label class="bo-media-replace">
+                      <span>Изменить</span>
+                      <input type="file" name="stats_photo" accept="image/*">
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Заголовок</label>
+                <textarea class="bo-textarea" name="stats_title_ru" rows="2">Space School в цифрах</textarea>
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Вводный текст</label>
+                <textarea class="bo-textarea" name="stats_intro_text_ru" rows="3"></textarea>
+              </div>
+
+              <h3 class="bo-subpanel-title">Цифры (4 числовые карточки)</h3>
+              <input type="hidden" name="stats_items-TOTAL_FORMS" value="5">
+              <input type="hidden" name="stats_items-INITIAL_FORMS" value="4">
+              <ul class="bo-formset bo-formset-stacked">
+                <li class="bo-formset-item bo-formset-item-stacked">
+                  <div class="bo-formset-head">
+                    <h3 class="bo-formset-item-title">94% · поступили</h3>
+                    <div class="bo-formset-head-actions">
+                      <label class="bo-label-checkbox">
+                        <input type="checkbox" name="stats_items-0-DELETE">
+                        <span>Удалить</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="bo-row-2">
+                    <div class="bo-field">
+                      <label class="bo-label">Порядок</label>
+                      <input type="number" class="bo-input" name="stats_items-0-order" value="0">
+                    </div>
+                    <div class="bo-field bo-field-translatable">
+                      <label class="bo-label">Значение</label>
+                      <input type="text" class="bo-input" name="stats_items-0-value_ru" value="94%">
+                    </div>
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Подпись</label>
+                    <input type="text" class="bo-input" name="stats_items-0-label_ru" value="Поступают в топ-вузы">
+                  </div>
+                </li>
+              </ul>
+            </section>
+
+            <!-- Section: FAQ -->
+            <section class="bo-panel">
+              <header class="bo-panel-head">
+                <h2 class="bo-panel-title">Секция «FAQ»</h2>
+                <div class="bo-block-translate">
+                  <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                </div>
+              </header>
+
+              <div class="bo-row-2">
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">Лейбл</label>
+                  <input type="text" class="bo-input" name="faq_label_ru" value="FAQ">
+                </div>
+                <div class="bo-field bo-field-translatable">
+                  <label class="bo-label">Заголовок</label>
+                  <input type="text" class="bo-input" name="faq_title_ru" value="Частые вопросы">
+                </div>
+              </div>
+
+              <h3 class="bo-subpanel-title">Вопросы и ответы</h3>
+              <input type="hidden" name="faq_items-TOTAL_FORMS" value="5">
+              <input type="hidden" name="faq_items-INITIAL_FORMS" value="4">
+              <ul class="bo-formset bo-formset-stacked">
+                <li class="bo-formset-item bo-formset-item-stacked">
+                  <div class="bo-formset-head">
+                    <h3 class="bo-formset-item-title">Сколько стоит обучение?</h3>
+                    <div class="bo-formset-head-actions">
+                      <div class="bo-block-translate">
+                        <button type="button" class="bo-block-translate-btn">Перевести</button>
+                      </div>
+                      <label class="bo-label-checkbox">
+                        <input type="checkbox" name="faq_items-0-DELETE">
+                        <span>Удалить</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="bo-field">
+                    <label class="bo-label">Порядок</label>
+                    <input type="number" class="bo-input" name="faq_items-0-order" value="0">
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Вопрос</label>
+                    <input type="text" class="bo-input" name="faq_items-0-question_ru" value="Сколько стоит обучение?">
+                  </div>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Ответ</label>
+                    <textarea class="bo-textarea" name="faq_items-0-answer_ru" rows="4">Зависит от программы…</textarea>
+                  </div>
+                </li>
+              </ul>
+            </section>
+          </form>
+
+          <!-- SEO &amp; Social (вне основного form, поля связаны через HTML5 form=) -->
+          <section class="bo-panel">
+            <header class="bo-panel-head">
+              <h2 class="bo-panel-title">SEO &amp; Social</h2>
+              <div class="bo-block-translate">
+                <button type="button" class="bo-block-translate-btn">Авто-генерация SEO</button>
+              </div>
+            </header>
+
+            <div class="bo-field bo-field-translatable">
+              <label class="bo-label">SEO title</label>
+              <input type="text" class="bo-input" name="seo_title_ru" value="" form="program-edit-form" x-show="lang === 'ru'">
+            </div>
+            <div class="bo-field bo-field-translatable">
+              <label class="bo-label">SEO description</label>
+              <textarea class="bo-textarea" name="seo_description_ru" rows="3" form="program-edit-form" x-show="lang === 'ru'"></textarea>
+            </div>
+            <div class="bo-row-2">
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">OG title</label>
+                <input type="text" class="bo-input" name="og_title_ru" value="" form="program-edit-form" x-show="lang === 'ru'">
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">OG description</label>
+                <input type="text" class="bo-input" name="og_description_ru" value="" form="program-edit-form" x-show="lang === 'ru'">
+              </div>
+            </div>
+            <div class="bo-field">
+              <label class="bo-label">OG-картинка</label>
+              <div class="bo-media-preview" style="min-height:120px">
+                <div style="color:rgba(255,255,255,.6); font-size:.875rem">Не загружена</div>
+              </div>
+              <div class="bo-media-controls">
+                <label class="bo-media-replace">
+                  <span>Изменить OG-картинку</span>
+                  <input type="file" name="og_image" form="program-edit-form" accept="image/jpeg,image/png,image/webp">
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- Sticky footer with stepper -->
+          <div class="bo-form-foot bo-form-foot-sticky">
+            <ul class="bo-steps">
+              <li class="bo-step bo-step-complete">
+                <span class="bo-step-dot"></span>
+                <span class="bo-step-label">Основа (RU)</span>
+                <span class="bo-step-count">25/25</span>
+                <span class="bo-step-req">*</span>
+              </li>
+              <li class="bo-step bo-step-empty">
+                <span class="bo-step-dot"></span>
+                <span class="bo-step-label">Перевод KZ</span>
+                <span class="bo-step-count">0/24</span>
+              </li>
+              <li class="bo-step bo-step-empty">
+                <span class="bo-step-dot"></span>
+                <span class="bo-step-label">Перевод EN</span>
+                <span class="bo-step-count">0/24</span>
+              </li>
+              <li class="bo-step bo-step-partial">
+                <span class="bo-step-dot"></span>
+                <span class="bo-step-label">SEO</span>
+                <span class="bo-step-count">2/4</span>
+              </li>
+              <li class="bo-step bo-step-partial">
+                <span class="bo-step-dot"></span>
+                <span class="bo-step-label">Inline</span>
+                <span class="bo-step-count">22/22</span>
+              </li>
+            </ul>
+            <div class="bo-form-foot-actions">
+              <a href="#" class="bo-action-rejected bo-action-btn">Отмена</a>
+              <button type="submit" form="program-edit-form" class="btn btn-primary">Сохранить</button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

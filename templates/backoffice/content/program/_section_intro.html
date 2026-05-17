@@ -1,0 +1,15 @@
+{% load i18n %}
+{% comment %}
+Generic intro-panel for ProgramPage section: label + title + subtitle + block-translate.
+Params: section_id (audience/benefits/team/…), section_title (display), bases (JSON), translate_url, form_id.
+{% endcomment %}
+<section class="bo-panel">
+  <header class="bo-panel-head">
+    <h2 class="bo-panel-title">{{ section_title }}</h2>
+    {% include 'backoffice/content/_block_translate.html' with bases=bases translate_url=translate_url form_id=form_id %}
+  </header>
+
+  {% include 'backoffice/content/_field_translatable.html' with form=form base=section_id|add:'_label' label='Лейбл' %}
+  {% include 'backoffice/content/_field_translatable.html' with form=form base=section_id|add:'_title' label='Заголовок' %}
+  {% include 'backoffice/content/_field_translatable.html' with form=form base=section_id|add:'_subtitle' label='Подзаголовок' %}
+</section>

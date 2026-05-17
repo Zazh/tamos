@@ -1,0 +1,40 @@
+{% load i18n backoffice_tags %}
+{# ProgramFaqItem formset — order (hidden, DnD) + translatable: question/answer. #}
+<h3 class="bo-subpanel-title">{% trans "Вопросы и ответы" %}</h3>
+
+{{ formset.management_form }}
+{% if formset.non_form_errors %}
+  <div class="bo-messages">
+    {% for err in formset.non_form_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+  </div>
+{% endif %}
+
+<ul class="bo-formset bo-formset-stacked" x-data="boInlineSort">
+  {% for f in formset %}
+    <li class="bo-formset-item bo-formset-item-stacked{% if not f.instance.pk %} bo-formset-item-empty{% endif %}">
+      {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+      {{ f.order.as_hidden }}
+
+      <div class="bo-formset-head">
+        <button type="button" class="bo-drag-handle" aria-label="{% trans 'Перетащить' %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>
+        </button>
+        <h3 class="bo-formset-item-title">
+          {% if f.instance.pk %}{{ f.instance.question|truncatechars:80|default:'Без вопроса' }}{% else %}{% trans "Новый вопрос" %}{% endif %}
+        </h3>
+        <div class="bo-formset-head-actions">
+          {% include 'backoffice/content/_block_translate.html' with bases='["question","answer"]' translate_url=translate_url form_id=form_id prefix=f.prefix|add:'-' %}
+          {% if f.instance.pk %}
+            <label class="bo-label-checkbox">
+              {{ f.DELETE }}
+              <span>{% trans "Удалить" %}</span>
+            </label>
+          {% endif %}
+        </div>
+      </div>
+
+      {% include 'backoffice/content/_field_translatable.html' with form=f base='question' label='Вопрос' %}
+      {% include 'backoffice/content/_field_translatable.html' with form=f base='answer' label='Ответ' %}
+    </li>
+  {% endfor %}
+</ul>

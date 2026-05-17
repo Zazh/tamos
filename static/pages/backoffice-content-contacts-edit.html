@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Контакты — Астана — Backoffice — Space School</title>
+    <script type="module" crossorigin src="/static/assets/js/main-ClUiUClI.js"></script>
+    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-DtyGHURS.js"></script>
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-CTdPwU3t.css">
+  </head>
+  <body>
+    <div class="bo-shell" x-data="{ sidebar: false }" :class="sidebar && 'bo-sidebar-open'">
+      <aside class="bo-sidebar"></aside>
+      <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false"></div>
+
+      <div class="bo-body">
+        <header class="bo-topbar">
+          <button class="bo-burger" @click="sidebar = true" aria-label="Меню">
+            <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="bo-topbar-title">Контакты — Астана</div>
+          <div class="bo-user">
+            <span class="bo-user-name">Aidarbek</span>
+            <button class="bo-logout">Выйти</button>
+          </div>
+        </header>
+
+        <main class="bo-main bo-content-stack" x-data="{ lang: 'ru' }">
+          <a href="#" class="bo-back">← К списку</a>
+
+          <header class="bo-detail-head">
+            <div>
+              <h1 class="bo-page-title">Контакты — Астана</h1>
+              <p class="bo-page-subtitle">Singleton-контент страницы «Контакты». Обновлено 11 мая, 18:42.</p>
+            </div>
+            <div class="bo-detail-head-actions">
+              <a href="#" target="_blank" rel="noopener" class="bo-action-btn bo-action-preview" title="Открыть в новой вкладке">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                <span>Просмотреть на сайте</span>
+              </a>
+            </div>
+          </header>
+
+          <div class="bo-tabs" role="tablist" aria-label="Язык контента">
+            <button type="button" role="tab"
+                    class="bo-tab"
+                    :class="lang === 'ru' && 'bo-tab-active'"
+                    :aria-selected="lang === 'ru'"
+                    @click="lang = 'ru'">
+              Русский
+              <span class="bo-tab-meta">основной</span>
+            </button>
+            <button type="button" role="tab"
+                    class="bo-tab"
+                    :class="lang === 'kk' && 'bo-tab-active'"
+                    :aria-selected="lang === 'kk'"
+                    @click="lang = 'kk'">
+              Қазақша
+              <span class="bo-tab-meta">fallback ru</span>
+            </button>
+            <button type="button" role="tab"
+                    class="bo-tab"
+                    :class="lang === 'en' && 'bo-tab-active'"
+                    :aria-selected="lang === 'en'"
+                    @click="lang = 'en'">
+              English
+              <span class="bo-tab-meta">fallback ru</span>
+            </button>
+          </div>
+
+          <form method="post" action="#" class="bo-form">
+            <!-- Region -->
+            <section class="bo-panel">
+              <h2 class="bo-panel-title">Регион</h2>
+              <div class="bo-field">
+                <label class="bo-label">Регион</label>
+                <input type="text" class="bo-input" value="Астана" readonly>
+              </div>
+            </section>
+
+            <!-- Intro -->
+            <section class="bo-panel">
+              <h2 class="bo-panel-title">Вводный блок</h2>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Заголовок</label>
+                <input type="text" class="bo-input" name="intro_title_ru" value="Свяжитесь с нами" x-show="lang === 'ru'">
+                <input type="text" class="bo-input" name="intro_title_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                <input type="text" class="bo-input" name="intro_title_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Описание</label>
+                <textarea class="bo-textarea" name="intro_text_ru" rows="3" x-show="lang === 'ru'">Параграф под заголовком.</textarea>
+                <textarea class="bo-textarea" name="intro_text_kk" rows="3" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak></textarea>
+                <textarea class="bo-textarea" name="intro_text_en" rows="3" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak></textarea>
+              </div>
+            </section>
+
+            <!-- Office -->
+            <section class="bo-panel">
+              <h2 class="bo-panel-title">Офис (overlay над картой)</h2>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Название офиса</label>
+                <input type="text" class="bo-input" name="office_name_ru" value="Школа Space School Astana" x-show="lang === 'ru'">
+                <input type="text" class="bo-input" name="office_name_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                <input type="text" class="bo-input" name="office_name_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Адрес</label>
+                <input type="text" class="bo-input" name="office_address_ru" value="пр. Кабанбай батыра, 53" x-show="lang === 'ru'">
+                <input type="text" class="bo-input" name="office_address_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                <input type="text" class="bo-input" name="office_address_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+              </div>
+
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">Часы работы</label>
+                <input type="text" class="bo-input" name="office_hours_ru" value="Пн–Пт, 09:00–18:00" x-show="lang === 'ru'">
+                <input type="text" class="bo-input" name="office_hours_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                <input type="text" class="bo-input" name="office_hours_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+              </div>
+            </section>
+
+            <!-- Map -->
+            <section class="bo-panel">
+              <h2 class="bo-panel-title">Карта (Leaflet · CartoDB light_nolabels)</h2>
+
+              <div class="bo-map-preview">
+                <div class="bo-map-canvas"></div>
+                <div class="bo-map-empty" hidden>Введи широту и долготу, чтобы увидеть точку на карте.</div>
+              </div>
+
+              <div class="bo-row-3">
+                <div class="bo-field">
+                  <label class="bo-label">Широта</label>
+                  <input type="text" class="bo-input" name="latitude" value="51.093900">
+                </div>
+                <div class="bo-field">
+                  <label class="bo-label">Долгота</label>
+                  <input type="text" class="bo-input" name="longitude" value="71.401100">
+                </div>
+                <div class="bo-field">
+                  <label class="bo-label">Zoom</label>
+                  <input type="number" class="bo-input" name="map_zoom" value="16" min="1" max="19">
+                </div>
+              </div>
+              <p class="bo-help">Если широта или долгота пуста — карта не отрисуется, покажется серая заглушка.</p>
+            </section>
+
+            <!-- Inline: departments -->
+            <section class="bo-panel">
+              <h2 class="bo-panel-title">Отделы</h2>
+              <p class="bo-help">Поступление, Партнёрство, Вакансии и т.д. Можно перетаскивать порядок числом.</p>
+
+              <input type="hidden" name="departments-TOTAL_FORMS" value="4">
+              <input type="hidden" name="departments-INITIAL_FORMS" value="3">
+
+              <ul class="bo-formset bo-formset-stacked">
+                <li class="bo-formset-item bo-formset-item-stacked">
+                  <div class="bo-formset-head">
+                    <h3 class="bo-formset-item-title">Отдел #1</h3>
+                    <div class="bo-formset-head-actions">
+                      <div class="bo-block-translate">
+                        <button type="button" class="bo-block-translate-btn">Перевести блок</button>
+                      </div>
+                      <label class="bo-label-checkbox">
+                        <input type="checkbox" name="departments-0-DELETE">
+                        <span>Удалить</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="bo-row-3">
+                    <div class="bo-field">
+                      <label class="bo-label">Порядок</label>
+                      <input type="number" class="bo-input" name="departments-0-order" value="0">
+                    </div>
+                    <div class="bo-field">
+                      <label class="bo-label">Телефон</label>
+                      <input type="text" class="bo-input" name="departments-0-phone" value="+7 700 000 00 00">
+                    </div>
+                    <div class="bo-field">
+                      <label class="bo-label">Email</label>
+                      <input type="email" class="bo-input" name="departments-0-email" value="info@tamos.kz">
+                    </div>
+                  </div>
+
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Название отдела</label>
+                    <input type="text" class="bo-input" name="departments-0-title_ru" value="Поступление" x-show="lang === 'ru'">
+                    <input type="text" class="bo-input" name="departments-0-title_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                    <input type="text" class="bo-input" name="departments-0-title_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+                  </div>
+
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Описание</label>
+                    <textarea class="bo-textarea" name="departments-0-description_ru" rows="3" x-show="lang === 'ru'">Заявки, тестирование, документы.</textarea>
+                    <textarea class="bo-textarea" name="departments-0-description_kk" rows="3" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak></textarea>
+                    <textarea class="bo-textarea" name="departments-0-description_en" rows="3" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak></textarea>
+                  </div>
+
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Часы работы</label>
+                    <input type="text" class="bo-input" name="departments-0-hours_ru" value="Пн–Пт, 09:00–18:00" x-show="lang === 'ru'">
+                    <input type="text" class="bo-input" name="departments-0-hours_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                    <input type="text" class="bo-input" name="departments-0-hours_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+                  </div>
+                </li>
+
+                <li class="bo-formset-item bo-formset-item-stacked">
+                  <div class="bo-formset-head">
+                    <h3 class="bo-formset-item-title">Отдел #2</h3>
+                    <label class="bo-label-checkbox">
+                      <input type="checkbox" name="departments-1-DELETE">
+                      <span>Удалить</span>
+                    </label>
+                  </div>
+
+                  <div class="bo-row-3">
+                    <div class="bo-field">
+                      <label class="bo-label">Порядок</label>
+                      <input type="number" class="bo-input" name="departments-1-order" value="1">
+                    </div>
+                    <div class="bo-field">
+                      <label class="bo-label">Телефон</label>
+                      <input type="text" class="bo-input" name="departments-1-phone" value="+7 700 000 00 01">
+                    </div>
+                    <div class="bo-field">
+                      <label class="bo-label">Email</label>
+                      <input type="email" class="bo-input" name="departments-1-email" value="partners@tamos.kz">
+                    </div>
+                  </div>
+
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Название отдела</label>
+                    <input type="text" class="bo-input" name="departments-1-title_ru" value="Партнёрство" x-show="lang === 'ru'">
+                    <input type="text" class="bo-input" name="departments-1-title_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                    <input type="text" class="bo-input" name="departments-1-title_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+                  </div>
+
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Описание</label>
+                    <textarea class="bo-textarea" name="departments-1-description_ru" rows="3" x-show="lang === 'ru'">Сотрудничество с компаниями.</textarea>
+                    <textarea class="bo-textarea" name="departments-1-description_kk" rows="3" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak></textarea>
+                    <textarea class="bo-textarea" name="departments-1-description_en" rows="3" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak></textarea>
+                  </div>
+
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Часы работы</label>
+                    <input type="text" class="bo-input" name="departments-1-hours_ru" value="" x-show="lang === 'ru'">
+                    <input type="text" class="bo-input" name="departments-1-hours_kk" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'kk'" x-cloak>
+                    <input type="text" class="bo-input" name="departments-1-hours_en" value="" placeholder="(пусто — берётся из ru)" x-show="lang === 'en'" x-cloak>
+                  </div>
+                </li>
+
+                <!-- Empty form (для добавления) -->
+                <li class="bo-formset-item bo-formset-item-stacked bo-formset-item-empty">
+                  <div class="bo-formset-head">
+                    <h3 class="bo-formset-item-title">Новый отдел</h3>
+                  </div>
+
+                  <div class="bo-row-3">
+                    <div class="bo-field">
+                      <label class="bo-label">Порядок</label>
+                      <input type="number" class="bo-input" name="departments-3-order" value="3">
+                    </div>
+                    <div class="bo-field">
+                      <label class="bo-label">Телефон</label>
+                      <input type="text" class="bo-input" name="departments-3-phone" value="">
+                    </div>
+                    <div class="bo-field">
+                      <label class="bo-label">Email</label>
+                      <input type="email" class="bo-input" name="departments-3-email" value="">
+                    </div>
+                  </div>
+
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Название отдела</label>
+                    <input type="text" class="bo-input" name="departments-3-title_ru" value="" x-show="lang === 'ru'">
+                    <input type="text" class="bo-input" name="departments-3-title_kk" value="" x-show="lang === 'kk'" x-cloak>
+                    <input type="text" class="bo-input" name="departments-3-title_en" value="" x-show="lang === 'en'" x-cloak>
+                  </div>
+
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Описание</label>
+                    <textarea class="bo-textarea" name="departments-3-description_ru" rows="3" x-show="lang === 'ru'"></textarea>
+                    <textarea class="bo-textarea" name="departments-3-description_kk" rows="3" x-show="lang === 'kk'" x-cloak></textarea>
+                    <textarea class="bo-textarea" name="departments-3-description_en" rows="3" x-show="lang === 'en'" x-cloak></textarea>
+                  </div>
+                </li>
+              </ul>
+            </section>
+
+            <div class="bo-form-foot bo-form-foot-sticky">
+              <ul class="bo-steps">
+                <li class="bo-step bo-step-complete">
+                  <span class="bo-step-dot"></span>
+                  <span class="bo-step-label">Основа (RU)</span>
+                  <span class="bo-step-count">7/7</span>
+                  <span class="bo-step-req">*</span>
+                </li>
+                <li class="bo-step bo-step-empty">
+                  <span class="bo-step-dot"></span>
+                  <span class="bo-step-label">Перевод KZ</span>
+                  <span class="bo-step-count">0/5</span>
+                </li>
+                <li class="bo-step bo-step-partial">
+                  <span class="bo-step-dot"></span>
+                  <span class="bo-step-label">SEO</span>
+                  <span class="bo-step-count">2/4</span>
+                </li>
+              </ul>
+              <div class="bo-form-foot-actions">
+                <a href="#" class="bo-action-rejected bo-action-btn">Отмена</a>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+              </div>
+            </div>
+          </form>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

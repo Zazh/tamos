@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Программа — Backoffice — Space School</title>
+    <script type="module" crossorigin src="/static/assets/js/main-ClUiUClI.js"></script>
+    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-DtyGHURS.js"></script>
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-CTdPwU3t.css">
+  </head>
+  <body>
+    <div class="bo-shell" x-data="{ sidebar: false }" :class="sidebar && 'bo-sidebar-open'">
+      <aside class="bo-sidebar"></aside>
+      <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false"></div>
+
+      <div class="bo-body">
+        <header class="bo-topbar">
+          <button class="bo-burger" @click="sidebar = true" aria-label="Меню">
+            <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="bo-topbar-title">Программа</div>
+          <div class="bo-user">
+            <span class="bo-user-name">Aidarbek</span>
+            <button class="bo-logout">Выйти</button>
+          </div>
+        </header>
+
+        <main class="bo-main">
+          <div class="bo-page-head">
+            <h1 class="bo-page-title">Программа</h1>
+            <p class="bo-page-subtitle">Лендинг «Программа» для каждого региона: hero, 7 секций (Кому подходит, Что получает, Программы, Команда, Аттестат, В цифрах, FAQ). Выберите регион.</p>
+          </div>
+
+          <div class="bo-table-wrap">
+            <table class="bo-table">
+              <thead>
+                <tr>
+                  <th class="bo-th">Регион</th>
+                  <th class="bo-th">Hero</th>
+                  <th class="bo-th">Секции</th>
+                  <th class="bo-th bo-th-right">Обновлено</th>
+                  <th class="bo-th bo-th-right"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bo-tr" onclick="location.href='#'">
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Астана</div>
+                    <div class="bo-cell-muted">astana</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Международная школа в Астане</div>
+                    <div class="bo-cell-muted">Школа для детей, которые поступят в TOP-100 вузов</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-muted">4 кому · 4 что · 2 программы · 4 команда · 4 аттестат · 4 цифры · 4 FAQ</div>
+                  </td>
+                  <td class="bo-td bo-td-right">
+                    <div class="bo-cell-muted">11 мая, 18:42</div>
+                  </td>
+                  <td class="bo-td bo-td-right">
+                    <a href="#" class="bo-row-edit">Редактировать →</a>
+                  </td>
+                </tr>
+                <tr class="bo-tr" onclick="location.href='#'">
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Актау</div>
+                    <div class="bo-cell-muted">aktau</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Международная школа в Актау</div>
+                    <div class="bo-cell-muted">Школа для детей, которые поступят в TOP-100 вузов</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-muted">4 кому · 4 что · 2 программы · 4 команда · 4 аттестат · 4 цифры · 4 FAQ</div>
+                  </td>
+                  <td class="bo-td bo-td-right">
+                    <div class="bo-cell-muted">11 мая, 18:42</div>
+                  </td>
+                  <td class="bo-td bo-td-right">
+                    <a href="#" class="bo-row-edit">Редактировать →</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <ul class="bo-cards">
+            <li class="bo-card" onclick="location.href='#'">
+              <div class="bo-card-head">
+                <span class="bo-cell-strong">Астана</span>
+                <time class="bo-cell-muted">11 мая, 18:42</time>
+              </div>
+              <div class="bo-card-meta">
+                <span>Международная школа в Астане</span>
+              </div>
+              <div class="bo-card-foot">
+                <span class="bo-cell-muted">7 секций</span>
+                <span class="bo-row-edit">Редактировать →</span>
+              </div>
+            </li>
+            <li class="bo-card" onclick="location.href='#'">
+              <div class="bo-card-head">
+                <span class="bo-cell-strong">Актау</span>
+                <time class="bo-cell-muted">11 мая, 18:42</time>
+              </div>
+              <div class="bo-card-meta">
+                <span>Международная школа в Актау</span>
+              </div>
+              <div class="bo-card-foot">
+                <span class="bo-cell-muted">7 секций</span>
+                <span class="bo-row-edit">Редактировать →</span>
+              </div>
+            </li>
+          </ul>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

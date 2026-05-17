@@ -14,12 +14,16 @@ class ProgramView(TemplateView):
         ctx = super().get_context_data(**kwargs)
         program = get_object_or_404(ProgramPage, region=self.request.region)
         ctx['program'] = program
-        ctx['audience_items'] = list(program.audience_items.all())
-        ctx['benefit_items'] = list(program.benefit_items.all())
+        # Секции с фиксированным числом слотов (audience/benefit/cert/stat):
+        # backoffice гарантирует ровно 4 записи в БД, но менеджер может оставить
+        # часть пустыми — пустые скрываются (нет title / value). См.
+        # backoffice/views.py:_ensure_program_fixed_sections.
+        ctx['audience_items'] = [i for i in program.audience_items.all() if i.title]
+        ctx['benefit_items'] = [i for i in program.benefit_items.all() if i.title]
         ctx['variant_cards'] = list(program.variant_cards.all())
         ctx['team_members'] = list(program.team_members.all())
-        ctx['certificate_features'] = list(program.certificate_features.all())
-        ctx['stats'] = list(program.stats.all())
+        ctx['certificate_features'] = [i for i in program.certificate_features.all() if i.title]
+        ctx['stats'] = [s for s in program.stats.all() if s.value or s.label]
         ctx['faq_items'] = list(program.faq_items.all())
 
         # Внеклассные = featured-активности текущего региона. Один источник

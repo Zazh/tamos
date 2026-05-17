@@ -26,4 +26,8 @@ urlpatterns = [
     path('content/contacts/<int:pk>/', views.content_contacts_edit, name='content_contacts_edit'),
     path('content/contacts/<int:pk>/translate/', views.content_contacts_translate, name='content_contacts_translate'),
     path('content/contacts/<int:pk>/seo/', views.content_contacts_seo, name='content_contacts_seo'),
+    path('content/program/', views.content_program_list, name='content_program_list'),
+    path('content/program/<int:pk>/', views.content_program_edit, name='content_program_edit'),
+    path('content/program/<int:pk>/translate/', views.content_program_translate, name='content_program_translate'),
+    path('content/program/<int:pk>/seo/', views.content_program_seo, name='content_program_seo'),
 ]

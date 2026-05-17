@@ -144,6 +144,14 @@
     font-size: .8125rem;
   }
 
+  /* Однострочная textarea для заголовков/подзаголовков секций (поле в модели —
+     TextField, но в UI это короткие подписи; rows=1 + min-height в одну строку). */
+  .bo-textarea-compact {
+    min-height: 2.5rem;
+    resize: vertical;
+    line-height: 1.4;
+  }
+
   .bo-help {
     font-size: var(--text-xs);
     color: color-mix(in srgb, var(--color-black) 55%, transparent);
@@ -179,22 +187,11 @@
     }
   }
 
-  /* Translatable wrapper — лёгкая полоска слева, чтобы взгляд цеплялся */
+  /* Translatable wrapper — без декоративных отступов; язык виден в табах сверху,
+     повторять «эта секция переводится» полоской у каждого поля избыточно. */
 
   .bo-field-translatable {
     position: relative;
-    padding-left: .75rem;
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: .375rem;
-      bottom: .375rem;
-      width: 2px;
-      border-radius: 2px;
-      background: color-mix(in srgb, var(--color-gold) 60%, transparent);
-    }
   }
 
   /* Checkbox row */
@@ -352,6 +349,19 @@
     gap: 1rem;
   }
 
+  /* Grid 2×2 — для секций с фиксированным числом слотов (audience «Кому подходит»).
+     Каждый <li> остаётся stacked внутри (head + svg + поля по вертикали),
+     но соседние карточки выстраиваются в 2 колонки. На мобиле — 1 колонка. */
+  .bo-formset-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    @variant md {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
   .bo-formset-item-stacked {
     flex-direction: column;
     align-items: stretch;
@@ -374,9 +384,14 @@
   }
 
   .bo-formset-item-title {
-    font-size: var(--text-base);
+    font-size: .9375rem;
     font-weight: var(--font-weight-bold);
     margin: 0;
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   /* ============ Leaflet preview в backoffice (Contacts edit) ============ */
@@ -1033,6 +1048,211 @@
     & .bo-panel-title {
       margin: 0;
     }
+  }
+
+  /* Под-заголовок внутри секции — над inline-formset'ом (h3 уровень).
+     Используется в backoffice/content/program/edit.html: «Карточки …», «Цифры …» и т.д. */
+  .bo-subpanel-title {
+    margin: 1.5rem 0 .75rem;
+    font-size: .875rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--color-black) 70%, transparent);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+
+  /* SVG-иконка в inline-formset (audience / certificate-feature):
+     preview бокс 56×56 + кнопка «Редактировать SVG». Сам textarea живёт в
+     модальном окне (bo-svg-modal), чтобы не занимать место на карточке. */
+  .bo-svg-field {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: .75rem;
+  }
+
+  .bo-svg-preview {
+    width: 56px;
+    height: 56px;
+    flex: 0 0 56px;
+    display: grid;
+    place-items: center;
+    padding: .5rem;
+    border: 1px dashed var(--color-gray-200);
+    border-radius: .5rem;
+    background: color-mix(in srgb, var(--color-gold) 4%, transparent);
+    color: var(--color-black);
+    overflow: hidden;
+
+    /* Любой <svg> внутри прижимается к боксу — не раскрывается на всю страницу */
+    & > svg {
+      width: 100%;
+      height: 100%;
+      max-width: 40px;
+      max-height: 40px;
+      display: block;
+    }
+  }
+
+  .bo-svg-edit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    padding: .35rem .7rem;
+    font-size: .75rem;
+    font-weight: 500;
+    color: var(--color-black);
+    background: var(--color-white);
+    border: 1px solid color-mix(in srgb, var(--color-gold) 35%, var(--color-gray-200));
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+
+    & svg {
+      width: .9rem;
+      height: .9rem;
+      color: var(--color-gold);
+    }
+
+    @variant hover {
+      background: color-mix(in srgb, var(--color-gold) 8%, var(--color-white));
+      border-color: var(--color-gold);
+    }
+  }
+
+  /* Модальное окно для редактирования SVG (textarea внутри модалки — остаётся в DOM,
+     чтобы submit формы не потерял значение; модалка визуально вытаскивает её через
+     position:fixed). Каждая карточка имеет свою модалку (Alpine x-data scope per <li>). */
+  .bo-svg-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .bo-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 15, 33, .55);
+    backdrop-filter: blur(2px);
+  }
+
+  .bo-modal-panel {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 640px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: .875rem;
+    box-shadow: 0 20px 60px rgba(0, 15, 33, .25);
+    overflow: hidden;
+  }
+
+  .bo-modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .bo-modal-title {
+    margin: 0;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .bo-modal-close {
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 9999px;
+    color: color-mix(in srgb, var(--color-black) 55%, transparent);
+    cursor: pointer;
+    transition: background .15s, color .15s;
+
+    & svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+
+    @variant hover {
+      background: var(--color-slate-100);
+      color: var(--color-black);
+    }
+  }
+
+  .bo-modal-body {
+    padding: 1rem 1.25rem;
+    overflow: auto;
+
+    & .bo-textarea {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: .8125rem;
+      min-height: 14rem;
+    }
+  }
+
+  .bo-modal-foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: .5rem;
+    padding: .75rem 1.25rem;
+    border-top: 1px solid var(--color-gray-200);
+    background: var(--color-slate-50);
+  }
+
+  /* Drag-handle (≡-иконка) для DnD-сортировки inline-formset'ов на edit-странице Программы.
+     SortableJS активируется на <ul x-data="boInlineSort">, перетаскивание захватывается
+     только через .bo-drag-handle — чтобы не словить случайный drag когда пользователь
+     выделяет текст в textarea. */
+  .bo-drag-handle {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-right: .25rem;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: color-mix(in srgb, var(--color-black) 40%, transparent);
+    border-radius: .375rem;
+    cursor: grab;
+    transition: background-color 120ms, color 120ms;
+
+    &:hover {
+      background: color-mix(in srgb, var(--color-gold) 12%, transparent);
+      color: var(--color-black);
+    }
+    &:active {
+      cursor: grabbing;
+      background: color-mix(in srgb, var(--color-gold) 20%, transparent);
+    }
+    & svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+  }
+
+  /* Стиль <li> во время drag (placeholder в исходном месте) — приглушаем
+     и подсвечиваем рамкой, чтобы было понятно «откуда взялось». */
+  .bo-formset-item-ghost {
+    opacity: .4;
+    background: color-mix(in srgb, var(--color-gold) 8%, var(--color-white));
+    border-style: dashed;
   }
 
   .bo-block-translate {

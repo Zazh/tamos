@@ -46,6 +46,10 @@ class ProgramPageTranslationOptions(TranslationOptions):
         'stats_intro_text',
         'faq_label',
         'faq_title',
+        'seo_title',
+        'seo_description',
+        'og_title',
+        'og_description',
     )
 
 

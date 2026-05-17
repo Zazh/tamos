@@ -1,0 +1,72 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head">
+    <h1 class="bo-page-title">{% trans "Программа" %}</h1>
+    <p class="bo-page-subtitle">{% trans "Лендинг «Программа» для каждого региона. Hero и 7 секций (кому подходит, что получает, программы, команда, аттестат, цифры, FAQ). Выберите регион." %}</p>
+  </div>
+
+  {% if rows %}
+    <div class="bo-table-wrap">
+      <table class="bo-table">
+        <thead>
+          <tr>
+            <th class="bo-th">{% trans "Регион" %}</th>
+            <th class="bo-th">{% trans "Hero" %}</th>
+            <th class="bo-th">{% trans "Секции" %}</th>
+            <th class="bo-th bo-th-right">{% trans "Обновлено" %}</th>
+            <th class="bo-th bo-th-right"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for program in rows %}
+            <tr class="bo-tr" onclick="location.href='{% url 'backoffice:content_program_edit' pk=program.pk %}'">
+              <td class="bo-td">
+                <div class="bo-cell-strong">{{ program.region.name }}</div>
+                <div class="bo-cell-muted">{{ program.region.slug }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-strong">{{ program.hero_badge_text|default:'—' }}</div>
+                <div class="bo-cell-muted">{{ program.hero_subtitle|truncatechars:80|default:'—' }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-muted">{{ program.audience_count }} кому · {{ program.variant_count }} программ · {{ program.team_count }} команда · {{ program.faq_count }} FAQ</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <div class="bo-cell-muted">{{ program.updated_at|date:"j E, H:i" }}</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <a href="{% url 'backoffice:content_program_edit' pk=program.pk %}" class="bo-row-edit">{% trans "Редактировать →" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="bo-cards">
+      {% for program in rows %}
+        <li class="bo-card" onclick="location.href='{% url 'backoffice:content_program_edit' pk=program.pk %}'">
+          <div class="bo-card-head">
+            <span class="bo-cell-strong">{{ program.region.name }}</span>
+            <time class="bo-cell-muted">{{ program.updated_at|date:"j E, H:i" }}</time>
+          </div>
+          <div class="bo-card-meta">
+            <span>{{ program.hero_badge_text|default:'—' }}</span>
+          </div>
+          <div class="bo-card-foot">
+            <span class="bo-cell-muted">{{ program.audience_count }} + {{ program.variant_count }} + {{ program.team_count }} + {{ program.faq_count }}</span>
+            <span class="bo-row-edit">{% trans "Редактировать →" %}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="bo-list-empty">
+      {% trans "Лендинги «Программа» создаются миграцией. Если регион новый — обратись к разработчику." %}
+    </div>
+  {% endif %}
+{% endblock %}

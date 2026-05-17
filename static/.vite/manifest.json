@@ -1,6 +1,6 @@
 {
-  "_modulepreload-polyfill-BWnSCVjP.js": {
-    "file": "assets/js/modulepreload-polyfill-BWnSCVjP.js",
+  "_modulepreload-polyfill-DtyGHURS.js": {
+    "file": "assets/js/modulepreload-polyfill-DtyGHURS.js",
     "name": "modulepreload-polyfill"
   },
   "public/images/teams/1.jpg": {
@@ -28,12 +28,12 @@
     "src": "src/fonts/gotham_medium.otf"
   },
   "src/js/main.js": {
-    "file": "assets/js/main-Cyw6D1am.js",
+    "file": "assets/js/main-ClUiUClI.js",
     "name": "main",
     "src": "src/js/main.js",
     "isEntry": true,
     "css": [
-      "assets/css/main-Bl-zyNcA.css"
+      "assets/css/main-CTdPwU3t.css"
     ],
     "assets": [
       "assets/fonts/gotham_book-sprPKk5v.otf",

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Главная — Backoffice — Space School</title>
+    <script type="module" crossorigin src="/static/assets/js/main-ClUiUClI.js"></script>
+    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-DtyGHURS.js"></script>
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-CTdPwU3t.css">
+  </head>
+  <body>
+    <div class="bo-shell" x-data="{ sidebar: false }" :class="sidebar && 'bo-sidebar-open'">
+      <aside class="bo-sidebar"></aside>
+      <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false"></div>
+
+      <div class="bo-body">
+        <header class="bo-topbar">
+          <button class="bo-burger" @click="sidebar = true" aria-label="Меню">
+            <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <div class="bo-topbar-title">Главная</div>
+          <div class="bo-user">
+            <span class="bo-user-name">Aidarbek</span>
+            <button class="bo-logout">Выйти</button>
+          </div>
+        </header>
+
+        <main class="bo-main">
+          <div class="bo-page-head">
+            <h1 class="bo-page-title">Главная</h1>
+            <p class="bo-page-subtitle">Singleton-страница для каждого региона. Выберите регион для редактирования.</p>
+          </div>
+
+          <!-- Table (desktop) -->
+          <div class="bo-table-wrap">
+            <table class="bo-table">
+              <thead>
+                <tr>
+                  <th class="bo-th">Регион</th>
+                  <th class="bo-th">Заголовок hero</th>
+                  <th class="bo-th">Картинок в галерее</th>
+                  <th class="bo-th bo-th-right">Обновлено</th>
+                  <th class="bo-th bo-th-right"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bo-tr" onclick="location.href='#'">
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Астана</div>
+                    <div class="bo-cell-muted">astana</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-muted bo-cell-clip">Лучшее образование для будущего ребёнка</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-muted">5</div>
+                  </td>
+                  <td class="bo-td bo-td-right">
+                    <div class="bo-cell-muted">11 мая, 18:42</div>
+                  </td>
+                  <td class="bo-td bo-td-right">
+                    <a href="#" class="bo-row-edit">Редактировать →</a>
+                  </td>
+                </tr>
+                <tr class="bo-tr" onclick="location.href='#'">
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Актау</div>
+                    <div class="bo-cell-muted">aktau</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-muted bo-cell-clip">Лучшее образование для будущего ребёнка</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-muted">5</div>
+                  </td>
+                  <td class="bo-td bo-td-right">
+                    <div class="bo-cell-muted">11 мая, 18:42</div>
+                  </td>
+                  <td class="bo-td bo-td-right">
+                    <a href="#" class="bo-row-edit">Редактировать →</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Cards (mobile) -->
+          <ul class="bo-cards">
+            <li class="bo-card" onclick="location.href='#'">
+              <div class="bo-card-head">
+                <span class="bo-cell-strong">Астана</span>
+                <time class="bo-cell-muted">11 мая, 18:42</time>
+              </div>
+              <div class="bo-card-meta">
+                <span>Hero: «Лучшее образование…»</span>
+              </div>
+              <div class="bo-card-foot">
+                <span class="bo-cell-muted">5 картинок</span>
+                <span class="bo-row-edit">Редактировать →</span>
+              </div>
+            </li>
+            <li class="bo-card" onclick="location.href='#'">
+              <div class="bo-card-head">
+                <span class="bo-cell-strong">Актау</span>
+                <time class="bo-cell-muted">11 мая, 18:42</time>
+              </div>
+              <div class="bo-card-meta">
+                <span>Hero: «Лучшее образование…»</span>
+              </div>
+              <div class="bo-card-foot">
+                <span class="bo-cell-muted">5 картинок</span>
+                <span class="bo-row-edit">Редактировать →</span>
+              </div>
+            </li>
+          </ul>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

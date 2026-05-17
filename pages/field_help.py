@@ -577,6 +577,232 @@ def _h(html, ai_processable=True):
     return {'html': html, 'ai_processable': ai_processable}
 
 
+PROGRAMPAGE_HERO_BADGE = """
+<h4>📝 Назначение</h4>
+<p>Маленький ярлычок-лейбл над h1 на hero лендинга «Программа». Уточняет позиционирование школы для конкретного региона.</p>
+
+<h4>✨ Текущий референс</h4>
+<ul><li>«Международная школа в Астане»</li></ul>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До <strong>120 символов</strong>, без HTML</li></ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши короткий бадж (до 120 символов) над hero лендинга «Программа» школы в городе [ГОРОД]. Формат: «[Тип школы] в [Городе]». Лаконично.</blockquote>
+"""
+
+
+PROGRAMPAGE_HERO_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Главный заголовок (h1) лендинга «Программа». Эмоциональное обещание программы. HTML-разметка через <code>&lt;span class="hero-fit"&gt;</code> для построчной подгонки на мобиле.</p>
+
+<h4>🎨 Теги-обёртки</h4>
+<p><code>&lt;span class="hero-fit"&gt;...&lt;/span&gt;</code> — каждая визуальная строка. Без этого fitty не работает.</p>
+<p><code>&lt;span class="hero-break"&gt;...&lt;/span&gt;</code> — внутри hero-fit. Десктопный перенос; на мобиле игнорируется.</p>
+<p><code>&lt;span class="text-gold"&gt;...&lt;/span&gt;</code> — золотой акцент на одно-два слова.</p>
+
+<h4>✨ Пример</h4>
+<blockquote>&lt;span class="hero-fit"&gt;Школа для детей&lt;/span&gt;
+&lt;span class="hero-fit"&gt;которые &lt;span class="hero-break"&gt;поступят&lt;/span&gt;&lt;/span&gt;
+&lt;span class="hero-fit"&gt;в &lt;span class="text-gold"&gt;TOP-100&lt;/span&gt; вузов&lt;/span&gt;</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>2–4 строки, каждая 12–22 символа</li>
+  <li>HTML рендерится через <code>|safe</code> — только указанные классы</li>
+</ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши emotional h1 для лендинга программы школы. 2–4 визуальные строки по 12–22 символа. Каждую строку оберни в &lt;span class="hero-fit"&gt;...&lt;/span&gt;. 1–2 слова в &lt;span class="text-gold"&gt; для акцента. Без &lt;br&gt;, &lt;p&gt;, других классов.</blockquote>
+"""
+
+
+PROGRAMPAGE_HERO_SUBTITLE = """
+<h4>📝 Назначение</h4>
+<p>Подзаголовок (h2) под h1 hero. Раскрывает программу одним коротким предложением.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>От 1 до 11 класса · Cambridge + IB</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1–2 строки, до 150 символов</li></ul>
+"""
+
+
+PROGRAMPAGE_HERO_CTA = """
+<h4>📝 Назначение</h4>
+<p>Тексты двух CTA-кнопок на hero. Основная — основной призыв («Записаться»), вторичная — мягкая («Получить консультацию»). Обе открывают модалку заявки.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>Основная — до 20 символов</li><li>Вторичная — до 30 символов</li></ul>
+"""
+
+
+PROGRAMPAGE_SECTION_LABEL = """
+<h4>📝 Назначение</h4>
+<p>Маленький лейбл над заголовком секции — обычно одно слово или короткая фраза.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 80 символов, без HTML</li></ul>
+"""
+
+
+PROGRAMPAGE_SECTION_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок секции (h2 на странице). Перенос строки в textarea = <code>&lt;br&gt;</code>.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1–3 строки, каждая 15–30 символов</li></ul>
+"""
+
+
+PROGRAMPAGE_AUDIENCE_PHOTO_WOMAN = """
+<h4>📝 Назначение</h4>
+<p>Круглое фото слева в секции «Кому подходит». Девушка/ученица на фоне. Размер слота круга — 320×320 на десктопе.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>JPG/PNG/WebP, 1:1 или близкое, минимум 640×640</li><li>До 5 MB</li></ul>
+"""
+
+
+PROGRAMPAGE_AUDIENCE_PHOTO_LIBRARY = """
+<h4>📝 Назначение</h4>
+<p>Прямоугольное фото справа в секции «Кому подходит». Атмосферный кадр (библиотека, класс, лаборатория).</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>JPG/PNG/WebP, ~16:9 или 4:3, минимум 1280×720</li><li>До 5 MB</li></ul>
+"""
+
+
+PROGRAMPAGE_BENEFITS_PHOTO_KID = """
+<h4>📝 Назначение</h4>
+<p>Фото ученика на фоне в секции «Что получает». Эмоциональное (ребёнок улыбается, занят делом).</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>JPG/PNG/WebP, ~4:3 или 1:1, минимум 1024×1024</li><li>До 5 MB</li></ul>
+"""
+
+
+PROGRAMPAGE_CERTIFICATE_PREVIEW = """
+<h4>📝 Назначение</h4>
+<p>Образец сертификата (Cambridge Certificate of Completion) для секции «Аттестат». Если пусто — на сайте показывается mock с логотипом Cambridge.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>JPG/PNG/WebP, ~3:4 или 4:3 (вертикальный формат), 800×1000+</li><li>До 5 MB</li></ul>
+"""
+
+
+PROGRAMPAGE_STATS_PHOTO = """
+<h4>📝 Назначение</h4>
+<p>Фото фасада школы справа от блока «В цифрах».</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>JPG/PNG/WebP, ~16:9, 1920×1080</li><li>До 5 MB</li></ul>
+"""
+
+
+PROGRAMPAGE_PROGRAMS_SECTION = """
+<h4>📝 Назначение</h4>
+<p>Лейбл + заголовок + подзаголовок + CTA-текст секции «Программы» (с двумя большими карточками: Начальная / Старшая). Сами карточки правятся в inline-форме ниже.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>Заголовок: 2–3 строки</li><li>CTA-текст в каждой карточке: до 80 символов</li></ul>
+"""
+
+
+# SEO для программы — структурно идентично HOMEPAGE_SEO_*, только fallback на hero_*.
+PROGRAMPAGE_SEO_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;title&gt;</code> в head — отображается во вкладке браузера и в поисковой выдаче Google.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li><strong>50–60 символов</strong></li>
+  <li>Структура: «Программа Cambridge — Space School [Город]»</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — на сайте используется <code>hero_title</code> (без HTML).</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши SEO-title для лендинга программы школы [НАЗВАНИЕ] в [ГОРОД]. 50–60 символов. Включи ключевое слово (программа/Cambridge/IB) + бренд + город.</blockquote>
+"""
+
+
+PROGRAMPAGE_SEO_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;meta name="description"&gt;</code> — описание в поисковой выдаче.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li><strong>150–160 символов</strong></li><li>Содержит: программа + классы + ключевые фичи (Cambridge, IB)</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>hero_subtitle</code>.</p>
+"""
+
+
+PROGRAMPAGE_OG_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок при шеринге ссылки в соцсетях/мессенджерах.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 80 символов, без эмодзи</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — <code>seo_title</code> → <code>hero_title</code>.</p>
+"""
+
+
+PROGRAMPAGE_OG_IMAGE = """
+<h4>📝 Назначение</h4>
+<p>Картинка для шеринга в соцсетях/мессенджерах.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1200×630 (1.91:1)</li><li>JPG/PNG, до 5 MB</li><li>Не WebP (мессенджеры плохо поддерживают)</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — OG-картинки не будет (на лендинге программы — лучше загрузить).</p>
+"""
+
+
+# Inline-моделей подсказки — короткие, без AI-prompt'ов (генерация делается через
+# block-translate, у каждой записи есть свой AI-pipeline в RU→KK/EN).
+PROGRAMAUDIENCEITEM_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок карточки «Кому подходит». Имя группы аудитории (Целеустремлённым / Творческим / …).</p>
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов, без HTML</li></ul>
+"""
+
+PROGRAMAUDIENCEITEM_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Описание под заголовком — 1 короткое предложение о том, что эта группа получит.</p>
+<h4>📐 Ограничения</h4>
+<ul><li>80–200 символов</li></ul>
+"""
+
+PROGRAMBENEFITITEM_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок карточки «Что получает» (Двойной аттестат / Английский / …). Номер 1/2/3/4 рендерится автоматически по order.</p>
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов</li></ul>
+"""
+
+PROGRAMBENEFITITEM_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Развёрнутое описание под заголовком — что именно ученик получит.</p>
+<h4>📐 Ограничения</h4>
+<ul><li>100–250 символов</li></ul>
+"""
+
+PROGRAMCERTIFICATEFEATURE_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок маленькой карточки-фичи под образцом сертификата (4 glass-card). Одно ключевое преимущество.</p>
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов</li></ul>
+"""
+
+
 FIELD_HELP = {
     # Image / Video — AI-pipeline скипает (LLM не генерирует бинарные файлы).
     'homepage.hero_image': _h(HOMEPAGE_HERO_IMAGE, ai_processable=False),
@@ -616,6 +842,29 @@ FIELD_HELP = {
     'contactsdepartment.hours': _h(CONTACTSDEPARTMENT_HOURS),
     'contactsdepartment.phone': _h(CONTACTSDEPARTMENT_PHONE, ai_processable=False),
     'contactsdepartment.email': _h(CONTACTSDEPARTMENT_EMAIL, ai_processable=False),
+
+    # ProgramPage
+    'programpage.hero_badge_text': _h(PROGRAMPAGE_HERO_BADGE),
+    'programpage.hero_title': _h(PROGRAMPAGE_HERO_TITLE),
+    'programpage.hero_subtitle': _h(PROGRAMPAGE_HERO_SUBTITLE),
+    'programpage.hero_cta': _h(PROGRAMPAGE_HERO_CTA),
+    'programpage.audience_photo_woman': _h(PROGRAMPAGE_AUDIENCE_PHOTO_WOMAN, ai_processable=False),
+    'programpage.audience_photo_library': _h(PROGRAMPAGE_AUDIENCE_PHOTO_LIBRARY, ai_processable=False),
+    'programpage.benefits_photo_kid': _h(PROGRAMPAGE_BENEFITS_PHOTO_KID, ai_processable=False),
+    'programpage.certificate_preview_image': _h(PROGRAMPAGE_CERTIFICATE_PREVIEW, ai_processable=False),
+    'programpage.stats_photo': _h(PROGRAMPAGE_STATS_PHOTO, ai_processable=False),
+    'programpage.programs_section': _h(PROGRAMPAGE_PROGRAMS_SECTION),
+    'programpage.seo_title': _h(PROGRAMPAGE_SEO_TITLE),
+    'programpage.seo_description': _h(PROGRAMPAGE_SEO_DESCRIPTION),
+    'programpage.og_title': _h(PROGRAMPAGE_OG_TITLE),
+    'programpage.og_image': _h(PROGRAMPAGE_OG_IMAGE, ai_processable=False),
+
+    # Program inline-models (short hints)
+    'programaudienceitem.title': _h(PROGRAMAUDIENCEITEM_TITLE),
+    'programaudienceitem.description': _h(PROGRAMAUDIENCEITEM_DESCRIPTION),
+    'programbenefititem.title': _h(PROGRAMBENEFITITEM_TITLE),
+    'programbenefititem.description': _h(PROGRAMBENEFITITEM_DESCRIPTION),
+    'programcertificatefeature.title': _h(PROGRAMCERTIFICATEFEATURE_TITLE),
 }
 
 

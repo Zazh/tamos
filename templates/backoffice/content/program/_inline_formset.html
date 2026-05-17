@@ -1,0 +1,100 @@
+{% load i18n backoffice_tags %}
+{% comment %}
+Generic inline formset для audience-items / benefit-items / certificate-features.
+Каждый item: order (hidden, через DnD) + (optional icon_svg) + translatable title +
+(optional translatable description).
+Params:
+  formset, prefix, sublabel, bases (JSON for block-translate), translate_url, form_id,
+  help_prefix ('programaudienceitem'/'programbenefititem'/'programcertificatefeature'),
+  show_icon_svg (bool), only_title (bool — без description: для certificate-features),
+  fixed (bool — фикс. 4 слота: без «Удалить», без подсказки про «Новая карточка»),
+  grid_class (опц. CSS-класс для <ul> вместо `bo-formset-stacked`, напр. `bo-formset-grid-2`).
+{% endcomment %}
+<h3 class="bo-subpanel-title">{{ sublabel }}</h3>
+
+{{ formset.management_form }}
+{% if formset.non_form_errors %}
+  <div class="bo-messages">
+    {% for err in formset.non_form_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+  </div>
+{% endif %}
+
+<ul class="bo-formset {{ grid_class|default:'bo-formset-stacked' }}" x-data="boInlineSort">
+  {% for f in formset %}
+    <li class="bo-formset-item bo-formset-item-stacked{% if not f.instance.pk %} bo-formset-item-empty{% endif %}">
+      {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+      {{ f.order.as_hidden }}
+
+      <div class="bo-formset-head">
+        <button type="button" class="bo-drag-handle" aria-label="{% trans 'Перетащить для сортировки' %}" title="{% trans 'Перетащить' %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>
+        </button>
+        <h3 class="bo-formset-item-title" title="{% if f.instance.title %}{{ f.instance.title }}{% else %}{% trans 'Карточка' %} {{ forloop.counter }}{% endif %}">
+          {% if f.instance.pk %}
+            {% if f.instance.title %}{{ f.instance.title }}{% else %}{% blocktrans with n=forloop.counter %}Карточка {{ n }}{% endblocktrans %}{% endif %}
+          {% else %}
+            {% trans "Новая карточка" %}
+          {% endif %}
+        </h3>
+        <div class="bo-formset-head-actions">
+          {% include 'backoffice/content/_block_translate.html' with bases=bases translate_url=translate_url form_id=form_id prefix=f.prefix|add:'-' %}
+          {% if not fixed and f.instance.pk %}
+            <label class="bo-label-checkbox">
+              {{ f.DELETE }}
+              <span>{% trans "Удалить" %}</span>
+            </label>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if show_icon_svg %}
+        <div class="bo-svg-field" x-data="{ svgOpen: false }">
+          <div class="bo-svg-preview" aria-hidden="true">
+            {% if f.instance.icon_svg %}{{ f.instance.icon_svg|safe }}{% else %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".3"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>{% endif %}
+          </div>
+          <button type="button" class="bo-svg-edit-btn" @click="svgOpen = true" :aria-expanded="svgOpen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
+            </svg>
+            <span>{% trans "Редактировать SVG" %}</span>
+          </button>
+
+          <div class="bo-svg-modal" x-show="svgOpen" x-cloak @keydown.escape.window="svgOpen = false">
+            <div class="bo-modal-backdrop" @click="svgOpen = false" aria-hidden="true"></div>
+            <div class="bo-modal-panel" role="dialog" aria-modal="true" aria-labelledby="svg-modal-title-{{ f.prefix }}">
+              <header class="bo-modal-head">
+                <h3 id="svg-modal-title-{{ f.prefix }}" class="bo-modal-title">{% trans "SVG-иконка" %}</h3>
+                <button type="button" class="bo-modal-close" @click="svgOpen = false" aria-label="{% trans 'Закрыть' %}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+              </header>
+              <div class="bo-modal-body">
+                <label class="bo-label" for="{{ f.icon_svg.id_for_label }}">{% trans "Полная разметка <svg>…</svg>" %}</label>
+                {{ f.icon_svg }}
+                {% for err in f.icon_svg.errors %}<p class="bo-help" style="color:#b91c1c">{{ err }}</p>{% endfor %}
+                <p class="bo-help">{% trans "Превью обновится после сохранения формы." %}</p>
+              </div>
+              <footer class="bo-modal-foot">
+                <button type="button" class="bo-action-btn bo-action-preview" @click="svgOpen = false">{% trans "Готово" %}</button>
+              </footer>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% include 'backoffice/content/_field_translatable.html' with form=f base='title' label='Заголовок' %}
+      {% if help_prefix %}{% field_help help_prefix|add:'.title' %}{% endif %}
+
+      {% if not only_title %}
+        {% include 'backoffice/content/_field_translatable.html' with form=f base='description' label='Описание' %}
+        {% if help_prefix %}{% field_help help_prefix|add:'.description' %}{% endif %}
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+
+{% if not fixed %}
+  <p class="bo-help">{% trans "Перетащи карточки за иконку слева, чтобы изменить порядок. Чтобы добавить ещё — заполни блок «Новая карточка» внизу и сохрани форму." %}</p>
+{% else %}
+  <p class="bo-help">{% trans "Ровно 4 карточки. Перетащи за иконку слева, чтобы изменить порядок. Чтобы скрыть слот на сайте — оставь заголовок пустым." %}</p>
+{% endif %}

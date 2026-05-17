@@ -1,0 +1,317 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n l10n backoffice_tags %}
+
+{% block content %}
+  {% url 'backoffice:content_program_translate' pk=program.pk as program_translate_url %}
+
+  <a href="{% url 'backoffice:content_program_list' %}" class="bo-back">← {% trans "К списку" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-content-stack" x-data="{ lang: 'ru' }">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{% blocktrans with region=program.region.name %}Программа — {{ region }}{% endblocktrans %}</h1>
+        <p class="bo-page-subtitle">{% blocktrans with date=program.updated_at|date:"j E, H:i" %}Лендинг «Программа» региона. 7 inline-секций + Hero + SEO. Обновлено {{ date }}.{% endblocktrans %}</p>
+      </div>
+      <div class="bo-detail-head-actions">
+        <a :href="'/' + lang + '/{{ program.region.slug }}/program/'"
+           target="_blank"
+           rel="noopener"
+           class="bo-action-btn bo-action-preview"
+           :title="'{% trans "Открыть страницу в новой вкладке на текущем языке" %} (' + lang.toUpperCase() + ')'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          <span>{% trans "Просмотреть на сайте" %}</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык контента' %}">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+        {% trans "Русский" %}<span class="bo-tab-meta">{% trans "основной" %}</span>
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
+        Қазақша
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
+        English
+      </button>
+
+      <div class="bo-tab-action-wrap"
+           x-data="boAutoTranslate"
+           data-url="{{ program_translate_url }}"
+           data-form-id="program-edit-form"
+           data-bases-json='{{ translatable_bases_json|safe }}'>
+        <button type="button"
+                class="bo-tab bo-tab-action"
+                :class="loading && 'bo-btn-disabled'"
+                :disabled="loading"
+                @click="run()"
+                :title="error || status || '{% trans "Перевести пустые KK/EN из RU через Gemini" %}'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+            <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+          </svg>
+          <span x-show="!loading">{% trans "Авто-перевод" %}</span>
+          <span x-show="loading" x-cloak>{% trans "Переводим…" %}</span>
+        </button>
+        <small class="bo-tab-action-status" x-show="status && !error" x-cloak x-text="status"></small>
+        <small class="bo-tab-action-error" x-show="error" x-cloak x-text="error"></small>
+      </div>
+    </div>
+
+    <form id="program-edit-form" method="post" action="" enctype="multipart/form-data" class="bo-form">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="bo-messages">
+          {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endif %}
+
+      {# ===== Hero ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">Hero</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["hero_badge_text","hero_title","hero_subtitle","hero_cta_primary_text","hero_cta_secondary_text"]' translate_url=program_translate_url form_id='program-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_badge_text' label='Бадж над заголовком' %}
+        {% field_help 'programpage.hero_badge_text' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_title' label='Заголовок hero (h1, HTML)' %}
+        {% field_help 'programpage.hero_title' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_subtitle' label='Подзаголовок hero (h2)' %}
+        {% field_help 'programpage.hero_subtitle' %}
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_cta_primary_text' label='CTA основная (текст)' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='hero_cta_secondary_text' label='CTA вторичная (текст)' %}
+        </div>
+        {% field_help 'programpage.hero_cta' %}
+      </section>
+
+      {% include 'backoffice/content/program/_section_intro.html' with section_id='audience' section_title='Секция «Кому подходит»' bases='["audience_label","audience_title","audience_subtitle"]' translate_url=program_translate_url form_id='program-edit-form' %}
+
+      {# Audience extras: 2 фото + inline #}
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">{% trans "Фото и карточки «Кому подходит»" %}</h2>
+        <div class="bo-row-2">
+          {% include 'backoffice/content/program/_photo_field.html' with field=form.audience_photo_woman instance=program attr='audience_photo_woman' label='Фото слева' help_key='programpage.audience_photo_woman' %}
+          {% include 'backoffice/content/program/_photo_field.html' with field=form.audience_photo_library instance=program attr='audience_photo_library' label='Фото справа' help_key='programpage.audience_photo_library' %}
+        </div>
+
+        {% with fs_data=formsets|getbyindex:0 %}
+          {% include 'backoffice/content/program/_inline_formset.html' with formset=fs_data.1 prefix=fs_data.0 sublabel='Карточки «Кому подходит» (ровно 4)' bases='["title","description"]' translate_url=program_translate_url form_id='program-edit-form' help_prefix='programaudienceitem' show_icon_svg=True fixed=True grid_class='bo-formset-grid-2' %}
+        {% endwith %}
+      </section>
+
+      {# ===== Benefits ===== #}
+      {% include 'backoffice/content/program/_section_intro.html' with section_id='benefits' section_title='Секция «Что получает»' bases='["benefits_label","benefits_title","benefits_subtitle"]' translate_url=program_translate_url form_id='program-edit-form' %}
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">{% trans "Фото и карточки «Что получает»" %}</h2>
+        {% include 'backoffice/content/program/_photo_field.html' with field=form.benefits_photo_kid instance=program attr='benefits_photo_kid' label='Фото справа' help_key='programpage.benefits_photo_kid' %}
+
+        {% with fs_data=formsets|getbyindex:1 %}
+          {% include 'backoffice/content/program/_inline_formset.html' with formset=fs_data.1 prefix=fs_data.0 sublabel='Карточки «Что получает» (ровно 4, нумерация 1/2/3/4 автоматическая)' bases='["title","description"]' translate_url=program_translate_url form_id='program-edit-form' help_prefix='programbenefititem' show_icon_svg=False fixed=True grid_class='bo-formset-grid-2' %}
+        {% endwith %}
+      </section>
+
+      {# ===== Programs (variant cards) ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Секция «Программы»" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["programs_label","programs_title","programs_subtitle","programs_cta_text"]' translate_url=program_translate_url form_id='program-edit-form' %}
+        </header>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='programs_label' label='Лейбл' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='programs_cta_text' label='CTA в секции (текст)' %}
+        </div>
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='programs_title' label='Заголовок' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='programs_subtitle' label='Подзаголовок' %}
+        {% field_help 'programpage.programs_section' %}
+
+        {% with fs_data=formsets|getbyindex:2 %}
+          {% include 'backoffice/content/program/_variant_formset.html' with formset=fs_data.1 prefix=fs_data.0 translate_url=program_translate_url form_id='program-edit-form' %}
+        {% endwith %}
+      </section>
+
+      {# ===== Team ===== #}
+      {% include 'backoffice/content/program/_section_intro.html' with section_id='team' section_title='Секция «Команда»' bases='["team_label","team_title","team_subtitle"]' translate_url=program_translate_url form_id='program-edit-form' %}
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">{% trans "Члены команды" %}</h2>
+        {% with fs_data=formsets|getbyindex:3 %}
+          {% include 'backoffice/content/program/_team_formset.html' with formset=fs_data.1 prefix=fs_data.0 translate_url=program_translate_url form_id='program-edit-form' %}
+        {% endwith %}
+      </section>
+
+      {# ===== Certificate ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Секция «Аттестат»" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["certificate_label","certificate_title","certificate_subtitle","certificate_cta_text"]' translate_url=program_translate_url form_id='program-edit-form' %}
+        </header>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='certificate_label' label='Лейбл' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='certificate_cta_text' label='CTA («Посмотреть сертификат»)' %}
+        </div>
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='certificate_title' label='Заголовок' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='certificate_subtitle' label='Подзаголовок' %}
+
+        {% include 'backoffice/content/program/_photo_field.html' with field=form.certificate_preview_image instance=program attr='certificate_preview_image' label='Образец сертификата' help_key='programpage.certificate_preview_image' %}
+
+        {% with fs_data=formsets|getbyindex:4 %}
+          {% include 'backoffice/content/program/_inline_formset.html' with formset=fs_data.1 prefix=fs_data.0 sublabel='Карточки-фичи «Аттестат» (ровно 4 glass-card)' bases='["title"]' translate_url=program_translate_url form_id='program-edit-form' help_prefix='programcertificatefeature' show_icon_svg=True only_title=True fixed=True grid_class='bo-formset-grid-2' %}
+        {% endwith %}
+      </section>
+
+      {# ===== Activities (без inline) ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Секция «Внеклассные»" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["activities_label","activities_title","activities_subtitle","activities_cta_text"]' translate_url=program_translate_url form_id='program-edit-form' %}
+        </header>
+        <p class="bo-help">{% trans "Сами карточки активностей берутся из приложения «Активности» (галочка «В подборке на главной/программы»). Здесь — только тексты обрамляющей секции." %}</p>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='activities_label' label='Лейбл' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='activities_cta_text' label='CTA («Смотреть все активности»)' %}
+        </div>
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='activities_title' label='Заголовок' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='activities_subtitle' label='Подзаголовок' %}
+      </section>
+
+      {# ===== Stats ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Секция «В цифрах»" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["stats_label","stats_title","stats_intro_text"]' translate_url=program_translate_url form_id='program-edit-form' %}
+        </header>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='stats_label' label='Лейбл' %}
+          {% include 'backoffice/content/program/_photo_field.html' with field=form.stats_photo instance=program attr='stats_photo' label='Фото школы' help_key='programpage.stats_photo' %}
+        </div>
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='stats_title' label='Заголовок' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='stats_intro_text' label='Вводный текст' %}
+
+        {% with fs_data=formsets|getbyindex:5 %}
+          {% include 'backoffice/content/program/_stat_formset.html' with formset=fs_data.1 prefix=fs_data.0 translate_url=program_translate_url form_id='program-edit-form' %}
+        {% endwith %}
+      </section>
+
+      {# ===== FAQ ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Секция «FAQ»" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["faq_label","faq_title"]' translate_url=program_translate_url form_id='program-edit-form' %}
+        </header>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='faq_label' label='Лейбл' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='faq_title' label='Заголовок' %}
+        </div>
+
+        {% with fs_data=formsets|getbyindex:6 %}
+          {% include 'backoffice/content/program/_faq_formset.html' with formset=fs_data.1 prefix=fs_data.0 translate_url=program_translate_url form_id='program-edit-form' %}
+        {% endwith %}
+      </section>
+    </form>
+
+    {# ===== SEO & Social (вне form, привязка через HTML5 form=) ===== #}
+    <section class="bo-panel">
+      <header class="bo-panel-head">
+        <h2 class="bo-panel-title">SEO &amp; Social</h2>
+        <div class="bo-block-translate"
+             x-data="boAutoSEO"
+             data-url="{% url 'backoffice:content_program_seo' pk=program.pk %}"
+             data-form-id="program-edit-form"
+             data-source-fields="hero_badge_text,hero_title,hero_subtitle,audience_title,benefits_title,programs_title">
+          <button type="button"
+                  class="bo-block-translate-btn"
+                  :class="loading && 'bo-btn-disabled'"
+                  :disabled="loading"
+                  @click="run()"
+                  :title="error || status || '{% trans "Сгенерировать SEO/OG для всех 3 языков из RU контента. Заполняет только пустые." %}'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+              <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+            </svg>
+            <span x-show="!loading">{% trans "Авто-генерация SEO" %}</span>
+            <span x-show="loading" x-cloak>{% trans "Генерируем…" %}</span>
+          </button>
+          <small class="bo-block-translate-status" x-show="status && !error" x-cloak x-text="status"></small>
+          <small class="bo-block-translate-error" x-show="error" x-cloak x-text="error"></small>
+        </div>
+      </header>
+
+      {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_title' label='SEO title' %}
+      {% field_help 'programpage.seo_title' %}
+
+      {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_description' label='SEO description' %}
+      {% field_help 'programpage.seo_description' %}
+
+      <div class="bo-row-2">
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='og_title' label='OG title (соцсети)' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='og_description' label='OG description (соцсети)' %}
+      </div>
+      {% field_help 'programpage.og_title' %}
+
+      <div class="bo-field">
+        <label class="bo-label">{% trans "OG-картинка (для шеринга)" %}</label>
+        {% if program.og_image %}
+          <div class="bo-media-preview" style="min-height:180px">
+            <img src="{{ program.og_image.url }}" alt="og preview">
+          </div>
+        {% else %}
+          <div class="bo-media-preview" style="min-height:120px">
+            <div style="color:rgba(255,255,255,.6); font-size:.875rem">{% trans "Не загружена" %}</div>
+          </div>
+        {% endif %}
+        <div class="bo-media-controls">
+          <label class="bo-media-replace">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>{% trans "Изменить OG-картинку" %}</span>
+            <input type="file" form="program-edit-form" name="{{ form.og_image.html_name }}" accept="image/jpeg,image/png,image/webp">
+          </label>
+        </div>
+        {% field_help 'programpage.og_image' %}
+      </div>
+    </section>
+
+    {# ===== Sticky footer + stepper ===== #}
+    <div class="bo-form-foot bo-form-foot-sticky"
+         x-data="boFormSteps"
+         data-form-id="program-edit-form"
+         data-steps-json='{{ steps_json|safe }}'>
+      <ul class="bo-steps">
+        <template x-for="step in steps" :key="step.id">
+          <li class="bo-step" :class="stepClass(step)" :title="step.label + ' — ' + step.filled + '/' + step.total + (step.required ? ' (обязательно)' : '')">
+            <span class="bo-step-dot"></span>
+            <span class="bo-step-label" x-text="step.label"></span>
+            <span class="bo-step-count" x-text="step.filled + '/' + step.total"></span>
+            <span class="bo-step-req" x-show="step.required" x-cloak title="{% trans 'Обязательный шаг' %}">*</span>
+          </li>
+        </template>
+      </ul>
+
+      <div class="bo-form-foot-actions">
+        <a href="{% url 'backoffice:content_program_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+        <button type="submit" form="program-edit-form"
+                class="btn btn-primary"
+                :disabled="!canSave"
+                :class="!canSave && 'bo-btn-disabled'"
+                :title="canSave ? '' : blockedReason">{% trans "Сохранить" %}</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

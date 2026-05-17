@@ -1,0 +1,30 @@
+{% load i18n backoffice_tags %}
+{% comment %}
+Photo field with preview + replace control.
+Params: field (BoundField), instance (program), attr (имя ImageField на instance), label, help_key.
+Рендерит голый <input type="file"> (через field.html_name) — без Django ClearableFileInput
+обвязки «Currently … Clear … Change». Подробности — в field_help.
+{% endcomment %}
+<div class="bo-field">
+  <label class="bo-label">{{ label }}</label>
+  {% with img=instance|getattr:attr %}
+    {% if img %}
+      <div class="bo-media-preview" style="min-height:180px">
+        <img src="{{ img.url }}" alt="{{ label }}">
+      </div>
+    {% else %}
+      <div class="bo-media-preview" style="min-height:120px">
+        <div style="color:rgba(255,255,255,.6); font-size:.875rem">{% trans "Не загружено" %}</div>
+      </div>
+    {% endif %}
+  {% endwith %}
+  <div class="bo-media-controls">
+    <label class="bo-media-replace">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <span>{% trans "Изменить" %}</span>
+      <input type="file" name="{{ field.html_name }}" accept="image/*">
+    </label>
+  </div>
+  {% for err in field.errors %}<p class="bo-help" style="color:#b91c1c">{{ err }}</p>{% endfor %}
+  {% if help_key %}{% field_help help_key %}{% endif %}
+</div>
