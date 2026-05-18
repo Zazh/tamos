@@ -37,6 +37,24 @@ urlpatterns = [
     path('content/admission/variant/<int:vpk>/translate/', views.content_admission_variant_translate, name='content_admission_variant_translate'),
     path('content/admission/variant/<int:vpk>/seo/', views.content_admission_variant_seo, name='content_admission_variant_seo'),
 
+    # Blog
+    path('content/blog/', views.content_blog_list, name='content_blog_list'),
+    path('content/blog/new/', views.content_blog_create, name='content_blog_create'),
+    path('content/blog/<int:pk>/', views.content_blog_edit, name='content_blog_edit'),
+    path('content/blog/<int:pk>/delete/', views.content_blog_delete, name='content_blog_delete'),
+    path('content/blog/<int:pk>/translate/', views.content_blog_translate, name='content_blog_translate'),
+    path('content/blog/<int:pk>/seo/', views.content_blog_seo, name='content_blog_seo'),
+    path('content/blog/<int:pk>/suggest-tags/', views.content_blog_suggest_tags, name='content_blog_suggest_tags'),
+    path('content/blog/<int:pk>/gallery/upload/', views.content_blog_gallery_upload, name='content_blog_gallery_upload'),
+    path('content/blog/<int:pk>/gallery/reorder/', views.content_blog_gallery_reorder, name='content_blog_gallery_reorder'),
+    path('content/blog/<int:pk>/gallery/<int:gpk>/', views.content_blog_gallery_update, name='content_blog_gallery_update'),
+    path('content/blog/<int:pk>/gallery/<int:gpk>/delete/', views.content_blog_gallery_delete, name='content_blog_gallery_delete'),
+    path('content/blog/taxonomy/', views.content_blog_taxonomy, name='content_blog_taxonomy'),
+    path('content/blog/taxonomy/category/save/', views.content_blog_category_save, name='content_blog_category_save'),
+    path('content/blog/taxonomy/category/<int:pk>/delete/', views.content_blog_category_delete, name='content_blog_category_delete'),
+    path('content/blog/taxonomy/tag/save/', views.content_blog_tag_save, name='content_blog_tag_save'),
+    path('content/blog/taxonomy/tag/<int:pk>/delete/', views.content_blog_tag_delete, name='content_blog_tag_delete'),
+
     # Activities (Activity + ActivityGroup + ScheduleSlot)
     path('content/activities/', views.content_activities_list, name='content_activities_list'),
     path('content/activities/region/<int:region_pk>/', views.content_activities_region, name='content_activities_region'),

@@ -87,7 +87,7 @@ def build_nav(user=None):
             'id': 'feed',
             'label': 'Лента',
             'items': [
-                {'id': 'blog', 'label': 'Блог', 'icon': 'newspaper', 'url': _admin('blog', 'blogpost'), 'external': True},
+                {'id': 'blog', 'label': 'Блог', 'icon': 'newspaper', 'url': _own('content_blog_list')},
                 {'id': 'events', 'label': 'События', 'icon': 'sparkles', 'url': _admin('events', 'event'), 'external': True},
                 {'id': 'gallery', 'label': 'Галерея', 'icon': 'image', 'url': _admin('gallery', 'galleryimage'), 'external': True},
                 {'id': 'flatpages', 'label': 'Доп. страницы', 'icon': 'file', 'url': _admin('pages', 'flatpage'), 'external': True},

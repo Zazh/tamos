@@ -185,9 +185,125 @@ function boFormSteps() {
   };
 }
 
+/* Blog gallery — упрощённый компонент без orientation/strict-zip-warning.
+ * Поля для inline edit: alt + caption (на 3 языках). Сортировка через SortableJS. */
+function boBlogGallery() {
+  return {
+    items: [],
+    uploadUrl: "",
+    reorderUrl: "",
+    updateUrlTemplate: "",
+    deleteUrlTemplate: "",
+    dragging: false,
+    uploading: false,
+    error: "",
+    /** Sync currentLang с родительским tab-bar — те же inputs alt/caption переключаются. */
+    currentLang: "ru",
+
+    init() {
+      const root = this.$root;
+      this.uploadUrl = root.dataset.uploadUrl || "";
+      this.reorderUrl = root.dataset.reorderUrl || "";
+      this.updateUrlTemplate = root.dataset.updateUrlTemplate || "";
+      this.deleteUrlTemplate = root.dataset.deleteUrlTemplate || "";
+
+      const itemsScriptId = root.dataset.itemsScript;
+      if (itemsScriptId) {
+        const el = document.getElementById(itemsScriptId);
+        if (el) {
+          try { this.items = JSON.parse(el.textContent || "[]"); }
+          catch (e) { this.error = "Не удалось разобрать данные галереи"; }
+        }
+      }
+
+      this.$nextTick(() => {
+        Sortable.create(this.$refs.grid, {
+          animation: 150,
+          handle: ".bo-gallery-card-drag",
+          ghostClass: "bo-gallery-card-ghost",
+          onEnd: () => this.persistOrder(),
+        });
+      });
+    },
+
+    syncLang(lang) {
+      if (lang && lang !== this.currentLang) this.currentLang = lang;
+    },
+
+    async handleFiles(fileList) {
+      if (!fileList || !fileList.length) return;
+      const files = Array.from(fileList).filter(f => f.type.startsWith("image/"));
+      if (!files.length) return;
+
+      this.uploading = true;
+      this.error = "";
+      const fd = new FormData();
+      for (const f of files) fd.append("images", f);
+
+      try {
+        const data = await postJSON(this.uploadUrl, fd, { isForm: true });
+        this.items = data.items;
+      } catch (e) {
+        this.error = String(e.message || e);
+      } finally {
+        this.uploading = false;
+      }
+    },
+
+    onDrop(event) {
+      this.dragging = false;
+      this.handleFiles(event.dataTransfer.files);
+    },
+
+    onPick(event) {
+      this.handleFiles(event.target.files);
+      event.target.value = "";
+    },
+
+    async persistOrder() {
+      const newOrder = Array.from(this.$refs.grid.children)
+        .map((el) => parseInt(el.dataset.pk, 10))
+        .filter(Boolean);
+      this.items.sort((a, b) => newOrder.indexOf(a.pk) - newOrder.indexOf(b.pk));
+      try {
+        await postJSON(this.reorderUrl, { order: newOrder });
+      } catch (e) {
+        this.error = String(e.message || e);
+      }
+    },
+
+    async remove(item) {
+      if (!confirm("Удалить картинку из галереи?")) return;
+      try {
+        await postJSON(this.deleteUrlTemplate.replace("0", item.pk), {});
+        this.items = this.items.filter(i => i.pk !== item.pk);
+      } catch (e) {
+        this.error = String(e.message || e);
+      }
+    },
+
+    /** Сохранить alt/caption для конкретной картинки (debounced на blur). */
+    async saveMeta(item) {
+      try {
+        await postJSON(this.updateUrlTemplate.replace("0", item.pk), {
+          alt_ru: item.alt_ru || "",
+          alt_kk: item.alt_kk || "",
+          alt_en: item.alt_en || "",
+          caption_ru: item.caption_ru || "",
+          caption_kk: item.caption_kk || "",
+          caption_en: item.caption_en || "",
+        });
+      } catch (e) {
+        this.error = String(e.message || e);
+      }
+    },
+  };
+}
+
 export function registerBackofficeGallery(Alpine) {
   Alpine.data("boVideoPreview", boVideoPreview);
   Alpine.data("boFormSteps", boFormSteps);
+  Alpine.data("boBlogGallery", boBlogGallery);
 
   Alpine.data("boGallery", () => ({
     items: [],

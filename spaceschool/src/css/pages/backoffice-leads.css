@@ -72,6 +72,8 @@
   .bo-chip-dot-in_progress { background: var(--color-gold); }
   .bo-chip-dot-done { background: #16a34a; }
   .bo-chip-dot-rejected { background: var(--color-gray-300); }
+  .bo-chip-dot-published { background: #16a34a; }
+  .bo-chip-dot-draft { background: var(--color-gray-300); }
 
   /* ============ Filter bar ============ */
 

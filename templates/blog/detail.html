@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load i18n region_tags blog_extras %}
 
-{% block title %}{{ post.title }} — Space School{% endblock %}
-{% block meta_description %}{{ post.lead|default:post.title|truncatechars:200 }}{% endblock %}
-{% block og_title %}{{ post.title }}{% endblock %}
-{% block og_description %}{{ post.lead|default:post.title|truncatechars:200 }}{% endblock %}
+{% block title %}{{ post.effective_seo_title }} — Space School{% endblock %}
+{% block meta_description %}{{ post.effective_seo_description|truncatechars:200 }}{% endblock %}
+{% block og_title %}{{ post.effective_og_title }}{% endblock %}
+{% block og_description %}{{ post.effective_og_description|truncatechars:300 }}{% endblock %}
 {% block og_type %}article{% endblock %}
-{% block og_image %}{% if post.cover_image %}{{ request.scheme }}://{{ request.get_host }}{{ post.cover_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+{% block og_image %}{% with og=post.effective_og_image %}{% if og %}{{ request.scheme }}://{{ request.get_host }}{{ og.url }}{% else %}{{ block.super }}{% endif %}{% endwith %}{% endblock %}
 
 {% block layout_top %}
   {% include 'partials/header.html' with active_page='blog' %}
@@ -136,6 +136,13 @@
 
           {{ post.content|render_galleries:post }}
         </div>
+
+        {# Главная inline-галерея после контента (slug='main', управляется
+           отдельным AJAX-блоком в backoffice). Шорткоды [[gallery slug=X]] в
+           контенте по-прежнему работают для других slug'ов. #}
+        {% if post.main_gallery and post.main_gallery.images.all %}
+          {% include 'blog/_gallery.html' with gallery=post.main_gallery %}
+        {% endif %}
 
         {% if post.tags.all %}
           <ul class="content-tags mt-8">

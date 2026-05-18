@@ -37,15 +37,20 @@ class BlogListView(ListView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         region = self.request.region
+        # Показываем только категории, у которых есть опубликованные посты
+        # в текущем регионе — пустые chip'ы не нужны.
         ctx['categories'] = list(
-            BlogCategory.objects.filter(region=region).order_by('order', 'name'),
+            BlogCategory.objects
+            .filter(posts__region=region, posts__is_published=True)
+            .distinct()
+            .order_by('order', 'name'),
         )
         ctx['current_category_slug'] = self.request.GET.get('category') or ''
         ctx['current_tag_slug'] = self.request.GET.get('tag') or ''
         if ctx['current_tag_slug']:
             ctx['current_tag'] = (
                 BlogTag.objects
-                .filter(region=region, slug=ctx['current_tag_slug'])
+                .filter(slug=ctx['current_tag_slug'])
                 .first()
             )
         return ctx

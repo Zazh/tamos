@@ -9,25 +9,23 @@ from .models import BlogCategory, BlogGallery, BlogGalleryImage, BlogPost, BlogT
 
 
 @admin.register(BlogCategory)
-class BlogCategoryAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
-    list_display = ('name', 'slug', 'region', 'order')
-    list_filter = ('region',)
+class BlogCategoryAdmin(TabbedTranslationAdmin):
+    list_display = ('name', 'slug', 'order')
     list_editable = ('order',)
     search_fields = ('name', 'slug')
-    ordering = ('region', 'order', 'name')
+    ordering = ('order', 'name')
     prepopulated_fields = {'slug': ('name',)}
-    fields = ('region', 'slug', 'name', 'order')
+    fields = ('slug', 'name', 'order')
 
 
 @admin.register(BlogTag)
-class BlogTagAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
-    list_display = ('name', 'slug', 'region', 'order')
-    list_filter = ('region',)
+class BlogTagAdmin(TabbedTranslationAdmin):
+    list_display = ('name', 'slug', 'order')
     list_editable = ('order',)
     search_fields = ('name', 'slug')
-    ordering = ('region', 'order', 'name')
+    ordering = ('order', 'name')
     prepopulated_fields = {'slug': ('name',)}
-    fields = ('region', 'slug', 'name', 'order')
+    fields = ('slug', 'name', 'order')
 
 
 class BlogGalleryInline(admin.TabularInline):
@@ -96,11 +94,8 @@ class BlogGalleryAdmin(admin.ModelAdmin):
 
 @admin.register(BlogPost)
 class BlogPostAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
-    """Полное редактирование статьи. Регион-скоп через RegionScopedAdminMixin.
-
-    Категории и теги тоже регион-скопе: менеджер Астаны выбирает только
-    астанинские (см. formfield_for_*).
-    """
+    """Полное редактирование статьи. Регион-скоп через RegionScopedAdminMixin
+    (на сам пост). Категории и теги — глобальные."""
 
     list_display = (
         'title',
@@ -172,26 +167,3 @@ class BlogPostAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
             obj.cover_image.url,
         )
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        # Категория — только из региона менеджера.
-        if (
-            db_field.name == 'category'
-            and not request.user.is_superuser
-            and request.user.manager_region_id
-        ):
-            kwargs['queryset'] = BlogCategory.objects.filter(
-                region_id=request.user.manager_region_id,
-            )
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-    def formfield_for_manytomany(self, db_field, request, **kwargs):
-        # Теги — только из региона менеджера.
-        if (
-            db_field.name == 'tags'
-            and not request.user.is_superuser
-            and request.user.manager_region_id
-        ):
-            kwargs['queryset'] = BlogTag.objects.filter(
-                region_id=request.user.manager_region_id,
-            )
-        return super().formfield_for_manytomany(db_field, request, **kwargs)

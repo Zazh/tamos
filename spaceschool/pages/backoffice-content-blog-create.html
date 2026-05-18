@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Новый пост — Блог — Backoffice — Space School</title>
+    <script type="module" src="/src/js/main.js"></script>
+  </head>
+  <body>
+    <div class="bo-shell" x-data="{ sidebar: false }" :class="sidebar && 'bo-sidebar-open'">
+      <aside class="bo-sidebar"></aside>
+      <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false"></div>
+
+      <div class="bo-body">
+        <header class="bo-topbar">
+          <button class="bo-burger" @click="sidebar = true" aria-label="Меню">
+            <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="bo-topbar-title">Новый пост</div>
+          <div class="bo-user">
+            <span class="bo-user-name">Aidarbek</span>
+            <button class="bo-logout">Выйти</button>
+          </div>
+        </header>
+
+        <main class="bo-main">
+          <a href="#" class="bo-back">← К списку</a>
+
+          <div class="bo-page-head">
+            <h1 class="bo-page-title">Новый пост</h1>
+            <p class="bo-page-subtitle">Минимум для черновика: регион, категория, RU-заголовок. Остальное заполнишь на следующем шаге.</p>
+          </div>
+
+          <form method="post" action="" class="bo-form bo-form-narrow"
+                x-data="{
+                  region: 1,
+                  categoriesByRegion: {
+                    1: [{pk: 11, name: 'Школьная жизнь'}, {pk: 12, name: 'Спорт'}, {pk: 13, name: 'Достижения'}],
+                    2: [{pk: 21, name: 'Школьная жизнь'}, {pk: 22, name: 'Робототехника'}]
+                  },
+                  get categories() {
+                    return this.categoriesByRegion[this.region] || [];
+                  }
+                }">
+
+            <section class="bo-panel">
+              <div class="bo-field">
+                <label class="bo-label">Регион</label>
+                <select class="bo-select" x-model.number="region">
+                  <option :value="1">Астана</option>
+                  <option :value="2">Актау</option>
+                </select>
+              </div>
+
+              <div class="bo-field">
+                <label class="bo-label">Категория</label>
+                <select class="bo-select">
+                  <template x-for="c in categories" :key="c.pk">
+                    <option :value="c.pk" x-text="c.name"></option>
+                  </template>
+                </select>
+                <p class="bo-help">Категории создаются на странице «Категории и теги».</p>
+              </div>
+
+              <div class="bo-field">
+                <label class="bo-label">Заголовок (RU)</label>
+                <input type="text" class="bo-input" placeholder="Например: Открытый день кружка робототехники">
+                <p class="bo-help">Краткий рабочий заголовок, его можно дополнить позже.</p>
+              </div>
+            </section>
+
+            <div class="bo-form-foot">
+              <div class="bo-form-foot-actions">
+                <a href="#" class="bo-action-btn bo-action-rejected">Отмена</a>
+                <button type="submit" class="btn btn-primary">Создать черновик →</button>
+              </div>
+            </div>
+          </form>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

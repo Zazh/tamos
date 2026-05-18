@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Категории и теги — Блог — Backoffice — Space School</title>
+    <script type="module" crossorigin src="/static/assets/js/main-DzOup3-W.js"></script>
+    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-CIZFvCn7.js"></script>
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-vh-t_kPv.css">
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-DRcofyOE.css">
+  </head>
+  <body>
+    <div class="bo-shell" x-data="{ sidebar: false }" :class="sidebar && 'bo-sidebar-open'">
+      <aside class="bo-sidebar"></aside>
+      <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false"></div>
+
+      <div class="bo-body">
+        <header class="bo-topbar">
+          <button class="bo-burger" @click="sidebar = true" aria-label="Меню">
+            <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="bo-topbar-title">Блог · категории и теги</div>
+          <div class="bo-user">
+            <span class="bo-user-name">Aidarbek</span>
+            <button class="bo-logout">Выйти</button>
+          </div>
+        </header>
+
+        <main class="bo-main">
+          <a href="#" class="bo-back">← К списку постов</a>
+
+          <div class="bo-page-head">
+            <h1 class="bo-page-title">Категории и теги блога</h1>
+            <p class="bo-page-subtitle">
+              Категории — chip-фильтр на ленте, у каждого поста одна. Теги — облако, у поста может быть несколько. Оба region-scoped.
+            </p>
+          </div>
+
+          <!-- Регион 1: Астана -->
+          <div class="bo-tax-region">
+            <h2 class="bo-tax-region-title">
+              Астана
+              <span class="bo-cell-muted">· astana</span>
+            </h2>
+
+            <div class="bo-tax-grid">
+
+              <!-- Категории Астаны -->
+              <section class="bo-panel bo-tax-col">
+                <header class="bo-panel-head">
+                  <h3 class="bo-panel-title">Категории <span class="bo-cell-muted">(5)</span></h3>
+                </header>
+
+                <ul class="bo-tax-list">
+                  <li class="bo-tax-row">
+                    <form method="post" action="#" class="bo-tax-form">
+                      <input type="number" class="bo-input bo-input-narrow" value="10" title="Порядок">
+                      <input type="text" class="bo-input bo-input-slug" value="school-life" placeholder="slug">
+                      <input type="text" class="bo-input" value="Школьная жизнь" placeholder="Название (RU)" required>
+                      <input type="text" class="bo-input" value="Мектеп өмірі" placeholder="KK">
+                      <input type="text" class="bo-input" value="School life" placeholder="EN">
+                      <span class="bo-cell-muted bo-cell-tiny">12 пост.</span>
+                      <button type="submit" class="bo-action-btn bo-action-secondary bo-action-tiny">Сохранить</button>
+                    </form>
+                    <form method="post" action="#" class="bo-tax-form-delete">
+                      <button type="submit" class="bo-action-btn bo-action-rejected bo-action-tiny" title="Удалить" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                      </button>
+                    </form>
+                  </li>
+                  <li class="bo-tax-row">
+                    <form method="post" action="#" class="bo-tax-form">
+                      <input type="number" class="bo-input bo-input-narrow" value="20" title="Порядок">
+                      <input type="text" class="bo-input bo-input-slug" value="achievements" placeholder="slug">
+                      <input type="text" class="bo-input" value="Достижения" placeholder="Название (RU)" required>
+                      <input type="text" class="bo-input" value="" placeholder="KK">
+                      <input type="text" class="bo-input" value="" placeholder="EN">
+                      <span class="bo-cell-muted bo-cell-tiny">3 пост.</span>
+                      <button type="submit" class="bo-action-btn bo-action-secondary bo-action-tiny">Сохранить</button>
+                    </form>
+                    <form method="post" action="#" class="bo-tax-form-delete">
+                      <button type="submit" class="bo-action-btn bo-action-rejected bo-action-tiny" title="Удалить" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                      </button>
+                    </form>
+                  </li>
+                  <li class="bo-tax-row">
+                    <form method="post" action="#" class="bo-tax-form">
+                      <input type="number" class="bo-input bo-input-narrow" value="30" title="Порядок">
+                      <input type="text" class="bo-input bo-input-slug" value="sports" placeholder="slug">
+                      <input type="text" class="bo-input" value="Спорт" placeholder="Название (RU)" required>
+                      <input type="text" class="bo-input" value="" placeholder="KK">
+                      <input type="text" class="bo-input" value="" placeholder="EN">
+                      <span class="bo-cell-muted bo-cell-tiny">0 пост.</span>
+                      <button type="submit" class="bo-action-btn bo-action-secondary bo-action-tiny">Сохранить</button>
+                    </form>
+                    <form method="post" action="#" class="bo-tax-form-delete">
+                      <button type="submit" class="bo-action-btn bo-action-rejected bo-action-tiny" title="Удалить">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+
+                <form method="post" action="#" class="bo-tax-create">
+                  <input type="text" class="bo-input" placeholder="Новая категория (RU)" required>
+                  <input type="text" class="bo-input bo-input-slug" placeholder="slug (опц)">
+                  <button type="submit" class="bo-action-btn bo-action-primary">+ Создать</button>
+                </form>
+              </section>
+
+              <!-- Теги Астаны -->
+              <section class="bo-panel bo-tax-col">
+                <header class="bo-panel-head">
+                  <h3 class="bo-panel-title">Теги <span class="bo-cell-muted">(6)</span></h3>
+                </header>
+
+                <ul class="bo-tax-list">
+                  <li class="bo-tax-row">
+                    <form method="post" action="#" class="bo-tax-form">
+                      <input type="number" class="bo-input bo-input-narrow" value="10" title="Порядок">
+                      <input type="text" class="bo-input bo-input-slug" value="mit" placeholder="slug">
+                      <input type="text" class="bo-input" value="MIT" placeholder="Название (RU)" required>
+                      <input type="text" class="bo-input" value="" placeholder="KK">
+                      <input type="text" class="bo-input" value="" placeholder="EN">
+                      <span class="bo-cell-muted bo-cell-tiny">1 пост.</span>
+                      <button type="submit" class="bo-action-btn bo-action-secondary bo-action-tiny">Сохранить</button>
+                    </form>
+                    <form method="post" action="#" class="bo-tax-form-delete">
+                      <button type="submit" class="bo-action-btn bo-action-rejected bo-action-tiny" title="Удалить">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                      </button>
+                    </form>
+                  </li>
+                  <li class="bo-tax-row">
+                    <form method="post" action="#" class="bo-tax-form">
+                      <input type="number" class="bo-input bo-input-narrow" value="20" title="Порядок">
+                      <input type="text" class="bo-input bo-input-slug" value="research" placeholder="slug">
+                      <input type="text" class="bo-input" value="Исследования" placeholder="Название (RU)" required>
+                      <input type="text" class="bo-input" value="" placeholder="KK">
+                      <input type="text" class="bo-input" value="" placeholder="EN">
+                      <span class="bo-cell-muted bo-cell-tiny">2 пост.</span>
+                      <button type="submit" class="bo-action-btn bo-action-secondary bo-action-tiny">Сохранить</button>
+                    </form>
+                    <form method="post" action="#" class="bo-tax-form-delete">
+                      <button type="submit" class="bo-action-btn bo-action-rejected bo-action-tiny" title="Удалить">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                      </button>
+                    </form>
+                  </li>
+                  <li class="bo-tax-row">
+                    <form method="post" action="#" class="bo-tax-form">
+                      <input type="number" class="bo-input bo-input-narrow" value="30" title="Порядок">
+                      <input type="text" class="bo-input bo-input-slug" value="stem" placeholder="slug">
+                      <input type="text" class="bo-input" value="STEM" placeholder="Название (RU)" required>
+                      <input type="text" class="bo-input" value="" placeholder="KK">
+                      <input type="text" class="bo-input" value="" placeholder="EN">
+                      <span class="bo-cell-muted bo-cell-tiny">4 пост.</span>
+                      <button type="submit" class="bo-action-btn bo-action-secondary bo-action-tiny">Сохранить</button>
+                    </form>
+                    <form method="post" action="#" class="bo-tax-form-delete">
+                      <button type="submit" class="bo-action-btn bo-action-rejected bo-action-tiny" title="Удалить">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+
+                <form method="post" action="#" class="bo-tax-create">
+                  <input type="text" class="bo-input" placeholder="Новый тег (RU)" required>
+                  <input type="text" class="bo-input bo-input-slug" placeholder="slug (опц)">
+                  <button type="submit" class="bo-action-btn bo-action-primary">+ Создать</button>
+                </form>
+              </section>
+            </div>
+          </div>
+
+          <!-- Регион 2: Актау -->
+          <div class="bo-tax-region">
+            <h2 class="bo-tax-region-title">
+              Актау
+              <span class="bo-cell-muted">· aktau</span>
+            </h2>
+
+            <div class="bo-tax-grid">
+              <section class="bo-panel bo-tax-col">
+                <header class="bo-panel-head">
+                  <h3 class="bo-panel-title">Категории <span class="bo-cell-muted">(3)</span></h3>
+                </header>
+
+                <ul class="bo-tax-list">
+                  <li class="bo-tax-row">
+                    <form method="post" action="#" class="bo-tax-form">
+                      <input type="number" class="bo-input bo-input-narrow" value="10" title="Порядок">
+                      <input type="text" class="bo-input bo-input-slug" value="school-life" placeholder="slug">
+                      <input type="text" class="bo-input" value="Школьная жизнь" placeholder="Название (RU)" required>
+                      <input type="text" class="bo-input" value="" placeholder="KK">
+                      <input type="text" class="bo-input" value="" placeholder="EN">
+                      <span class="bo-cell-muted bo-cell-tiny">4 пост.</span>
+                      <button type="submit" class="bo-action-btn bo-action-secondary bo-action-tiny">Сохранить</button>
+                    </form>
+                    <form method="post" action="#" class="bo-tax-form-delete">
+                      <button type="submit" class="bo-action-btn bo-action-rejected bo-action-tiny" title="Удалить" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+
+                <form method="post" action="#" class="bo-tax-create">
+                  <input type="text" class="bo-input" placeholder="Новая категория (RU)" required>
+                  <input type="text" class="bo-input bo-input-slug" placeholder="slug (опц)">
+                  <button type="submit" class="bo-action-btn bo-action-primary">+ Создать</button>
+                </form>
+              </section>
+
+              <section class="bo-panel bo-tax-col">
+                <header class="bo-panel-head">
+                  <h3 class="bo-panel-title">Теги <span class="bo-cell-muted">(2)</span></h3>
+                </header>
+
+                <ul class="bo-tax-list">
+                  <li class="bo-tax-row">
+                    <form method="post" action="#" class="bo-tax-form">
+                      <input type="number" class="bo-input bo-input-narrow" value="10" title="Порядок">
+                      <input type="text" class="bo-input bo-input-slug" value="nauryz" placeholder="slug">
+                      <input type="text" class="bo-input" value="Наурыз" placeholder="Название (RU)" required>
+                      <input type="text" class="bo-input" value="Наурыз" placeholder="KK">
+                      <input type="text" class="bo-input" value="" placeholder="EN">
+                      <span class="bo-cell-muted bo-cell-tiny">1 пост.</span>
+                      <button type="submit" class="bo-action-btn bo-action-secondary bo-action-tiny">Сохранить</button>
+                    </form>
+                    <form method="post" action="#" class="bo-tax-form-delete">
+                      <button type="submit" class="bo-action-btn bo-action-rejected bo-action-tiny" title="Удалить">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+
+                <form method="post" action="#" class="bo-tax-create">
+                  <input type="text" class="bo-input" placeholder="Новый тег (RU)" required>
+                  <input type="text" class="bo-input bo-input-slug" placeholder="slug (опц)">
+                  <button type="submit" class="bo-action-btn bo-action-primary">+ Создать</button>
+                </form>
+              </section>
+            </div>
+          </div>
+
+          <p class="bo-help">
+            Slug меняется со сбросом старых URL — не правь у популярных тегов, лучше создай новый. Категория с привязанными постами не удалится — сначала перенеси их.
+          </p>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

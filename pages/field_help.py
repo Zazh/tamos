@@ -1290,6 +1290,217 @@ TEACHER_BIO = """
 """
 
 
+BLOGPOST_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Главный заголовок статьи (h1) — он же выводится в карточках ленты блога и в выдаче Google. Должен сразу обещать читателю пользу/новость.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До <strong>300 символов</strong>, но фактический оптимум — <strong>40–80</strong> (в SEO-выдаче обрезается)</li>
+  <li>1 строка, без HTML, без эмодзи</li>
+  <li>Должен звучать «человечно», не «академичечски»</li>
+</ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Команда Space School победила на Хакатоне «Космос-2026»</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши заголовок статьи школьного блога про [ТЕМА]. До 80 символов, человеческий тон, без воды. Активные глаголы. На языке [LANG].</blockquote>
+"""
+
+
+BLOGPOST_LEAD = """
+<h4>📝 Назначение</h4>
+<p>Короткое введение (1–2 предложения), которое выводится в карточке поста на ленте и используется как meta description, если SEO description пуст.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До <strong>~250 символов</strong> для красивой обрезки в карточке</li>
+  <li>Без HTML, без переноса строк (на сайте — одна строка)</li>
+  <li>Содержит ключевую интригу: что узнает читатель, если кликнет</li>
+</ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Расскажем, какие задачи решали ребята, почему жюри отдало им первое место и что планируем дальше.</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши лид (1–2 предложения, до 250 символов) для статьи блога с заголовком «[TITLE]». Краткая интрига, без спойлера. На языке [LANG].</blockquote>
+"""
+
+
+BLOGPOST_SLUG = """
+<h4>📝 Назначение</h4>
+<p>Часть URL поста: <code>/blog/<strong>my-post-slug</strong>/</code>. Уникален в пределах региона.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>Только латиница, цифры и дефис (<code>a-z0-9-</code>)</li>
+  <li>До 200 символов; реальный оптимум — <strong>30–60</strong></li>
+  <li><strong>Не менять</strong> у уже опубликованного поста — сломаются ссылки/закладки/поиск</li>
+</ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Транслитерируй заголовок «[TITLE]» в URL-slug. Только латиница, цифры и дефис. 30–60 символов, без стоп-слов (для/и/the/в).</blockquote>
+"""
+
+
+BLOGPOST_COVER_IMAGE = """
+<h4>📝 Назначение</h4>
+<p>Фоновая картинка карточки поста на ленте и hero детальной страницы. Также служит fallback для OG-картинки (соцсети при шеринге).</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>Формат: JPEG, PNG или WebP</li>
+  <li>Размер: минимум 1504×818, соотношение <strong>~16:9</strong></li>
+  <li>Вес: <strong>до 5 MB</strong> (server-side отклонит больше). Сжимай через TinyPNG/CloudConvert</li>
+</ul>
+
+<h4>🤖 Автоматическая обработка</h4>
+<p>Картинка конвертируется в WebP и compressed-версию (quality 85). На сайте через <code>&lt;picture&gt;</code> отдаётся лучшее под браузер.</p>
+
+<h4>⚠️ Если обложки нет</h4>
+<p>На сайте сработает плейсхолдер «Нет фото» — старый/seed-импорт может быть без файла. Для свежих постов загружай.</p>
+"""
+
+
+BLOGPOST_COVER_ALT = """
+<h4>📝 Назначение</h4>
+<p>Alt-текст обложки — атрибут <code>alt</code> у <code>&lt;img&gt;</code>. Читают скрин-ридеры и поисковые движки.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов, естественная фраза</li><li>Без слов «фото/картинка»; описание <em>самого изображения</em></li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — подставляется <code>title</code> поста.</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Опиши обложку поста «[TITLE]» одним коротким предложением для alt-атрибута. Без слов «фото», «картинка». На языке [LANG].</blockquote>
+"""
+
+
+BLOGPOST_COVER_CAPTION = """
+<h4>📝 Назначение</h4>
+<p>Опциональный figcaption под обложкой в теле статьи. Используется когда фото нужно подписать (источник, автор, контекст события).</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов, без HTML</li><li>Опционально — оставь пустым, если подпись не нужна</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>На фото: команда Space School после награждения, Астана, март 2026.</blockquote>
+"""
+
+
+BLOGPOST_CONTENT = """
+<h4>📝 Назначение</h4>
+<p>Тело статьи. Сохраняется как HTML, рендерится через <code>|safe</code> в шаблон <code>.content-redactor</code>. Редактор Trix даёт нужный минимум разметки.</p>
+
+<h4>🎨 Доступные теги Trix</h4>
+<ul>
+  <li><strong>h1/h2/h3</strong> — подзаголовки (в статье начинай с h2, h1 — это title)</li>
+  <li><strong>p, ul/ol, li</strong> — параграфы, списки</li>
+  <li><strong>blockquote</strong> — цитаты (выделятся золотой полосой)</li>
+  <li><strong>a, strong, em</strong> — ссылки и форматирование</li>
+</ul>
+
+<h4>🖼 Картинки</h4>
+<p>Дополнительные изображения добавляются в отдельной секции «Галерея» ниже — она показывается на сайте под статьёй. Никаких шорткодов в самом тексте.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>Структурируй: h2 каждые 2–3 параграфа, иначе стена текста</li><li>Цитата (blockquote) — раз в статью, как акцент</li></ul>
+"""
+
+
+BLOGPOST_CATEGORY = """
+<h4>📝 Назначение</h4>
+<p>Категория для chip-фильтра на ленте блога. Каждый пост принадлежит ровно одной категории региона.</p>
+
+<h4>📐 Где редактировать набор</h4>
+<p>Категории создаются и переименовываются на отдельной странице <strong>«Категории и теги»</strong> (ссылка в шапке списка). Per-region — Астана и Актау имеют свои наборы.</p>
+
+<h4>✨ Текущий референс (Астана)</h4>
+<ul><li>Школьная жизнь</li><li>Спорт</li><li>Достижения</li><li>Робототехника</li><li>События</li></ul>
+"""
+
+
+BLOGPOST_PUBLISHED_AT = """
+<h4>📝 Назначение</h4>
+<p>Дата публикации поста. Управляет позицией в ленте (свежие сверху) и видна на карточке/детальной.</p>
+
+<h4>📐 Поведение</h4>
+<ul>
+  <li>Можно поставить <strong>в будущем</strong> — пост встанет в ленту в момент даты (если <em>«Опубликовано»</em> выставлен)</li>
+  <li>На черновиках (<em>is_published=False</em>) дата не влияет на видимость, она нужна только для будущего release-а</li>
+</ul>
+"""
+
+
+BLOGPOST_SEO_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;title&gt;</code> — вкладка браузера и заголовок в выдаче Google.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li><strong>50–60 символов</strong> (после ~600px Google обрезает)</li>
+  <li>Ключевое слово в первой трети</li>
+  <li>В конце «— Space School» (бренд)</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>title</code>.</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши SEO-title для статьи блога «[TITLE]» в Space School. 50–60 символов. Ключевое слово в начале, в конце «— Space School». Уникальный, не клише.</blockquote>
+"""
+
+
+BLOGPOST_SEO_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;meta name="description"&gt;</code> — описание в выдаче под заголовком.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li><strong>150–160 символов</strong></li>
+  <li>2–3 ключевых слова естественно вписаны</li>
+  <li>Призыв или ценность; не дублировать <code>title</code></li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>lead</code>.</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши SEO meta description для статьи блога «[TITLE]». 150–160 символов. Раскрой ценность; 2–3 ключевых слова. Заверши мягким призывом.</blockquote>
+"""
+
+
+BLOGPOST_OG_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок при шеринге ссылки в Telegram/WhatsApp/Facebook. Может звучать «человечнее» чем SEO-title.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 60 символов</li><li>Без эмодзи (рендерятся не везде)</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — <code>seo_title</code> → <code>title</code>.</p>
+"""
+
+
+BLOGPOST_OG_IMAGE = """
+<h4>📝 Назначение</h4>
+<p>Картинка для превью ссылки в соцсетях.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>Размер: <strong>1200×630</strong> (1.91:1)</li>
+  <li>JPEG/PNG (не WebP — поддержка хуже)</li>
+  <li>Вес до 5 MB</li>
+  <li>Важное по центру (мессенджеры обрезают по бокам)</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>cover_image</code>. Обычная обложка часто работает хорошо; отдельный OG нужен если хочешь подпись/логотип поверх.</p>
+"""
+
+
 FIELD_HELP = {
     # Image / Video — AI-pipeline скипает (LLM не генерирует бинарные файлы).
     'homepage.hero_image': _h(HOMEPAGE_HERO_IMAGE, ai_processable=False),
@@ -1388,6 +1599,21 @@ FIELD_HELP = {
     'admissionpricingplan.price_value': _h(ADMISSIONPRICINGPLAN_PRICE_VALUE),
     'admissionpricingplan.note': _h(ADMISSIONPRICINGPLAN_NOTE),
     'admissionpricingplan.badge_text': _h(ADMISSIONPRICINGPLAN_BADGE),
+
+    # BlogPost
+    'blogpost.title': _h(BLOGPOST_TITLE),
+    'blogpost.lead': _h(BLOGPOST_LEAD),
+    'blogpost.slug': _h(BLOGPOST_SLUG, ai_processable=False),
+    'blogpost.cover_image': _h(BLOGPOST_COVER_IMAGE, ai_processable=False),
+    'blogpost.cover_alt': _h(BLOGPOST_COVER_ALT),
+    'blogpost.cover_caption': _h(BLOGPOST_COVER_CAPTION),
+    'blogpost.content': _h(BLOGPOST_CONTENT),
+    'blogpost.category': _h(BLOGPOST_CATEGORY, ai_processable=False),
+    'blogpost.published_at': _h(BLOGPOST_PUBLISHED_AT, ai_processable=False),
+    'blogpost.seo_title': _h(BLOGPOST_SEO_TITLE),
+    'blogpost.seo_description': _h(BLOGPOST_SEO_DESCRIPTION),
+    'blogpost.og_title': _h(BLOGPOST_OG_TITLE),
+    'blogpost.og_image': _h(BLOGPOST_OG_IMAGE, ai_processable=False),
 
     # Activities — Activity (тренер вынесен на уровень ActivityGroup, поэтому здесь его НЕТ)
     'activity.name': _h(ACTIVITY_NAME),

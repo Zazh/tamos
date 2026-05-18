@@ -1,0 +1,123 @@
+{% load i18n %}
+{% comment %}
+  Tag-picker для BlogPost edit-страницы. Управляет hidden-инпутом
+  `tags_json` со списком `[{slug, name}]` — view парсит и синхронит M2M.
+
+  Параметры:
+    suggest_url    — endpoint для AI-предложений (POST {title,lead,content})
+    form_id        — id основной формы, откуда берутся RU-инпуты для suggest
+    hidden_name    — имя hidden-инпута (по дефолту `tags_json`)
+    initial_json   — стартовое значение (`[{slug,name},...]`) — выбранные теги
+    all_tags_json  — все теги региона (`[{pk,slug,name},...]`) для available-чипов
+{% endcomment %}
+<div class="bo-tag-picker"
+     x-data="boTagPicker"
+     x-effect="syncLang($parent && $parent.lang)"
+     data-suggest-url="{{ suggest_url }}"
+     data-form-id="{{ form_id }}"
+     data-hidden-name="{{ hidden_name|default:'tags_json' }}"
+     data-initial='{{ initial_json|default:"[]" }}'
+     data-all-tags='{{ all_tags_json|default:"[]" }}'>
+
+  <div class="bo-tag-picker-section">
+    <div class="bo-tag-picker-section-head">
+      <span class="bo-label">{% trans "Выбранные теги" %}</span>
+      <span class="bo-cell-muted" x-text="selected.length + ' / 12'"></span>
+    </div>
+    <ul class="bo-tag-list" x-show="selected.length > 0" x-cloak>
+      <template x-for="(t, idx) in selected" :key="t.slug">
+        <li>
+          <button type="button" class="badge bo-tag-chip bo-tag-chip-selected" @click="remove(idx)"
+                  :title="'{% trans "Убрать" %} #' + displayName(t)">
+            <span>#<span x-text="displayName(t)"></span></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
+            </svg>
+          </button>
+        </li>
+      </template>
+    </ul>
+    <p class="bo-help" x-show="selected.length === 0" x-cloak>
+      {% trans "Пока ничего не выбрано — кликни на тег ниже или используй «Подобрать через AI»." %}
+    </p>
+  </div>
+
+  <div class="bo-tag-picker-section">
+    <div class="bo-tag-picker-section-head">
+      <span class="bo-label">{% trans "Доступные в этом регионе" %}</span>
+      <span class="bo-cell-muted" x-text="availableSorted.length + ' тегов'"></span>
+    </div>
+    <ul class="bo-tag-list" x-show="availableSorted.length > 0" x-cloak>
+      <template x-for="t in availableSorted" :key="t.slug">
+        <li>
+          <button type="button" class="badge bo-tag-chip bo-tag-chip-available" @click="select(t)"
+                  :title="'{% trans "Добавить" %} #' + displayName(t)">
+            <span>#<span x-text="displayName(t)"></span></span>
+          </button>
+        </li>
+      </template>
+    </ul>
+    <p class="bo-help" x-show="availableSorted.length === 0" x-cloak>
+      {% trans "Все теги уже выбраны. Создай новый ниже." %}
+    </p>
+  </div>
+
+  <div class="bo-tag-picker-section" x-show="suggested.length > 0" x-cloak>
+    <div class="bo-tag-picker-section-head">
+      <span class="bo-label">
+        <span class="bo-sparkle" aria-hidden="true">✦</span>
+        {% trans "Предложено AI" %}
+      </span>
+      <button type="button" class="bo-link-btn" @click="dismissAll()">{% trans "Скрыть" %}</button>
+    </div>
+    <ul class="bo-tag-list">
+      <template x-for="t in suggested" :key="t.slug">
+        <li>
+          <button type="button"
+                  class="badge bo-tag-chip"
+                  :class="t.is_new ? 'bo-tag-chip-suggested-new' : 'bo-tag-chip-suggested-existing'"
+                  @click="acceptSuggestion(t)"
+                  :title="t.is_new ? '{% trans "Создать новый тег" %}' : '{% trans "Тег уже существует — переиспользуем" %}'">
+            <span x-show="t.is_new" aria-hidden="true">✦</span>
+            <span>#<span x-text="displayName(t)"></span></span>
+          </button>
+        </li>
+      </template>
+    </ul>
+    <p class="bo-help">
+      {% trans "Кликни тег чтобы принять — он переедет в «Выбранные». Новые (✦) создадутся при сохранении." %}
+    </p>
+  </div>
+
+  <div class="bo-tag-picker-section">
+    <div class="bo-tag-picker-actions">
+      <div class="bo-tag-picker-custom">
+        <input type="text"
+               class="bo-input"
+               :placeholder="'{% trans "Свой тег (например: Cambridge)" %}'"
+               x-model="customName"
+               @keydown.enter.prevent="addCustom()"
+               @keydown.,="$event.preventDefault(); addCustom()"
+               maxlength="80">
+        <button type="button" class="bo-action-btn bo-action-secondary" @click="addCustom()"
+                :disabled="!customName.trim()">
+          {% trans "+ Добавить" %}
+        </button>
+      </div>
+
+      <button type="button" class="bo-action-btn bo-action-ai"
+              @click="suggest()"
+              :disabled="loading"
+              :title="error || status || '{% trans "Gemini подберёт SEO-friendly теги по контенту RU" %}'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+          <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+        </svg>
+        <span x-show="!loading">{% trans "Подобрать через AI" %}</span>
+        <span x-show="loading" x-cloak>{% trans "Думаем…" %}</span>
+      </button>
+    </div>
+    <small class="bo-tag-picker-status" x-show="status && !error" x-cloak x-text="status"></small>
+    <small class="bo-tag-picker-error" x-show="error" x-cloak x-text="error"></small>
+  </div>
+</div>

@@ -18,6 +18,7 @@ from admission.models import (
     AdmissionTestingFeature,
     AdmissionVariant,
 )
+from blog.models import BlogCategory, BlogPost, BlogTag
 from feedback.models import Lead
 from pages.models import (
     ContactsDepartment,
@@ -1110,3 +1111,252 @@ ScheduleSlotFormSet = inlineformset_factory(
     can_delete=True,
     fk_name='group',
 )
+
+
+# ===== Content: Blog (раздел «Лента») =======================================
+#
+# Базовая идея: один пост = одна edit-форма. Все переводимые поля
+# (title/lead/cover_caption/cover_alt/content) развёрнуты в `_ru/_kk/_en`.
+# Теги передаются отдельным hidden-полем `tags_json` со списком
+# `[{slug, name}]` — view парсит, резолвит существующие BlogTag по
+# (region, slug), отсутствующие создаёт; затем синхронизирует M2M.
+# Категории и теги создаются на отдельной странице taxonomy.
+
+BLOG_POST_TRANSLATABLE = (
+    'title',
+    'lead',
+    'cover_caption',
+    'cover_alt',
+    'content',
+    'seo_title',
+    'seo_description',
+    'og_title',
+    'og_description',
+)
+
+# SEO/OG поля рендерятся в отдельной панели ВНЕ основного <form> (как у
+# Home/Contacts/Program/Admission). Связь — через HTML5 `form="blog-edit-form"`
+# атрибут. Шаблон знает этот список и кладёт нужные включает в правильное место.
+BLOG_POST_OUT_OF_FORM_BASES = (
+    'seo_title',
+    'seo_description',
+    'og_title',
+    'og_description',
+)
+
+
+class BlogPostEditForm(forms.ModelForm):
+    """Редактирование одного `BlogPost`. Регион/категория — обязательные,
+    но регион нельзя поменять (singleton-per-region scoping).
+
+    Поле `tags_json` — hidden input, заполняется Alpine-компонентом
+    `boTagPicker`. Формат: JSON-массив `[{"slug": "...", "name": "..."}]`.
+    """
+
+    HTML_FIELDS = frozenset({'content'})
+    COMPACT_FIELDS = frozenset({
+        'seo_title', 'og_title',
+        'cover_caption', 'cover_alt',
+    })
+    OUT_OF_FORM_BASES = frozenset({
+        'seo_title', 'seo_description', 'og_title', 'og_description',
+    })
+    # Поля рендерятся ВНЕ <form id="blog-edit-form"> (Теги/Публикация/SEO-картинка),
+    # но должны сабмититься вместе с формой → HTML5 form= атрибут.
+    OUT_OF_FORM_FILE_FIELDS = frozenset({
+        'og_image', 'is_published', 'published_at', 'tags_json',
+    })
+    FORM_ID = 'blog-edit-form'
+
+    IMAGE_MAX_BYTES = 5 * 1024 * 1024
+
+    tags_json = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput(),
+        initial='[]',
+    )
+
+    class Meta:
+        model = BlogPost
+        fields = (
+            'region',
+            'category',
+            'slug',
+            'cover_image',
+            'og_image',
+            'is_published',
+            'published_at',
+        ) + _localized(*BLOG_POST_TRANSLATABLE)
+        widgets = {
+            'published_at': forms.DateTimeInput(attrs={
+                'type': 'datetime-local',
+                'class': 'bo-input',
+            }),
+            'is_published': forms.CheckboxInput(),
+        }
+
+    def __init__(self, *args, user=None, region=None, **kwargs):
+        """`user`/`region` оставлены для совместимости с create-view;
+        категории/теги теперь глобальные, region-фильтр не применяется."""
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(
+            self,
+            html_fields=self.HTML_FIELDS,
+            compact_fields=self.COMPACT_FIELDS,
+        )
+
+        # Slug пользователю не показываем — auto-gen из title + 4-hex
+        # суффикс на создании (см. views._auto_slug). На edit нужен для
+        # form-valid, рендерится как hidden.
+        self.fields['slug'].widget = forms.HiddenInput()
+        self.fields['slug'].required = False
+
+        # Поля, рендерящиеся ВНЕ <form id="blog-edit-form"> (панель SEO/OG после
+        # основной формы) — HTML5 form= связывает их обратно. Без этого их
+        # значения не уходят с submit'ом.
+        for name, field in self.fields.items():
+            base = _strip_lang(name)
+            if base in self.OUT_OF_FORM_BASES or name in self.OUT_OF_FORM_FILE_FIELDS:
+                field.widget.attrs['form'] = self.FORM_ID
+
+        # Категории — глобальные, без фильтра по региону.
+        self.fields['category'].queryset = BlogCategory.objects.all().order_by('order', 'name')
+        self.fields['category'].widget.attrs['class'] = 'bo-select'
+
+        # Регион:
+        # - на edit (instance.pk есть) — hidden, регион поста не меняется;
+        # - на create — обычный select, ограниченный регионом менеджера (или всеми для su).
+        instance = kwargs.get('instance')
+        if instance and instance.pk:
+            self.fields['region'].widget = forms.HiddenInput()
+            self.fields['region'].required = False
+        else:
+            from regions.models import Region
+            if user is not None and user.is_superuser:
+                self.fields['region'].queryset = Region.objects.filter(is_active=True)
+            elif user is not None and getattr(user, 'manager_region_id', None):
+                self.fields['region'].queryset = Region.objects.filter(pk=user.manager_region_id)
+                self.fields['region'].initial = user.manager_region_id
+            else:
+                self.fields['region'].queryset = Region.objects.none()
+            self.fields['region'].widget.attrs['class'] = 'bo-select'
+
+        # `datetime-local` ждёт ISO-формат без таймзоны. Django по умолчанию
+        # рендерит локализованную строку — переопределяем.
+        if self.instance and self.instance.pk and self.instance.published_at:
+            self.initial['published_at'] = self.instance.published_at.strftime('%Y-%m-%dT%H:%M')
+
+        # Pre-fill tags_json из текущей M2M (для GET). names на 3 языках —
+        # tag-picker реактивно меняет отображение при смене таба RU/KK/EN.
+        if self.instance and self.instance.pk:
+            tags = [
+                {
+                    'slug': t.slug,
+                    'name': t.name,
+                    'names': {
+                        'ru': t.name_ru or t.name or '',
+                        'kk': t.name_kk or '',
+                        'en': t.name_en or '',
+                    },
+                }
+                for t in self.instance.tags.all().order_by('order', 'name')
+            ]
+            import json as _json
+            self.initial['tags_json'] = _json.dumps(tags, ensure_ascii=False)
+
+    def _check_image_size(self, file, label):
+        if not file or not hasattr(file, 'size'):
+            return file
+        if file.size > self.IMAGE_MAX_BYTES:
+            mb = file.size / 1024 / 1024
+            limit_mb = self.IMAGE_MAX_BYTES // (1024 * 1024)
+            raise forms.ValidationError(
+                f'{label}: файл {mb:.1f} MB больше лимита {limit_mb} MB. '
+                'Сожми через CloudConvert / TinyPNG.'
+            )
+        return file
+
+    def clean_cover_image(self):
+        return self._check_image_size(self.cleaned_data.get('cover_image'), 'Обложка')
+
+    def clean_og_image(self):
+        return self._check_image_size(self.cleaned_data.get('og_image'), 'OG-картинка')
+
+    def clean_tags_json(self):
+        """Валидирует JSON, возвращает уже распарсенный список dict'ов
+        `[{slug, name, names?}]` — view использует их для sync M2M.
+        Поле `names` (dict ru/kk/en) опционально — нужно только при создании
+        нового тега, чтобы заполнить переводы сразу."""
+        import json as _json
+        raw = self.cleaned_data.get('tags_json') or '[]'
+        try:
+            parsed = _json.loads(raw)
+        except ValueError:
+            raise forms.ValidationError('Невалидный JSON списка тегов.')
+        if not isinstance(parsed, list):
+            raise forms.ValidationError('Список тегов должен быть массивом.')
+
+        cleaned: list[dict] = []
+        seen: set[str] = set()
+        for item in parsed[:30]:  # hard cap на сторону клиента
+            if not isinstance(item, dict):
+                continue
+            slug = str(item.get('slug', '')).strip().lower()
+            name = str(item.get('name', '')).strip()
+            if not slug or not name or slug in seen:
+                continue
+            safe_slug = ''.join(c for c in slug if c.isalnum() or c == '-')[:64].strip('-')
+            if not safe_slug:
+                continue
+            seen.add(safe_slug)
+            entry = {'slug': safe_slug, 'name': name[:80]}
+            # opt-in names на 3 языках (если picker передал)
+            raw_names = item.get('names') if isinstance(item.get('names'), dict) else None
+            if raw_names:
+                entry['names'] = {
+                    lang: str(raw_names.get(lang, ''))[:80]
+                    for lang in ('ru', 'kk', 'en')
+                }
+            cleaned.append(entry)
+        return cleaned
+
+
+class BlogCategoryItemForm(forms.ModelForm):
+    """Inline-форма для редактирования одной BlogCategory на странице taxonomy.
+    Order пользователю не показываем — порядок назначается автоматически."""
+
+    class Meta:
+        model = BlogCategory
+        fields = _localized('name')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+
+
+class BlogTagItemForm(forms.ModelForm):
+    """Inline-форма для редактирования одного BlogTag на странице taxonomy."""
+
+    class Meta:
+        model = BlogTag
+        fields = _localized('name')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+
+
+class BlogCategoryCreateForm(forms.Form):
+    """Быстрое создание новой BlogCategory из taxonomy-страницы.
+    Теперь глобальная (без region). Slug auto из name."""
+
+    name_ru = forms.CharField(max_length=80, widget=forms.TextInput(attrs={'class': 'bo-input'}))
+
+    def __init__(self, *args, user=None, **kwargs):
+        # `user` оставлен для совместимости с view; не используется.
+        super().__init__(*args, **kwargs)
+
+
+class BlogTagCreateForm(BlogCategoryCreateForm):
+    """То же что BlogCategoryCreateForm — одинаковая структура полей."""
+    pass

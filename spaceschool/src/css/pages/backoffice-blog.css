@@ -1,0 +1,663 @@
+/* Backoffice: раздел «Лента» — Блог. Стили для list/edit/taxonomy.
+ *
+ * Использует базовые .bo-* классы из backoffice-content.css/leads.css
+ * (panel, field, label, input, action-btn) — здесь только блог-специфика.
+ *
+ * Тема светлая. Палитра наследуется от leads.css/content.css:
+ *   фон = white / slate-50; текст = black; muted = color-mix black/transparent;
+ *   border = gray-300; primary = brand; accent = gold.
+ *
+ * ВАЖНО: НЕ оборачивать в `@layer components` — Trix CSS из CDN un-layered,
+ * а unlayered CSS поверх layered по CSS Cascade Layers. Без @layer наши
+ * стили на одном уровне с trix.css, и source order решает.
+ */
+
+/* ===== List header ===== */
+
+.bo-page-head-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.bo-page-head-actions {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ===== Filter chips ===== */
+
+.bo-filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+
+.bo-filter-chips {
+  display: flex;
+  gap: .375rem;
+  flex-wrap: wrap;
+}
+
+.bo-filter-chip {
+  padding: .375rem .75rem;
+  border-radius: 999px;
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  background: var(--color-white);
+  color: color-mix(in srgb, var(--color-black) 70%, transparent);
+  border: 1px solid var(--color-gray-300);
+  text-decoration: none;
+  transition: background .15s, color .15s, border-color .15s;
+}
+
+.bo-filter-chip:hover {
+  background: var(--color-slate-50);
+  color: var(--color-black);
+}
+
+.bo-filter-chip-active {
+  background: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+.bo-filter-chip-active:hover {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+.bo-filter-row {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.bo-filter-search {
+  flex: 1 1 220px;
+  min-width: 200px;
+}
+
+.bo-filter-select {
+  min-width: 160px;
+  flex: 0 1 220px;
+}
+
+/* ===== List table — blog thumb + tag-row ===== */
+
+.bo-table-blog .bo-td-thumb {
+  width: 72px;
+  padding-right: 0;
+}
+
+.bo-blog-thumb {
+  width: 56px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: .375rem;
+  display: block;
+}
+
+.bo-blog-thumb-empty {
+  background: var(--color-slate-100);
+  color: color-mix(in srgb, var(--color-black) 35%, transparent);
+  font-size: var(--text-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bo-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bo-tag-chip-mini {
+  font-size: .6875rem !important;
+  padding: .1875rem .5rem !important;
+  background: var(--color-slate-100);
+  color: color-mix(in srgb, var(--color-black) 75%, transparent);
+}
+
+/* Категория-чип в таблице/карточках */
+.bo-cat-chip {
+  font-size: .75rem !important;
+  padding: .25rem .625rem !important;
+  background: color-mix(in srgb, var(--color-gold) 18%, white);
+  color: color-mix(in srgb, var(--color-black) 80%, transparent);
+}
+
+/* ===== Status dot — published / draft ===== */
+
+.bo-status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.bo-status-published {
+  background: #16a34a;
+  box-shadow: 0 0 0 2px #dcfce7;
+}
+
+.bo-status-draft {
+  background: var(--color-gray-300);
+  box-shadow: 0 0 0 2px var(--color-slate-50);
+}
+
+/* ===== Pagination ===== */
+
+.bo-pagination {
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.25rem;
+  font-size: var(--text-sm);
+}
+
+.bo-pagination-link {
+  padding: .375rem .75rem;
+  border-radius: .5rem;
+  background: var(--color-white);
+  color: var(--color-black);
+  border: 1px solid var(--color-gray-300);
+  text-decoration: none;
+}
+
+.bo-pagination-link:hover {
+  background: var(--color-slate-50);
+}
+
+.bo-pagination-state {
+  font-size: var(--text-xs);
+  color: color-mix(in srgb, var(--color-black) 55%, transparent);
+}
+
+/* ===== Edit form helpers ===== */
+
+.bo-form-narrow {
+  max-width: 640px;
+}
+
+.bo-inline-form {
+  display: inline-flex;
+}
+
+.bo-input-readonly {
+  background: var(--color-slate-50);
+  color: color-mix(in srgb, var(--color-black) 60%, transparent);
+  cursor: not-allowed;
+}
+
+/* Slug input — monospace */
+.bo-input-slug {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace !important;
+  font-size: .8125rem !important;
+}
+
+.bo-help-error {
+  color: #b91c1c;
+}
+
+/* ===== Action button variants — primary / secondary / ai ===== */
+/*
+ * Дополняют .bo-action-btn (см. backoffice-leads.css): тот задаёт base padding
+ * (.5rem 1rem), radius .625rem, font-size sm, weight medium, hover-filter.
+ * Здесь только цветовые варианты.
+ */
+
+.bo-action-primary {
+  background: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+.bo-action-secondary {
+  background: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-gray-300);
+}
+
+.bo-action-secondary:hover {
+  background: var(--color-slate-50);
+}
+
+.bo-action-ai {
+  background: color-mix(in srgb, var(--color-gold) 14%, white);
+  color: color-mix(in srgb, var(--color-black) 85%, transparent);
+  border-color: color-mix(in srgb, var(--color-gold) 45%, transparent);
+}
+
+.bo-action-ai svg {
+  color: var(--color-gold);
+  width: 1rem;
+  height: 1rem;
+}
+
+.bo-action-ai:hover {
+  background: color-mix(in srgb, var(--color-gold) 22%, white);
+}
+
+.bo-action-ai:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+/* ===== Tag picker ===== */
+
+.bo-tag-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.bo-tag-picker-section {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.bo-tag-picker-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  font-size: var(--text-sm);
+}
+
+.bo-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .375rem;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Базовый чип в picker'е — поверх .badge: уменьшаем padding и добавляем cursor */
+.bo-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  padding: .375rem .625rem !important;
+  font-size: var(--text-xs) !important;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+
+.bo-tag-chip svg {
+  width: 12px;
+  height: 12px;
+  opacity: .65;
+}
+
+/* Выбранные — заметный brand-фон с крестиком */
+.bo-tag-chip-selected {
+  background: color-mix(in srgb, var(--color-brand) 14%, white);
+  color: var(--color-brand);
+  border-color: color-mix(in srgb, var(--color-brand) 35%, transparent);
+}
+
+.bo-tag-chip-selected:hover {
+  background: color-mix(in srgb, var(--color-red-400) 14%, white);
+  color: #b91c1c;
+  border-color: color-mix(in srgb, var(--color-red-400) 45%, transparent);
+}
+
+.bo-tag-chip-selected:hover svg {
+  opacity: 1;
+}
+
+/* Доступные — нейтральные */
+.bo-tag-chip-available {
+  background: var(--color-white);
+  color: color-mix(in srgb, var(--color-black) 75%, transparent);
+  border-color: var(--color-gray-300);
+}
+
+.bo-tag-chip-available:hover {
+  background: color-mix(in srgb, var(--color-brand) 8%, white);
+  color: var(--color-brand);
+  border-color: color-mix(in srgb, var(--color-brand) 35%, transparent);
+}
+
+/* Предложенные AI — жёлтый акцент с искрой для новых, голубой для существующих */
+.bo-tag-chip-suggested-new {
+  background: color-mix(in srgb, var(--color-gold) 12%, white);
+  color: color-mix(in srgb, var(--color-black) 80%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--color-gold) 55%, transparent);
+}
+
+.bo-tag-chip-suggested-new:hover {
+  background: color-mix(in srgb, var(--color-gold) 22%, white);
+  border-style: solid;
+}
+
+.bo-tag-chip-suggested-existing {
+  background: color-mix(in srgb, var(--color-secondary) 10%, white);
+  color: var(--color-brand);
+  border: 1px dashed color-mix(in srgb, var(--color-secondary) 50%, transparent);
+}
+
+.bo-tag-chip-suggested-existing:hover {
+  background: color-mix(in srgb, var(--color-secondary) 18%, white);
+  border-style: solid;
+}
+
+.bo-sparkle {
+  color: var(--color-gold);
+  font-size: 1em;
+}
+
+/* Кастомный input + AI-button */
+.bo-tag-picker-actions {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.bo-tag-picker-custom {
+  display: flex;
+  gap: .375rem;
+  flex: 1 1 280px;
+  min-width: 220px;
+}
+
+.bo-tag-picker-custom .bo-input {
+  flex: 1;
+}
+
+.bo-tag-picker-status {
+  color: color-mix(in srgb, var(--color-black) 60%, transparent);
+  font-size: var(--text-xs);
+}
+
+.bo-tag-picker-error {
+  color: #b91c1c;
+  font-size: var(--text-xs);
+}
+
+.bo-link-btn {
+  background: transparent;
+  border: none;
+  color: color-mix(in srgb, var(--color-black) 55%, transparent);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  padding: 0;
+}
+
+.bo-link-btn:hover {
+  color: var(--color-black);
+  text-decoration: underline;
+}
+
+/* ===== Trix editor — кастомизация под светлую тему ===== */
+
+.bo-field-trix trix-toolbar {
+  background: var(--color-slate-50);
+  border-radius: .625rem .625rem 0 0;
+  padding: .375rem;
+  border: 1px solid var(--color-gray-300);
+  border-bottom: none;
+}
+
+.bo-field-trix trix-toolbar .trix-button-row {
+  gap: .25rem;
+}
+
+.bo-field-trix trix-toolbar .trix-button {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  color: color-mix(in srgb, var(--color-black) 75%, transparent) !important;
+  border-radius: .375rem !important;
+  transition: background .15s, color .15s, border-color .15s;
+}
+
+.bo-field-trix trix-toolbar .trix-button:not(:disabled):hover {
+  background: var(--color-white) !important;
+  color: var(--color-black) !important;
+  border-color: var(--color-gray-300) !important;
+}
+
+/* Active state. Trix рендерит иконку как `background-image` (SVG data-URI
+ * с захардкоженным тёмным fill) — `color: white` его не перекрашивает.
+ * Поэтому даём светлый брендовый фон, чтобы чёрная иконка осталась видна.
+ */
+.bo-field-trix trix-toolbar .trix-button.trix-active {
+  background: color-mix(in srgb, var(--color-gold) 30%, var(--color-white)) !important;
+  border-color: var(--color-gold) !important;
+  color: var(--color-black) !important;
+}
+
+.bo-field-trix trix-toolbar .trix-button-group {
+  border: none !important;
+  background: transparent !important;
+  margin: 0 .25rem 0 0 !important;
+}
+
+.bo-trix {
+  min-height: 280px;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  border-top: none;
+  border-radius: 0 0 .625rem .625rem;
+  padding: 1rem 1.25rem;
+  color: var(--color-black);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+}
+
+.bo-trix:focus,
+.bo-trix.trix-focused {
+  outline: 2px solid color-mix(in srgb, var(--color-brand) 55%, transparent);
+  outline-offset: -2px;
+}
+
+.bo-trix h1 {
+  font-size: 1.375rem;
+  font-weight: var(--font-weight-bold);
+  margin: 1.25rem 0 .75rem;
+}
+
+.bo-trix h2 {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-bold);
+  margin: 1rem 0 .5rem;
+}
+
+.bo-trix blockquote {
+  border-left: 3px solid var(--color-gold);
+  padding-left: 1rem;
+  color: color-mix(in srgb, var(--color-black) 80%, transparent);
+  font-style: italic;
+  margin: .75rem 0;
+}
+
+.bo-trix ul,
+.bo-trix ol {
+  padding-left: 1.5rem;
+  margin: .5rem 0;
+}
+
+.bo-trix ul { list-style: disc; }
+.bo-trix ol { list-style: decimal; }
+
+.bo-trix a {
+  color: var(--color-brand);
+  text-decoration: underline;
+}
+
+.bo-trix pre {
+  background: var(--color-slate-100);
+  border-radius: .375rem;
+  padding: .625rem .875rem;
+  font-family: ui-monospace, monospace;
+  font-size: var(--text-xs);
+  overflow-x: auto;
+}
+
+/* ===== Taxonomy page ===== */
+
+.bo-tax-region {
+  margin-bottom: 1.5rem;
+}
+
+.bo-tax-region-title {
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  margin: 0 0 .625rem;
+  color: var(--color-black);
+  display: flex;
+  gap: .375rem;
+  align-items: baseline;
+}
+
+.bo-tax-grid {
+  display: grid;
+  gap: .75rem;
+  grid-template-columns: 1fr;
+
+  @variant lg {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.bo-tax-col {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.bo-tax-list {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  margin: .5rem 0 .875rem;
+  list-style: none;
+  padding: 0;
+}
+
+.bo-tax-row {
+  display: flex;
+  align-items: stretch;
+  gap: .375rem;
+  padding: .375rem;
+  background: var(--color-white);
+  border-radius: .5rem;
+  border: 1px solid var(--color-gray-200);
+  flex-wrap: wrap;
+}
+
+.bo-tax-form {
+  display: flex;
+  align-items: center;
+  gap: .375rem;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+}
+
+/* Мобильный дефолт: каждое поле занимает всю строку — иначе 5 input'ов
+   рядом сжимаются до неюзабельных 30-40px. Кнопка «Сохранить» — full-width
+   в конце, она прижимается к правому краю на десктопе. */
+.bo-tax-form .bo-input {
+  padding: .375rem .5rem !important;
+  font-size: .8125rem !important;
+  flex: 1 1 100%;
+  min-width: 0;
+  border-radius: .375rem;
+}
+
+.bo-tax-form .bo-input-narrow {
+  flex: 0 0 64px;
+  max-width: 64px;
+  text-align: center;
+}
+
+.bo-tax-form .bo-cell-tiny {
+  flex: 0 0 auto;
+}
+
+.bo-tax-form .bo-action-tiny {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+@variant md {
+  .bo-tax-form .bo-input {
+    flex: 1 1 80px;
+  }
+  .bo-tax-form .bo-input-narrow {
+    flex: 0 0 48px;
+    max-width: 48px;
+  }
+  .bo-tax-form .bo-input-slug {
+    flex: 1 1 110px;
+  }
+  .bo-tax-form .bo-action-tiny {
+    margin-left: 0;
+  }
+}
+
+.bo-tax-form-delete {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.bo-tax-create {
+  display: flex;
+  gap: .375rem;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: .5rem;
+  background: var(--color-slate-50);
+  border: 1px dashed var(--color-gray-300);
+  border-radius: .5rem;
+}
+
+.bo-tax-create .bo-input {
+  flex: 1 1 100%;
+  border-radius: .375rem;
+}
+
+@variant md {
+  .bo-tax-create .bo-input {
+    flex: 1 1 160px;
+  }
+  .bo-tax-create .bo-input-slug {
+    flex: 0 1 140px;
+  }
+}
+
+.bo-action-tiny {
+  padding: .25rem .5rem !important;
+  font-size: .75rem !important;
+  border-radius: .375rem !important;
+}
+
+.bo-action-tiny svg {
+  width: 14px;
+  height: 14px;
+}
+
+.bo-cell-tiny {
+  font-size: .6875rem;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--color-black) 50%, transparent);
+}

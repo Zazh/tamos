@@ -15,7 +15,17 @@ class BlogTagTranslationOptions(TranslationOptions):
 
 @register(BlogPost)
 class BlogPostTranslationOptions(TranslationOptions):
-    fields = ('title', 'lead', 'content', 'cover_caption', 'cover_alt')
+    fields = (
+        'title',
+        'lead',
+        'content',
+        'cover_caption',
+        'cover_alt',
+        'seo_title',
+        'seo_description',
+        'og_title',
+        'og_description',
+    )
 
 
 @register(BlogGalleryImage)

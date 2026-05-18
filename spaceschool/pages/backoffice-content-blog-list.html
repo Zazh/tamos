@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Блог — Backoffice — Space School</title>
+    <script type="module" src="/src/js/main.js"></script>
+  </head>
+  <body>
+    <div class="bo-shell" x-data="{ sidebar: false }" :class="sidebar && 'bo-sidebar-open'">
+      <aside class="bo-sidebar"></aside>
+      <div class="bo-overlay" x-show="sidebar" x-cloak @click="sidebar = false"></div>
+
+      <div class="bo-body">
+        <header class="bo-topbar">
+          <button class="bo-burger" @click="sidebar = true" aria-label="Меню">
+            <svg class="bo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <div class="bo-topbar-title">Блог</div>
+          <div class="bo-user">
+            <span class="bo-user-name">Aidarbek</span>
+            <button class="bo-logout">Выйти</button>
+          </div>
+        </header>
+
+        <main class="bo-main">
+          <div class="bo-page-head bo-page-head-row">
+            <div>
+              <h1 class="bo-page-title">Блог</h1>
+              <p class="bo-page-subtitle">Статьи на /blog/ в каждом регионе. Создавай посты, привязывай теги и категории, публикуй.</p>
+            </div>
+            <div class="bo-page-head-actions">
+              <a href="#" class="bo-action-btn bo-action-secondary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.59 13.41l6 6a2 2 0 0 0 2.83 0l5.58-5.58a2 2 0 0 0 0-2.83l-6-6A2 2 0 0 0 14.58 4H8a4 4 0 0 0-4 4v6.58a2 2 0 0 0 .59 1.42z"/><circle cx="9" cy="9" r="1"/></svg>
+                <span>Категории и теги</span>
+              </a>
+              <a href="#" class="bo-action-btn bo-action-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Новый пост</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <form method="get" action="" class="bo-filter-form">
+            <div class="bo-filter-chips" role="tablist" aria-label="Статус публикации">
+              <a href="#" class="bo-filter-chip bo-filter-chip-active">Все</a>
+              <a href="#" class="bo-filter-chip">Опубликованные</a>
+              <a href="#" class="bo-filter-chip">Черновики</a>
+            </div>
+
+            <div class="bo-filter-row">
+              <input type="search" name="q" placeholder="Поиск по заголовку/slug" class="bo-input bo-filter-search">
+              <select name="category" class="bo-select bo-filter-select">
+                <option value="">Все категории</option>
+                <option>Школьная жизнь</option>
+                <option>Спорт</option>
+                <option>Достижения</option>
+                <option>Робототехника</option>
+                <option>Мероприятия</option>
+              </select>
+              <select name="region" class="bo-select bo-filter-select">
+                <option value="">Все регионы</option>
+                <option>Астана</option>
+                <option>Актау</option>
+              </select>
+              <button type="submit" class="bo-action-btn bo-action-secondary">Применить</button>
+            </div>
+          </form>
+
+          <!-- Table (desktop) -->
+          <div class="bo-table-wrap">
+            <table class="bo-table bo-table-blog">
+              <thead>
+                <tr>
+                  <th class="bo-th"></th>
+                  <th class="bo-th">Заголовок</th>
+                  <th class="bo-th">Категория</th>
+                  <th class="bo-th">Теги</th>
+                  <th class="bo-th">Регион</th>
+                  <th class="bo-th">Дата</th>
+                  <th class="bo-th">Статус</th>
+                  <th class="bo-th bo-th-right"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bo-tr" onclick="location.href='#'">
+                  <td class="bo-td bo-td-thumb">
+                    <img src="https://picsum.photos/seed/mit-cover/128/80" alt="" class="bo-blog-thumb">
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Ученики Space School прошли стажировку в MIT</div>
+                    <div class="bo-cell-muted">mit-internship-2025</div>
+                  </td>
+                  <td class="bo-td">
+                    <span class="badge bo-cat-chip">Достижения</span>
+                  </td>
+                  <td class="bo-td">
+                    <ul class="bo-tag-row">
+                      <li><span class="badge bo-tag-chip-mini">#MIT</span></li>
+                      <li><span class="badge bo-tag-chip-mini">#Достижения</span></li>
+                      <li><span class="badge bo-tag-chip-mini">#STEM</span></li>
+                    </ul>
+                  </td>
+                  <td class="bo-td"><div class="bo-cell-muted">Астана</div></td>
+                  <td class="bo-td"><div class="bo-cell-muted">26 марта 2025</div></td>
+                  <td class="bo-td"><span class="bo-status-dot bo-status-published" title="Опубликовано"></span></td>
+                  <td class="bo-td bo-td-right"><a href="#" class="bo-row-edit">Редактировать →</a></td>
+                </tr>
+
+                <tr class="bo-tr" onclick="location.href='#'">
+                  <td class="bo-td bo-td-thumb">
+                    <img src="https://picsum.photos/seed/cambridge/128/80" alt="" class="bo-blog-thumb">
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Cambridge Lower Secondary: первые результаты</div>
+                    <div class="bo-cell-muted">cambridge-lower-secondary-results</div>
+                  </td>
+                  <td class="bo-td">
+                    <span class="badge bo-cat-chip">Школьная жизнь</span>
+                  </td>
+                  <td class="bo-td">
+                    <ul class="bo-tag-row">
+                      <li><span class="badge bo-tag-chip-mini">#Cambridge</span></li>
+                      <li><span class="badge bo-tag-chip-mini">#Экзамены</span></li>
+                    </ul>
+                  </td>
+                  <td class="bo-td"><div class="bo-cell-muted">Астана</div></td>
+                  <td class="bo-td"><div class="bo-cell-muted">19 марта 2025</div></td>
+                  <td class="bo-td"><span class="bo-status-dot bo-status-published" title="Опубликовано"></span></td>
+                  <td class="bo-td bo-td-right"><a href="#" class="bo-row-edit">Редактировать →</a></td>
+                </tr>
+
+                <tr class="bo-tr" onclick="location.href='#'">
+                  <td class="bo-td bo-td-thumb">
+                    <div class="bo-blog-thumb bo-blog-thumb-empty" aria-hidden="true">—</div>
+                  </td>
+                  <td class="bo-td">
+                    <div class="bo-cell-strong">Черновик: Открытый день кружка робототехники</div>
+                    <div class="bo-cell-muted">open-day-robotics</div>
+                  </td>
+                  <td class="bo-td">
+                    <span class="badge bo-cat-chip">Робототехника</span>
+                  </td>
+                  <td class="bo-td">
+                    <ul class="bo-tag-row">
+                      <li class="bo-cell-muted">—</li>
+                    </ul>
+                  </td>
+                  <td class="bo-td"><div class="bo-cell-muted">Актау</div></td>
+                  <td class="bo-td"><div class="bo-cell-muted">2 апреля 2025</div></td>
+                  <td class="bo-td"><span class="bo-status-dot bo-status-draft" title="Черновик"></span></td>
+                  <td class="bo-td bo-td-right"><a href="#" class="bo-row-edit">Редактировать →</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Cards (mobile) -->
+          <ul class="bo-cards">
+            <li class="bo-card" onclick="location.href='#'">
+              <div class="bo-card-head">
+                <span class="bo-cell-strong">Ученики Space School прошли стажировку в MIT</span>
+                <time class="bo-cell-muted">26 мар</time>
+              </div>
+              <div class="bo-card-meta">
+                <span class="badge bo-cat-chip">Достижения</span>
+                <span class="bo-cell-muted">· Астана</span>
+              </div>
+              <div class="bo-card-foot">
+                <span class="bo-cell-muted">Опубликовано</span>
+                <span class="bo-row-edit">Редактировать →</span>
+              </div>
+            </li>
+          </ul>
+
+          <!-- Pagination -->
+          <nav class="bo-pagination" aria-label="Постраничная навигация">
+            <a href="#" class="bo-pagination-link">← Назад</a>
+            <span class="bo-pagination-state">Стр. 1 из 3</span>
+            <a href="#" class="bo-pagination-link">Вперёд →</a>
+          </nav>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

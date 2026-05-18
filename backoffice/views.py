@@ -15,6 +15,7 @@ from core.gemini_translate import (
     TranslationConfigError,
     TranslationError,
     generate_seo,
+    suggest_tags,
     translate_fields,
 )
 from activities.models import (
@@ -27,6 +28,7 @@ from admission.models import (
     AdmissionPage,
     AdmissionVariant,
 )
+from blog.models import BlogCategory, BlogGallery, BlogGalleryImage, BlogPost, BlogTag
 from feedback.models import Lead
 from pages.models import ContactsPage, HomeGalleryImage, HomePage
 from programs.models import ProgramPage
@@ -44,6 +46,11 @@ from .forms import (
     ADMISSION_VARIANT_TRANSLATABLE,
     AdmissionPageEditForm,
     AdmissionVariantEditForm,
+    BLOG_POST_OUT_OF_FORM_BASES,
+    BLOG_POST_TRANSLATABLE,
+    BlogCategoryCreateForm,
+    BlogPostEditForm,
+    BlogTagCreateForm,
     CONTACTS_TRANSLATABLE,
     ContactsDepartmentFormSet,
     ContactsPageEditForm,
@@ -1862,3 +1869,751 @@ def content_activities_group_delete(request, gpk):
     messages.success(request, f'Группа «{label}» удалена.')
     url = reverse('backoffice:content_activities_region', kwargs={'region_pk': activity.region_id})
     return redirect(f'{url}#activity-{activity.pk}')
+
+
+# ===== Content: Blog (раздел «Лента») =======================================
+#
+# Список постов, edit с Trix-редактором, AI-tagger через Gemini,
+# отдельная taxonomy-страница для категорий и тегов. Шаблоны:
+# `templates/backoffice/content/blog/`.
+
+BLOG_POSTS_PER_PAGE = 20
+
+
+def _auto_slug_for_blog(title: str) -> str:
+    """SEO-friendly slug = slugify(title) + '-' + 4hex.
+
+    4-hex суффикс (65k комбинаций) гарантирует уникальность без счётчика-цикла
+    и сохраняет читаемость в URL. Пример: «Наурыз в школе» → «nauryz-v-shkole-a3f7».
+
+    Если кто-то умудрился попасть в коллизию — повторяем до 5 раз с новой
+    случайной частью; коллизия per slug — единичный шанс на десятки тысяч.
+    """
+    import secrets
+    from django.utils.text import slugify
+    base = slugify(title, allow_unicode=False) or 'post'
+    base = base[:190]
+    for _ in range(5):
+        suffix = secrets.token_hex(2)  # 4 hex символа
+        candidate = f'{base}-{suffix}'[:200]
+        if not BlogPost.objects.filter(slug=candidate).exists():
+            return candidate
+    # Совсем не повезло — добавляем больше энтропии (8 hex).
+    return f'{base}-{secrets.token_hex(4)}'[:200]
+
+
+def _get_blog_post_for_user(request, pk):
+    """region-scoped BlogPost или 404."""
+    qs = region_scoped(
+        BlogPost.objects.select_related('region', 'category').prefetch_related('tags'),
+        request.user,
+    )
+    return get_object_or_404(qs, pk=pk)
+
+
+def _blogpost_steps(post):
+    """Stepper completeness для edit-страницы поста.
+
+    Шаги:
+    - Основа (RU, обязательный) — title, lead, cover_image, content
+    - Перевод KZ / EN — те же translatable поля без cover
+    - Публикация — is_published + published_at
+    """
+    def is_filled(field_name):
+        val = getattr(post, field_name, '')
+        if hasattr(val, 'name'):
+            return bool(val and val.name)
+        return bool(val and str(val).strip())
+
+    ru_fields = [
+        'title_ru',
+        'lead_ru',
+        'cover_image',
+        'content_ru',
+    ]
+    kk_fields = [
+        'title_kk', 'lead_kk', 'content_kk',
+    ]
+    en_fields = [
+        'title_en', 'lead_en', 'content_en',
+    ]
+    seo_fields = [
+        'seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_image',
+    ]
+    pub_fields = ['is_published', 'published_at']
+
+    def step(id, label, fields, required=False):
+        initial = {f: is_filled(f) for f in fields}
+        filled = sum(1 for v in initial.values() if v)
+        return {
+            'id': id,
+            'label': label,
+            'fields': fields,
+            'initial': initial,
+            'filled': filled,
+            'total': len(fields),
+            'required': required,
+        }
+
+    return [
+        step('ru', 'Основа (RU)', ru_fields, required=True),
+        step('kk', 'Перевод KZ', kk_fields),
+        step('en', 'Перевод EN', en_fields),
+        step('seo', 'SEO', seo_fields),
+        step('publish', 'Публикация', pub_fields),
+    ]
+
+
+def _sync_blog_post_tags(post, tags_data: list[dict]):
+    """Привести M2M тегов поста к указанному списку.
+
+    `tags_data` — `[{slug, name, names?}]`. Теги глобальные:
+    - если тег найден по slug — добавляем в M2M;
+    - если нет — создаём новый с name(_ru/kk/en если переданы) и order = max+10.
+
+    Возвращает `(added_count, created_count)`.
+    """
+    desired_slugs = [t['slug'] for t in tags_data]
+    if not desired_slugs:
+        post.tags.clear()
+        return (0, 0)
+
+    existing = list(BlogTag.objects.filter(slug__in=desired_slugs))
+    by_slug = {t.slug: t for t in existing}
+
+    created = 0
+    if len(by_slug) < len(desired_slugs):
+        max_order = BlogTag.objects.aggregate(Max('order'))['order__max'] or 0
+        for td in tags_data:
+            slug = td['slug']
+            if slug in by_slug:
+                continue
+            max_order += 10
+            names = td.get('names') or {}
+            tag = BlogTag.objects.create(
+                slug=slug,
+                name=td['name'],
+                name_ru=names.get('ru') or td['name'],
+                name_kk=names.get('kk') or '',
+                name_en=names.get('en') or '',
+                order=max_order,
+            )
+            by_slug[slug] = tag
+            created += 1
+
+    post.tags.set([by_slug[s] for s in desired_slugs if s in by_slug])
+    return (len(desired_slugs), created)
+
+
+@never_cache
+@backoffice_required
+def content_blog_list(request):
+    """Список постов с фильтрами. Region-scoped: менеджер видит свои, su — все."""
+    base_qs = (
+        region_scoped(BlogPost.objects.select_related('region', 'category'), request.user)
+        .prefetch_related('tags')
+    )
+
+    # Не-status фильтры применяются и к counts, и к qs.
+    category_slug = request.GET.get('category', '').strip()
+    region_slug = request.GET.get('region', '').strip()
+    q = request.GET.get('q', '').strip()
+
+    pre_status_qs = base_qs
+    if category_slug:
+        pre_status_qs = pre_status_qs.filter(category__slug=category_slug)
+    if region_slug and request.user.is_superuser:
+        pre_status_qs = pre_status_qs.filter(region__slug=region_slug)
+    if q:
+        pre_status_qs = pre_status_qs.filter(
+            Q(title__icontains=q) | Q(slug__icontains=q) | Q(lead__icontains=q)
+        )
+
+    # Считаем все 3 статуса по одному запросу (counts сбалансированы и не сбрасываются
+    # при клике на чип — паттерн leads_list).
+    status_counts = {
+        'all': pre_status_qs.count(),
+        'published': pre_status_qs.filter(is_published=True).count(),
+        'draft': pre_status_qs.filter(is_published=False).count(),
+    }
+
+    is_published = request.GET.get('status', '').strip()
+    qs = pre_status_qs
+    if is_published == 'published':
+        qs = qs.filter(is_published=True)
+    elif is_published == 'draft':
+        qs = qs.filter(is_published=False)
+
+    qs = qs.order_by('-published_at', '-pk')
+
+    paginator = Paginator(qs, BLOG_POSTS_PER_PAGE)
+    page = paginator.get_page(request.GET.get('page'))
+
+    # Для фильтра-категорий — все категории региона менеджера (или всех регионов для su)
+    categories_qs = BlogCategory.objects.all().order_by('order', 'name')
+
+    qs_dict = request.GET.copy()
+    qs_dict.pop('page', None)
+    base_qs_str = qs_dict.urlencode()
+
+    # URLs для чипов status (сохраняют q/category/region, сбрасывают page).
+    def _chip_url(status_value):
+        params = request.GET.copy()
+        params.pop('page', None)
+        if status_value:
+            params['status'] = status_value
+        else:
+            params.pop('status', None)
+        encoded = params.urlencode()
+        return f'?{encoded}' if encoded else '?'
+
+    status_chips = [
+        {'value': '', 'label': 'Все', 'count': status_counts['all'], 'url': _chip_url(''), 'active': is_published == ''},
+        {'value': 'published', 'label': 'Опубликованные', 'count': status_counts['published'], 'url': _chip_url('published'), 'active': is_published == 'published', 'code': 'published'},
+        {'value': 'draft', 'label': 'Черновики', 'count': status_counts['draft'], 'url': _chip_url('draft'), 'active': is_published == 'draft', 'code': 'draft'},
+    ]
+
+    return render_backoffice(
+        request,
+        'backoffice/content/blog/list.html',
+        active='blog',
+        page_title='Блог',
+        context={
+            'page': page,
+            'paginator': paginator,
+            'categories': categories_qs,
+            'all_regions': Region.objects.filter(is_active=True) if request.user.is_superuser else None,
+            'filters': {
+                'status': is_published,
+                'category': category_slug,
+                'region': region_slug,
+                'q': q,
+            },
+            'status_chips': status_chips,
+            'base_qs': base_qs_str,
+        },
+    )
+
+
+@never_cache
+@backoffice_required
+@require_http_methods(['GET', 'POST'])
+def content_blog_create(request):
+    """Создание поста за 1 шаг — полная форма + 2 CTA (черновик / опубликовать).
+
+    После save редиректим на edit того же поста для дальнейших правок (паттерн
+    WordPress/Ghost). slug генерируется автоматически из title.
+    """
+    from django.utils import timezone
+
+    if request.method == 'POST':
+        form = BlogPostEditForm(request.POST, request.FILES, user=request.user)
+        if form.is_valid():
+            post = form.save(commit=False)
+            # Auto-slug — пользователю не показывается; короткий 4-hex суффикс
+            # делает его глобально уникальным без counter-loop.
+            title = form.cleaned_data.get('title_ru') or post.title or 'Без названия'
+            post.slug = _auto_slug_for_blog(title)
+            # Если is_published не пришёл (CTA «Сохранить как черновик») — False.
+            # Если пришёл (CTA «Опубликовать») — True.
+            post.is_published = bool(request.POST.get('publish_now'))
+            if not post.published_at:
+                post.published_at = timezone.now()
+            post.save()
+            form.save_m2m()
+            _sync_blog_post_tags(post, form.cleaned_data.get('tags_json') or [])
+
+            if post.is_published:
+                messages.success(request, f'Пост «{post.title}» опубликован.')
+            else:
+                messages.success(request, f'Черновик «{post.title}» сохранён.')
+            return redirect('backoffice:content_blog_edit', pk=post.pk)
+    else:
+        # Default values for new post
+        form = BlogPostEditForm(
+            initial={'published_at': timezone.now().strftime('%Y-%m-%dT%H:%M')},
+            user=request.user,
+        )
+
+    # Все теги — глобальные, для tag-picker'а (с именами на 3 языках)
+    all_tags = _tags_payload(BlogTag.objects.all())
+    categories = list(BlogCategory.objects.all().order_by('order', 'name'))
+    steps = _blogpost_steps_for_create()
+
+    return render_backoffice(
+        request,
+        'backoffice/content/blog/create.html',
+        active='blog',
+        page_title='Новый пост',
+        context={
+            'form': form,
+            'translation_langs': TRANSLATION_LANGS,
+            'categories': categories,
+            'all_tags_json': json.dumps(all_tags),
+            'steps_json': json.dumps(steps),
+            'translatable_bases_json': json.dumps(list(BLOG_POST_TRANSLATABLE)),
+            'out_of_form_bases': BLOG_POST_OUT_OF_FORM_BASES,
+        },
+    )
+
+
+def _tags_payload(qs):
+    """Сериализатор тегов для `boTagPicker`. Возвращает имена на всех 3 языках,
+    чтобы при смене таба (RU/KK/EN) чипы реактивно обновлялись."""
+    return [
+        {
+            'slug': t.slug,
+            'name': t.name,
+            'names': {
+                'ru': t.name_ru or t.name or '',
+                'kk': t.name_kk or '',
+                'en': t.name_en or '',
+            },
+        }
+        for t in qs
+    ]
+
+
+def _blogpost_steps_for_create():
+    """Stepper для новой формы — поля пустые, шаги показывают «куда идти».
+    Required только RU."""
+    def step(id, label, total, required=False):
+        return {
+            'id': id, 'label': label, 'fields': [],
+            'initial': {}, 'filled': 0, 'total': total, 'required': required,
+        }
+    return [
+        step('ru', 'Основа (RU)', 4, required=True),
+        step('kk', 'Перевод KZ', 3),
+        step('en', 'Перевод EN', 3),
+        step('seo', 'SEO', 4),
+        step('publish', 'Публикация', 2),
+    ]
+
+
+@never_cache
+@backoffice_required
+def content_blog_edit(request, pk):
+    post = _get_blog_post_for_user(request, pk)
+    # ВАЖНО: ModelForm(data, instance=post) мутирует post под значения POST'а
+    # (post и saved — один и тот же объект). Поэтому сохраняем оригиналы ДО
+    # инициализации формы, иначе после save (commit=False) post.slug/region_id
+    # будут пустыми.
+    original_slug = post.slug
+    original_region_id = post.region_id
+
+    if request.method == 'POST':
+        form = BlogPostEditForm(request.POST, request.FILES, instance=post, user=request.user)
+        if form.is_valid():
+            saved = form.save(commit=False)
+            # Регион и slug на edit неизменяемы (hidden поля, могут прийти
+            # пустыми). Восстанавливаем сохранённые оригиналы.
+            saved.region_id = original_region_id
+            if not saved.slug:
+                saved.slug = original_slug
+            # base поля (title/lead/content/...) — modeltranslation сам синкнет
+            # из _ru, но только при save() инстанса. После save сделаем теги.
+            saved.save()
+            form.save_m2m()  # пусто, но на будущее
+            _sync_blog_post_tags(saved, form.cleaned_data.get('tags_json') or [])
+            messages.success(request, 'Пост сохранён.')
+            return redirect('backoffice:content_blog_edit', pk=saved.pk)
+    else:
+        form = BlogPostEditForm(instance=post, user=request.user)
+
+    steps = _blogpost_steps(post)
+
+    # Все теги — глобальные. names на 3 языках для реактивности tag-picker.
+    all_tags = _tags_payload(BlogTag.objects.all().order_by('order', 'name'))
+
+    # Глобальные категории.
+    categories = list(BlogCategory.objects.all().order_by('order', 'name'))
+
+    # Главная inline-галерея (slug='main'). Если её нет — items пустой, она
+    # создастся лениво при первом upload.
+    gallery_items = []
+    main_gallery = BlogGallery.objects.filter(post=post, slug=BLOG_MAIN_GALLERY_SLUG).first()
+    if main_gallery:
+        gallery_items = [
+            _serialize_blog_gallery_image(i)
+            for i in main_gallery.images.all().order_by('order', 'pk')
+        ]
+
+    return render_backoffice(
+        request,
+        'backoffice/content/blog/edit.html',
+        active='blog',
+        page_title=f'Блог · {post.title or "Без названия"}',
+        context={
+            'post': post,
+            'form': form,
+            'translation_langs': TRANSLATION_LANGS,
+            'categories': categories,
+            'all_tags_json': json.dumps(all_tags),
+            'steps_json': json.dumps(steps),
+            'translatable_bases_json': json.dumps(list(BLOG_POST_TRANSLATABLE)),
+            'out_of_form_bases': BLOG_POST_OUT_OF_FORM_BASES,
+            'blog_translate_url': reverse('backoffice:content_blog_translate', kwargs={'pk': post.pk}),
+            'blog_seo_url': reverse('backoffice:content_blog_seo', kwargs={'pk': post.pk}),
+            'blog_suggest_tags_url': reverse('backoffice:content_blog_suggest_tags', kwargs={'pk': post.pk}),
+            'gallery_items_json': json.dumps(gallery_items),
+            'gallery_upload_url': reverse('backoffice:content_blog_gallery_upload', kwargs={'pk': post.pk}),
+            'gallery_reorder_url': reverse('backoffice:content_blog_gallery_reorder', kwargs={'pk': post.pk}),
+            'gallery_update_url_tpl': reverse('backoffice:content_blog_gallery_update', kwargs={'pk': post.pk, 'gpk': 0}),
+            'gallery_delete_url_tpl': reverse('backoffice:content_blog_gallery_delete', kwargs={'pk': post.pk, 'gpk': 0}),
+        },
+    )
+
+
+# ----- Blog inline gallery (main gallery — one per post, auto-created) -------
+#
+# Каждый пост может иметь одну «главную» галерею (slug='main'), которая
+# рендерится на сайте после контента. Создаётся лениво — при первом upload.
+# Legacy шорткоды [[gallery slug=...]] продолжают работать для других slug'ов.
+
+BLOG_MAIN_GALLERY_SLUG = 'main'
+
+
+def _get_or_create_main_gallery(post):
+    gallery, _ = BlogGallery.objects.get_or_create(
+        post=post,
+        slug=BLOG_MAIN_GALLERY_SLUG,
+        defaults={'title': 'Главная галерея', 'order': 0},
+    )
+    return gallery
+
+
+def _serialize_blog_gallery_image(img):
+    return {
+        'pk': img.pk,
+        'url': img.image.url if img.image else '',
+        'alt_ru': img.alt_ru or '',
+        'alt_kk': img.alt_kk or '',
+        'alt_en': img.alt_en or '',
+        'caption_ru': img.caption_ru or '',
+        'caption_kk': img.caption_kk or '',
+        'caption_en': img.caption_en or '',
+        'order': img.order,
+    }
+
+
+@require_POST
+@backoffice_required
+def content_blog_gallery_upload(request, pk):
+    """Multi-upload в главную галерею поста. order = после последнего, шаг 10."""
+    post = _get_blog_post_for_user(request, pk)
+    files = request.FILES.getlist('images')
+    if not files:
+        return JsonResponse({'error': 'No files'}, status=400)
+
+    gallery = _get_or_create_main_gallery(post)
+    max_order = gallery.images.aggregate(Max('order'))['order__max'] or 0
+    for f in files:
+        max_order += 10
+        BlogGalleryImage.objects.create(gallery=gallery, image=f, order=max_order)
+
+    items = [_serialize_blog_gallery_image(i) for i in gallery.images.all().order_by('order', 'pk')]
+    return JsonResponse({'items': items})
+
+
+@require_POST
+@backoffice_required
+def content_blog_gallery_reorder(request, pk):
+    post = _get_blog_post_for_user(request, pk)
+    try:
+        payload = json.loads(request.body or '{}')
+        order = list(payload.get('order') or [])
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    gallery = _get_or_create_main_gallery(post)
+    own_ids = set(gallery.images.values_list('pk', flat=True))
+    safe_order = [int(p) for p in order if int(p) in own_ids]
+    for i, p in enumerate(safe_order):
+        BlogGalleryImage.objects.filter(pk=p).update(order=i * 10)
+    return JsonResponse({'ok': True})
+
+
+@require_POST
+@backoffice_required
+def content_blog_gallery_update(request, pk, gpk):
+    """Inline-update alt/caption translations."""
+    post = _get_blog_post_for_user(request, pk)
+    img = get_object_or_404(BlogGalleryImage, pk=gpk, gallery__post=post)
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    for field in ('alt_ru', 'alt_kk', 'alt_en', 'caption_ru', 'caption_kk', 'caption_en'):
+        if field in payload:
+            setattr(img, field, str(payload[field])[:300])
+    img.alt = img.alt_ru or img.alt or ''
+    img.caption = img.caption_ru or img.caption or ''
+    img.save(update_fields=[
+        'alt', 'alt_ru', 'alt_kk', 'alt_en',
+        'caption', 'caption_ru', 'caption_kk', 'caption_en',
+    ])
+    return JsonResponse({'ok': True, 'item': _serialize_blog_gallery_image(img)})
+
+
+@require_POST
+@backoffice_required
+def content_blog_gallery_delete(request, pk, gpk):
+    post = _get_blog_post_for_user(request, pk)
+    img = get_object_or_404(BlogGalleryImage, pk=gpk, gallery__post=post)
+    img.delete()
+    return JsonResponse({'ok': True})
+
+
+@require_POST
+@backoffice_required
+def content_blog_delete(request, pk):
+    post = _get_blog_post_for_user(request, pk)
+    title = post.title or f'Пост #{post.pk}'
+    post.delete()
+    messages.success(request, f'Пост «{title}» удалён.')
+    return redirect('backoffice:content_blog_list')
+
+
+@require_POST
+@backoffice_required
+def content_blog_seo(request, pk):
+    """AI-генерация SEO/OG для BlogPost. Источник — title/lead/content (передаётся
+    в payload, не из БД, чтобы поддержать несохранённые правки). Region-scope обязателен."""
+    _get_blog_post_for_user(request, pk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    content = payload.get('content') or {}
+    if not isinstance(content, dict):
+        return JsonResponse({'error': 'content must be an object'}, status=400)
+
+    sanitized = {
+        str(k): str(v)[:SEO_SOURCE_MAX_CHARS]
+        for k, v in list(content.items())[:SEO_SOURCE_MAX_FIELDS]
+        if v and str(v).strip()
+    }
+    if not sanitized:
+        return JsonResponse(
+            {'error': 'Нет исходного контента для SEO. Заполни title и lead на RU.'},
+            status=400,
+        )
+
+    try:
+        seo = generate_seo(sanitized)
+    except TranslationConfigError as e:
+        return JsonResponse({'error': str(e)}, status=503)
+    except TranslationError as e:
+        return JsonResponse({'error': str(e)}, status=502)
+
+    return JsonResponse({'seo': seo})
+
+
+@require_POST
+@backoffice_required
+def content_blog_translate(request, pk):
+    """RU→KK/EN для translatable полей поста. Идентичен home_translate."""
+    _get_blog_post_for_user(request, pk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    by_lang = payload.get('by_lang') or {}
+    if not isinstance(by_lang, dict):
+        return JsonResponse({'error': 'by_lang must be an object'}, status=400)
+
+    result: dict[str, dict[str, str]] = {}
+    for lang, values in by_lang.items():
+        if lang not in {'kk', 'en'}:
+            continue
+        if not isinstance(values, dict):
+            continue
+        sanitized = {
+            str(k): str(v)[:TRANSLATE_MAX_VALUE_CHARS]
+            for k, v in list(values.items())[:TRANSLATE_MAX_FIELDS_PER_LANG]
+            if v and str(v).strip()
+        }
+        if not sanitized:
+            continue
+        try:
+            result[lang] = translate_fields(sanitized, lang)
+        except TranslationConfigError as e:
+            return JsonResponse({'error': str(e)}, status=503)
+        except TranslationError as e:
+            return JsonResponse({'error': str(e)}, status=502)
+
+    return JsonResponse({'translations': result})
+
+
+SUGGEST_TAGS_MAX_CONTENT = 10000
+
+
+@require_POST
+@backoffice_required
+def content_blog_suggest_tags(request, pk):
+    """POST {title, lead, content} → {tags: [{slug, name}], existing_overlap: [slug,...]}.
+
+    Сервер не использует значения из БД (менеджер мог поменять и не сохранить).
+    Список существующих тегов берётся из БД (region-scoped). Frontend
+    помечает в UI пересечения как `existing` (синий чип) vs `new` (жёлтый чип).
+    """
+    post = _get_blog_post_for_user(request, pk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    title = str(payload.get('title', ''))[:300]
+    lead = str(payload.get('lead', ''))[:600]
+    content = str(payload.get('content', ''))[:SUGGEST_TAGS_MAX_CONTENT]
+
+    # Чистим HTML, чтобы Gemini не отвлекался на разметку.
+    from django.utils.html import strip_tags
+    content_text = strip_tags(content).strip()
+
+    if not (title.strip() or lead.strip() or content_text):
+        return JsonResponse({'error': 'Заполни title и хотя бы lead или content на RU.'}, status=400)
+
+    existing = list(
+        BlogTag.objects.filter(region=post.region)
+        .order_by('order', 'name')
+        .values('slug', 'name')
+    )
+
+    try:
+        suggested = suggest_tags(
+            title=title,
+            lead=lead,
+            content=content_text,
+            existing_tags=existing,
+        )
+    except TranslationConfigError as e:
+        return JsonResponse({'error': str(e)}, status=503)
+    except TranslationError as e:
+        return JsonResponse({'error': str(e)}, status=502)
+
+    existing_slug_set = {t['slug'] for t in existing}
+    annotated = [
+        {
+            **t,
+            'is_new': t['slug'] not in existing_slug_set,
+        }
+        for t in suggested
+    ]
+    return JsonResponse({'tags': annotated})
+
+
+# ----- Blog taxonomy (categories + tags) -------------------------------------
+
+
+@never_cache
+@backoffice_required
+@require_http_methods(['GET', 'POST'])
+def content_blog_taxonomy(request):
+    """Одна общая страница CRUD категорий и тегов. Категории/теги ГЛОБАЛЬНЫЕ
+    (одни на все регионы — см. миграцию 0006/0007). Order/slug не показываем."""
+    categories = list(
+        BlogCategory.objects
+        .annotate(post_count=Count('posts'))
+        .order_by('order', 'name')
+    )
+    tags = list(
+        BlogTag.objects
+        .annotate(post_count=Count('posts'))
+        .order_by('order', 'name')
+    )
+
+    return render_backoffice(
+        request,
+        'backoffice/content/blog/taxonomy.html',
+        active='blog',
+        page_title='Блог · категории и теги',
+        context={
+            'categories': categories,
+            'tags': tags,
+        },
+    )
+
+
+def _taxonomy_save(model, model_label, request, user):
+    """CRUD общая логика. Глобальные категории/теги — без region.
+    Order назначается автоматически (max+10 при создании, не меняется при update)."""
+    pk = request.POST.get('pk') or ''
+    if pk:
+        obj = get_object_or_404(model.objects.all(), pk=pk)
+        for lang in TRANSLATION_LANGS:
+            key = f'name_{lang}'
+            if key in request.POST:
+                setattr(obj, key, request.POST.get(key, '').strip()[:80])
+        obj.name = obj.name_ru or obj.name or ''
+        obj.save()
+        messages.success(request, f'{model_label} «{obj.name}» обновлён(а).')
+    else:
+        name_ru = (request.POST.get('name_ru') or '').strip()
+        if not name_ru:
+            messages.error(request, 'Введите название.')
+            return
+        from django.utils.text import slugify
+        base_slug = slugify(name_ru, allow_unicode=False) or 'tag'
+        slug = base_slug[:60]
+        from itertools import count
+        for i in count(1):
+            if not model.objects.filter(slug=slug).exists():
+                break
+            slug = f'{base_slug[:55]}-{i}'
+        max_order = model.objects.aggregate(Max('order'))['order__max'] or 0
+        obj = model.objects.create(
+            slug=slug,
+            name=name_ru[:80],
+            name_ru=name_ru[:80],
+            order=max_order + 10,
+        )
+        messages.success(request, f'{model_label} «{obj.name}» создан(а).')
+
+
+@require_POST
+@backoffice_required
+def content_blog_category_save(request):
+    _taxonomy_save(BlogCategory, 'Категория', request, request.user)
+    return redirect('backoffice:content_blog_taxonomy')
+
+
+@require_POST
+@backoffice_required
+def content_blog_tag_save(request):
+    _taxonomy_save(BlogTag, 'Тег', request, request.user)
+    return redirect('backoffice:content_blog_taxonomy')
+
+
+@require_POST
+@backoffice_required
+def content_blog_category_delete(request, pk):
+    cat = get_object_or_404(BlogCategory.objects.all(), pk=pk)
+    if cat.posts.exists():
+        messages.error(
+            request,
+            f'Нельзя удалить «{cat.name}» — в категории {cat.posts.count()} постов. '
+            'Перенесите их в другую категорию сначала.',
+        )
+    else:
+        name = cat.name
+        cat.delete()
+        messages.success(request, f'Категория «{name}» удалена.')
+    return redirect('backoffice:content_blog_taxonomy')
+
+
+@require_POST
+@backoffice_required
+def content_blog_tag_delete(request, pk):
+    tag = get_object_or_404(BlogTag.objects.all(), pk=pk)
+    name = tag.name
+    tag.delete()  # M2M очистится автоматически
+    messages.success(request, f'Тег «{name}» удалён.')
+    return redirect('backoffice:content_blog_taxonomy')

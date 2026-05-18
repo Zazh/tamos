@@ -36,6 +36,7 @@
 @import "./pages/backoffice-shell.css";
 @import "./pages/backoffice-leads.css";
 @import "./pages/backoffice-content.css";
+@import "./pages/backoffice-blog.css";
 
 /* ========== Global ========== */
 [x-cloak] {

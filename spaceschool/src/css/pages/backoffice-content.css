@@ -858,6 +858,14 @@
     padding: .5rem;
   }
 
+  /* Blog inline-галерея: alt + caption на текущем языке. */
+  .bo-gallery-card-fields {
+    padding: .5rem;
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+  }
+
   .bo-input-sm {
     padding: .375rem .5rem;
     font-size: .8125rem;

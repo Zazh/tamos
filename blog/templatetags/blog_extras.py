@@ -30,6 +30,10 @@ def render_galleries(content, post):
 
     def replace(match):
         slug = match.group(1)
+        # 'main' рендерится отдельно ПОСЛЕ content в detail.html — если в текст
+        # случайно вставили [[gallery slug=main]], схлопываем чтобы не дублировать.
+        if slug == 'main':
+            return ''
         gallery = galleries.get(slug)
         if gallery is None:
             return ''

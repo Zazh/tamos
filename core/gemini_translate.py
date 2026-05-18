@@ -243,6 +243,111 @@ SEO_OUTPUT_FIELDS = ('seo_title', 'seo_description', 'og_title', 'og_description
 SEO_OUTPUT_LANGS = ('ru', 'kk', 'en')
 
 
+_TAGS_PROMPT_TEMPLATE = """Ты — SEO-стратег и редактор блога международной школы Space School.
+
+Контекст бренда:
+{school_context}
+
+Задача: предложи 4–7 SEO-friendly и UX-friendly тегов для статьи блога.
+
+Правила:
+1. Каждый тег — 1–3 слова на РУССКОМ. Без хэштега, без знаков препинания, без эмодзи.
+2. Должны быть осмысленные «общие» темы (то, что родители ищут): «Cambridge», «Олимпиады», «Робототехника», «Стажировка MIT», «STEM», «Подготовка к школе», «Жизнь школы», и т.п. НЕ выдавай имена людей, конкретные даты, числа, города как теги.
+3. ПЕРЕИСПОЛЬЗУЙ существующие теги если они подходят. Подходящий = семантически совпадает (даже если слова чуть другие — выбирай тег из списка).
+4. Slug — латинский kebab-case (mit-internship, cambridge-exams). Для существующих тегов — бери slug из списка, ничего не меняй.
+5. Возвращай порядок «от самого важного к менее важному» — первые 2–3 тега должны быть наиболее релевантны теме.
+
+Уже существующие теги в этом регионе (формат "slug — Название"):
+{existing}
+
+Контент статьи:
+title: {title}
+lead: {lead}
+content: {content}
+
+Верни строго JSON-массив объектов, без обёрток:
+[{{"slug": "mit-internship", "name": "Стажировка MIT"}}, ...]
+
+Где slug — латиница kebab-case, name — Русское Название (как читается в UI)."""
+
+
+TAGS_MIN_COUNT = 3
+TAGS_MAX_COUNT = 8
+
+
+def suggest_tags(
+    *,
+    title: str,
+    lead: str,
+    content: str,
+    existing_tags: list[dict] | None = None,
+    timeout: float = 30.0,
+) -> list[dict]:
+    """Предложить теги для статьи блога через Gemini.
+
+    Args:
+        title, lead, content: текст статьи на RU. content уже без HTML
+            (вызывающая сторона должна strip_tags).
+        existing_tags: [{'slug': ..., 'name': ...}] — уже существующие
+            теги региона. Модель будет переиспользовать подходящие.
+
+    Returns:
+        Список dict'ов `{'slug': ..., 'name': ...}` длиной 3–8.
+
+    Raises:
+        TranslationConfigError / TranslationError — см. _call_gemini.
+    """
+    title = (title or '').strip()
+    lead = (lead or '').strip()
+    content = (content or '').strip()
+    if not title and not lead and not content:
+        return []
+
+    existing = existing_tags or []
+    if existing:
+        existing_lines = '\n'.join(
+            f"- {t.get('slug', '')} — {t.get('name', '')}"
+            for t in existing if t.get('slug') and t.get('name')
+        )
+    else:
+        existing_lines = '(нет — все теги будут новыми)'
+
+    prompt = _TAGS_PROMPT_TEMPLATE.format(
+        school_context=SCHOOL_CONTEXT,
+        existing=existing_lines,
+        title=title[:300],
+        lead=lead[:600],
+        content=content[:6000],
+    )
+    text = _call_gemini(prompt, timeout=timeout)
+
+    try:
+        parsed = json.loads(text)
+    except ValueError as e:
+        raise TranslationError(f'Модель вернула не-JSON: {text[:200]}') from e
+
+    if not isinstance(parsed, list):
+        raise TranslationError(f'Модель вернула не-массив: {text[:200]}')
+
+    cleaned: list[dict] = []
+    seen_slugs: set[str] = set()
+    for item in parsed[:TAGS_MAX_COUNT]:
+        if not isinstance(item, dict):
+            continue
+        slug = str(item.get('slug', '')).strip().lower()
+        name = str(item.get('name', '')).strip()
+        if not slug or not name or slug in seen_slugs:
+            continue
+        # Жёсткая нормализация slug — латиница/цифры/дефис, до 64 chars.
+        safe_slug = ''.join(c for c in slug if c.isalnum() or c == '-')[:64].strip('-')
+        if not safe_slug:
+            continue
+        seen_slugs.add(safe_slug)
+        cleaned.append({'slug': safe_slug, 'name': name[:80]})
+
+    return cleaned
+
+
 def generate_seo(content: dict[str, str], *, timeout: float = 45.0) -> dict[str, dict[str, str]]:
     """Сгенерировать SEO/OG поля на основе контента страницы.
 

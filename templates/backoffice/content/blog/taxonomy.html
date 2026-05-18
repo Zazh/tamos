@@ -1,0 +1,97 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n backoffice_tags %}
+
+{% block content %}
+  <a href="{% url 'backoffice:content_blog_list' %}" class="bo-back">← {% trans "К списку постов" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head">
+    <h1 class="bo-page-title">{% trans "Категории и теги блога" %}</h1>
+    <p class="bo-page-subtitle">{% trans "Категории — chip-фильтр на ленте, у каждого поста одна. Теги — облако, у поста может быть несколько. Общие для всех регионов." %}</p>
+  </div>
+
+  <div class="bo-tax-grid">
+    {# ---- Категории ---- #}
+    <section class="bo-panel bo-tax-col">
+      <header class="bo-panel-head">
+        <h2 class="bo-panel-title">{% trans "Категории" %} <span class="bo-cell-muted">({{ categories|length }})</span></h2>
+      </header>
+
+      <ul class="bo-tax-list">
+        {% for c in categories %}
+          <li class="bo-tax-row">
+            <form method="post" action="{% url 'backoffice:content_blog_category_save' %}" class="bo-tax-form">
+              {% csrf_token %}
+              <input type="hidden" name="pk" value="{{ c.pk }}">
+              <input type="text" name="name_ru" value="{{ c.name_ru|default:c.name }}" class="bo-input" placeholder="{% trans 'Название (RU)' %}" required>
+              <input type="text" name="name_kk" value="{{ c.name_kk|default:'' }}" class="bo-input" placeholder="KK">
+              <input type="text" name="name_en" value="{{ c.name_en|default:'' }}" class="bo-input" placeholder="EN">
+              <span class="bo-cell-muted bo-cell-tiny">{{ c.post_count }} {% trans "пост." %}</span>
+              <button type="submit" class="bo-action-btn bo-action-secondary bo-action-tiny">{% trans "Сохранить" %}</button>
+            </form>
+            <form method="post" action="{% url 'backoffice:content_blog_category_delete' pk=c.pk %}" class="bo-tax-form-delete"
+                  onsubmit="return confirm('{% blocktrans with name=c.name %}Удалить категорию «{{ name }}»?{% endblocktrans %}');">
+              {% csrf_token %}
+              <button type="submit" class="bo-action-btn bo-action-rejected bo-action-tiny" title="{% trans 'Удалить' %}"
+                      {% if c.post_count > 0 %}disabled{% endif %}>
+                {# tabler: trash #}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+              </button>
+            </form>
+          </li>
+        {% empty %}
+          <li class="bo-cell-muted">{% trans "Пока нет категорий" %}</li>
+        {% endfor %}
+      </ul>
+
+      <form method="post" action="{% url 'backoffice:content_blog_category_save' %}" class="bo-tax-create">
+        {% csrf_token %}
+        <input type="text" name="name_ru" placeholder="{% trans 'Новая категория (RU)' %}" class="bo-input" required>
+        <button type="submit" class="bo-action-btn bo-action-primary">+ {% trans "Создать" %}</button>
+      </form>
+    </section>
+
+    {# ---- Теги ---- #}
+    <section class="bo-panel bo-tax-col">
+      <header class="bo-panel-head">
+        <h2 class="bo-panel-title">{% trans "Теги" %} <span class="bo-cell-muted">({{ tags|length }})</span></h2>
+      </header>
+
+      <ul class="bo-tax-list">
+        {% for t in tags %}
+          <li class="bo-tax-row">
+            <form method="post" action="{% url 'backoffice:content_blog_tag_save' %}" class="bo-tax-form">
+              {% csrf_token %}
+              <input type="hidden" name="pk" value="{{ t.pk }}">
+              <input type="text" name="name_ru" value="{{ t.name_ru|default:t.name }}" class="bo-input" placeholder="{% trans 'Название (RU)' %}" required>
+              <input type="text" name="name_kk" value="{{ t.name_kk|default:'' }}" class="bo-input" placeholder="KK">
+              <input type="text" name="name_en" value="{{ t.name_en|default:'' }}" class="bo-input" placeholder="EN">
+              <span class="bo-cell-muted bo-cell-tiny">{{ t.post_count }} {% trans "пост." %}</span>
+              <button type="submit" class="bo-action-btn bo-action-secondary bo-action-tiny">{% trans "Сохранить" %}</button>
+            </form>
+            <form method="post" action="{% url 'backoffice:content_blog_tag_delete' pk=t.pk %}" class="bo-tax-form-delete"
+                  onsubmit="return confirm('{% blocktrans with name=t.name %}Удалить тег «{{ name }}»? Он отвяжется ото всех статей.{% endblocktrans %}');">
+              {% csrf_token %}
+              <button type="submit" class="bo-action-btn bo-action-rejected bo-action-tiny" title="{% trans 'Удалить' %}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+              </button>
+            </form>
+          </li>
+        {% empty %}
+          <li class="bo-cell-muted">{% trans "Пока нет тегов" %}</li>
+        {% endfor %}
+      </ul>
+
+      <form method="post" action="{% url 'backoffice:content_blog_tag_save' %}" class="bo-tax-create">
+        {% csrf_token %}
+        <input type="text" name="name_ru" placeholder="{% trans 'Новый тег (RU)' %}" class="bo-input" required>
+        <button type="submit" class="bo-action-btn bo-action-primary">+ {% trans "Создать" %}</button>
+      </form>
+    </section>
+  </div>
+
+  <p class="bo-help">
+    {% trans "Slug, порядок и переводы (KK/EN) генерируются автоматически из RU-названия. Slug у популярных категорий лучше не менять — сломаются URL." %}
+  </p>
+{% endblock %}
