@@ -1,0 +1,201 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n backoffice_tags %}
+
+{% block content %}
+  <a href="{% url 'backoffice:content_activities_list' %}" class="bo-back">← {% trans "К списку регионов" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-content-stack" x-data="{ lang: 'ru' }">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{% blocktrans with region=region.name %}Активности — {{ region }}{% endblocktrans %}</h1>
+        <p class="bo-page-subtitle">{% blocktrans with a=activity_count %}{{ a }} кружков. Клик по карточке — разворачивает форму, сохранение на каждом аккордеоне отдельной кнопкой.{% endblocktrans %}</p>
+      </div>
+      <div class="bo-detail-head-actions">
+        <a href="/ru/{{ region.slug }}/activities/" target="_blank" rel="noopener" class="bo-action-btn bo-action-preview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          <span>{% trans "Просмотреть на сайте" %}</span>
+        </a>
+      </div>
+    </header>
+
+    {# Sticky language tab-bar — общий на всю страницу, синхронно меняет язык во всех аккордеонах. #}
+    <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык контента' %}">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+        {% trans "Русский" %}<span class="bo-tab-meta">{% trans "основной" %}</span>
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
+        Қазақша
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
+        English
+      </button>
+    </div>
+
+    {% for bucket in buckets %}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">
+            {{ bucket.section.title }}
+            <span class="bo-panel-title-count">{{ bucket.activities|length }}</span>
+          </h2>
+          <form method="post" action="{% url 'backoffice:content_activities_activity_add' region_pk=region.pk %}" class="bo-inline-form">
+            {% csrf_token %}
+            <input type="hidden" name="section" value="{{ bucket.section.pk }}">
+            <button type="submit" class="bo-collapse-add-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>{% trans "Добавить кружок" %}</span>
+            </button>
+          </form>
+        </header>
+
+        {% if bucket.activities %}
+          <ul class="bo-activity-grid"
+              x-data="boActivitySort"
+              data-section-pk="{{ bucket.section.pk }}"
+              data-reorder-url="{% url 'backoffice:content_activities_reorder' region_pk=region.pk %}">
+            {% for activity in bucket.activities %}
+              {% with form=activity_forms|get_item:activity.pk %}
+              <li class="bo-activity-accordion{% if not activity.is_published %} bo-activity-accordion-hidden{% endif %}"
+                  id="activity-{{ activity.pk }}"
+                  data-pk="{{ activity.pk }}"
+                  x-data="{ open: window.location.hash === '#activity-{{ activity.pk }}' }"
+                  x-init="if (open) $nextTick(() => $el.scrollIntoView({ behavior: 'smooth', block: 'center' }))">
+                <header class="bo-activity-accordion-head">
+                  <button type="button" class="bo-drag-handle" aria-label="{% trans 'Перетащить' %}" title="{% trans 'Перетащить' %}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>
+                  </button>
+
+                  <button type="button" class="bo-activity-accordion-summary" @click="open = !open" :aria-expanded="open">
+                    <span class="bo-activity-accordion-info">
+                      <strong class="bo-activity-accordion-name">{{ activity.name|truncatechars:60 }}</strong>
+                      <small class="bo-activity-accordion-meta">
+                        {% if activity.class_range_display %}{{ activity.class_range_display }} · {% endif %}{{ activity.groups.count }} {% trans "групп" %}{% if activity.teacher_name %} · {{ activity.teacher_name }}{% endif %}
+                      </small>
+                    </span>
+                    <span class="bo-activity-accordion-flags">
+                      {% if activity.is_featured %}<span class="bo-badge bo-badge-featured" title="{% trans 'Показывается на лендинге Программы' %}">★</span>{% endif %}
+                      {% if not activity.is_published %}<span class="bo-badge bo-badge-hidden" title="{% trans 'Скрыт с сайта' %}">👁</span>{% endif %}
+                    </span>
+                    <svg class="bo-collapse-card-chevron" :class="open && 'bo-collapse-card-chevron-open'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                  </button>
+                </header>
+
+                <div class="bo-activity-accordion-body" x-show="open" x-collapse>
+                  <form id="activity-{{ activity.pk }}-form" method="post" action="{% url 'backoffice:content_activities_save' pk=activity.pk %}" class="bo-form">
+                    {% csrf_token %}
+                    {{ form.order }}
+
+                    {% if form.non_field_errors %}
+                      <div class="bo-messages">
+                        {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+                      </div>
+                    {% endif %}
+
+                    {# ===== Контролы: секция / флаги / автоперевод ===== #}
+                    <div class="bo-row-3">
+                      <div class="bo-field">
+                        <label class="bo-label" for="{{ form.section.id_for_label }}">{% trans "Секция" %}</label>
+                        {{ form.section }}
+                        <p class="bo-help">{% trans "При смене кружок переместится в выбранную секцию каталога после сохранения." %}</p>
+                      </div>
+                      <div class="bo-field">
+                        <label class="bo-label">{% trans "Флаги" %}</label>
+                        <label class="bo-label-checkbox">{{ form.is_published }} <span>{% trans "Опубликован" %}</span></label>
+                        <label class="bo-label-checkbox">{{ form.is_featured }} <span>{% trans "Избранный (на Программа)" %}</span></label>
+                      </div>
+                      <div class="bo-field">
+                        <label class="bo-label">{% trans "Автоперевод" %}</label>
+                        <div x-data="boAutoTranslate"
+                             data-url="{% url 'backoffice:content_activities_translate' pk=activity.pk %}"
+                             data-form-id="activity-{{ activity.pk }}-form"
+                             data-bases-json='{{ translatable_bases_json|safe }}'>
+                          <button type="button"
+                                  class="bo-action-btn bo-action-preview"
+                                  :class="loading && 'bo-btn-disabled'"
+                                  :disabled="loading"
+                                  @click="run()"
+                                  :title="error || status || '{% trans "Перевести пустые KK/EN из RU" %}'">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                              <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+                              <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+                            </svg>
+                            <span x-show="!loading">{% trans "RU → KK/EN" %}</span>
+                            <span x-show="loading" x-cloak>{% trans "Переводим…" %}</span>
+                          </button>
+                          <small class="bo-tab-action-status" x-show="status && !error" x-cloak x-text="status"></small>
+                          <small class="bo-tab-action-error" x-show="error" x-cloak x-text="error"></small>
+                        </div>
+                      </div>
+                    </div>
+
+                    {# ===== Контент: название / описание / тренер / локация ===== #}
+                    {% include 'backoffice/content/_field_translatable.html' with form=form base='name' label='Название' %}
+                    {% field_help 'activity.name' %}
+
+                    {% include 'backoffice/content/_field_translatable.html' with form=form base='description' label='Описание кружка' %}
+                    {% field_help 'activity.description' %}
+
+                    {% include 'backoffice/content/_field_translatable.html' with form=form base='location' label='Локация' %}
+
+                    <p class="bo-help">{% trans "Тренер задаётся отдельно для каждой группы — открой страницу группы ниже." %}</p>
+                  </form>
+                  {# /основная форма закрыта — вложенные <form> для группы/удаления НЕДОПУСТИМЫ в HTML. #}
+
+                  {# Группы — ссылки на отдельные edit-страницы. Каждая кнопка action — своя отдельная form вне основной. #}
+                  <div class="bo-subpanel">
+                    <h3 class="bo-subpanel-title">
+                      {% trans "Группы" %}
+                      <span class="bo-panel-title-count">{{ activity.groups.count }}</span>
+                    </h3>
+                    <p class="bo-help">{% trans "Каждая группа — свой набор классов, цена, расписание и лимит. Расписание (дни и время) редактируется на странице группы." %}</p>
+
+                    <ul class="bo-group-list">
+                      {% for g in activity.groups.all %}
+                        <li class="bo-group-row">
+                          <a href="{% url 'backoffice:content_activities_group_edit' gpk=g.pk %}" class="bo-group-row-link">
+                            <span class="bo-group-row-label">{{ g.label_display|default:"Группа"|truncatechars:40 }}</span>
+                            <span class="bo-group-row-meta">
+                              {% if g.teacher_name %}{{ g.teacher_name }} · {% endif %}{% if g.price %}{{ g.price_display }}/{% trans "мес" %} · {% endif %}{{ g.get_students_status_display }}{% if g.schedule_slots.count %} · {{ g.schedule_slots.count }} {% trans "слотов" %}{% else %} · {% trans "без расписания" %}{% endif %}
+                            </span>
+                            <span class="bo-group-row-cta">{% trans "Редактировать →" %}</span>
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+
+                    <form method="post" action="{% url 'backoffice:content_activities_group_add' pk=activity.pk %}" class="bo-inline-form">
+                      {% csrf_token %}
+                      <button type="submit" class="bo-collapse-add-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <span>{% trans "Добавить группу" %}</span>
+                      </button>
+                    </form>
+                  </div>
+
+                  <div class="bo-activity-accordion-foot">
+                    <form method="post" action="{% url 'backoffice:content_activities_activity_delete' pk=activity.pk %}" class="bo-inline-form" onsubmit="return confirm('{% trans "Удалить кружок? Группы и слоты удалятся вместе с ним." %}')">
+                      {% csrf_token %}
+                      <button type="submit" class="bo-action-btn bo-action-rejected">{% trans "Удалить" %}</button>
+                    </form>
+                    <button type="submit" form="activity-{{ activity.pk }}-form" class="btn btn-primary">{% trans "Сохранить" %}</button>
+                  </div>
+                </div>
+              </li>
+              {% endwith %}
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="bo-empty">{% trans "Нет кружков в этой секции. Нажми «Добавить кружок» чтобы создать." %}</p>
+        {% endif %}
+      </section>
+    {% endfor %}
+  </div>
+{% endblock %}

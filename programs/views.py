@@ -37,7 +37,7 @@ class ProgramView(TemplateView):
         ctx['featured_activities'] = list(
             Activity.objects
             .filter(region=self.request.region, is_featured=True, is_published=True)
-            .select_related('section', 'teacher')
+            .select_related('section')
             .prefetch_related(Prefetch('groups', queryset=groups_qs))
             .order_by('section__order', 'order', 'name')
         )

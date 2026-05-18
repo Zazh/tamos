@@ -36,4 +36,17 @@ urlpatterns = [
     path('content/admission/variant/<int:vpk>/', views.content_admission_variant_edit, name='content_admission_variant_edit'),
     path('content/admission/variant/<int:vpk>/translate/', views.content_admission_variant_translate, name='content_admission_variant_translate'),
     path('content/admission/variant/<int:vpk>/seo/', views.content_admission_variant_seo, name='content_admission_variant_seo'),
+
+    # Activities (Activity + ActivityGroup + ScheduleSlot)
+    path('content/activities/', views.content_activities_list, name='content_activities_list'),
+    path('content/activities/region/<int:region_pk>/', views.content_activities_region, name='content_activities_region'),
+    path('content/activities/region/<int:region_pk>/add/', views.content_activities_activity_add, name='content_activities_activity_add'),
+    path('content/activities/region/<int:region_pk>/reorder/', views.content_activities_reorder, name='content_activities_reorder'),
+    path('content/activities/<int:pk>/save/', views.content_activities_save, name='content_activities_save'),
+    path('content/activities/<int:pk>/delete/', views.content_activities_activity_delete, name='content_activities_activity_delete'),
+    path('content/activities/<int:pk>/translate/', views.content_activities_translate, name='content_activities_translate'),
+    path('content/activities/<int:pk>/group/add/', views.content_activities_group_add, name='content_activities_group_add'),
+    path('content/activities/group/<int:gpk>/', views.content_activities_group_edit, name='content_activities_group_edit'),
+    path('content/activities/group/<int:gpk>/delete/', views.content_activities_group_delete, name='content_activities_group_delete'),
+    path('content/activities/group/<int:gpk>/translate/', views.content_activities_group_translate, name='content_activities_group_translate'),
 ]

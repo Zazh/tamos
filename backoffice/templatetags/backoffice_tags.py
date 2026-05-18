@@ -139,6 +139,21 @@ def getbyindex(seq, i):
         return None
 
 
+@register.filter(name='get_item')
+def get_item(d, key):
+    """`{{ mapping|get_item:dynamic_key }}` — доступ к dict по динамическому ключу.
+
+    Стандартный `{{ d.42 }}` работает только для строковых ключей,
+    `{{ d.activity.pk }}` Django парсит как путь атрибутов, не как ключ.
+    """
+    if d is None:
+        return None
+    try:
+        return d.get(key) if hasattr(d, 'get') else d[key]
+    except (KeyError, TypeError):
+        return None
+
+
 @register.filter(name='getattr')
 def getattr_filter(obj, name):
     """`{{ obj|getattr:'field_name' }}` — атрибут по строке. Используется в

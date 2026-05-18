@@ -1,0 +1,196 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n l10n backoffice_tags %}
+
+{% block content %}
+  <a href="{% url 'backoffice:content_activities_region' region_pk=region.pk %}#activity-{{ activity.pk }}" class="bo-back">← {% blocktrans with name=activity.name %}К кружку «{{ name }}»{% endblocktrans %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-content-stack" x-data="{ lang: 'ru' }">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{% blocktrans with name=group.label_display|default:"Группа" %}{{ name }}{% endblocktrans %}</h1>
+        <p class="bo-page-subtitle">{{ activity.name }} · {{ activity.section.title }} · {{ region.name }}</p>
+      </div>
+    </header>
+
+    <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык контента' %}">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+        {% trans "Русский" %}<span class="bo-tab-meta">{% trans "основной" %}</span>
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
+        Қазақша
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
+        English
+      </button>
+
+      <div class="bo-tab-action-wrap"
+           x-data="boAutoTranslate"
+           data-url="{% url 'backoffice:content_activities_group_translate' gpk=group.pk %}"
+           data-form-id="group-edit-form"
+           data-bases-json='["label","teacher_name","teacher_bio"]'>
+        <button type="button"
+                class="bo-tab bo-tab-action"
+                :class="loading && 'bo-btn-disabled'"
+                :disabled="loading"
+                @click="run()"
+                :title="error || status || '{% trans "Перевести пустые KK/EN из RU через Gemini" %}'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+            <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+          </svg>
+          <span x-show="!loading">{% trans "Авто-перевод" %}</span>
+          <span x-show="loading" x-cloak>{% trans "Переводим…" %}</span>
+        </button>
+        <small class="bo-tab-action-status" x-show="status && !error" x-cloak x-text="status"></small>
+        <small class="bo-tab-action-error" x-show="error" x-cloak x-text="error"></small>
+      </div>
+    </div>
+
+    <form id="group-edit-form" method="post" action="" class="bo-form">
+      {% csrf_token %}
+      {{ form.order }}
+
+      {% if form.non_field_errors %}
+        <div class="bo-messages">
+          {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endif %}
+
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Параметры группы" %}</h2>
+        </header>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='label' label='Подпись группы (опц)' %}
+        <p class="bo-help">{% trans "Если пусто — на сайте будет авто-подпись типа «1–4 класс». Заполни если нужно «Младшие», «Продвинутые» и т.п." %}</p>
+
+        <div class="bo-field">
+          <label class="bo-label">{% trans "Классы" %}</label>
+          <div class="bo-classes-grid" role="group">
+            {% for chk in form.classes %}
+              <label class="bo-classes-check">
+                {{ chk.tag }}
+                <span>{{ chk.choice_label }}</span>
+              </label>
+            {% endfor %}
+          </div>
+          {% for err in form.classes.errors %}<p class="bo-help" style="color:#b91c1c">{{ err }}</p>{% endfor %}
+          <p class="bo-help">{% trans "Выбери классы, в которых занимаются. Если ничего не выбрано — на сайте «1–11 класс»." %}</p>
+        </div>
+
+        <div class="bo-row-3">
+          <div class="bo-field">
+            <label class="bo-label" for="{{ form.price.id_for_label }}">{% trans "Стоимость, ₸/мес" %}</label>
+            {{ form.price }}
+            {% for err in form.price.errors %}<p class="bo-help" style="color:#b91c1c">{{ err }}</p>{% endfor %}
+            <p class="bo-help">{% trans "Целое число. Пусто — цена не указана." %}</p>
+          </div>
+          <div class="bo-field">
+            <label class="bo-label" for="{{ form.students_status.id_for_label }}">{% trans "Статус набора" %}</label>
+            {{ form.students_status }}
+          </div>
+          <div class="bo-field">
+            <label class="bo-label">{% trans "Лимит учеников" %}</label>
+            <div style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: .5rem;">
+              {{ form.min_students }}
+              <span style="opacity:.5">—</span>
+              {{ form.max_students }}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Тренер" %}</h2>
+        </header>
+        <p class="bo-help">{% trans "Имя/телефон/био тренера этой группы. У разных групп одного кружка могут быть разные тренера." %}</p>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='teacher_name' label='Имя' %}
+          <div class="bo-field">
+            <label class="bo-label" for="{{ form.teacher_phone.id_for_label }}">{% trans "Телефон" %}</label>
+            {{ form.teacher_phone }}
+            {% for err in form.teacher_phone.errors %}<p class="bo-help" style="color:#b91c1c">{{ err }}</p>{% endfor %}
+            <p class="bo-help">{% trans "+77051234567. На сайте сейчас не выводится — хранится для будущего." %}</p>
+          </div>
+        </div>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='teacher_bio' label='Био' %}
+      </section>
+
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Расписание" %}</h2>
+        </header>
+        <p class="bo-help">{% trans "Каждый слот — день недели + время начала/окончания. Используется фильтром «День недели» на публичной странице." %}</p>
+
+        {% if slot_fs.non_form_errors %}
+          <div class="bo-messages">
+            {% for err in slot_fs.non_form_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+          </div>
+        {% endif %}
+
+        <div x-data="boSlotFormset" data-prefix="slots">
+          {{ slot_fs.management_form }}
+          <ul class="bo-slot-list" x-ref="list">
+            {% for f in slot_fs %}
+              <li class="bo-slot-row">
+                {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+                {{ f.order.as_hidden }}
+                {{ f.day }}
+                {{ f.start_time }}
+                <span class="bo-slot-dash">—</span>
+                {{ f.end_time }}
+                {% if f.instance.pk %}
+                  <label class="bo-label-checkbox bo-slot-delete">
+                    {{ f.DELETE }}
+                    <span>{% trans "Удалить" %}</span>
+                  </label>
+                {% else %}
+                  <button type="button" class="bo-link-danger" @click="$root.__remove($el.closest('li'))" aria-label="{% trans 'Убрать слот' %}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                  </button>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+
+          <template x-ref="template">
+            <li class="bo-slot-row">
+              {% with f=slot_fs.empty_form %}
+                {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+                {{ f.order.as_hidden }}
+                {{ f.day }}
+                {{ f.start_time }}
+                <span class="bo-slot-dash">—</span>
+                {{ f.end_time }}
+                <button type="button" class="bo-link-danger" @click="$root.__remove($el.closest('li'))" aria-label="{% trans 'Убрать слот' %}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+              {% endwith %}
+            </li>
+          </template>
+
+          <button type="button" class="bo-collapse-add-btn" @click="add()" style="margin-top: .75rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>{% trans "Добавить слот" %}</span>
+          </button>
+        </div>
+      </section>
+    </form>
+
+    <div class="bo-form-foot bo-form-foot-sticky">
+      <div class="bo-form-foot-actions">
+        <form method="post" action="{% url 'backoffice:content_activities_group_delete' gpk=group.pk %}" class="bo-inline-form" onsubmit="return confirm('{% trans "Удалить группу со всеми слотами расписания?" %}')">
+          {% csrf_token %}
+          <button type="submit" class="bo-action-btn bo-action-rejected">{% trans "Удалить" %}</button>
+        </form>
+        <a href="{% url 'backoffice:content_activities_region' region_pk=region.pk %}#activity-{{ activity.pk }}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+        <button type="submit" form="group-edit-form" class="btn btn-primary">{% trans "Сохранить" %}</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

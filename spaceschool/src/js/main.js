@@ -14,6 +14,7 @@ import { registerBackofficeGallery } from "./backoffice-gallery.js";
 import { registerBackofficeInlineSort } from "./backoffice-inline-sort.js";
 import { registerBackofficeInlineCollapse } from "./backoffice-inline-collapse.js";
 import { registerBackofficeTranslate } from "./backoffice-translate.js";
+import { registerBackofficeActivities } from "./backoffice-activities.js";
 import { registerHeroVideo } from "./hero-video.js";
 
 Alpine.plugin(collapse);
@@ -26,6 +27,7 @@ registerBackofficeGallery(Alpine);
 registerBackofficeInlineSort(Alpine);
 registerBackofficeInlineCollapse(Alpine);
 registerBackofficeTranslate(Alpine);
+registerBackofficeActivities(Alpine);
 registerHeroVideo(Alpine);
 Alpine.data("boMapPreview", boMapPreview);
 

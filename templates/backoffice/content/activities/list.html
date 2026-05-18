@@ -1,0 +1,62 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head">
+    <h1 class="bo-page-title">{% trans "Активности" %}</h1>
+    <p class="bo-page-subtitle">{% trans "Внеклассные кружки — свой набор на каждый регион. Выбери регион." %}</p>
+  </div>
+
+  {% if rows %}
+    <div class="bo-table-wrap">
+      <table class="bo-table">
+        <thead>
+          <tr>
+            <th class="bo-th">{% trans "Регион" %}</th>
+            <th class="bo-th">{% trans "Кружков" %}</th>
+            <th class="bo-th bo-th-right"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+            <tr class="bo-tr" onclick="location.href='{% url 'backoffice:content_activities_region' region_pk=r.pk %}'">
+              <td class="bo-td">
+                <div class="bo-cell-strong">{{ r.name }}</div>
+                <div class="bo-cell-muted">{{ r.slug }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-muted">{{ r.activity_count }}</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <a href="{% url 'backoffice:content_activities_region' region_pk=r.pk %}" class="bo-row-edit">{% trans "Открыть →" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="bo-cards">
+      {% for r in rows %}
+        <li class="bo-card" onclick="location.href='{% url 'backoffice:content_activities_region' region_pk=r.pk %}'">
+          <div class="bo-card-head">
+            <span class="bo-cell-strong">{{ r.name }}</span>
+          </div>
+          <div class="bo-card-meta">
+            <span>{{ r.activity_count }} {% trans "кружков" %}</span>
+          </div>
+          <div class="bo-card-foot">
+            <span class="bo-cell-muted">{{ r.slug }}</span>
+            <span class="bo-row-edit">{% trans "Открыть →" %}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="bo-list-empty">
+      {% trans "Нет доступных регионов." %}
+    </div>
+  {% endif %}
+{% endblock %}

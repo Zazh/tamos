@@ -1,16 +1,11 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import Activity, ActivityGroup, ActivitySection, Teacher
+from .models import Activity, ActivityGroup, ActivitySection
 
 
 @register(ActivitySection)
 class ActivitySectionTranslationOptions(TranslationOptions):
     fields = ('title',)
-
-
-@register(Teacher)
-class TeacherTranslationOptions(TranslationOptions):
-    fields = ('name', 'bio')
 
 
 @register(Activity)
@@ -20,4 +15,4 @@ class ActivityTranslationOptions(TranslationOptions):
 
 @register(ActivityGroup)
 class ActivityGroupTranslationOptions(TranslationOptions):
-    fields = ('label',)
+    fields = ('label', 'teacher_name', 'teacher_bio')

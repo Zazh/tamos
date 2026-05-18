@@ -74,46 +74,14 @@ class ActivitySection(models.Model):
         return self.BADGE_CSS.get(self.slug, 'bg-gray-400/10 text-gray-500')
 
 
-class Teacher(models.Model):
-    """Тренер/преподаватель — справочник на регион."""
-
-    region = models.ForeignKey(
-        'regions.Region',
-        verbose_name='Регион',
-        on_delete=models.PROTECT,
-        related_name='teachers',
-    )
-    name = models.CharField('Имя', max_length=200)
-    phone = models.CharField(
-        'Телефон (E.164)',
-        max_length=20,
-        blank=True,
-        help_text='Нормализованный формат +77051234567 для tel:-ссылок.',
-    )
-    phone_display = models.CharField(
-        'Телефон (для показа)',
-        max_length=40,
-        blank=True,
-        help_text='Удобочитаемый: 8 (705) 123-45-67.',
-    )
-    bio = models.TextField('Био', blank=True)
-    photo = models.ImageField('Фото', upload_to='activities/teachers/', blank=True)
-    order = models.PositiveSmallIntegerField('Порядок', default=0)
-
-    class Meta:
-        verbose_name = 'Преподаватель'
-        verbose_name_plural = 'Преподаватели'
-        ordering = ['order', 'name']
-
-    def __str__(self):
-        return self.name or f'Teacher #{self.pk}'
-
-
 class Activity(models.Model):
     """Кружок (одна строчка-аккордеон).
 
     `class_range` подзаголовка в шапке аккордеона нет в полях — он считается
     автоматически (`class_range_display`) из объединения classes всех групп.
+
+    Тренер хранится на УРОВНЕ ГРУППЫ (см. `ActivityGroup.teacher_*`) — в
+    разных группах одного кружка могут быть разные тренера.
     """
 
     region = models.ForeignKey(
@@ -128,16 +96,7 @@ class Activity(models.Model):
         on_delete=models.PROTECT,
         related_name='activities',
     )
-    teacher = models.ForeignKey(
-        Teacher,
-        verbose_name='Преподаватель',
-        on_delete=models.PROTECT,
-        related_name='activities',
-        null=True,
-        blank=True,
-        help_text='Опционально: если данные неполные, можно оставить пустым.',
-    )
-    name = models.CharField('Название', max_length=200)
+    name = models.CharField('Название', max_length=60)
     description = models.TextField('Описание', blank=True)
     location = models.CharField(
         'Локация',
@@ -217,6 +176,24 @@ class ActivityGroup(models.Model):
         help_text='Опциональное название (напр. «Младшие», «Продвинутые»). Если пусто — '
                   'подставляется авто-диапазон из `classes`.',
     )
+    teacher_name = models.CharField(
+        'Тренер — имя',
+        max_length=120,
+        blank=True,
+        help_text='Имя ведущего тренера этой группы. У разных групп одного кружка '
+                  'могут быть разные тренера.',
+    )
+    teacher_phone = models.CharField(
+        'Тренер — телефон (E.164)',
+        max_length=20,
+        blank=True,
+        help_text='Нормализованный +77051234567. В UI публичной страницы пока не показывается.',
+    )
+    teacher_bio = models.TextField(
+        'Тренер — био',
+        blank=True,
+        help_text='1–2 предложения про тренера. Опционально.',
+    )
     classes = ArrayField(
         models.PositiveSmallIntegerField(),
         verbose_name='Классы',
@@ -289,16 +266,22 @@ class ActivityGroup(models.Model):
 
     @property
     def students_text(self) -> str:
-        """Текст лимита учеников в шапке карточки."""
+        """Текст лимита учеников в шапке карточки.
+
+        Использует `gettext_lazy` через `_` — Django разрешит строку на текущем
+        активном языке (URL `/<lang>/...` устанавливает active language).
+        """
         if self.students_status == self.StudentsStatus.FULL and self.max_students:
-            return f'До {self.max_students} учеников'
+            return _('До %(n)d учеников') % {'n': self.max_students}
         if self.students_status == self.StudentsStatus.HAS_PLACES:
             if self.min_students and self.max_students:
-                return f'{self.min_students}–{self.max_students} учеников'
+                return _('%(lo)d–%(hi)d учеников') % {
+                    'lo': self.min_students, 'hi': self.max_students,
+                }
             if self.max_students:
-                return f'До {self.max_students} учеников'
+                return _('До %(n)d учеников') % {'n': self.max_students}
         if self.min_students:
-            return f'От {self.min_students} учеников'
+            return _('От %(n)d учеников') % {'n': self.min_students}
         return ''
 
     @property

@@ -1,9 +1,9 @@
 from django.contrib import admin
-from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInline, TranslationTabularInline
+from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInline
 
 from regions.admin import RegionScopedAdminMixin
 
-from .models import Activity, ActivityGroup, ActivitySection, ScheduleSlot, Teacher
+from .models import Activity, ActivityGroup, ActivitySection, ScheduleSlot
 
 
 @admin.register(ActivitySection)
@@ -32,15 +32,6 @@ class ActivitySectionAdmin(TabbedTranslationAdmin):
         return request.user.is_superuser
 
 
-@admin.register(Teacher)
-class TeacherAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
-    list_display = ('name', 'phone_display', 'region', 'order')
-    list_filter = ('region',)
-    search_fields = ('name', 'phone', 'phone_display')
-    ordering = ('order', 'name')
-    fields = ('region', 'name', 'phone_display', 'phone', 'bio', 'photo', 'order')
-
-
 class ScheduleSlotInline(admin.TabularInline):
     model = ScheduleSlot
     extra = 0
@@ -55,15 +46,18 @@ class ActivityGroupAdmin(TabbedTranslationAdmin):
     выбор FK activity. Без RegionScopedAdminMixin — нет прямого region FK.
     """
 
-    list_display = ('label', 'activity', 'students_status', 'price', 'order')
+    list_display = ('label', 'activity', 'teacher_name', 'students_status', 'price', 'order')
     list_filter = ('activity__region', 'students_status', 'activity__section')
-    search_fields = ('label', 'activity__name')
+    search_fields = ('label', 'activity__name', 'teacher_name')
     ordering = ('activity', 'order')
     inlines = [ScheduleSlotInline]
     fields = (
         'activity',
         'label',
         'classes',
+        'teacher_name',
+        'teacher_phone',
+        'teacher_bio',
         'price',
         'students_status',
         ('min_students', 'max_students'),
@@ -111,7 +105,7 @@ class ActivityGroupInline(TranslationStackedInline):
 
 @admin.register(Activity)
 class ActivityAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
-    list_display = ('name', 'section', 'region', 'teacher', 'is_featured', 'is_published', 'order')
+    list_display = ('name', 'section', 'region', 'is_featured', 'is_published', 'order')
     list_filter = ('region', 'section', 'is_featured', 'is_published')
     list_editable = ('is_featured', 'is_published', 'order')
     search_fields = ('name', 'description', 'location')
@@ -119,19 +113,8 @@ class ActivityAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
     inlines = [ActivityGroupInline]
     fields = (
         ('region', 'section'),
-        'teacher',
         'name',
         'description',
         'location',
         ('is_featured', 'is_published', 'order'),
     )
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        # Тренеры тоже регион-скопе: менеджер Астаны выбирает только астанинских.
-        if (
-            db_field.name == 'teacher'
-            and not request.user.is_superuser
-            and request.user.manager_region_id
-        ):
-            kwargs['queryset'] = Teacher.objects.filter(region_id=request.user.manager_region_id)
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)

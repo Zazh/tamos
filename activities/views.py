@@ -20,7 +20,7 @@ class ActivitiesListView(TemplateView):
         activities_qs = (
             Activity.objects
             .filter(region=region, is_published=True)
-            .select_related('teacher', 'section')
+            .select_related('section')
             .prefetch_related(Prefetch('groups', queryset=groups_qs))
             .order_by('order', 'name')
         )
