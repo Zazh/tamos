@@ -79,6 +79,7 @@ def build_nav(user=None):
                 {'id': 'home', 'label': 'Главная', 'icon': 'home', 'url': _own('content_home_list')},
                 {'id': 'contacts', 'label': 'Контакты', 'icon': 'phone', 'url': _own('content_contacts_list')},
                 {'id': 'programs', 'label': 'Программа', 'icon': 'cap', 'url': _own('content_program_list')},
+                {'id': 'team', 'label': 'Команда', 'icon': 'users', 'url': _own('content_team_list')},
                 {'id': 'admission', 'label': 'Поступление', 'icon': 'target', 'url': _own('content_admission_list')},
                 {'id': 'activities', 'label': 'Активности', 'icon': 'pulse', 'url': _own('content_activities_list')},
             ],

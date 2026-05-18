@@ -1,0 +1,38 @@
+{% load i18n %}
+<li class="bo-team-row" data-pk="{{ member.pk }}">
+  <button type="button" class="bo-drag-handle" aria-label="{% trans 'Перетащить' %}" title="{% trans 'Перетащить' %}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>
+  </button>
+
+  <div class="bo-team-row-photo">
+    {% if member.photo %}
+      <img src="{{ member.photo.url }}" alt="{{ member.name }}">
+    {% else %}
+      <span class="bo-team-row-photo-empty" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.5"/><path d="M6 20v-1a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v1"/></svg>
+      </span>
+    {% endif %}
+  </div>
+
+  <div class="bo-team-row-info">
+    <strong class="bo-team-row-name">{{ member.name|default:'Без имени' }}</strong>
+    <small class="bo-team-row-meta">
+      {{ member.role|default:'—' }}
+      {% if member.teaches_primary or member.teaches_middle or member.teaches_senior or member.is_admin %}
+        ·
+        {% if member.teaches_primary %}{% trans "Младшие" %}{% if member.teaches_middle or member.teaches_senior %}, {% endif %}{% endif %}
+        {% if member.teaches_middle %}{% trans "Средние" %}{% if member.teaches_senior %}, {% endif %}{% endif %}
+        {% if member.teaches_senior %}{% trans "Старшие" %}{% endif %}
+        {% if member.is_admin %}{% if member.teaches_primary or member.teaches_middle or member.teaches_senior %} · {% endif %}{% trans "Администрация" %}{% endif %}
+      {% endif %}
+    </small>
+  </div>
+
+  <div class="bo-team-row-flags">
+    {% if not member.is_published %}
+      <span class="bo-badge bo-badge-hidden" title="{% trans 'Скрыт с сайта' %}">👁</span>
+    {% endif %}
+  </div>
+
+  <a href="{% url 'backoffice:content_team_edit' pk=member.pk %}" class="bo-row-edit">{% trans "Открыть →" %}</a>
+</li>

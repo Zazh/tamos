@@ -7,7 +7,6 @@ from .models import (
     ProgramFaqItem,
     ProgramPage,
     ProgramStat,
-    ProgramTeamMember,
     ProgramVariantCard,
 )
 
@@ -66,11 +65,6 @@ class ProgramBenefitItemTranslationOptions(TranslationOptions):
 @register(ProgramVariantCard)
 class ProgramVariantCardTranslationOptions(TranslationOptions):
     fields = ('badge_text', 'title', 'tags', 'features', 'footer_label', 'footer_value')
-
-
-@register(ProgramTeamMember)
-class ProgramTeamMemberTranslationOptions(TranslationOptions):
-    fields = ('name', 'role', 'meta', 'quote')
 
 
 @register(ProgramCertificateFeature)

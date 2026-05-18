@@ -1,0 +1,27 @@
+{% load i18n region_tags %}
+<aside class="author-card mt-10">
+  <p class="author-card__label">{% trans 'Автор' %}</p>
+  <a href="{% region_url 'team:detail' slug=author.slug %}" class="author-card__link">
+    {% if author.photo %}
+      <img src="{{ author.photo_compressed.url }}"
+           alt="{{ author.name }}"
+           width="56" height="56" loading="lazy"
+           class="author-card__photo">
+    {% else %}
+      <span class="author-card__photo author-card__photo--empty" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </span>
+    {% endif %}
+    <span class="author-card__body">
+      <span class="author-card__name">{{ author.name }}</span>
+      {% if author.role or author.meta %}
+        <span class="author-card__meta">
+          {% if author.role %}{{ author.role }}{% endif %}{% if author.role and author.meta %} · {% endif %}{% if author.meta %}{{ author.meta }}{% endif %}
+        </span>
+      {% endif %}
+    </span>
+  </a>
+</aside>

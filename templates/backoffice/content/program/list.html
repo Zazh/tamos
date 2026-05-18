@@ -33,7 +33,7 @@
                 <div class="bo-cell-muted">{{ program.hero_subtitle|truncatechars:80|default:'—' }}</div>
               </td>
               <td class="bo-td">
-                <div class="bo-cell-muted">{{ program.audience_count }} кому · {{ program.variant_count }} программ · {{ program.team_count }} команда · {{ program.faq_count }} FAQ</div>
+                <div class="bo-cell-muted">{{ program.audience_count }} кому · {{ program.variant_count }} программ · {{ program.faq_count }} FAQ</div>
               </td>
               <td class="bo-td bo-td-right">
                 <div class="bo-cell-muted">{{ program.updated_at|date:"j E, H:i" }}</div>
@@ -58,7 +58,7 @@
             <span>{{ program.hero_badge_text|default:'—' }}</span>
           </div>
           <div class="bo-card-foot">
-            <span class="bo-cell-muted">{{ program.audience_count }} + {{ program.variant_count }} + {{ program.team_count }} + {{ program.faq_count }}</span>
+            <span class="bo-cell-muted">{{ program.audience_count }} + {{ program.variant_count }} + {{ program.faq_count }}</span>
             <span class="bo-row-edit">{% trans "Редактировать →" %}</span>
           </div>
         </li>

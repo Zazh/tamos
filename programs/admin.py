@@ -10,7 +10,6 @@ from .models import (
     ProgramFaqItem,
     ProgramPage,
     ProgramStat,
-    ProgramTeamMember,
     ProgramVariantCard,
 )
 
@@ -34,12 +33,6 @@ class ProgramVariantCardInline(TranslationStackedInline):
         'order', 'badge_text', 'badge_style', 'title',
         'tags', 'features', 'footer_label', 'footer_value',
     )
-
-
-class ProgramTeamMemberInline(TranslationStackedInline):
-    model = ProgramTeamMember
-    extra = 0
-    fields = ('order', 'photo', 'name', 'role', 'meta', 'quote')
 
 
 class ProgramCertificateFeatureInline(TranslationStackedInline):
@@ -68,7 +61,6 @@ class ProgramPageAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
         ProgramAudienceItemInline,
         ProgramBenefitItemInline,
         ProgramVariantCardInline,
-        ProgramTeamMemberInline,
         ProgramCertificateFeatureInline,
         ProgramStatInline,
         ProgramFaqItemInline,

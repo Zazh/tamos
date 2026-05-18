@@ -102,14 +102,26 @@
           {% include 'backoffice/content/_block_translate.html' with bases='["title","lead"]' translate_url=blog_translate_url form_id='blog-edit-form' %}
         </header>
 
-        <div class="bo-field">
-          <label class="bo-label" for="{{ form.category.id_for_label }}">{% trans "Категория" %}</label>
-          {{ form.category }}
-          {% for err in form.category.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
-          <p class="bo-help">
-            <a href="{% url 'backoffice:content_blog_taxonomy' %}" target="_blank">{% trans "Управлять категориями →" %}</a>
-          </p>
-          {% field_help 'blogpost.category' %}
+        <div class="bo-row-2">
+          <div class="bo-field">
+            <label class="bo-label" for="{{ form.category.id_for_label }}">{% trans "Категория" %}</label>
+            {{ form.category }}
+            {% for err in form.category.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+            <p class="bo-help">
+              <a href="{% url 'backoffice:content_blog_taxonomy' %}" target="_blank">{% trans "Управлять категориями →" %}</a>
+            </p>
+            {% field_help 'blogpost.category' %}
+          </div>
+
+          <div class="bo-field">
+            <label class="bo-label" for="{{ form.author.id_for_label }}">{% trans "Автор" %}</label>
+            {{ form.author }}
+            {% for err in form.author.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+            <p class="bo-help">
+              {% trans "Член команды того же региона. На сайте появится подпись с фото и ссылкой на профиль." %}
+              <a href="{% url 'backoffice:content_team_region' region_pk=post.region_id %}" target="_blank">{% trans "Открыть команду региона →" %}</a>
+            </p>
+          </div>
         </div>
 
         {% include 'backoffice/content/_field_translatable.html' with form=form base='title' label='Заголовок' %}

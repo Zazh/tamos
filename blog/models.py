@@ -68,6 +68,16 @@ class BlogPost(models.Model):
         blank=True,
         related_name='posts',
     )
+    author = models.ForeignKey(
+        'team.TeamMember',
+        verbose_name='Автор',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='blog_posts',
+        help_text='Автор статьи из раздела «Команда». Доступны члены команды '
+                  'того же региона. Если не указан — на сайте автор не выводится.',
+    )
 
     slug = models.SlugField(
         'Slug',

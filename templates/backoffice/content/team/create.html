@@ -1,0 +1,67 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n backoffice_tags %}
+
+{% block content %}
+  <a href="{% url 'backoffice:content_team_list' %}" class="bo-back">← {% trans "К списку" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-content-stack" x-data="{ lang: 'ru' }">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{% trans "Новый член команды" %}</h1>
+        <p class="bo-page-subtitle">{% trans "Заполни RU-имя и должность — остальные поля можно дозаполнить после сохранения." %}</p>
+      </div>
+    </header>
+
+    <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык контента' %}">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+        {% trans "Русский" %}<span class="bo-tab-meta">{% trans "основной" %}</span>
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
+        Қазақша
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
+        English
+      </button>
+    </div>
+
+    <form id="team-edit-form" method="post" action="" enctype="multipart/form-data" class="bo-form">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="bo-messages">
+          {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endif %}
+
+      {# slug auto на save (см. views._auto_slug_for_team) — рендерим только hidden #}
+      {{ form.slug }}
+
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Основное" %}</h2>
+        </header>
+
+        <div class="bo-field">
+          <label class="bo-label" for="{{ form.region.id_for_label }}">{% trans "Регион" %}</label>
+          {{ form.region }}
+          {% for err in form.region.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+          <p class="bo-help">{% trans "Порядок настраивается перетаскиванием на странице региона." %}</p>
+        </div>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='name' label='Имя' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='role' label='Должность' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='meta' label='Мета-строка (PhD, стаж и т. п.)' %}
+      </section>
+    </form>
+
+    <div class="bo-form-foot bo-form-foot-sticky">
+      <div class="bo-form-foot-actions">
+        <a href="{% url 'backoffice:content_team_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+        <button type="submit" form="team-edit-form" class="bo-action-btn bo-action-secondary">{% trans "Сохранить как черновик" %}</button>
+        <button type="submit" form="team-edit-form" name="publish_now" value="1" class="btn btn-primary">{% trans "Опубликовать" %}</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -137,11 +137,12 @@
           {{ post.content|render_galleries:post }}
         </div>
 
-        {# Главная inline-галерея после контента (slug='main', управляется
-           отдельным AJAX-блоком в backoffice). Шорткоды [[gallery slug=X]] в
-           контенте по-прежнему работают для других slug'ов. #}
         {% if post.main_gallery and post.main_gallery.images.all %}
           {% include 'blog/_gallery.html' with gallery=post.main_gallery %}
+        {% endif %}
+
+        {% if post.author %}
+          {% include 'blog/_author_card.html' with author=post.author %}
         {% endif %}
 
         {% if post.tags.all %}

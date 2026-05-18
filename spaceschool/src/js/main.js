@@ -16,6 +16,7 @@ import { registerBackofficeInlineCollapse } from "./backoffice-inline-collapse.j
 import { registerBackofficeTranslate } from "./backoffice-translate.js";
 import { registerBackofficeActivities } from "./backoffice-activities.js";
 import { registerBackofficeBlogTags } from "./backoffice-blog-tags.js";
+import { registerBackofficeTeam } from "./backoffice-team.js";
 import { registerHeroVideo } from "./hero-video.js";
 
 Alpine.plugin(collapse);
@@ -30,6 +31,7 @@ registerBackofficeInlineCollapse(Alpine);
 registerBackofficeTranslate(Alpine);
 registerBackofficeActivities(Alpine);
 registerBackofficeBlogTags(Alpine);
+registerBackofficeTeam(Alpine);
 registerHeroVideo(Alpine);
 Alpine.data("boMapPreview", boMapPreview);
 

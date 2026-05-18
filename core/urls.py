@@ -24,6 +24,7 @@ urlpatterns += i18n_patterns(
     path('<slug:region_slug>/', include('blog.urls')),
     path('<slug:region_slug>/', include('events.urls')),
     path('<slug:region_slug>/', include('gallery.urls')),
+    path('<slug:region_slug>/', include('team.urls')),
     path('<slug:region_slug>/', include('feedback.urls')),
     prefix_default_language=True,
 )

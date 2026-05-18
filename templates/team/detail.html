@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load i18n region_tags %}
+
+{% block title %}{{ member.effective_seo_title }} — Space School{% endblock %}
+{% block meta_description %}{{ member.effective_seo_description|truncatechars:200 }}{% endblock %}
+{% block og_title %}{{ member.effective_og_title }}{% endblock %}
+{% block og_description %}{{ member.effective_og_description|truncatechars:300 }}{% endblock %}
+{% block og_type %}profile{% endblock %}
+{% block og_image %}{% with og=member.effective_og_image %}{% if og %}{{ request.scheme }}://{{ request.get_host }}{{ og.url }}{% else %}{{ block.super }}{% endif %}{% endwith %}{% endblock %}
+{% block twitter_title %}{{ member.effective_og_title }}{% endblock %}
+{% block twitter_description %}{{ member.effective_og_description|truncatechars:200 }}{% endblock %}
+{% block twitter_image %}{% with og=member.effective_og_image %}{% if og %}{{ request.scheme }}://{{ request.get_host }}{{ og.url }}{% else %}{{ block.super }}{% endif %}{% endwith %}{% endblock %}
+
+{% block layout_top %}
+  {% include 'partials/header.html' with active_page='team' %}
+{% endblock %}
+
+{% block content %}
+  <section class="bg-white pt-6 pb-16">
+    <div class="container">
+      <div class="col-span-full">
+        <nav class="breadcrumb" aria-label="{% trans 'Хлебные крошки' %}">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item">
+              <a href="{% region_url 'pages:home' %}" class="breadcrumb-link">{% trans 'Главная' %}</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% region_url 'team:list' %}" class="breadcrumb-link">{% trans 'Команда' %}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+              {{ member.name|truncatechars:60 }}
+            </li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="col-span-full lg:col-span-5 xl:col-span-4">
+        <div class="team-card__photo">
+          {% if member.photo %}
+            <picture>
+              <source srcset="{{ member.photo_webp.url }}" type="image/webp">
+              <img src="{{ member.photo_compressed.url }}" alt="{{ member.name }}"
+                   fetchpriority="high" decoding="async">
+            </picture>
+          {% else %}
+            <div class="cover-placeholder" role="img" aria-label="{% trans 'Нет фото' %}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0"/>
+                <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+              </svg>
+              <span>{% trans 'Нет фото' %}</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="col-span-full lg:col-span-7 lg:col-start-6 xl:col-span-7 xl:col-start-6 mb-12">
+        <h1 class="h1 font-bold hyphens-auto break-words">{{ member.name }}</h1>
+        <p class="team-card__role mt-2">{{ member.role }}</p>
+        {% if member.meta %}
+          <p class="team-card__meta mt-2">{{ member.meta }}</p>
+        {% endif %}
+
+        {% if member.quote %}
+          <blockquote class="mt-6 border-l-4 border-brand pl-4 text-lg font-medium leading-tight">
+            {{ member.quote }}
+          </blockquote>
+        {% endif %}
+
+        {% if member.bio %}
+          <div class="content-redactor mt-8">
+            {{ member.bio|safe }}
+          </div>
+        {% endif %}
+
+        {% if member.linkedin_url %}
+          <div class="mt-8">
+            <a href="{{ member.linkedin_url }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn btn-secondary inline-flex items-center gap-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.3 6.5a1.78 1.78 0 0 1-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0 0 13 14.19a.66.66 0 0 0 0 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 0 1 2.7-1.4c1.55 0 3.36.86 3.36 3.66z"/>
+              </svg>
+              <span>{% trans 'LinkedIn' %}</span>
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -65,7 +65,7 @@ class BlogDetailView(DetailView):
         return get_object_or_404(
             BlogPost.objects
             .filter(region=region, is_published=True)
-            .select_related('category')
+            .select_related('category', 'author')
             .prefetch_related('tags'),
             slug=self.kwargs['slug'],
         )

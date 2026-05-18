@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blog Detail — Space School</title>
-    <script type="module" crossorigin src="/static/assets/js/main-DzOup3-W.js"></script>
-    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-CIZFvCn7.js"></script>
+    <script type="module" crossorigin src="/static/assets/js/main-vWG9WvYE.js"></script>
+    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-DrwnXrKK.js"></script>
     <link rel="stylesheet" crossorigin href="/static/assets/css/main-vh-t_kPv.css">
-    <link rel="stylesheet" crossorigin href="/static/assets/css/main-DRcofyOE.css">
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-lVSoFApm.css">
   </head>
   <body>
   <header x-data="{ menu: false }">
@@ -481,6 +481,23 @@
 
         </div>
         <!-- END Content -->
+
+        <!--
+          Карточка автора — после контента, до тегов.
+          Photo 48px + name + role/meta. Линк ведёт на /team/<slug>/.
+          Стили в src/css/components/cards.css → .author-card*.
+        -->
+        <aside class="author-card mt-10">
+          <p class="author-card__label">Автор</p>
+          <a href="/team/aigerim-nurlanova/" class="author-card__link">
+            <img src="https://placehold.co/56x56" alt="Айгерим Нурланова"
+                 width="56" height="56" loading="lazy" class="author-card__photo">
+            <span class="author-card__body">
+              <span class="author-card__name">Айгерим Нурланова</span>
+              <span class="author-card__meta">Директор школы · PhD в педагогике · 20 лет в международном образовании</span>
+            </span>
+          </a>
+        </aside>
 
         <!--
           Облако тегов — ВНЕ .content-redactor, чтобы prose-стили

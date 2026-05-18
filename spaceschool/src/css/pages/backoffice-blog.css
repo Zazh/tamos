@@ -158,6 +158,12 @@
   box-shadow: 0 0 0 2px var(--color-slate-50);
 }
 
+.bo-status-featured {
+  background: var(--color-gold);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-gold) 25%, transparent);
+  margin-left: .25rem;
+}
+
 /* ===== Pagination ===== */
 
 .bo-pagination {

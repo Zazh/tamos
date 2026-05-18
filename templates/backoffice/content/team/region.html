@@ -1,0 +1,81 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include 'backoffice/_messages.html' %}
+
+  <a href="{% url 'backoffice:content_team_list' %}" class="bo-back">← {% trans "К списку регионов" %}</a>
+
+  <div class="bo-page-head bo-page-head-row">
+    <div>
+      <h1 class="bo-page-title">{% blocktrans with region=region.name %}Команда · {{ region }}{% endblocktrans %}</h1>
+      <p class="bo-page-subtitle">{% trans "Перетаскивай за «≡» чтобы поменять порядок. Избранные всегда сверху и попадают на лендинг «Программа»." %}</p>
+    </div>
+    <div class="bo-page-head-actions">
+      {% if all_regions %}
+        <select class="bo-select bo-filter-select" onchange="if(this.value)location.href=this.value">
+          {% for r in all_regions %}
+            <option value="{% url 'backoffice:content_team_region' region_pk=r.pk %}"{% if r.pk == region.pk %} selected{% endif %}>{{ r.name }}</option>
+          {% endfor %}
+        </select>
+      {% endif %}
+      <a href="{% url 'backoffice:content_team_create' %}" class="bo-action-btn bo-action-primary">
+        {% trans "Новый член команды" %}
+      </a>
+    </div>
+  </div>
+
+  {# ===== Избранные ===== #}
+  <section class="bo-panel">
+    <header class="bo-panel-head">
+      <h2 class="bo-panel-title">
+        ★ {% trans "Избранные" %}
+        <span class="bo-panel-title-count">{{ featured_members|length }}</span>
+      </h2>
+      <p class="bo-help" style="margin:0">
+        {% trans "Выводятся в блоке «Команда профессионалов» на лендинге «Программа» этого региона." %}
+      </p>
+    </header>
+
+    {% if featured_members %}
+      <ul class="bo-team-list"
+          x-data="boTeamSort"
+          data-group="featured"
+          data-reorder-url="{% url 'backoffice:content_team_reorder' region_pk=region.pk %}">
+        {% for member in featured_members %}
+          {% include 'backoffice/content/team/_row.html' with member=member %}
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="bo-help">
+        {% trans "Никто пока не избран. Открой члена команды и поставь галочку «Избранный»." %}
+      </p>
+    {% endif %}
+  </section>
+
+  {# ===== Остальные ===== #}
+  <section class="bo-panel">
+    <header class="bo-panel-head">
+      <h2 class="bo-panel-title">
+        {% trans "Остальные" %}
+        <span class="bo-panel-title-count">{{ other_members|length }}</span>
+      </h2>
+      <p class="bo-help" style="margin:0">
+        {% trans "Видны на /team/, но НЕ на «Программе». Перетаскивай чтобы поменять порядок внутри списка." %}
+      </p>
+    </header>
+
+    {% if other_members %}
+      <ul class="bo-team-list"
+          x-data="boTeamSort"
+          data-group="other"
+          data-reorder-url="{% url 'backoffice:content_team_reorder' region_pk=region.pk %}">
+        {% for member in other_members %}
+          {% include 'backoffice/content/team/_row.html' with member=member %}
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="bo-help">{% trans "Пусто." %}</p>
+    {% endif %}
+  </section>
+{% endblock %}

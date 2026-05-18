@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load i18n region_tags %}
+
+{% block title %}{% trans 'Команда' %} — Space School{% endblock %}
+{% block meta_description %}{% trans 'Команда профессионалов Space School: основатели, академический штаб и наставники, которые ведут наших учеников.' %}{% endblock %}
+
+{% block layout_top %}
+  {% include 'partials/header.html' with active_page='team' %}
+{% endblock %}
+
+{% block content %}
+  <section class="bg-white pt-6 pb-16">
+    <div class="container">
+      <div class="col-span-full">
+        <nav class="breadcrumb" aria-label="{% trans 'Хлебные крошки' %}">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item">
+              <a href="{% region_url 'pages:home' %}" class="breadcrumb-link">{% trans 'Главная' %}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+              {% trans 'Команда' %}
+            </li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="col-span-full">
+        <div class="mb-8">
+          <div class="section-label mt-4 mb-6 md:mt-6">
+            <span class="section-label__icon"></span>
+            <span>{% trans 'Подход и забота' %}</span>
+          </div>
+          <h1 class="h1 font-bold lg:max-w-3xl hyphens-auto break-words">{% trans 'Команда профессионалов, которая заботится о вашем ребёнке' %}</h1>
+          <p class="mt-4 text-base leading-tight text-black/80 lg:max-w-xl">
+            {% trans 'Каждый педагог — практик с опытом в международных школах и университетах. Мы отвечаем за развитие каждого ученика.' %}
+          </p>
+        </div>
+
+        {% if level_chips %}
+          <div class="btn-filter-group my-6">
+            <a href="{% region_url 'team:list' %}"
+               class="btn btn-filter {% if not current_level_slug %}active{% endif %}">
+              {% trans 'Все' %}
+            </a>
+            {% for chip in level_chips %}
+              <a href="{% region_url 'team:list' %}?level={{ chip.slug }}"
+                 class="btn btn-filter {% if current_level_slug == chip.slug %}active{% endif %}">
+                {{ chip.label }}
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if members %}
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+            {% for member in members %}
+              <article class="team-card">
+                <div class="team-card__photo">
+                  {% if member.photo %}
+                    <picture>
+                      <source srcset="{{ member.photo_webp.url }}" type="image/webp">
+                      <img src="{{ member.photo_compressed.url }}" alt="{{ member.name }}"
+                           {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+                           decoding="async">
+                    </picture>
+                  {% else %}
+                    <div class="cover-placeholder" role="img" aria-label="{% trans 'Нет фото' %}">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0"/>
+                        <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                      </svg>
+                      <span>{% trans 'Нет фото' %}</span>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="team-card__body">
+                  <h3 class="team-card__name">
+                    <span class="marquee"><span class="marquee-inner">{{ member.name }}</span></span>
+                  </h3>
+                  <p class="team-card__role">
+                    <span class="marquee"><span class="marquee-inner">{{ member.role }}</span></span>
+                  </p>
+                  <p class="team-card__meta">{{ member.meta }}</p>
+                  {# .team-card__quote сознательно скрыта на странице списка #}
+                  <a href="{% region_url 'team:detail' slug=member.slug %}"
+                     class="btn btn-secondary mt-4 self-start">
+                    {% trans 'Подробнее' %}
+                  </a>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-black/60 py-8">
+            {% if current_level_slug %}
+              {% trans 'Никого по этому фильтру не нашлось.' %}
+            {% else %}
+              {% trans 'Информация о команде скоро появится.' %}
+            {% endif %}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

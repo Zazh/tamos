@@ -144,14 +144,10 @@
       </section>
 
       {# ===== Team ===== #}
-      {% include 'backoffice/content/program/_section_intro.html' with section_id='team' section_title='Секция «Команда»' bases='["team_label","team_title","team_subtitle"]' translate_url=program_translate_url form_id='program-edit-form' %}
-
-      <section class="bo-panel">
-        <h2 class="bo-panel-title">{% trans "Члены команды" %}</h2>
-        {% with fs_data=formsets|getbyindex:3 %}
-          {% include 'backoffice/content/program/_team_formset.html' with formset=fs_data.1 prefix=fs_data.0 translate_url=program_translate_url form_id='program-edit-form' %}
-        {% endwith %}
-      </section>
+      {# Секция «Команда» на лендинге: тексты заголовка (team_label/team_title/
+         team_subtitle) правятся в Django admin /admin/programs/programpage/.
+         Список членов команды — отдельный app `team`, флаг is_featured. #}
+      {% include 'backoffice/content/program/_section_intro.html' with section_id='team' section_title='Секция «Команда» (тексты — в Django admin; состав — app «Команда» с галочкой «Избранный»)' bases='["team_label","team_title","team_subtitle"]' translate_url=program_translate_url form_id='program-edit-form' %}
 
       {# ===== Certificate ===== #}
       <section class="bo-panel">
@@ -169,7 +165,7 @@
 
         {% include 'backoffice/content/program/_photo_field.html' with field=form.certificate_preview_image instance=program attr='certificate_preview_image' label='Образец сертификата' help_key='programpage.certificate_preview_image' %}
 
-        {% with fs_data=formsets|getbyindex:4 %}
+        {% with fs_data=formsets|getbyindex:3 %}
           {% include 'backoffice/content/program/_inline_formset.html' with formset=fs_data.1 prefix=fs_data.0 sublabel='Карточки-фичи «Аттестат» (ровно 4 glass-card)' bases='["title"]' translate_url=program_translate_url form_id='program-edit-form' help_prefix='programcertificatefeature' show_icon_svg=True only_title=True fixed=True grid_class='bo-formset-grid-2' %}
         {% endwith %}
       </section>
@@ -204,7 +200,7 @@
         {% include 'backoffice/content/_field_translatable.html' with form=form base='stats_title' label='Заголовок' %}
         {% include 'backoffice/content/_field_translatable.html' with form=form base='stats_intro_text' label='Вводный текст' %}
 
-        {% with fs_data=formsets|getbyindex:5 %}
+        {% with fs_data=formsets|getbyindex:4 %}
           {% include 'backoffice/content/program/_stat_formset.html' with formset=fs_data.1 prefix=fs_data.0 translate_url=program_translate_url form_id='program-edit-form' %}
         {% endwith %}
       </section>
@@ -221,7 +217,7 @@
           {% include 'backoffice/content/_field_translatable.html' with form=form base='faq_title' label='Заголовок' %}
         </div>
 
-        {% with fs_data=formsets|getbyindex:6 %}
+        {% with fs_data=formsets|getbyindex:5 %}
           {% include 'backoffice/content/program/_faq_formset.html' with formset=fs_data.1 prefix=fs_data.0 translate_url=program_translate_url form_id='program-edit-form' %}
         {% endwith %}
       </section>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team list — Space School</title>
+    <script type="module" crossorigin src="/static/assets/js/main-vWG9WvYE.js"></script>
+    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-DrwnXrKK.js"></script>
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-vh-t_kPv.css">
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-lVSoFApm.css">
+  </head>
+  <body>
+    <!-- Парный прототип Django-шаблона templates/team/list.html.
+         Нужен только чтобы Tailwind увидел классы (см. memory
+         feedback_tailwind_spaceschool_source / feedback_landing_django_sync).
+         Header/footer сюда не вставляем — они уже сканируются с других pages/. -->
+
+    <section class="bg-white pt-6 pb-16">
+      <div class="container">
+        <div class="col-span-full">
+          <nav class="breadcrumb" aria-label="Хлебные крошки">
+            <ol class="breadcrumb-list">
+              <li class="breadcrumb-item">
+                <a href="/" class="breadcrumb-link">Главная</a>
+              </li>
+              <li class="breadcrumb-item" aria-current="page">Команда</li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="col-span-full">
+          <div class="mb-8">
+            <div class="section-label mt-4 mb-6 md:mt-6">
+              <span class="section-label__icon"></span>
+              <span>Подход и забота</span>
+            </div>
+            <h1 class="h1 font-bold lg:max-w-3xl hyphens-auto break-words">Команда профессионалов, которая заботится о вашем ребёнке</h1>
+            <p class="mt-4 text-base leading-tight text-black/80 lg:max-w-xl">
+              Каждый педагог — практик с опытом в международных школах и университетах. Мы отвечаем за развитие каждого ученика.
+            </p>
+          </div>
+
+          <div class="btn-filter-group my-6">
+            <a href="/team/" class="btn btn-filter active">Все</a>
+            <a href="/team/?level=admin" class="btn btn-filter">Администрация</a>
+            <a href="/team/?level=primary" class="btn btn-filter">Младшие (1–4)</a>
+            <a href="/team/?level=middle" class="btn btn-filter">Средние (5–8)</a>
+            <a href="/team/?level=senior" class="btn btn-filter">Старшие (9–11)</a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+            <article class="team-card">
+              <div class="team-card__photo">
+                <picture>
+                  <source srcset="/static/assets/images/1-DXqZ1rzw.jpg" type="image/webp">
+                  <img src="/static/assets/images/1-DXqZ1rzw.jpg" alt="Айгерим Нурланова" fetchpriority="high" decoding="async">
+                </picture>
+              </div>
+              <div class="team-card__body">
+                <h3 class="team-card__name">
+                  <span class="marquee"><span class="marquee-inner">Айгерим Нурланова</span></span>
+                </h3>
+                <p class="team-card__role">
+                  <span class="marquee"><span class="marquee-inner">Основатель и директор</span></span>
+                </p>
+                <p class="team-card__meta">PhD в педагогике · 20 лет в международном образовании</p>
+                <a href="/team/aigerim-nurlanova/" class="btn btn-secondary mt-4 self-start">Подробнее</a>
+              </div>
+            </article>
+
+            <article class="team-card">
+              <div class="team-card__photo">
+                <div class="cover-placeholder" role="img" aria-label="Нет фото">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0"/>
+                    <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                  </svg>
+                  <span>Нет фото</span>
+                </div>
+              </div>
+              <div class="team-card__body">
+                <h3 class="team-card__name">
+                  <span class="marquee"><span class="marquee-inner">Данияр Жолдас</span></span>
+                </h3>
+                <p class="team-card__role">
+                  <span class="marquee"><span class="marquee-inner">Академический директор</span></span>
+                </p>
+                <p class="team-card__meta">MSc Mathematics, Oxford · 15 лет преподавания</p>
+                <a href="/team/daniyar-zholdas/" class="btn btn-secondary mt-4 self-start">Подробнее</a>
+              </div>
+            </article>
+
+            <article class="team-card">
+              <div class="team-card__photo">
+                <div class="cover-placeholder" role="img" aria-label="Нет фото">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0"/>
+                    <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                  </svg>
+                  <span>Нет фото</span>
+                </div>
+              </div>
+              <div class="team-card__body">
+                <h3 class="team-card__name">
+                  <span class="marquee"><span class="marquee-inner">Алия Бекова</span></span>
+                </h3>
+                <p class="team-card__role">
+                  <span class="marquee"><span class="marquee-inner">Куратор Cambridge International</span></span>
+                </p>
+                <p class="team-card__meta">Cambridge Examiner · 10 лет в международной аккредитации</p>
+                <a href="/team/aliya-bekova/" class="btn btn-secondary mt-4 self-start">Подробнее</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

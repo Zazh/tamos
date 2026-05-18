@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 
 from activities.models import Activity, ActivityGroup, ScheduleSlot
+from team.models import TeamMember
 
 from .models import ProgramPage
 
@@ -21,7 +22,19 @@ class ProgramView(TemplateView):
         ctx['audience_items'] = [i for i in program.audience_items.all() if i.title]
         ctx['benefit_items'] = [i for i in program.benefit_items.all() if i.title]
         ctx['variant_cards'] = list(program.variant_cards.all())
-        ctx['team_members'] = list(program.team_members.all())
+        # Команда на лендинге программы = TeamMember(is_featured=True) текущего
+        # региона. Тот же паттерн, что Activity.is_featured (см. ниже).
+        # Поля TeamMember (photo/photo_webp/photo_compressed/name/role/meta/quote)
+        # совместимы с programs.ProgramTeamMember — шаблон не менялся.
+        ctx['team_members'] = list(
+            TeamMember.objects
+            .filter(
+                region=self.request.region,
+                is_published=True,
+                is_featured=True,
+            )
+            .order_by('order', 'pk'),
+        )
         ctx['certificate_features'] = [i for i in program.certificate_features.all() if i.title]
         ctx['stats'] = [s for s in program.stats.all() if s.value or s.label]
         ctx['faq_items'] = list(program.faq_items.all())

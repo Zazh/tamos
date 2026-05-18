@@ -480,6 +480,23 @@
         <!-- END Content -->
 
         <!--
+          Карточка автора — после контента, до тегов.
+          Photo 48px + name + role/meta. Линк ведёт на /team/<slug>/.
+          Стили в src/css/components/cards.css → .author-card*.
+        -->
+        <aside class="author-card mt-10">
+          <p class="author-card__label">Автор</p>
+          <a href="/team/aigerim-nurlanova/" class="author-card__link">
+            <img src="https://placehold.co/56x56" alt="Айгерим Нурланова"
+                 width="56" height="56" loading="lazy" class="author-card__photo">
+            <span class="author-card__body">
+              <span class="author-card__name">Айгерим Нурланова</span>
+              <span class="author-card__meta">Директор школы · PhD в педагогике · 20 лет в международном образовании</span>
+            </span>
+          </a>
+        </aside>
+
+        <!--
           Облако тегов — ВНЕ .content-redactor, чтобы prose-стили
           (подчёркивание ссылок, цвет brand, margin между блоками)
           не наследовались. Каждый тег — самостоятельная badge-кнопка.

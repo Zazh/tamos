@@ -29,6 +29,7 @@ from admission.models import (
     AdmissionVariant,
 )
 from blog.models import BlogCategory, BlogGallery, BlogGalleryImage, BlogPost, BlogTag
+from team.models import TeamMember
 from feedback.models import Lead
 from pages.models import ContactsPage, HomeGalleryImage, HomePage
 from programs.models import ProgramPage
@@ -65,6 +66,9 @@ from .forms import (
     ScheduleSlotFormSet,
     TRANSLATION_LANGS,
     HOME_TRANSLATABLE,
+    TEAM_MEMBER_OUT_OF_FORM_BASES,
+    TEAM_MEMBER_TRANSLATABLE,
+    TeamMemberEditForm,
 )
 from .shortcuts import backoffice_required, region_scoped, render_backoffice
 
@@ -1258,7 +1262,6 @@ def content_program_list(request):
         .annotate(
             audience_count=Count('audience_items', distinct=True),
             variant_count=Count('variant_cards', distinct=True),
-            team_count=Count('team_members', distinct=True),
             faq_count=Count('faq_items', distinct=True),
         )
         .order_by('region__name')
@@ -2617,3 +2620,365 @@ def content_blog_tag_delete(request, pk):
     tag.delete()  # M2M очистится автоматически
     messages.success(request, f'Тег «{name}» удалён.')
     return redirect('backoffice:content_blog_taxonomy')
+
+
+# ===== Content: Team (раздел «Команда») =====================================
+#
+# Одна модель TeamMember с фото и SEO. Region-scoped (RegionScopedAdminMixin
+# pattern — менеджер видит только свой регион, su — всё). Без inline-моделей
+# (TeamResumeItem удалён в team/0006).
+# Шаблоны: templates/backoffice/content/team/.
+
+TEAM_MEMBERS_PER_PAGE = 24
+
+
+def _auto_slug_for_team(name: str) -> str:
+    """SEO-friendly slug = slugify(name) + '-' + 4hex. Аналог _auto_slug_for_blog."""
+    import secrets
+    from django.utils.text import slugify
+    base = slugify(name, allow_unicode=False) or 'member'
+    base = base[:190]
+    for _ in range(5):
+        suffix = secrets.token_hex(2)
+        candidate = f'{base}-{suffix}'[:200]
+        if not TeamMember.objects.filter(slug=candidate).exists():
+            return candidate
+    return f'{base}-{secrets.token_hex(4)}'[:200]
+
+
+def _get_team_member_for_user(request, pk):
+    """region-scoped TeamMember или 404."""
+    qs = region_scoped(
+        TeamMember.objects.select_related('region'),
+        request.user,
+    )
+    return get_object_or_404(qs, pk=pk)
+
+
+def _teammember_steps(member):
+    """Stepper completeness для edit-страницы."""
+    def is_filled(field_name):
+        val = getattr(member, field_name, '')
+        if hasattr(val, 'name'):
+            return bool(val and val.name)
+        return bool(val and str(val).strip())
+
+    ru_fields = ['name_ru', 'role_ru', 'photo']
+    kk_fields = ['name_kk', 'role_kk']
+    en_fields = ['name_en', 'role_en']
+    seo_fields = ['seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_image']
+    pub_fields = ['is_published', 'is_featured']
+
+    def step(id, label, fields, required=False):
+        initial = {f: is_filled(f) for f in fields}
+        filled = sum(1 for v in initial.values() if v)
+        return {
+            'id': id,
+            'label': label,
+            'fields': fields,
+            'initial': initial,
+            'filled': filled,
+            'total': len(fields),
+            'required': required,
+        }
+
+    return [
+        step('ru', 'Основа (RU)', ru_fields, required=True),
+        step('kk', 'Перевод KZ', kk_fields),
+        step('en', 'Перевод EN', en_fields),
+        step('seo', 'SEO', seo_fields),
+        step('publish', 'Публикация', pub_fields),
+    ]
+
+
+def _teammember_steps_for_create():
+    def step(id, label, total, required=False):
+        return {
+            'id': id, 'label': label, 'fields': [],
+            'initial': {}, 'filled': 0, 'total': total, 'required': required,
+        }
+    return [
+        step('ru', 'Основа (RU)', 3, required=True),
+        step('kk', 'Перевод KZ', 2),
+        step('en', 'Перевод EN', 2),
+        step('seo', 'SEO', 4),
+        step('publish', 'Публикация', 2),
+    ]
+
+
+@never_cache
+@backoffice_required
+def content_team_list(request):
+    """Карточки регионов со счётчиком членов команды (паттерн activities-list).
+
+    Менеджер региона видит только свой регион; если регион один — сразу
+    редиректит в `content_team_region`. Su видит все активные регионы и
+    выбирает руками.
+    """
+    regions = (
+        Region.objects.filter(is_active=True)
+        .annotate(
+            member_count=Count('team_members', distinct=True),
+            featured_count=Count(
+                'team_members',
+                filter=Q(team_members__is_featured=True, team_members__is_published=True),
+                distinct=True,
+            ),
+        )
+        .order_by('name')
+    )
+    if not request.user.is_superuser:
+        if getattr(request.user, 'manager_region_id', None):
+            regions = regions.filter(pk=request.user.manager_region_id)
+        else:
+            regions = regions.none()
+
+    rows = list(regions)
+    # У менеджера ровно один регион — нет смысла показывать «карточку выбора»,
+    # сразу ведём на его команду.
+    if len(rows) == 1 and not request.user.is_superuser:
+        return redirect('backoffice:content_team_region', region_pk=rows[0].pk)
+
+    return render_backoffice(
+        request,
+        'backoffice/content/team/list.html',
+        active='team',
+        page_title='Команда',
+        context={'rows': rows},
+    )
+
+
+@never_cache
+@backoffice_required
+def content_team_region(request, region_pk):
+    """Команда одного региона. Две секции: «Избранные» (попадают на лендинг
+    «Программа») сверху и «Остальные» — снизу. В каждой — DnD-сортировка
+    (boTeamSort), AJAX POST на content_team_reorder.
+    """
+    region = _get_region_for_user(request, region_pk)
+
+    base_qs = (
+        TeamMember.objects
+        .filter(region=region)
+        .order_by('order', 'pk')
+    )
+    featured = list(base_qs.filter(is_featured=True))
+    rest = list(base_qs.filter(is_featured=False))
+
+    return render_backoffice(
+        request,
+        'backoffice/content/team/region.html',
+        active='team',
+        page_title=f'Команда · {region.name}',
+        context={
+            'region': region,
+            'featured_members': featured,
+            'other_members': rest,
+            'all_regions': (
+                Region.objects.filter(is_active=True).order_by('name')
+                if request.user.is_superuser else None
+            ),
+        },
+    )
+
+
+@require_POST
+@backoffice_required
+def content_team_reorder(request, region_pk):
+    """AJAX: сохранить DnD-порядок TeamMember одной группы внутри региона.
+
+    Body: `{"group": "featured" | "other", "order": [pk1, pk2, ...]}`.
+    Order пишется как `i*10`. Group задаёт только safety-фильтр (не даём
+    случайно сложить featured в non-featured список), сам флаг
+    `is_featured` НЕ меняется этим эндпоинтом.
+    """
+    region = _get_region_for_user(request, region_pk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    group = str(payload.get('group') or '').strip()
+    if group not in {'featured', 'other'}:
+        return JsonResponse({'error': 'group must be featured|other'}, status=400)
+
+    order = payload.get('order') or []
+    if not isinstance(order, list):
+        return JsonResponse({'error': 'order must be a list'}, status=400)
+
+    own_ids = set(
+        TeamMember.objects
+        .filter(region=region, is_featured=(group == 'featured'))
+        .values_list('pk', flat=True)
+    )
+    safe_order = [int(p) for p in order if int(p) in own_ids]
+    for i, pk_ in enumerate(safe_order):
+        TeamMember.objects.filter(pk=pk_).update(order=i * 10)
+    return JsonResponse({'ok': True})
+
+
+@never_cache
+@backoffice_required
+@require_http_methods(['GET', 'POST'])
+def content_team_create(request):
+    """Создание члена команды за 1 шаг.
+    После save редирект на edit (паттерн blog)."""
+    if request.method == 'POST':
+        form = TeamMemberEditForm(request.POST, request.FILES, user=request.user)
+        if form.is_valid():
+            member = form.save(commit=False)
+            name = form.cleaned_data.get('name_ru') or member.name or 'Без имени'
+            member.slug = _auto_slug_for_team(name)
+            member.is_published = bool(request.POST.get('publish_now'))
+            member.save()
+            form.save_m2m()
+            messages.success(
+                request,
+                f'{"Опубликован" if member.is_published else "Сохранён черновик"} «{member.name}».',
+            )
+            return redirect('backoffice:content_team_edit', pk=member.pk)
+    else:
+        form = TeamMemberEditForm(user=request.user)
+
+    return render_backoffice(
+        request,
+        'backoffice/content/team/create.html',
+        active='team',
+        page_title='Новый член команды',
+        context={
+            'form': form,
+            'translation_langs': TRANSLATION_LANGS,
+            'steps_json': json.dumps(_teammember_steps_for_create()),
+            'translatable_bases_json': json.dumps(list(TEAM_MEMBER_TRANSLATABLE)),
+            'out_of_form_bases': TEAM_MEMBER_OUT_OF_FORM_BASES,
+        },
+    )
+
+
+@never_cache
+@backoffice_required
+def content_team_edit(request, pk):
+    member = _get_team_member_for_user(request, pk)
+    # Паттерн blog: сохраняем оригиналы slug/region_id ДО init формы —
+    # ModelForm мутирует instance под значения POST (см. memory
+    # feedback_modelform_mutates_instance).
+    original_slug = member.slug
+    original_region_id = member.region_id
+
+    if request.method == 'POST':
+        form = TeamMemberEditForm(
+            request.POST, request.FILES, instance=member, user=request.user,
+        )
+        if form.is_valid():
+            saved = form.save(commit=False)
+            saved.region_id = original_region_id
+            if not saved.slug:
+                saved.slug = original_slug
+            saved.save()
+            form.save_m2m()
+            messages.success(request, 'Изменения сохранены.')
+            return redirect('backoffice:content_team_edit', pk=saved.pk)
+    else:
+        form = TeamMemberEditForm(instance=member, user=request.user)
+
+    return render_backoffice(
+        request,
+        'backoffice/content/team/edit.html',
+        active='team',
+        page_title=f'Команда · {member.name or "Без имени"}',
+        context={
+            'member': member,
+            'form': form,
+            'translation_langs': TRANSLATION_LANGS,
+            'steps_json': json.dumps(_teammember_steps(member)),
+            'translatable_bases_json': json.dumps(list(TEAM_MEMBER_TRANSLATABLE)),
+            'out_of_form_bases': TEAM_MEMBER_OUT_OF_FORM_BASES,
+            'team_translate_url': reverse('backoffice:content_team_translate', kwargs={'pk': member.pk}),
+            'team_seo_url': reverse('backoffice:content_team_seo', kwargs={'pk': member.pk}),
+        },
+    )
+
+
+@require_POST
+@backoffice_required
+def content_team_delete(request, pk):
+    member = _get_team_member_for_user(request, pk)
+    name = member.name or f'Член команды #{member.pk}'
+    member.delete()
+    messages.success(request, f'«{name}» удалён.')
+    return redirect('backoffice:content_team_list')
+
+
+@require_POST
+@backoffice_required
+def content_team_seo(request, pk):
+    """AI-генерация SEO/OG для TeamMember. Источник — name/role/meta/bio."""
+    _get_team_member_for_user(request, pk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    content = payload.get('content') or {}
+    if not isinstance(content, dict):
+        return JsonResponse({'error': 'content must be an object'}, status=400)
+
+    sanitized = {
+        str(k): str(v)[:SEO_SOURCE_MAX_CHARS]
+        for k, v in list(content.items())[:SEO_SOURCE_MAX_FIELDS]
+        if v and str(v).strip()
+    }
+    if not sanitized:
+        return JsonResponse(
+            {'error': 'Нет исходного контента для SEO. Заполни имя и должность на RU.'},
+            status=400,
+        )
+
+    try:
+        seo = generate_seo(sanitized)
+    except TranslationConfigError as e:
+        return JsonResponse({'error': str(e)}, status=503)
+    except TranslationError as e:
+        return JsonResponse({'error': str(e)}, status=502)
+
+    return JsonResponse({'seo': seo})
+
+
+@require_POST
+@backoffice_required
+def content_team_translate(request, pk):
+    """RU→KK/EN для translatable полей члена команды. Идентичен home/blog translate."""
+    _get_team_member_for_user(request, pk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    by_lang = payload.get('by_lang') or {}
+    if not isinstance(by_lang, dict):
+        return JsonResponse({'error': 'by_lang must be an object'}, status=400)
+
+    result: dict[str, dict[str, str]] = {}
+    for lang, values in by_lang.items():
+        if lang not in {'kk', 'en'}:
+            continue
+        if not isinstance(values, dict):
+            continue
+        sanitized = {
+            str(k): str(v)[:TRANSLATE_MAX_VALUE_CHARS]
+            for k, v in list(values.items())[:TRANSLATE_MAX_FIELDS_PER_LANG]
+            if v and str(v).strip()
+        }
+        if not sanitized:
+            continue
+        try:
+            result[lang] = translate_fields(sanitized, lang)
+        except TranslationConfigError as e:
+            return JsonResponse({'error': str(e)}, status=503)
+        except TranslationError as e:
+            return JsonResponse({'error': str(e)}, status=502)
+
+    return JsonResponse({'translations': result})

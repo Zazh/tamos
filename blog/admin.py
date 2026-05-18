@@ -4,6 +4,7 @@ from django.utils.html import format_html
 from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInline
 
 from regions.admin import RegionScopedAdminMixin
+from team.models import TeamMember
 
 from .models import BlogCategory, BlogGallery, BlogGalleryImage, BlogPost, BlogTag
 
@@ -100,14 +101,15 @@ class BlogPostAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
     list_display = (
         'title',
         'category',
+        'author',
         'region',
         'is_published',
         'published_at',
         'cover_preview',
     )
-    list_filter = ('region', 'category', 'is_published', 'tags')
+    list_filter = ('region', 'category', 'is_published', 'tags', 'author')
     list_editable = ('is_published',)
-    list_select_related = ('region', 'category')
+    list_select_related = ('region', 'category', 'author')
     search_fields = ('title', 'lead', 'content', 'slug')
     ordering = ('-published_at',)
     date_hierarchy = 'published_at'
@@ -119,6 +121,7 @@ class BlogPostAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
         ('Основное', {
             'fields': (
                 ('region', 'category'),
+                'author',
                 'tags',
                 'slug',
                 'title',
@@ -148,6 +151,18 @@ class BlogPostAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
             ),
         }),
     )
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if (
+            db_field.name == 'author'
+            and not request.user.is_superuser
+            and request.user.manager_region_id
+        ):
+            kwargs['queryset'] = TeamMember.objects.filter(
+                region_id=request.user.manager_region_id,
+                is_published=True,
+            ).order_by('order', 'name')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     @admin.display(description='Обложка')
     def cover_preview(self, obj):

@@ -1,0 +1,38 @@
+{% load i18n backoffice_tags %}
+{% comment %}
+  Trix-редактор для translatable HTML-поля TeamMember (bio_ru/kk/en).
+  Подключается через CDN в {% block head %} edit.html (Trix 2.1.15).
+
+  Принцип идентичен `backoffice/content/blog/_content_editor.html`:
+  для каждого языка рендерим hidden <input> с именем <base>_<lang> и
+  <trix-editor input="..."> в обёртке `x-show="lang === ..."`. Trix
+  синхронизирует значения hidden-инпута автоматически на каждое
+  изменение содержимого.
+
+  ВАЖНО: НЕ рендерить параллельно Textarea для тех же полей — Trix
+  принимает hidden input с тем же name, и POST уйдёт два раза, второе
+  значение перетрёт первое.
+
+  Параметры:
+    form    — основная форма с _ru/_kk/_en полями
+    base    — base-имя поля (например 'bio')
+    label   — подпись над редактором
+{% endcomment %}
+<div class="bo-field bo-field-trix">
+  <label class="bo-label">{{ label }}</label>
+
+  {% for lang in translation_langs %}{% with name=base|add:'_'|add:lang %}{% with bf=form|getfield:name %}{% if bf %}
+    <div x-show="lang === '{{ lang }}'"{% if not forloop.first %} x-cloak{% endif %}
+         class="bo-trix-slot"
+         data-lang="{{ lang }}">
+      <input id="id_team_{{ base }}_{{ lang }}"
+             type="hidden"
+             name="{{ bf.html_name }}"
+             value="{{ bf.value|default_if_none:'' }}">
+      <trix-editor input="id_team_{{ base }}_{{ lang }}"
+                   class="bo-trix"
+                   placeholder="{% if lang != 'ru' %}{% trans '(пусто — берётся из RU)' %}{% else %}{% trans 'Биография: заголовки, абзацы, списки, цитаты, ссылки. Что человек делает в школе и его трек до неё.' %}{% endif %}"></trix-editor>
+      {% for err in bf.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+    </div>
+  {% endif %}{% endwith %}{% endwith %}{% endfor %}
+</div>

@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'blog',
     'events',
     'gallery',
+    'team',
     'navigation',
     'feedback',
     'backoffice',

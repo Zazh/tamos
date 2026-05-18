@@ -321,6 +321,14 @@
                   <source srcset="{{ member.photo_webp.url }}" type="image/webp">
                   <img src="{{ member.photo_compressed.url }}" alt="{{ member.name }}">
                 </picture>
+              {% else %}
+                <div class="cover-placeholder" role="img" aria-label="{% trans 'Нет фото' %}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0"/>
+                    <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                  </svg>
+                  <span>{% trans 'Нет фото' %}</span>
+                </div>
               {% endif %}
             </div>
             <div class="team-card__body">

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Айгерим Нурланова — Основатель и директор — Space School</title>
+    <script type="module" src="/src/js/main.js"></script>
+  </head>
+  <body>
+    <!-- Парный прототип Django-шаблона templates/team/detail.html.
+         Нужен только чтобы Tailwind увидел классы (lg:col-span-8 /
+         lg:col-start-5 / xl:col-span-7 / xl:col-start-6 / md:basis-40 и др.).
+         Header/footer не дублируем — есть в других файлах spaceschool/pages/. -->
+
+    <section class="bg-white pt-6 pb-16">
+      <div class="container">
+        <div class="col-span-full">
+          <nav class="breadcrumb" aria-label="Хлебные крошки">
+            <ol class="breadcrumb-list">
+              <li class="breadcrumb-item">
+                <a href="/" class="breadcrumb-link">Главная</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="/team/" class="breadcrumb-link">Команда</a>
+              </li>
+              <li class="breadcrumb-item" aria-current="page">Айгерим Нурланова</li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="col-span-full lg:col-span-5 xl:col-span-4">
+          <div class="team-card__photo">
+            <picture>
+              <source srcset="/public/images/teams/1.jpg" type="image/webp">
+              <img src="/public/images/teams/1.jpg" alt="Айгерим Нурланова" fetchpriority="high" decoding="async">
+            </picture>
+          </div>
+        </div>
+
+        <div class="col-span-full lg:col-span-7 lg:col-start-6 xl:col-span-7 xl:col-start-6 mb-12">
+          <h1 class="h1 font-bold hyphens-auto break-words">Айгерим Нурланова</h1>
+          <p class="team-card__role mt-2">Основатель и директор</p>
+          <p class="team-card__meta mt-2">PhD в педагогике · 20 лет в международном образовании</p>
+
+          <blockquote class="mt-6 border-l-4 border-brand pl-4 text-lg font-medium leading-tight">
+            «Каждый ребёнок рождён исследователем. Моя задача — создать среду, где этот огонь не гаснет, а разгорается сильнее с каждым годом.»
+          </blockquote>
+
+          <div class="content-redactor mt-8">
+            <p>Айгерим — основатель Space School и идеолог образовательной модели, в которой Cambridge International встречается с глубокой физмат-подготовкой и космической программой.</p>
+            <p>До запуска школы 12 лет руководила международными программами в Назарбаев Интеллектуальных школах.</p>
+            <h3>Чем занимается в школе</h3>
+            <ul>
+              <li>Стратегия школы и партнёрства с университетами</li>
+              <li>Подбор и обучение академической команды</li>
+              <li>Личные встречи с родителями каждой семьи раз в год</li>
+            </ul>
+          </div>
+
+          <div class="mt-8">
+            <a href="https://www.linkedin.com/in/example"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn btn-secondary inline-flex items-center gap-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.3 6.5a1.78 1.78 0 0 1-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0 0 13 14.19a.66.66 0 0 0 0 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 0 1 2.7-1.4c1.55 0 3.36.86 3.36 3.66z"/>
+              </svg>
+              <span>LinkedIn</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

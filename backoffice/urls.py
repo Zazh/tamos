@@ -55,6 +55,16 @@ urlpatterns = [
     path('content/blog/taxonomy/tag/save/', views.content_blog_tag_save, name='content_blog_tag_save'),
     path('content/blog/taxonomy/tag/<int:pk>/delete/', views.content_blog_tag_delete, name='content_blog_tag_delete'),
 
+    # Team
+    path('content/team/', views.content_team_list, name='content_team_list'),
+    path('content/team/region/<int:region_pk>/', views.content_team_region, name='content_team_region'),
+    path('content/team/region/<int:region_pk>/reorder/', views.content_team_reorder, name='content_team_reorder'),
+    path('content/team/new/', views.content_team_create, name='content_team_create'),
+    path('content/team/<int:pk>/', views.content_team_edit, name='content_team_edit'),
+    path('content/team/<int:pk>/delete/', views.content_team_delete, name='content_team_delete'),
+    path('content/team/<int:pk>/translate/', views.content_team_translate, name='content_team_translate'),
+    path('content/team/<int:pk>/seo/', views.content_team_seo, name='content_team_seo'),
+
     # Activities (Activity + ActivityGroup + ScheduleSlot)
     path('content/activities/', views.content_activities_list, name='content_activities_list'),
     path('content/activities/region/<int:region_pk>/', views.content_activities_region, name='content_activities_region'),

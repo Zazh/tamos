@@ -19,6 +19,7 @@ from admission.models import (
     AdmissionVariant,
 )
 from blog.models import BlogCategory, BlogPost, BlogTag
+from team.models import TeamMember
 from feedback.models import Lead
 from pages.models import (
     ContactsDepartment,
@@ -32,7 +33,6 @@ from programs.models import (
     ProgramFaqItem,
     ProgramPage,
     ProgramStat,
-    ProgramTeamMember,
     ProgramVariantCard,
 )
 
@@ -484,12 +484,11 @@ class ProgramPageEditForm(forms.ModelForm):
                                     self.IMAGE_MAX_BYTES, 'OG-картинка')
 
 
-# --- 7 inline-formset форм ---------------------------------------------------
+# --- 6 inline-formset форм ---------------------------------------------------
 
 _PROGRAM_AUDIENCE_TRANSLATABLE = ('title', 'description')
 _PROGRAM_BENEFIT_TRANSLATABLE = ('title', 'description')
 _PROGRAM_VARIANT_TRANSLATABLE = ('badge_text', 'title', 'tags', 'features', 'footer_label', 'footer_value')
-_PROGRAM_TEAM_TRANSLATABLE = ('name', 'role', 'meta', 'quote')
 _PROGRAM_CERT_FEATURE_TRANSLATABLE = ('title',)
 _PROGRAM_STAT_TRANSLATABLE = ('value', 'label')
 _PROGRAM_FAQ_TRANSLATABLE = ('question', 'answer')
@@ -559,20 +558,6 @@ class ProgramVariantCardForm(forms.ModelForm):
         _apply_backoffice_widget_classes(self)
 
 
-class ProgramTeamMemberForm(forms.ModelForm):
-    # name/role/meta — короткие подписи (имя, должность, мета-строка); в UI это
-    # однострочники. quote — цитата, остаётся rows=2 по дефолту.
-    COMPACT_FIELDS = frozenset({'name', 'role', 'meta'})
-
-    class Meta:
-        model = ProgramTeamMember
-        fields = ('order', 'photo') + _localized(*_PROGRAM_TEAM_TRANSLATABLE)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        _apply_backoffice_widget_classes(self, compact_fields=self.COMPACT_FIELDS)
-
-
 class ProgramCertificateFeatureForm(forms.ModelForm):
     class Meta:
         model = ProgramCertificateFeature
@@ -638,7 +623,6 @@ ProgramBenefitFormSet = _program_formset(
     extra=0, can_delete=False, max_num=4,
 )
 ProgramVariantFormSet = _program_formset(ProgramVariantCard, ProgramVariantCardForm, 'variant_cards')
-ProgramTeamFormSet = _program_formset(ProgramTeamMember, ProgramTeamMemberForm, 'team_members', extra=0)
 ProgramCertificateFeatureFormSet = _program_formset(
     ProgramCertificateFeature, ProgramCertificateFeatureForm, 'certificate_features',
     extra=0, can_delete=False, max_num=4,
@@ -960,8 +944,6 @@ PROGRAM_INLINE_FORMSETS = (
      'Карточки «Что получает»', list(_PROGRAM_BENEFIT_TRANSLATABLE)),
     ('variant_cards', ProgramVariantFormSet, 'variant_cards',
      'Карточки программ', list(_PROGRAM_VARIANT_TRANSLATABLE)),
-    ('team_members', ProgramTeamFormSet, 'team_members',
-     'Члены команды', list(_PROGRAM_TEAM_TRANSLATABLE)),
     ('certificate_features', ProgramCertificateFeatureFormSet, 'certificate_features',
      'Карточки «Аттестат»', list(_PROGRAM_CERT_FEATURE_TRANSLATABLE)),
     ('stats', ProgramStatFormSet, 'stats',
@@ -1181,6 +1163,7 @@ class BlogPostEditForm(forms.ModelForm):
         fields = (
             'region',
             'category',
+            'author',
             'slug',
             'cover_image',
             'og_image',
@@ -1222,6 +1205,31 @@ class BlogPostEditForm(forms.ModelForm):
         # Категории — глобальные, без фильтра по региону.
         self.fields['category'].queryset = BlogCategory.objects.all().order_by('order', 'name')
         self.fields['category'].widget.attrs['class'] = 'bo-select'
+
+        # Автор — член команды того же региона что и пост. Опционально (null=True).
+        # На edit: фильтр по post.region. На create: пусто (на create форма
+        # минимальная — поле автора в шаблоне create.html не рендерится).
+        from team.models import TeamMember
+        instance_for_author = kwargs.get('instance')
+        if instance_for_author and instance_for_author.pk and instance_for_author.region_id:
+            self.fields['author'].queryset = (
+                TeamMember.objects
+                .filter(region_id=instance_for_author.region_id, is_published=True)
+                .order_by('order', 'name')
+            )
+        else:
+            # На create: ограничиваем регионом менеджера если есть; для su — пусто
+            # (поле всё равно скрыто на create.html — заполняется на edit).
+            if user is not None and getattr(user, 'manager_region_id', None):
+                self.fields['author'].queryset = (
+                    TeamMember.objects
+                    .filter(region_id=user.manager_region_id, is_published=True)
+                    .order_by('order', 'name')
+                )
+            else:
+                self.fields['author'].queryset = TeamMember.objects.none()
+        self.fields['author'].widget.attrs['class'] = 'bo-select'
+        self.fields['author'].empty_label = '— не указан —'
 
         # Регион:
         # - на edit (instance.pk есть) — hidden, регион поста не меняется;
@@ -1360,3 +1368,138 @@ class BlogCategoryCreateForm(forms.Form):
 class BlogTagCreateForm(BlogCategoryCreateForm):
     """То же что BlogCategoryCreateForm — одинаковая структура полей."""
     pass
+
+
+# ===== Content: Team (раздел «Команда») =====================================
+#
+# Одна модель TeamMember (после удаления TeamResumeItem и ProgramTeamMember
+# 0006/0012). Переводимые поля развёрнуты в _ru/_kk/_en. SEO/OG поля и панель
+# «Публикация» (is_published / is_featured / grade_groups) рендерятся ВНЕ
+# основного <form>, связь через HTML5 form= (паттерн Blog/Home/Contacts).
+
+TEAM_MEMBER_TRANSLATABLE = (
+    'name',
+    'role',
+    'meta',
+    'quote',
+    'bio',
+    'seo_title',
+    'seo_description',
+    'og_title',
+    'og_description',
+)
+
+TEAM_MEMBER_OUT_OF_FORM_BASES = (
+    'seo_title',
+    'seo_description',
+    'og_title',
+    'og_description',
+)
+
+
+class TeamMemberEditForm(forms.ModelForm):
+    """Редактирование одного TeamMember.
+
+    Один и тот же класс используется на создание и редактирование (см.
+    `BlogPostEditForm` — тот же паттерн). На create: region — обычный
+    select (ограничен manager_region для не-su); на edit — hidden,
+    регион члена команды не меняется.
+    """
+
+    HTML_FIELDS = frozenset({'bio'})
+    COMPACT_FIELDS = frozenset({
+        'name', 'role', 'meta',
+        'seo_title', 'og_title',
+    })
+    OUT_OF_FORM_BASES = frozenset({
+        'seo_title', 'seo_description', 'og_title', 'og_description',
+    })
+    OUT_OF_FORM_FILE_FIELDS = frozenset({
+        'og_image', 'is_published', 'is_featured', 'is_admin',
+        'teaches_primary', 'teaches_middle', 'teaches_senior',
+        'linkedin_url',
+    })
+    FORM_ID = 'team-edit-form'
+
+    IMAGE_MAX_BYTES = 5 * 1024 * 1024
+
+    class Meta:
+        model = TeamMember
+        # `order` намеренно отсутствует — порядок задаётся только через DnD
+        # на странице region (см. content_team_reorder).
+        fields = (
+            'region',
+            'slug',
+            'photo',
+            'linkedin_url',
+            'teaches_primary',
+            'teaches_middle',
+            'teaches_senior',
+            'is_admin',
+            'og_image',
+            'is_published',
+            'is_featured',
+        ) + _localized(*TEAM_MEMBER_TRANSLATABLE)
+        widgets = {
+            'is_published': forms.CheckboxInput(),
+            'is_featured': forms.CheckboxInput(),
+            'is_admin': forms.CheckboxInput(),
+            'teaches_primary': forms.CheckboxInput(),
+            'teaches_middle': forms.CheckboxInput(),
+            'teaches_senior': forms.CheckboxInput(),
+            'linkedin_url': forms.URLInput(attrs={
+                'class': 'bo-input',
+                'placeholder': 'https://www.linkedin.com/in/…',
+            }),
+        }
+
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(
+            self,
+            html_fields=self.HTML_FIELDS,
+            compact_fields=self.COMPACT_FIELDS,
+        )
+
+        # Slug — hidden, auto-gen из name_ru в view._auto_slug_for_team.
+        self.fields['slug'].widget = forms.HiddenInput()
+        self.fields['slug'].required = False
+
+        # Поля вне основного <form> — HTML5 form= возвращает их в submit.
+        for name, field in self.fields.items():
+            base = _strip_lang(name)
+            if base in self.OUT_OF_FORM_BASES or name in self.OUT_OF_FORM_FILE_FIELDS:
+                field.widget.attrs['form'] = self.FORM_ID
+
+        instance = kwargs.get('instance')
+        if instance and instance.pk:
+            self.fields['region'].widget = forms.HiddenInput()
+            self.fields['region'].required = False
+        else:
+            from regions.models import Region
+            if user is not None and user.is_superuser:
+                self.fields['region'].queryset = Region.objects.filter(is_active=True)
+            elif user is not None and getattr(user, 'manager_region_id', None):
+                self.fields['region'].queryset = Region.objects.filter(pk=user.manager_region_id)
+                self.fields['region'].initial = user.manager_region_id
+            else:
+                self.fields['region'].queryset = Region.objects.none()
+            self.fields['region'].widget.attrs['class'] = 'bo-select'
+
+    def _check_image_size(self, file, label):
+        if not file or not hasattr(file, 'size'):
+            return file
+        if file.size > self.IMAGE_MAX_BYTES:
+            mb = file.size / 1024 / 1024
+            limit_mb = self.IMAGE_MAX_BYTES // (1024 * 1024)
+            raise forms.ValidationError(
+                f'{label}: файл {mb:.1f} MB больше лимита {limit_mb} MB. '
+                'Сожми через CloudConvert / TinyPNG.'
+            )
+        return file
+
+    def clean_photo(self):
+        return self._check_image_size(self.cleaned_data.get('photo'), 'Фото')
+
+    def clean_og_image(self):
+        return self._check_image_size(self.cleaned_data.get('og_image'), 'OG-картинка')

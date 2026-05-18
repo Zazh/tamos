@@ -372,50 +372,6 @@ class ProgramVariantCard(models.Model):
         return self.ARROW_FILL.get(self.badge_style, '#fff')
 
 
-class ProgramTeamMember(models.Model):
-    """Член команды в слайдере «Команда профессионалов»."""
-
-    program_page = models.ForeignKey(
-        ProgramPage,
-        verbose_name='Лендинг',
-        on_delete=models.CASCADE,
-        related_name='team_members',
-    )
-    photo = models.ImageField(
-        'Фото',
-        upload_to='programs/team/',
-        blank=True,
-        null=True,
-    )
-    photo_webp = ImageSpecField(
-        source='photo',
-        format='WEBP',
-        options={'quality': PROGRAM_IMAGE_QUALITY},
-    )
-    photo_compressed = ImageSpecField(
-        source='photo',
-        options={'quality': PROGRAM_IMAGE_QUALITY, 'optimize': True},
-    )
-    name = models.CharField('Имя', max_length=120)
-    role = models.CharField('Должность', max_length=120)
-    meta = models.CharField(
-        'Мета-строка',
-        max_length=200,
-        blank=True,
-        help_text='Напр. «PhD в педагогике · 20 лет в международном образовании».',
-    )
-    quote = models.TextField('Цитата', blank=True)
-    order = models.PositiveSmallIntegerField('Порядок', default=0)
-
-    class Meta:
-        verbose_name = 'Член команды'
-        verbose_name_plural = 'Члены команды'
-        ordering = ['order', 'pk']
-
-    def __str__(self):
-        return self.name or f'Team #{self.pk}'
-
-
 class ProgramCertificateFeature(models.Model):
     """Карточка-фича в секции «Аттестат» (glass-card 4 шт.)."""
 
