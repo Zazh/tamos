@@ -9,7 +9,7 @@
   </div>
 {% endif %}
 
-<ul class="bo-formset bo-formset-stacked" x-data="boInlineSort">
+<ul class="bo-formset bo-formset-grid-2" x-data="boInlineSort">
   {% for f in formset %}
     <li class="bo-formset-item bo-formset-item-stacked{% if not f.instance.pk %} bo-formset-item-empty{% endif %}">
       {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
@@ -29,12 +29,10 @@
         </div>
       </div>
 
-      <div class="bo-row-2">
-        {% include 'backoffice/content/_field_translatable.html' with form=f base='value' label='Значение' %}
-        {% include 'backoffice/content/_field_translatable.html' with form=f base='label' label='Подпись' %}
-      </div>
+      {% include 'backoffice/content/_field_translatable.html' with form=f base='value' label='Значение' %}
+      {% include 'backoffice/content/_field_translatable.html' with form=f base='label' label='Подпись' %}
     </li>
   {% endfor %}
 </ul>
 
-<p class="bo-help">{% trans "Ровно 4 цифры. Перетащи за иконку слева, чтобы изменить порядок. Чтобы скрыть слот на сайте — оставь оба поля пустыми." %}</p>
+<p class="bo-help">{% trans "Ровно 4 цифры, сетка 2×2. Перетащи за иконку слева, чтобы изменить порядок. Чтобы скрыть слот на сайте — оставь оба поля пустыми." %}</p>

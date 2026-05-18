@@ -545,13 +545,17 @@ class ProgramVariantCardForm(forms.ModelForm):
 
 
 class ProgramTeamMemberForm(forms.ModelForm):
+    # name/role/meta — короткие подписи (имя, должность, мета-строка); в UI это
+    # однострочники. quote — цитата, остаётся rows=2 по дефолту.
+    COMPACT_FIELDS = frozenset({'name', 'role', 'meta'})
+
     class Meta:
         model = ProgramTeamMember
         fields = ('order', 'photo') + _localized(*_PROGRAM_TEAM_TRANSLATABLE)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        _apply_backoffice_widget_classes(self)
+        _apply_backoffice_widget_classes(self, compact_fields=self.COMPACT_FIELDS)
 
 
 class ProgramCertificateFeatureForm(forms.ModelForm):
@@ -619,7 +623,7 @@ ProgramBenefitFormSet = _program_formset(
     extra=0, can_delete=False, max_num=4,
 )
 ProgramVariantFormSet = _program_formset(ProgramVariantCard, ProgramVariantCardForm, 'variant_cards')
-ProgramTeamFormSet = _program_formset(ProgramTeamMember, ProgramTeamMemberForm, 'team_members')
+ProgramTeamFormSet = _program_formset(ProgramTeamMember, ProgramTeamMemberForm, 'team_members', extra=0)
 ProgramCertificateFeatureFormSet = _program_formset(
     ProgramCertificateFeature, ProgramCertificateFeatureForm, 'certificate_features',
     extra=0, can_delete=False, max_num=4,
@@ -628,7 +632,7 @@ ProgramStatFormSet = _program_formset(
     ProgramStat, ProgramStatForm, 'stats',
     extra=0, can_delete=False, max_num=4,
 )
-ProgramFaqFormSet = _program_formset(ProgramFaqItem, ProgramFaqItemForm, 'faq_items')
+ProgramFaqFormSet = _program_formset(ProgramFaqItem, ProgramFaqItemForm, 'faq_items', extra=0)
 
 
 # Имена related_name'ов, у которых должно быть ровно 4 строки. Используется в

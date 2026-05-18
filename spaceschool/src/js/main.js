@@ -12,6 +12,7 @@ import { initMarquee } from "./marquee.js";
 import { initStepperScrollspy } from "./stepper-scrollspy.js";
 import { registerBackofficeGallery } from "./backoffice-gallery.js";
 import { registerBackofficeInlineSort } from "./backoffice-inline-sort.js";
+import { registerBackofficeInlineCollapse } from "./backoffice-inline-collapse.js";
 import { registerBackofficeTranslate } from "./backoffice-translate.js";
 import { registerHeroVideo } from "./hero-video.js";
 
@@ -23,6 +24,7 @@ registerCarousel(Alpine);
 registerFeedbackModal(Alpine);
 registerBackofficeGallery(Alpine);
 registerBackofficeInlineSort(Alpine);
+registerBackofficeInlineCollapse(Alpine);
 registerBackofficeTranslate(Alpine);
 registerHeroVideo(Alpine);
 Alpine.data("boMapPreview", boMapPreview);

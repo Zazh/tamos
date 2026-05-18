@@ -1321,4 +1321,289 @@
       padding: 1rem 1.5rem;
     }
   }
+
+  /* ============ Collapsible inline-formset (team / faq / etc.) ============
+     Generic: каждая карточка свёрнута по дефолту (summary + chevron), раскрывается
+     по клику. Используется в _team_card.html, _faq_card.html. Avatar/photo
+     блоки опциональны (team) и используют свои дополнительные классы. */
+
+  .bo-collapse-formset {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+  }
+
+  .bo-collapse-list {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .bo-collapse-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: .75rem;
+    overflow: hidden;
+    transition: border-color .15s, box-shadow .15s;
+  }
+
+  .bo-collapse-card:hover {
+    border-color: color-mix(in srgb, var(--color-gold) 35%, var(--color-gray-200));
+  }
+
+  .bo-collapse-card-new {
+    border-color: color-mix(in srgb, var(--color-gold) 50%, var(--color-gray-200));
+    background: color-mix(in srgb, var(--color-gold) 4%, var(--color-white));
+  }
+
+  .bo-collapse-card-hidden { display: none !important; }
+
+  .bo-collapse-card-head {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem .625rem;
+    min-height: 56px;
+  }
+
+  .bo-collapse-card-summary {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .25rem .375rem;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+    border-radius: .5rem;
+    transition: background-color .12s;
+  }
+  .bo-collapse-card-summary:hover {
+    background: color-mix(in srgb, var(--color-gold) 8%, transparent);
+  }
+
+  .bo-collapse-card-avatar {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--color-slate-100);
+    display: grid;
+    place-items: center;
+    color: color-mix(in srgb, var(--color-black) 30%, transparent);
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    & svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .bo-collapse-card-avatar-empty {
+    background: color-mix(in srgb, var(--color-gold) 6%, var(--color-slate-100));
+  }
+
+  .bo-collapse-card-info {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+  }
+
+  .bo-collapse-card-name {
+    font-size: .9375rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-black);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bo-collapse-card-role {
+    font-size: .75rem;
+    color: var(--color-gray-500);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bo-collapse-card-chevron {
+    width: 18px;
+    height: 18px;
+    color: color-mix(in srgb, var(--color-black) 45%, transparent);
+    transition: transform .2s;
+    flex-shrink: 0;
+  }
+  .bo-collapse-card-chevron-open { transform: rotate(180deg); }
+
+  .bo-collapse-card-actions {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-shrink: 0;
+  }
+
+  .bo-collapse-card-delete {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    font-size: .75rem;
+    color: var(--color-gray-500);
+    cursor: pointer;
+    user-select: none;
+    padding: .35rem .55rem;
+    border-radius: .5rem;
+    border: 1px solid var(--color-gray-200);
+    background: var(--color-white);
+    transition: border-color .15s, background-color .15s, color .15s;
+
+    & input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: #b91c1c;
+      margin: 0;
+    }
+  }
+  .bo-collapse-card-delete:hover {
+    border-color: #b91c1c;
+    color: #b91c1c;
+  }
+  .bo-collapse-card-delete-on {
+    background: color-mix(in srgb, #b91c1c 10%, var(--color-white));
+    border-color: #b91c1c;
+    color: #b91c1c;
+  }
+
+  .bo-collapse-card-remove {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--color-gray-200);
+    border-radius: .5rem;
+    color: var(--color-gray-500);
+    cursor: pointer;
+    transition: border-color .15s, color .15s, background-color .15s;
+
+    & svg { width: 14px; height: 14px; }
+  }
+  .bo-collapse-card-remove:hover {
+    border-color: #b91c1c;
+    color: #b91c1c;
+    background: color-mix(in srgb, #b91c1c 8%, var(--color-white));
+  }
+
+  .bo-collapse-card-body {
+    padding: .75rem 1rem 1rem;
+    border-top: 1px solid var(--color-gray-200);
+    display: flex;
+    flex-direction: column;
+    gap: .875rem;
+    overflow: hidden;
+  }
+
+  /* Team-specific: photo block в body карточки члена команды. */
+  .bo-team-photo-row {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    align-items: flex-start;
+
+    @variant sm {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .bo-team-photo-preview {
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    border-radius: .625rem;
+    overflow: hidden;
+    background: var(--color-slate-100);
+    border: 1px solid var(--color-gray-200);
+    display: grid;
+    place-items: center;
+    color: color-mix(in srgb, var(--color-black) 25%, transparent);
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    & svg { width: 36px; height: 36px; }
+  }
+  .bo-team-photo-preview-empty {
+    border-style: dashed;
+  }
+
+  .bo-team-photo-controls {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .bo-collapse-card-ghost {
+    opacity: .4;
+    background: color-mix(in srgb, var(--color-gold) 8%, var(--color-white));
+    border-style: dashed;
+  }
+
+  .bo-collapse-add-row {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    align-items: flex-start;
+  }
+
+  .bo-collapse-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .55rem .9rem;
+    background: var(--color-white);
+    color: var(--color-black);
+    font-size: .875rem;
+    font-weight: 500;
+    border: 1px dashed color-mix(in srgb, var(--color-gold) 50%, var(--color-gray-200));
+    border-radius: .625rem;
+    cursor: pointer;
+    transition: background-color .15s, border-color .15s, color .15s;
+
+    & svg {
+      width: 1rem;
+      height: 1rem;
+      color: var(--color-gold);
+    }
+  }
+  .bo-collapse-add-btn:hover {
+    background: color-mix(in srgb, var(--color-gold) 10%, var(--color-white));
+    border-color: var(--color-gold);
+    border-style: solid;
+  }
+
+  .bo-collapse-add-hint {
+    font-size: .75rem;
+    color: var(--color-gray-500);
+    margin: 0;
+  }
 }
