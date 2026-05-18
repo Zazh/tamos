@@ -290,6 +290,39 @@ class AdmissionVariant(models.Model):
         help_text='Напр. «Стоимость обучения для 1 класса (русское отделение) на 2026–2027 учебный год…».',
     )
 
+    # --- SEO / Open Graph (per-variant: каждый URL уникален) ---
+    seo_title = models.CharField(
+        'SEO title (<title>)',
+        max_length=80,
+        blank=True,
+        help_text='50–60 символов. Если пусто — fallback на h1.',
+    )
+    seo_description = models.CharField(
+        'SEO description (meta)',
+        max_length=200,
+        blank=True,
+        help_text='150–160 символов. Если пусто — fallback на hero_lead.',
+    )
+    og_title = models.CharField(
+        'OG title',
+        max_length=80,
+        blank=True,
+        help_text='Если пусто — fallback на seo_title → h1.',
+    )
+    og_description = models.CharField(
+        'OG description',
+        max_length=300,
+        blank=True,
+        help_text='Если пусто — fallback на seo_description → hero_lead.',
+    )
+    og_image = models.ImageField(
+        'OG/share картинка',
+        upload_to='admission/og/',
+        blank=True,
+        null=True,
+        help_text='1200×630 для соцсетей. Если пусто — на странице OG-картинки не будет.',
+    )
+
     class Meta:
         verbose_name = 'Вариант страницы'
         verbose_name_plural = 'Варианты страниц'
@@ -298,6 +331,32 @@ class AdmissionVariant(models.Model):
 
     def __str__(self):
         return f'{self.page.region} · {self.department} · {self.grade}'
+
+    # --- effective_* properties: fallback-каскад для SEO/OG -------------
+    # Хранимые значения могут быть пустыми; на сайте всегда нужны рабочие
+    # значения. Каскад: og → seo → hero. Совпадает с паттерном HomePage/ProgramPage.
+
+    @property
+    def effective_seo_title(self) -> str:
+        return self.seo_title or (self.h1 or '')
+
+    @property
+    def effective_seo_description(self) -> str:
+        return self.seo_description or (self.hero_lead or '').strip()
+
+    @property
+    def effective_og_title(self) -> str:
+        return self.og_title or self.effective_seo_title
+
+    @property
+    def effective_og_description(self) -> str:
+        return self.og_description or self.effective_seo_description
+
+    @property
+    def effective_og_image(self):
+        """Без fallback'а: у admission нет общей region-картинки. None → шаблон
+        не отрисует og:image-блок (block_super отдаёт дефолтный favicon-OG)."""
+        return self.og_image or None
 
 
 class AdmissionTestingFeature(models.Model):

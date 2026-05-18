@@ -803,6 +803,418 @@ PROGRAMCERTIFICATEFEATURE_TITLE = """
 """
 
 
+# ===== AdmissionPage (общие тексты страницы «Поступление») ==================
+
+ADMISSIONPAGE_STAGE_TITLES = """
+<h4>📝 Назначение</h4>
+<p>Заголовки и подписи 5 этапов в боковом stepper'е (одинаковые для всех 6 вариантов региона). Порядок в DOM: сверху <em>Консультация</em>, снизу <em>Тестирование</em> (на десктопе), на мобайле слева-направо 1→5.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>Заголовок этапа — до <strong>80 символов</strong>, 1 строка</li>
+  <li>Подпись (meta) — до <strong>120 символов</strong>, 1 строка. Можно оставить пустой</li>
+  <li>Без HTML</li>
+</ul>
+
+<h4>✨ Текущий референс</h4>
+<ul>
+  <li>«Консультация» / «Менеджер свяжется в течение часа»</li>
+  <li>«Тестирование» / «20–60 минут, в школе»</li>
+  <li>«Результат» / «За 3 дня в WhatsApp»</li>
+  <li>«Договор и взнос» / «Полная или поэтапная оплата»</li>
+  <li>«Зачисление» / «6 документов от родителей»</li>
+</ul>
+"""
+
+
+ADMISSIONPAGE_SECTION_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок h3 в правой колонке над текстом этапа. Префикс «01 — …», «02 — …» добавляется в шаблоне автоматически — здесь только содержательная часть.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До <strong>120 символов</strong>, 1 строка, без HTML</li></ul>
+
+<h4>✨ Референс</h4>
+<ul>
+  <li>«Тестирование» (часто совпадает со stepper-заголовком)</li>
+  <li>«Результат тестирования» (длиннее, чем в stepper'е)</li>
+  <li>«Договор и взнос»</li>
+</ul>
+"""
+
+
+ADMISSIONPAGE_UI_LABELS = """
+<h4>📝 Назначение</h4>
+<p>UI-подписи на странице: корневая крошка breadcrumb («Поступление»), лейблы dropdown'ов «Отделение:» и «Классы:».</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До <strong>80 символов</strong> каждое, без HTML</li></ul>
+
+<h4>✨ Совет</h4>
+<p>На KK/EN не переводи буквально — используй короткое локальное слово (например, EN: «Department:», «Grade:»).</p>
+"""
+
+
+ADMISSIONPAGE_TESTING_RULES_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Параграф под 4-мя карточками этапа «Тестирование». Описывает правила: повторное тестирование, апелляции, кол-во попыток.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Повторное тестирование возможно бесплатно через 1 месяц. Доступна 1 пересдача. Апелляция результатов не предусмотрена.</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1–3 предложения, 100–400 символов. Без HTML</li></ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши параграф с правилами тестирования для поступления: возможность пересдачи (1 раз, бесплатно через месяц), отсутствие апелляции. 1–3 предложения, 100–400 символов.</blockquote>
+"""
+
+
+ADMISSIONPAGE_TESTING_PRICE = """
+<h4>📝 Назначение</h4>
+<p>CTA-плашка «Стоимость тестирования» под правилами. Подпись + цена.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>Подпись: до 80 символов («Стоимость тестирования»)</li>
+  <li>Цена: до 40 символов («10 000 ₸»). Включает валюту</li>
+</ul>
+
+<h4>✨ Совет</h4>
+<p>Чтобы скрыть всю плашку — оставь поле цены пустым.</p>
+"""
+
+
+ADMISSIONPAGE_ENROLLMENT_FEE_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Текст под прайс-картами этапа «Договор» — про вступительный взнос. Поддерживает HTML через <code>|safe</code>.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>&lt;span class="font-bold text-black"&gt;+ Вступительный взнос — 300 000 ₸&lt;/span&gt; разово при поступлении</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>1 предложение, 50–200 символов</li>
+  <li>HTML: только <code>&lt;span class="font-bold text-black"&gt;</code> для выделения цены</li>
+</ul>
+"""
+
+
+ADMISSIONPAGE_PRICING_TITLES = """
+<h4>📝 Назначение</h4>
+<p>Заголовки h4 для двух подсписков под прайс-картами: «Стоимость включает» (✓) и «Не включено» (✕).</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 80 символов каждый, без HTML</li><li>Заголовок «Не включено» можно оставить пустым — тогда подзаголовок не покажется</li></ul>
+"""
+
+
+ADMISSIONPAGE_ENROLLMENT_LEAD = """
+<h4>📝 Назначение</h4>
+<p>Параграф под h3 секции №04 (заголовок задан выше — «Этап «Зачисление»»). Вводит список документов.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1–2 предложения, 80–250 символов</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>После успешного тестирования родители представляют пакет документов для подписания договора.</blockquote>
+"""
+
+
+ADMISSIONPAGE_CONSULTATION_LEAD = """
+<h4>📝 Назначение</h4>
+<p>Параграф под h3 секции №05 (заголовок задан выше — «Этап «Консультация»»). Объясняет что произойдёт после клика на кнопку.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1–2 предложения, 80–250 символов</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Менеджер ответит на ваши вопросы и поможет оформить запись на тестирование.</blockquote>
+"""
+
+
+ADMISSIONPAGE_CONSULTATION_CTA_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Текст основной CTA-кнопки на этапе «Консультация». Открывает форму заявки.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 80 символов, глагол в инфинитиве</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Записаться на консультацию</blockquote>
+"""
+
+
+ADMISSIONPAGE_DOCUMENTS_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок h4 над нумерованным списком документов на этапе «Зачисление».</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 120 символов, 1 строка</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Документы для зачисления</blockquote>
+"""
+
+
+# ===== AdmissionVariant (per dept × grade) ==================================
+
+ADMISSIONVARIANT_H1 = """
+<h4>📝 Назначение</h4>
+<p>H1 страницы — главный заголовок над breadcrumb'ом. Уникальный для каждого варианта.</p>
+
+<h4>✨ Референс</h4>
+<ul>
+  <li>«Поступление в 1 класс» (русское отделение, 1 класс)</li>
+  <li>«Поступление в 2–7 класс» (русское отделение)</li>
+  <li>«Қазақ бөлімінің 1 сыныбына түсу» (казахское отделение, kk)</li>
+</ul>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До <strong>200 символов</strong>, 1 строка, без HTML</li></ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши H1 для страницы поступления в [GRADE] класс [DEPARTMENT] отделения школы. До 200 символов, утвердительная фраза «Поступление в …».</blockquote>
+"""
+
+
+ADMISSIONVARIANT_HERO_LEAD = """
+<h4>📝 Назначение</h4>
+<p>Lead-параграф под H1 (по центру). 1–2 предложения о программе и отделении.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Программа русского отделения. Дети учатся на русском языке по Cambridge-curriculum с углублённой математикой и космической профильной траекторией.</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1–2 предложения, 100–300 символов. Без HTML</li></ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши lead-параграф под H1 страницы поступления в [GRADE] класс [DEPARTMENT] отделения. 1–2 предложения (100–300 символов): язык обучения, ключевая особенность программы.</blockquote>
+"""
+
+
+ADMISSIONVARIANT_TESTING_LEAD = """
+<h4>📝 Назначение</h4>
+<p>Параграф под h3 секции №01 (название редактируется в общих текстах региона). Описывает формат тестирования для конкретного класса/отделения.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Тестирование занимает 20–60 минут. Родитель может присутствовать. Тестирование проходит на русском языке.</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1–3 предложения, 100–350 символов</li></ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши описание формата вступительного тестирования: длительность (20–60 мин), присутствие родителя, язык (русский для RU-отделения, казахский для KZ). 100–350 символов.</blockquote>
+"""
+
+
+ADMISSIONVARIANT_RESULT_INTRO = """
+<h4>📝 Назначение</h4>
+<p>Первый параграф секции №02 (название редактируется в общих текстах региона). Когда и как сообщается решение тестирования.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1 предложение, 50–200 символов</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Решение приёмной комиссии родители узнают сразу после тестирования (для 1 класса) или через 3 дня в WhatsApp (для остальных классов).</blockquote>
+"""
+
+
+ADMISSIONVARIANT_RESULT_DETAIL = """
+<h4>📝 Назначение</h4>
+<p>Второй параграф секции №02. Сценарии: положительный результат → подписание договора; отрицательный → возможность пересдачи через месяц.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>2–3 предложения, 150–400 символов</li></ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Опиши сценарии после результата тестирования: при положительном — приглашение к подписанию договора + взнос; при отрицательном — возможность пересдачи через месяц (макс 2 попытки), возможно дополнительное собеседование. 150–400 символов.</blockquote>
+"""
+
+
+ADMISSIONVARIANT_PRICING_LEAD = """
+<h4>📝 Назначение</h4>
+<p>Lead под h3 секции №03 (название редактируется в общих текстах региона). Контекст к прайс-картам ниже (для какого года, программы и отделения).</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Стоимость обучения в 1 классе русского отделения на 2026–2027 учебный год.</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1 предложение, 50–200 символов</li></ul>
+"""
+
+
+ADMISSIONVARIANT_SEO_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;title&gt;</code> для страницы конкретного варианта (дёт ×грейд). Видится в Google и во вкладке.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li><strong>50–60 символов</strong></li>
+  <li>Структура: «Поступление в [класс] — [отделение] — Space School»</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>h1</code>.</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши SEO-title (50–60 символов) для страницы поступления в [GRADE] класс [DEPARTMENT] отделения школы [НАЗВАНИЕ] в [ГОРОД]. Включи ключевое: «поступление», класс, отделение. Закончи: « — Space School».</blockquote>
+"""
+
+
+ADMISSIONVARIANT_SEO_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Meta description страницы варианта.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li><strong>150–160 символов</strong></li>
+  <li>Содержит: как поступать (тестирование), стоимость или фишка программы</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — <code>hero_lead</code>.</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши meta description (150–160 символов) для страницы поступления в [GRADE] класс [DEPARTMENT] отделения. Опиши процесс (тестирование за 20–60 мин, документы, договор), один маркер ценности (Cambridge / двойной аттестат / IB).</blockquote>
+"""
+
+
+ADMISSIONVARIANT_OG_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок при шеринге в соцсетях.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 80 символов, без эмодзи</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — <code>seo_title</code> → <code>h1</code>.</p>
+"""
+
+
+ADMISSIONVARIANT_OG_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Описание при шеринге.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов, главное в первых 60</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — <code>seo_description</code> → <code>hero_lead</code>.</p>
+"""
+
+
+ADMISSIONVARIANT_OG_IMAGE = """
+<h4>📝 Назначение</h4>
+<p>Картинка для шеринга страницы конкретного варианта.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>1200×630 (1.91:1)</li>
+  <li>JPG/PNG, до <strong>5 MB</strong></li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — у страницы не будет своего OG-image (соцсети покажут favicon-дефолт). У admission нет общерегиональной картинки — желательно загрузить.</p>
+"""
+
+
+# Inline — короткие.
+
+ADMISSIONINCLUDEDITEM_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Пункт списка «Стоимость включает» / «Не включено». Чекбокс «Это не включено» меняет иконку с ✓ на ✕.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов, 1–2 строки, без HTML</li></ul>
+
+<h4>✨ Совет</h4>
+<p>Пункты «Не включено» обычно собираются одним из последних — их визуально отделяет горизонтальная линия на сайте.</p>
+"""
+
+
+ADMISSIONDOCUMENT_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Пункт нумерованного списка «Документы для зачисления». Номер 1/2/3/… рендерится автоматически.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов, 1 строка</li></ul>
+
+<h4>✨ Референс</h4>
+<ul>
+  <li>«Заявление о приёме»</li>
+  <li>«Свидетельство о рождении ребёнка + копия ИИН»</li>
+  <li>«Документ заявителя (паспорт + копия)»</li>
+</ul>
+"""
+
+
+ADMISSIONTESTINGFEATURE_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок одной из 4 карточек этапа «Тестирование» (Академическая часть / Психолог / Формат / Результат).</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До <strong>60 символов</strong>, 1 строка</li></ul>
+
+<h4>✨ Совет</h4>
+<p>Чтобы скрыть карточку на сайте — оставь заголовок пустым (всего ровно 4 слота в DOM, пустые скрываются).</p>
+"""
+
+
+ADMISSIONTESTINGFEATURE_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Описание под заголовком карточки тестирования — 1 короткое предложение.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>80–200 символов</li></ul>
+"""
+
+
+ADMISSIONPRICINGPLAN_LABEL = """
+<h4>📝 Назначение</h4>
+<p>Подпись плана оплаты («100% до 1 июня», «Ежеквартально», «Годовая оплата»). Видна над ценой.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 120 символов, 1 строка</li></ul>
+"""
+
+
+ADMISSIONPRICINGPLAN_PRICE_VALUE = """
+<h4>📝 Назначение</h4>
+<p>Цена плана без валюты. Валюта — отдельным полем рядом.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До 40 символов</li>
+  <li>Формат: «4 086 000» (с разделителями-неразрывными пробелами)</li>
+</ul>
+"""
+
+
+ADMISSIONPRICINGPLAN_NOTE = """
+<h4>📝 Назначение</h4>
+<p>Сноска под ценой (мелким). Условия оплаты, скидки и т.д.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов, 1–2 строки</li></ul>
+
+<h4>✨ Референс</h4>
+<ul>
+  <li>«Полная оплата до 1 июня»</li>
+  <li>«Первый транш 1 395 000 ₸ до 1 июня»</li>
+</ul>
+"""
+
+
+ADMISSIONPRICINGPLAN_BADGE = """
+<h4>📝 Назначение</h4>
+<p>Маленький бадж сверху карточки («Лучшая цена», «Скидка 5%»). Если пусто — место под бадж всё равно остаётся (выравнивание цен по вертикали с соседними картами).</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 80 символов, 1 короткая фраза</li></ul>
+"""
+
+
 FIELD_HELP = {
     # Image / Video — AI-pipeline скипает (LLM не генерирует бинарные файлы).
     'homepage.hero_image': _h(HOMEPAGE_HERO_IMAGE, ai_processable=False),
@@ -865,6 +1277,42 @@ FIELD_HELP = {
     'programbenefititem.title': _h(PROGRAMBENEFITITEM_TITLE),
     'programbenefititem.description': _h(PROGRAMBENEFITITEM_DESCRIPTION),
     'programcertificatefeature.title': _h(PROGRAMCERTIFICATEFEATURE_TITLE),
+
+    # AdmissionPage (общие тексты страницы «Поступление»)
+    'admissionpage.stage_titles': _h(ADMISSIONPAGE_STAGE_TITLES),
+    'admissionpage.section_title': _h(ADMISSIONPAGE_SECTION_TITLE),
+    'admissionpage.ui_labels': _h(ADMISSIONPAGE_UI_LABELS),
+    'admissionpage.testing_rules_text': _h(ADMISSIONPAGE_TESTING_RULES_TEXT),
+    'admissionpage.testing_price': _h(ADMISSIONPAGE_TESTING_PRICE),
+    'admissionpage.enrollment_fee_text': _h(ADMISSIONPAGE_ENROLLMENT_FEE_TEXT),
+    'admissionpage.pricing_titles': _h(ADMISSIONPAGE_PRICING_TITLES),
+    'admissionpage.enrollment_lead': _h(ADMISSIONPAGE_ENROLLMENT_LEAD),
+    'admissionpage.documents_title': _h(ADMISSIONPAGE_DOCUMENTS_TITLE),
+    'admissionpage.consultation_lead': _h(ADMISSIONPAGE_CONSULTATION_LEAD),
+    'admissionpage.consultation_cta_text': _h(ADMISSIONPAGE_CONSULTATION_CTA_TEXT),
+
+    # AdmissionVariant (per dept × grade)
+    'admissionvariant.h1': _h(ADMISSIONVARIANT_H1),
+    'admissionvariant.hero_lead': _h(ADMISSIONVARIANT_HERO_LEAD),
+    'admissionvariant.testing_lead': _h(ADMISSIONVARIANT_TESTING_LEAD),
+    'admissionvariant.result_intro': _h(ADMISSIONVARIANT_RESULT_INTRO),
+    'admissionvariant.result_detail': _h(ADMISSIONVARIANT_RESULT_DETAIL),
+    'admissionvariant.pricing_lead': _h(ADMISSIONVARIANT_PRICING_LEAD),
+    'admissionvariant.seo_title': _h(ADMISSIONVARIANT_SEO_TITLE),
+    'admissionvariant.seo_description': _h(ADMISSIONVARIANT_SEO_DESCRIPTION),
+    'admissionvariant.og_title': _h(ADMISSIONVARIANT_OG_TITLE),
+    'admissionvariant.og_description': _h(ADMISSIONVARIANT_OG_DESCRIPTION),
+    'admissionvariant.og_image': _h(ADMISSIONVARIANT_OG_IMAGE, ai_processable=False),
+
+    # Admission inline-models
+    'admissionincludeditem.text': _h(ADMISSIONINCLUDEDITEM_TEXT),
+    'admissiondocument.text': _h(ADMISSIONDOCUMENT_TEXT),
+    'admissiontestingfeature.title': _h(ADMISSIONTESTINGFEATURE_TITLE),
+    'admissiontestingfeature.description': _h(ADMISSIONTESTINGFEATURE_DESCRIPTION),
+    'admissionpricingplan.label': _h(ADMISSIONPRICINGPLAN_LABEL),
+    'admissionpricingplan.price_value': _h(ADMISSIONPRICINGPLAN_PRICE_VALUE),
+    'admissionpricingplan.note': _h(ADMISSIONPRICINGPLAN_NOTE),
+    'admissionpricingplan.badge_text': _h(ADMISSIONPRICINGPLAN_BADGE),
 }
 
 

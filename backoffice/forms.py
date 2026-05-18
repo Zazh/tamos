@@ -4,6 +4,14 @@ from django.contrib.auth import authenticate
 from django.forms import inlineformset_factory
 from django.utils.translation import gettext_lazy as _
 
+from admission.models import (
+    AdmissionDocument,
+    AdmissionIncludedItem,
+    AdmissionPage,
+    AdmissionPricingPlan,
+    AdmissionTestingFeature,
+    AdmissionVariant,
+)
 from feedback.models import Lead
 from pages.models import (
     ContactsDepartment,
@@ -633,6 +641,294 @@ ProgramStatFormSet = _program_formset(
     extra=0, can_delete=False, max_num=4,
 )
 ProgramFaqFormSet = _program_formset(ProgramFaqItem, ProgramFaqItemForm, 'faq_items', extra=0)
+
+
+# ===== Content: AdmissionPage + AdmissionVariant edit forms =================
+#
+# Структура (см. memory/admission.md):
+#   AdmissionPage     — singleton per region; общие тексты страницы (stepper,
+#                       UI-лейблы, секции, правила тестирования, документы и т.д.)
+#   AdmissionVariant  — (page × department × grade) — варианты страницы. На каждый
+#                       регион 6 вариантов: 3 RU (1, 2-7, 8-11) + 3 KZ (1, 2-6, 7-11).
+#                       Hero, lead'ы этапов, prising и SEO/OG — здесь.
+#
+# Edit flow (см. ответ юзера): отдельная страница per variant, на AdmissionPage
+# edit'е — grid с превью+ссылками на каждую из 6 variant-страниц.
+
+ADMISSION_PAGE_TRANSLATABLE = (
+    # Stepper (5 этапов × 2: title + meta) — короткие подписи
+    'stage_consultation_title', 'stage_consultation_meta',
+    'stage_testing_title', 'stage_testing_meta',
+    'stage_result_title', 'stage_result_meta',
+    'stage_contract_title', 'stage_contract_meta',
+    'stage_enrollment_title', 'stage_enrollment_meta',
+    # Заголовки h3 секций
+    'testing_section_title',
+    'result_section_title',
+    'contract_section_title',
+    'enrollment_section_title',
+    'consultation_section_title',
+    # UI-лейблы
+    'breadcrumb_root_label',
+    'department_dropdown_label',
+    'grade_dropdown_label',
+    # Этап «Тестирование» — общая часть
+    'testing_rules_text',
+    'testing_price_label',
+    'testing_price_value',
+    # Этап «Договор» — общая часть
+    'enrollment_fee_text',
+    'pricing_included_title',
+    'pricing_excluded_title',
+    # Этап «Зачисление»
+    'enrollment_lead',
+    'documents_title',
+    # Этап «Консультация»
+    'consultation_lead',
+    'consultation_cta_text',
+)
+
+
+class AdmissionPageEditForm(forms.ModelForm):
+    """Редактирование AdmissionPage — общие для региона тексты."""
+
+    # HTML-textarea: `enrollment_fee_text` рендерится через |safe (поддерживает
+    # <span class="font-bold text-black">…</span>). Для разметки нужно больше места.
+    HTML_FIELDS = frozenset({'enrollment_fee_text'})
+
+    # Short-title поля — однострочники (TextField исторически, в UI это короткие
+    # подписи; rows=1 чтобы не съедать пол-экрана).
+    COMPACT_FIELDS = frozenset({
+        'stage_consultation_title', 'stage_consultation_meta',
+        'stage_testing_title', 'stage_testing_meta',
+        'stage_result_title', 'stage_result_meta',
+        'stage_contract_title', 'stage_contract_meta',
+        'stage_enrollment_title', 'stage_enrollment_meta',
+        'testing_section_title',
+        'result_section_title',
+        'contract_section_title',
+        'enrollment_section_title',
+        'consultation_section_title',
+        'breadcrumb_root_label',
+        'department_dropdown_label',
+        'grade_dropdown_label',
+        'testing_price_label',
+        'testing_price_value',
+        'pricing_included_title',
+        'pricing_excluded_title',
+        'documents_title',
+        'consultation_cta_text',
+    })
+
+    FORM_ID = 'admission-page-edit-form'
+
+    class Meta:
+        model = AdmissionPage
+        fields = _localized(*ADMISSION_PAGE_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(
+            self,
+            html_fields=self.HTML_FIELDS,
+            compact_fields=self.COMPACT_FIELDS,
+        )
+
+
+_ADMISSION_INCLUDED_TRANSLATABLE = ('text',)
+_ADMISSION_DOCUMENT_TRANSLATABLE = ('text',)
+
+
+class AdmissionIncludedItemForm(forms.ModelForm):
+    class Meta:
+        model = AdmissionIncludedItem
+        fields = ('order', 'is_excluded') + _localized(*_ADMISSION_INCLUDED_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+
+
+class AdmissionDocumentForm(forms.ModelForm):
+    class Meta:
+        model = AdmissionDocument
+        fields = ('order',) + _localized(*_ADMISSION_DOCUMENT_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+
+
+AdmissionIncludedItemFormSet = inlineformset_factory(
+    parent_model=AdmissionPage,
+    model=AdmissionIncludedItem,
+    form=AdmissionIncludedItemForm,
+    extra=0,
+    can_delete=True,
+    fk_name='page',
+)
+
+AdmissionDocumentFormSet = inlineformset_factory(
+    parent_model=AdmissionPage,
+    model=AdmissionDocument,
+    form=AdmissionDocumentForm,
+    extra=0,
+    can_delete=True,
+    fk_name='page',
+)
+
+
+# Конфигурация формсетов AdmissionPage — единое место правды для view/template.
+# Каждая запись: (prefix, FormSet, related_name, label, translatable_bases).
+ADMISSION_PAGE_INLINE_FORMSETS = (
+    ('included_items', AdmissionIncludedItemFormSet, 'included_items',
+     'Стоимость включает / Не включено', list(_ADMISSION_INCLUDED_TRANSLATABLE)),
+    ('documents', AdmissionDocumentFormSet, 'documents',
+     'Документы для зачисления', list(_ADMISSION_DOCUMENT_TRANSLATABLE)),
+)
+
+
+# --- AdmissionVariant (per dept × grade) ----------------------------------
+
+ADMISSION_VARIANT_TRANSLATABLE = (
+    'h1',
+    'hero_lead',
+    'testing_lead',
+    'result_intro',
+    'result_detail',
+    'pricing_lead',
+    'seo_title',
+    'seo_description',
+    'og_title',
+    'og_description',
+)
+
+
+class AdmissionVariantEditForm(forms.ModelForm):
+    """Редактирование одного варианта (dept × grade). FK page/department/grade
+    в форме НЕ редактируются — это контекст, фиксируется view'ом."""
+
+    OUT_OF_FORM_BASES = frozenset({
+        'seo_title', 'seo_description', 'og_title', 'og_description',
+    })
+    OUT_OF_FORM_FILE_FIELDS = frozenset({'og_image'})
+    FORM_ID = 'admission-variant-edit-form'
+
+    IMAGE_MAX_BYTES = 5 * 1024 * 1024
+
+    class Meta:
+        model = AdmissionVariant
+        fields = ('og_image',) + _localized(*ADMISSION_VARIANT_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+        for name, field in self.fields.items():
+            base = _strip_lang(name)
+            if base in self.OUT_OF_FORM_BASES or name in self.OUT_OF_FORM_FILE_FIELDS:
+                field.widget.attrs['form'] = self.FORM_ID
+
+    def _check_max_size(self, file, limit, kind):
+        if not file or not hasattr(file, 'size'):
+            return file
+        mb = file.size / 1024 / 1024
+        limit_mb = limit // (1024 * 1024)
+        if file.size > limit:
+            raise forms.ValidationError(
+                f'Файл {mb:.1f} MB больше лимита {limit_mb} MB для «{kind}». '
+                'Сожми через CloudConvert / TinyPNG.'
+            )
+        return file
+
+    def clean_og_image(self):
+        return self._check_max_size(
+            self.cleaned_data.get('og_image'), self.IMAGE_MAX_BYTES, 'OG-картинка'
+        )
+
+
+_ADMISSION_TESTING_FEATURE_TRANSLATABLE = ('title', 'description')
+_ADMISSION_PRICING_PLAN_TRANSLATABLE = ('badge_text', 'label', 'note')
+
+
+class AdmissionTestingFeatureForm(forms.ModelForm):
+    class Meta:
+        model = AdmissionTestingFeature
+        fields = ('order', 'icon_svg') + _localized(*_ADMISSION_TESTING_FEATURE_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+        # Fixed-slot UX: все 4 карточки всегда есть в форме; менеджер может
+        # очистить заголовок (карточка скроется на сайте), но удалить — нельзя.
+        _relax_required(self, _ADMISSION_TESTING_FEATURE_TRANSLATABLE)
+        _limit_chars(self, ('title',), 60)
+
+
+class AdmissionPricingPlanForm(forms.ModelForm):
+    # `label/note/price_value/price_currency` — короткие подписи, в UI однострочники.
+    COMPACT_FIELDS = frozenset({'label', 'price_value', 'price_currency', 'badge_text'})
+
+    class Meta:
+        model = AdmissionPricingPlan
+        fields = (
+            'order',
+            'highlight',
+            'price_value',
+            'price_currency',
+            'icon_svg',
+        ) + _localized(*_ADMISSION_PRICING_PLAN_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self, compact_fields=self.COMPACT_FIELDS)
+
+
+def _admission_variant_formset(model, form, *, extra=1, can_delete=True, max_num=None):
+    kwargs = dict(
+        parent_model=AdmissionVariant,
+        model=model,
+        form=form,
+        extra=extra,
+        can_delete=can_delete,
+        fk_name='variant',
+    )
+    if max_num is not None:
+        kwargs['max_num'] = max_num
+        kwargs['validate_max'] = True
+    return inlineformset_factory(**kwargs)
+
+
+# 4 фиксированных testing-features (по дизайну: 2×2 grid). Менеджер может
+# оставить title пустым — карточка скроется на публичной странице (см. view).
+AdmissionTestingFeatureFormSet = _admission_variant_formset(
+    AdmissionTestingFeature, AdmissionTestingFeatureForm,
+    extra=0, can_delete=False, max_num=4,
+)
+
+# Pricing-plans — гибкое количество (3 в seed grade-1; для остальных variant'ов
+# может быть 1 = «Полная оплата»). Collapsible accordion в UI.
+AdmissionPricingPlanFormSet = _admission_variant_formset(
+    AdmissionPricingPlan, AdmissionPricingPlanForm,
+    extra=0, can_delete=True,
+)
+
+
+# related_name+model для гарантии 4 testing-features на variant (view-хелпер
+# `_ensure_admission_fixed_sections`, аналог `_ensure_program_fixed_sections`).
+ADMISSION_VARIANT_FIXED_SLOT_SECTIONS = (
+    ('testing_features', AdmissionTestingFeature),
+)
+ADMISSION_VARIANT_FIXED_SLOT_COUNT = 4
+
+
+ADMISSION_VARIANT_INLINE_FORMSETS = (
+    ('testing_features', AdmissionTestingFeatureFormSet, 'testing_features',
+     'Карточки этапа «Тестирование» (ровно 4)',
+     list(_ADMISSION_TESTING_FEATURE_TRANSLATABLE)),
+    ('pricing_plans', AdmissionPricingPlanFormSet, 'pricing_plans',
+     'Прайс-карты этапа «Договор и взнос»',
+     list(_ADMISSION_PRICING_PLAN_TRANSLATABLE)),
+)
 
 
 # Имена related_name'ов, у которых должно быть ровно 4 строки. Используется в

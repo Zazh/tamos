@@ -17,12 +17,24 @@ from core.gemini_translate import (
     generate_seo,
     translate_fields,
 )
+from admission.models import (
+    AdmissionPage,
+    AdmissionVariant,
+)
 from feedback.models import Lead
 from pages.models import ContactsPage, HomeGalleryImage, HomePage
 from programs.models import ProgramPage
 from regions.models import Region
 
 from .forms import (
+    ADMISSION_PAGE_INLINE_FORMSETS,
+    ADMISSION_PAGE_TRANSLATABLE,
+    ADMISSION_VARIANT_FIXED_SLOT_COUNT,
+    ADMISSION_VARIANT_FIXED_SLOT_SECTIONS,
+    ADMISSION_VARIANT_INLINE_FORMSETS,
+    ADMISSION_VARIANT_TRANSLATABLE,
+    AdmissionPageEditForm,
+    AdmissionVariantEditForm,
     CONTACTS_TRANSLATABLE,
     ContactsDepartmentFormSet,
     ContactsPageEditForm,
@@ -796,6 +808,415 @@ def content_contacts_seo(request, pk):
     if not sanitized:
         return JsonResponse(
             {'error': 'Нет исходного контента для SEO. Заполни хотя бы intro_title/intro_text на RU.'},
+            status=400,
+        )
+
+    try:
+        seo = generate_seo(sanitized)
+    except TranslationConfigError as e:
+        return JsonResponse({'error': str(e)}, status=503)
+    except TranslationError as e:
+        return JsonResponse({'error': str(e)}, status=502)
+
+    return JsonResponse({'seo': seo})
+
+
+# ----- content: AdmissionPage / AdmissionVariant ----------------------------
+#
+# AdmissionPage edit — общие тексты + 2 inline (included_items, documents) + grid
+# с превью 6 вариантов (ссылки на отдельные edit-страницы).
+# AdmissionVariant edit — hero + leads этапов + testing-features (fixed 4) +
+# pricing-plans (гибкое количество) + SEO/OG.
+#
+# Region-scope:
+#   AdmissionPage  — region_scoped(qs, user) по полю region (FK напрямую)
+#   AdmissionVariant — region на page; фильтр через page__region (через
+#                       region_scoped с region_field='page__region')
+
+
+@never_cache
+@backoffice_required
+def content_admission_list(request):
+    """Список AdmissionPage по регионам (1 строка для менеджера, N для superuser)."""
+    qs = (
+        region_scoped(AdmissionPage.objects.select_related('region'), request.user)
+        .annotate(
+            variant_count=Count('variants', distinct=True),
+            included_count=Count('included_items', distinct=True),
+            document_count=Count('documents', distinct=True),
+        )
+        .order_by('region__name')
+    )
+    return render_backoffice(
+        request,
+        'backoffice/content/admission/list.html',
+        active='admission',
+        page_title='Поступление',
+        context={'rows': qs},
+    )
+
+
+def _get_admission_for_user(request, pk):
+    """region-scoped AdmissionPage или 404."""
+    qs = region_scoped(AdmissionPage.objects.all(), request.user)
+    return get_object_or_404(qs, pk=pk)
+
+
+def _get_admission_variant_for_user(request, vpk):
+    """region-scoped AdmissionVariant (через page__region) или 404."""
+    qs = region_scoped(
+        AdmissionVariant.objects.select_related('page__region', 'department', 'grade'),
+        request.user,
+        region_field='page__region',
+    )
+    return get_object_or_404(qs, pk=vpk)
+
+
+def _admissionpage_steps(page, formsets):
+    """Шаги stepper'а completeness на edit-странице AdmissionPage.
+
+    - Основа RU (обязательный): stepper titles + section titles + UI labels + testing rules + enrollment + consultation.
+    - Перевод KZ / EN — те же ключевые поля.
+    - Inline: read-only счётчик (included + documents).
+    """
+    def is_filled(field_name):
+        val = getattr(page, field_name, '')
+        if hasattr(val, 'name'):
+            return bool(val and val.name)
+        return bool(val and str(val).strip())
+
+    # Ключевой набор полей (не каждый — иначе шумно).
+    ru_fields = [
+        'stage_consultation_title_ru', 'stage_testing_title_ru',
+        'stage_result_title_ru', 'stage_contract_title_ru', 'stage_enrollment_title_ru',
+        'testing_section_title_ru', 'result_section_title_ru',
+        'contract_section_title_ru', 'enrollment_section_title_ru', 'consultation_section_title_ru',
+        'testing_rules_text_ru', 'testing_price_value_ru',
+        'enrollment_lead_ru', 'consultation_lead_ru',
+    ]
+    kk_fields = [f.replace('_ru', '_kk') for f in ru_fields]
+    en_fields = [f.replace('_ru', '_en') for f in ru_fields]
+
+    def step(id, label, fields, required=False):
+        initial = {f: is_filled(f) for f in fields}
+        filled = sum(1 for v in initial.values() if v)
+        return {
+            'id': id,
+            'label': label,
+            'fields': fields,
+            'initial': initial,
+            'filled': filled,
+            'total': len(fields),
+            'required': required,
+        }
+
+    inline_total = page.included_items.count() + page.documents.count()
+    return [
+        step('ru', 'Основа (RU)', ru_fields, required=True),
+        step('kk', 'Перевод KZ', kk_fields),
+        step('en', 'Перевод EN', en_fields),
+        {
+            'id': 'inline',
+            'label': 'Списки',
+            'fields': [],
+            'initial': {},
+            'filled': inline_total,
+            'total': inline_total or 1,
+            'required': False,
+            'readonly': True,
+        },
+    ]
+
+
+@never_cache
+@backoffice_required
+def content_admission_edit(request, pk):
+    """Edit AdmissionPage (общие тексты) + 2 inline + grid 6 вариантов внизу."""
+    page = _get_admission_for_user(request, pk)
+
+    if request.method == 'POST':
+        form = AdmissionPageEditForm(request.POST, instance=page)
+        formsets = [
+            (prefix, fs_cls(request.POST, instance=page, prefix=prefix), related_name, label, bases)
+            for prefix, fs_cls, related_name, label, bases in ADMISSION_PAGE_INLINE_FORMSETS
+        ]
+        all_valid = form.is_valid() and all(fs.is_valid() for _, fs, *_ in formsets)
+        if all_valid:
+            form.save()
+            for _, fs, *_ in formsets:
+                fs.save()
+            messages.success(request, 'Страница «Поступление» сохранена.')
+            return redirect('backoffice:content_admission_edit', pk=page.pk)
+    else:
+        form = AdmissionPageEditForm(instance=page)
+        formsets = [
+            (prefix, fs_cls(instance=page, prefix=prefix), related_name, label, bases)
+            for prefix, fs_cls, related_name, label, bases in ADMISSION_PAGE_INLINE_FORMSETS
+        ]
+
+    # Превью 6 вариантов (RU 1/2-7/8-11 + KZ 1/2-6/7-11) с счётчиком заполненности.
+    variants = list(
+        page.variants
+        .select_related('department', 'grade')
+        .annotate(
+            testing_count=Count('testing_features', distinct=True),
+            pricing_count=Count('pricing_plans', distinct=True),
+        )
+        .order_by('department__order', 'grade__order')
+    )
+    variants_with_status = [
+        {
+            'pk': v.pk,
+            'department': v.department,
+            'grade': v.grade,
+            'h1': v.h1,
+            'is_filled': bool(
+                (v.hero_lead or '').strip()
+                and (v.testing_lead or '').strip()
+                and (v.pricing_lead or '').strip()
+            ),
+            'testing_count': v.testing_count,
+            'pricing_count': v.pricing_count,
+        }
+        for v in variants
+    ]
+
+    steps = _admissionpage_steps(page, formsets)
+
+    return render_backoffice(
+        request,
+        'backoffice/content/admission/page_edit.html',
+        active='admission',
+        page_title=f'Поступление — {page.region.name}',
+        context={
+            'page': page,
+            'form': form,
+            'formsets': formsets,
+            'variants': variants_with_status,
+            'translation_langs': TRANSLATION_LANGS,
+            'steps_json': json.dumps(steps),
+            'translatable_bases_json': json.dumps(list(ADMISSION_PAGE_TRANSLATABLE)),
+            'admission_translate_url': reverse('backoffice:content_admission_translate', kwargs={'pk': page.pk}),
+        },
+    )
+
+
+@require_POST
+@backoffice_required
+def content_admission_translate(request, pk):
+    """RU→KK/EN перевод для AdmissionPage (и его inline included/documents)."""
+    _get_admission_for_user(request, pk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    by_lang = payload.get('by_lang') or {}
+    if not isinstance(by_lang, dict):
+        return JsonResponse({'error': 'by_lang must be an object'}, status=400)
+
+    result: dict[str, dict[str, str]] = {}
+    for lang, values in by_lang.items():
+        if lang not in {'kk', 'en'}:
+            continue
+        if not isinstance(values, dict):
+            continue
+        sanitized = {
+            str(k): str(v)[:TRANSLATE_MAX_VALUE_CHARS]
+            for k, v in list(values.items())[:TRANSLATE_MAX_FIELDS_PER_LANG]
+            if v and str(v).strip()
+        }
+        if not sanitized:
+            continue
+        try:
+            result[lang] = translate_fields(sanitized, lang)
+        except TranslationConfigError as e:
+            return JsonResponse({'error': str(e)}, status=503)
+        except TranslationError as e:
+            return JsonResponse({'error': str(e)}, status=502)
+
+    return JsonResponse({'translations': result})
+
+
+def _ensure_admission_fixed_sections(variant):
+    """Гарантирует 4 testing_features на variant. См. _ensure_program_fixed_sections."""
+    for related_name, model in ADMISSION_VARIANT_FIXED_SLOT_SECTIONS:
+        qs = getattr(variant, related_name)
+        existing = qs.count()
+        if existing >= ADMISSION_VARIANT_FIXED_SLOT_COUNT:
+            continue
+        max_order = qs.aggregate(_m=Max('order'))['_m'] or 0
+        for i in range(ADMISSION_VARIANT_FIXED_SLOT_COUNT - existing):
+            model.objects.create(
+                variant=variant,
+                order=max_order + (i + 1) * 10,
+            )
+
+
+def _admissionvariant_steps(variant, formsets):
+    """Шаги для variant edit:
+    - RU (обязательный): h1 + hero_lead + leads этапов
+    - KK/EN: те же
+    - SEO (опц)
+    - Inline: read-only счётчик (testing + pricing)
+    """
+    def is_filled(field_name):
+        val = getattr(variant, field_name, '')
+        if hasattr(val, 'name'):
+            return bool(val and val.name)
+        return bool(val and str(val).strip())
+
+    ru_fields = [
+        'h1_ru', 'hero_lead_ru',
+        'testing_lead_ru', 'result_intro_ru', 'result_detail_ru', 'pricing_lead_ru',
+    ]
+    kk_fields = [f.replace('_ru', '_kk') for f in ru_fields]
+    en_fields = [f.replace('_ru', '_en') for f in ru_fields]
+    seo_fields = ['seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_description_ru']
+
+    def step(id, label, fields, required=False):
+        initial = {f: is_filled(f) for f in fields}
+        filled = sum(1 for v in initial.values() if v)
+        return {
+            'id': id,
+            'label': label,
+            'fields': fields,
+            'initial': initial,
+            'filled': filled,
+            'total': len(fields),
+            'required': required,
+        }
+
+    inline_total = variant.testing_features.count() + variant.pricing_plans.count()
+    return [
+        step('ru', 'Основа (RU)', ru_fields, required=True),
+        step('kk', 'Перевод KZ', kk_fields),
+        step('en', 'Перевод EN', en_fields),
+        step('seo', 'SEO', seo_fields),
+        {
+            'id': 'inline',
+            'label': 'Карточки',
+            'fields': [],
+            'initial': {},
+            'filled': inline_total,
+            'total': inline_total or 1,
+            'required': False,
+            'readonly': True,
+        },
+    ]
+
+
+@never_cache
+@backoffice_required
+def content_admission_variant_edit(request, vpk):
+    """Edit одного варианта (dept × grade)."""
+    variant = _get_admission_variant_for_user(request, vpk)
+
+    # Гарантируем 4 testing-features до инициализации formset'а.
+    _ensure_admission_fixed_sections(variant)
+
+    if request.method == 'POST':
+        form = AdmissionVariantEditForm(request.POST, request.FILES, instance=variant)
+        formsets = [
+            (prefix, fs_cls(request.POST, request.FILES, instance=variant, prefix=prefix), related_name, label, bases)
+            for prefix, fs_cls, related_name, label, bases in ADMISSION_VARIANT_INLINE_FORMSETS
+        ]
+        all_valid = form.is_valid() and all(fs.is_valid() for _, fs, *_ in formsets)
+        if all_valid:
+            form.save()
+            for _, fs, *_ in formsets:
+                fs.save()
+            messages.success(request, 'Вариант страницы сохранён.')
+            return redirect('backoffice:content_admission_variant_edit', vpk=variant.pk)
+    else:
+        form = AdmissionVariantEditForm(instance=variant)
+        formsets = [
+            (prefix, fs_cls(instance=variant, prefix=prefix), related_name, label, bases)
+            for prefix, fs_cls, related_name, label, bases in ADMISSION_VARIANT_INLINE_FORMSETS
+        ]
+
+    steps = _admissionvariant_steps(variant, formsets)
+
+    return render_backoffice(
+        request,
+        'backoffice/content/admission/variant_edit.html',
+        active='admission',
+        page_title=f'{variant.department.name} · {variant.grade.name} — {variant.page.region.name}',
+        context={
+            'variant': variant,
+            'page': variant.page,
+            'form': form,
+            'formsets': formsets,
+            'translation_langs': TRANSLATION_LANGS,
+            'steps_json': json.dumps(steps),
+            'translatable_bases_json': json.dumps(list(ADMISSION_VARIANT_TRANSLATABLE)),
+            'variant_translate_url': reverse('backoffice:content_admission_variant_translate', kwargs={'vpk': variant.pk}),
+        },
+    )
+
+
+@require_POST
+@backoffice_required
+def content_admission_variant_translate(request, vpk):
+    """RU→KK/EN перевод для AdmissionVariant (включая SEO и inline testing/pricing)."""
+    _get_admission_variant_for_user(request, vpk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    by_lang = payload.get('by_lang') or {}
+    if not isinstance(by_lang, dict):
+        return JsonResponse({'error': 'by_lang must be an object'}, status=400)
+
+    result: dict[str, dict[str, str]] = {}
+    for lang, values in by_lang.items():
+        if lang not in {'kk', 'en'}:
+            continue
+        if not isinstance(values, dict):
+            continue
+        sanitized = {
+            str(k): str(v)[:TRANSLATE_MAX_VALUE_CHARS]
+            for k, v in list(values.items())[:TRANSLATE_MAX_FIELDS_PER_LANG]
+            if v and str(v).strip()
+        }
+        if not sanitized:
+            continue
+        try:
+            result[lang] = translate_fields(sanitized, lang)
+        except TranslationConfigError as e:
+            return JsonResponse({'error': str(e)}, status=503)
+        except TranslationError as e:
+            return JsonResponse({'error': str(e)}, status=502)
+
+    return JsonResponse({'translations': result})
+
+
+@require_POST
+@backoffice_required
+def content_admission_variant_seo(request, vpk):
+    """AI-генерация SEO/OG для variant'а. Источник — h1/hero_lead/pricing_lead."""
+    _get_admission_variant_for_user(request, vpk)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    content = payload.get('content') or {}
+    if not isinstance(content, dict):
+        return JsonResponse({'error': 'content must be an object'}, status=400)
+
+    sanitized = {
+        str(k): str(v)[:SEO_SOURCE_MAX_CHARS]
+        for k, v in list(content.items())[:SEO_SOURCE_MAX_FIELDS]
+        if v and str(v).strip()
+    }
+    if not sanitized:
+        return JsonResponse(
+            {'error': 'Нет исходного контента для SEO. Заполни h1/hero_lead на RU.'},
             status=400,
         )
 

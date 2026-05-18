@@ -1,0 +1,95 @@
+{% load i18n backoffice_tags %}
+{% comment %}
+  Одна карточка прайс-плана (collapsible). Summary = badge + label + цена.
+  Body = highlight + badge_text + icon_svg + label + price_value + currency + note.
+  Params: f, translate_url, form_id
+{% endcomment %}
+<li class="bo-collapse-card{% if not f.instance.pk %} bo-collapse-card-new{% endif %}"
+    x-data="boInlineCollapseCard({ initialOpen: {% if not f.instance.pk %}true{% else %}false{% endif %}, placeholderLabel: '{% trans "Новый план" %}', summaryPrimary: 'label', summarySecondary: 'badge_text' })">
+  {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+  {{ f.order.as_hidden }}
+
+  <header class="bo-collapse-card-head">
+    <button type="button" class="bo-drag-handle" aria-label="{% trans 'Перетащить для сортировки' %}" title="{% trans 'Перетащить' %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>
+    </button>
+
+    <button type="button" class="bo-collapse-card-summary" @click="open = !open" :aria-expanded="open">
+      <span class="bo-collapse-card-info">
+        <strong class="bo-collapse-card-name" x-text="displayName || placeholderLabel"></strong>
+        <span class="bo-collapse-card-role">
+          {% if f.instance.pk and f.instance.price_value %}{{ f.instance.price_value }} {{ f.instance.price_currency }}{% else %}<span x-text="displaySecondary"></span>{% endif %}
+        </span>
+      </span>
+      <svg class="bo-collapse-card-chevron" :class="open && 'bo-collapse-card-chevron-open'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+
+    <div class="bo-collapse-card-actions" @click.stop>
+      {% include 'backoffice/content/_block_translate.html' with bases='["badge_text","label","note"]' translate_url=translate_url form_id=form_id prefix=f.prefix|add:'-' %}
+      {% if f.instance.pk %}
+        <label class="bo-collapse-card-delete" :class="markedForDelete && 'bo-collapse-card-delete-on'">
+          {{ f.DELETE }}
+          <span x-text="markedForDelete ? '{% trans "Отменить" %}' : '{% trans "Удалить" %}'"></span>
+        </label>
+      {% else %}
+        <button type="button" class="bo-collapse-card-remove" @click="$root.__remove($el.closest('li'))" aria-label="{% trans 'Убрать карточку' %}" title="{% trans 'Убрать карточку (до сохранения)' %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="bo-collapse-card-body" x-show="open" x-collapse>
+    <div class="bo-row-2">
+      {% include 'backoffice/content/_field.html' with field=f.highlight label='Стиль карточки' %}
+      {% include 'backoffice/content/_field_translatable.html' with form=f base='badge_text' label='Бадж (опц)' %}
+    </div>
+    {% field_help 'admissionpricingplan.badge_text' %}
+
+    {% include 'backoffice/content/_field_translatable.html' with form=f base='label' label='Подпись плана' %}
+    {% field_help 'admissionpricingplan.label' %}
+
+    <div class="bo-row-2">
+      {% include 'backoffice/content/_field.html' with field=f.price_value label='Цена (без валюты)' %}
+      {% include 'backoffice/content/_field.html' with field=f.price_currency label='Валюта' %}
+    </div>
+    {% field_help 'admissionpricingplan.price_value' %}
+
+    {% include 'backoffice/content/_field_translatable.html' with form=f base='note' label='Сноска под ценой (опц)' %}
+    {% field_help 'admissionpricingplan.note' %}
+
+    <div class="bo-svg-field" x-data="{ svgOpen: false }">
+      <div class="bo-svg-preview" aria-hidden="true">
+        {% if f.instance.icon_svg %}{{ f.instance.icon_svg|safe }}{% else %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".3"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>{% endif %}
+      </div>
+      <button type="button" class="bo-svg-edit-btn" @click="svgOpen = true" :aria-expanded="svgOpen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
+        </svg>
+        <span>{% trans "Редактировать SVG-иконку" %}</span>
+      </button>
+      <div class="bo-svg-modal" x-show="svgOpen" x-cloak @keydown.escape.window="svgOpen = false">
+        <div class="bo-modal-backdrop" @click="svgOpen = false" aria-hidden="true"></div>
+        <div class="bo-modal-panel" role="dialog" aria-modal="true">
+          <header class="bo-modal-head">
+            <h3 class="bo-modal-title">{% trans "SVG-иконка прайс-карты" %}</h3>
+            <button type="button" class="bo-modal-close" @click="svgOpen = false" aria-label="{% trans 'Закрыть' %}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+          </header>
+          <div class="bo-modal-body">
+            <label class="bo-label" for="{{ f.icon_svg.id_for_label }}">{% trans "Полная разметка <svg>…</svg>" %}</label>
+            {{ f.icon_svg }}
+            {% for err in f.icon_svg.errors %}<p class="bo-help" style="color:#b91c1c">{{ err }}</p>{% endfor %}
+            <p class="bo-help">{% trans "Иконка слева сверху карточки на сайте. Превью обновится после сохранения формы." %}</p>
+          </div>
+          <footer class="bo-modal-foot">
+            <button type="button" class="bo-action-btn bo-action-preview" @click="svgOpen = false">{% trans "Готово" %}</button>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

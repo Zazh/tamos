@@ -30,4 +30,10 @@ urlpatterns = [
     path('content/program/<int:pk>/', views.content_program_edit, name='content_program_edit'),
     path('content/program/<int:pk>/translate/', views.content_program_translate, name='content_program_translate'),
     path('content/program/<int:pk>/seo/', views.content_program_seo, name='content_program_seo'),
+    path('content/admission/', views.content_admission_list, name='content_admission_list'),
+    path('content/admission/<int:pk>/', views.content_admission_edit, name='content_admission_edit'),
+    path('content/admission/<int:pk>/translate/', views.content_admission_translate, name='content_admission_translate'),
+    path('content/admission/variant/<int:vpk>/', views.content_admission_variant_edit, name='content_admission_variant_edit'),
+    path('content/admission/variant/<int:vpk>/translate/', views.content_admission_variant_translate, name='content_admission_variant_translate'),
+    path('content/admission/variant/<int:vpk>/seo/', views.content_admission_variant_seo, name='content_admission_variant_seo'),
 ]

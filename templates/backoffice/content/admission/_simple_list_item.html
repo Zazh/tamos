@@ -1,0 +1,45 @@
+{% load i18n backoffice_tags %}
+{% comment %}
+  Одна карточка списка (используется и в цикле, и в <template> для empty_form).
+  Params: f, translate_url, form_id, help_key, show_excluded, placeholder
+{% endcomment %}
+<li class="bo-formset-item bo-formset-item-stacked{% if not f.instance.pk %} bo-formset-item-empty{% endif %}">
+  {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+  {{ f.order.as_hidden }}
+
+  <div class="bo-formset-head">
+    <button type="button" class="bo-drag-handle" aria-label="{% trans 'Перетащить для сортировки' %}" title="{% trans 'Перетащить' %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>
+    </button>
+    <h3 class="bo-formset-item-title" title="{% if f.instance.text %}{{ f.instance.text }}{% else %}{{ placeholder|default:'Новый пункт' }}{% endif %}">
+      {% if f.instance.pk %}
+        {% if f.instance.text %}{{ f.instance.text|truncatechars:70 }}{% else %}{{ placeholder|default:'Новый пункт' }}{% endif %}
+      {% else %}
+        {{ placeholder|default:'Новый пункт' }}
+      {% endif %}
+    </h3>
+    <div class="bo-formset-head-actions">
+      {% include 'backoffice/content/_block_translate.html' with bases='["text"]' translate_url=translate_url form_id=form_id prefix=f.prefix|add:'-' %}
+      {% if f.instance.pk %}
+        <label class="bo-label-checkbox">
+          {{ f.DELETE }}
+          <span>{% trans "Удалить" %}</span>
+        </label>
+      {% else %}
+        <button type="button" class="bo-collapse-card-remove" @click="$root.__remove($el.closest('li'))" aria-label="{% trans 'Убрать строку' %}" title="{% trans 'Убрать строку (до сохранения)' %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if show_excluded %}
+    <label class="bo-label-checkbox" style="margin: 0 0 .5rem;">
+      {{ f.is_excluded }}
+      <span>{% trans "Это НЕ входит в стоимость (✕ вместо ✓ на сайте)" %}</span>
+    </label>
+  {% endif %}
+
+  {% include 'backoffice/content/_field_translatable.html' with form=f base='text' label='Текст пункта' %}
+  {% if help_key %}{% field_help help_key %}{% endif %}
+</li>

@@ -1,0 +1,274 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n l10n backoffice_tags %}
+
+{% block content %}
+  <a href="{% url 'backoffice:content_admission_list' %}" class="bo-back">← {% trans "К списку" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-content-stack" x-data="{ lang: 'ru' }">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{% blocktrans with region=page.region.name %}Поступление — {{ region }}{% endblocktrans %}</h1>
+        <p class="bo-page-subtitle">{% blocktrans with date=page.updated_at|date:"j E, H:i" %}Общие тексты страницы и 6 вариантов (отделение × класс). Обновлено {{ date }}.{% endblocktrans %}</p>
+      </div>
+      <div class="bo-detail-head-actions">
+        <a :href="'/' + lang + '/{{ page.region.slug }}/admission/'"
+           target="_blank"
+           rel="noopener"
+           class="bo-action-btn bo-action-preview"
+           :title="'{% trans "Открыть страницу в новой вкладке на текущем языке" %} (' + lang.toUpperCase() + ')'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          <span>{% trans "Просмотреть на сайте" %}</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык контента' %}">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+        {% trans "Русский" %}<span class="bo-tab-meta">{% trans "основной" %}</span>
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
+        Қазақша
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
+        English
+      </button>
+
+      <div class="bo-tab-action-wrap"
+           x-data="boAutoTranslate"
+           data-url="{{ admission_translate_url }}"
+           data-form-id="admission-page-edit-form"
+           data-bases-json='{{ translatable_bases_json|safe }}'>
+        <button type="button"
+                class="bo-tab bo-tab-action"
+                :class="loading && 'bo-btn-disabled'"
+                :disabled="loading"
+                @click="run()"
+                :title="error || status || '{% trans "Перевести пустые KK/EN из RU через Gemini" %}'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+            <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+          </svg>
+          <span x-show="!loading">{% trans "Авто-перевод" %}</span>
+          <span x-show="loading" x-cloak>{% trans "Переводим…" %}</span>
+        </button>
+        <small class="bo-tab-action-status" x-show="status && !error" x-cloak x-text="status"></small>
+        <small class="bo-tab-action-error" x-show="error" x-cloak x-text="error"></small>
+      </div>
+    </div>
+
+    <form id="admission-page-edit-form" method="post" action="" enctype="multipart/form-data" class="bo-form">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="bo-messages">
+          {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endif %}
+
+      {# ===== Stepper ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Этапы (stepper)" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["stage_consultation_title","stage_consultation_meta","stage_testing_title","stage_testing_meta","stage_result_title","stage_result_meta","stage_contract_title","stage_contract_meta","stage_enrollment_title","stage_enrollment_meta"]' translate_url=admission_translate_url form_id='admission-page-edit-form' %}
+        </header>
+        <p class="bo-help">{% trans "5 этапов в боковой колонке. Подписи (meta) опциональны." %}</p>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='stage_consultation_title' label='1. Консультация — заголовок' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='stage_consultation_meta' label='1. Консультация — подпись' %}
+        </div>
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='stage_testing_title' label='2. Тестирование — заголовок' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='stage_testing_meta' label='2. Тестирование — подпись' %}
+        </div>
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='stage_result_title' label='3. Результат — заголовок' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='stage_result_meta' label='3. Результат — подпись' %}
+        </div>
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='stage_contract_title' label='4. Договор — заголовок' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='stage_contract_meta' label='4. Договор — подпись' %}
+        </div>
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='stage_enrollment_title' label='5. Зачисление — заголовок' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='stage_enrollment_meta' label='5. Зачисление — подпись' %}
+        </div>
+        {% field_help 'admissionpage.stage_titles' %}
+      </section>
+
+      {# ===== Заголовки секций ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Заголовки секций (h3)" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["testing_section_title","result_section_title","contract_section_title","enrollment_section_title","consultation_section_title"]' translate_url=admission_translate_url form_id='admission-page-edit-form' %}
+        </header>
+        <p class="bo-help">{% trans "Заголовки в правой колонке. Префикс «01 — », «02 — » добавляется автоматически." %}</p>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='testing_section_title' label='01 — Тестирование' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='result_section_title' label='02 — Результат' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='contract_section_title' label='03 — Договор и взнос' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='enrollment_section_title' label='04 — Зачисление' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='consultation_section_title' label='05 — Консультация' %}
+        {% field_help 'admissionpage.section_title' %}
+      </section>
+
+      {# ===== UI-лейблы ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "UI-лейблы" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["breadcrumb_root_label","department_dropdown_label","grade_dropdown_label"]' translate_url=admission_translate_url form_id='admission-page-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='breadcrumb_root_label' label='Breadcrumb (корень)' %}
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='department_dropdown_label' label='Лейбл «Отделение:»' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='grade_dropdown_label' label='Лейбл «Классы:»' %}
+        </div>
+        {% field_help 'admissionpage.ui_labels' %}
+      </section>
+
+      {# ===== Этап «Тестирование» — общая часть ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Этап «Тестирование» — общая часть" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["testing_rules_text","testing_price_label","testing_price_value"]' translate_url=admission_translate_url form_id='admission-page-edit-form' %}
+        </header>
+        <p class="bo-help">{% trans "Параграф с правилами под 4 карточками и плашка с ценой. 4 карточки тестирования — на странице каждого варианта." %}</p>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='testing_rules_text' label='Правила тестирования' %}
+        {% field_help 'admissionpage.testing_rules_text' %}
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='testing_price_label' label='Подпись цены' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='testing_price_value' label='Цена тестирования (с валютой)' %}
+        </div>
+        {% field_help 'admissionpage.testing_price' %}
+      </section>
+
+      {# ===== Этап «Договор» — общая часть + Стоимость включает/Не включено ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Этап «Договор» — общая часть" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["enrollment_fee_text","pricing_included_title","pricing_excluded_title"]' translate_url=admission_translate_url form_id='admission-page-edit-form' %}
+        </header>
+        <p class="bo-help">{% trans "Текст про вступительный взнос + заголовки подсписков. Сам прайс — на каждой странице варианта." %}</p>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='enrollment_fee_text' label='Текст про вступительный взнос (HTML)' %}
+        {% field_help 'admissionpage.enrollment_fee_text' %}
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='pricing_included_title' label='Заголовок «Стоимость включает»' %}
+          {% include 'backoffice/content/_field_translatable.html' with form=form base='pricing_excluded_title' label='Заголовок «Не включено» (опц)' %}
+        </div>
+        {% field_help 'admissionpage.pricing_titles' %}
+
+        {% with fs_data=formsets|getbyindex:0 %}
+          {% include 'backoffice/content/admission/_simple_list.html' with formset=fs_data.1 translate_url=admission_translate_url form_id='admission-page-edit-form' add_label='Добавить пункт' placeholder='Новый пункт' help_key='admissionincludeditem.text' show_excluded=True %}
+        {% endwith %}
+      </section>
+
+      {# ===== Этап «Зачисление» — lead + documents ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Этап «Зачисление»" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["enrollment_lead","documents_title"]' translate_url=admission_translate_url form_id='admission-page-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='enrollment_lead' label='Lead (параграф над списком)' %}
+        {% field_help 'admissionpage.enrollment_lead' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='documents_title' label='Заголовок списка документов' %}
+        {% field_help 'admissionpage.documents_title' %}
+
+        {% with fs_data=formsets|getbyindex:1 %}
+          {% include 'backoffice/content/admission/_simple_list.html' with formset=fs_data.1 translate_url=admission_translate_url form_id='admission-page-edit-form' add_label='Добавить документ' placeholder='Новый документ' help_key='admissiondocument.text' show_excluded=False %}
+        {% endwith %}
+      </section>
+
+      {# ===== Этап «Консультация» ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Этап «Консультация»" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["consultation_lead","consultation_cta_text"]' translate_url=admission_translate_url form_id='admission-page-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='consultation_lead' label='Lead этапа' %}
+        {% field_help 'admissionpage.consultation_lead' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='consultation_cta_text' label='Текст CTA-кнопки' %}
+        {% field_help 'admissionpage.consultation_cta_text' %}
+      </section>
+    </form>
+
+    {# ===== Раздел «Варианты» — grid 2×3 с превью и ссылкой ===== #}
+    <section class="bo-panel">
+      <header class="bo-panel-head">
+        <h2 class="bo-panel-title">{% trans "Варианты страницы (отделение × класс)" %}</h2>
+      </header>
+      <p class="bo-help">{% trans "6 уникальных страниц региона: 3 RU (1, 2-7, 8-11) + 3 KZ (1, 2-6, 7-11). У каждого варианта свои h1, lead'ы этапов, 4 testing-карточки, прайс-карты и SEO." %}</p>
+
+      {% if variants %}
+        <ul class="bo-variant-grid">
+          {% for v in variants %}
+            <li class="bo-variant-card{% if v.is_filled %} bo-variant-card-filled{% else %} bo-variant-card-empty{% endif %}">
+              <a href="{% url 'backoffice:content_admission_variant_edit' vpk=v.pk %}" class="bo-variant-card-link">
+                <div class="bo-variant-card-head">
+                  <span class="bo-variant-card-dept">{{ v.department.name }}</span>
+                  <span class="bo-variant-card-grade">{{ v.grade.name }}</span>
+                </div>
+                <div class="bo-variant-card-h1">
+                  {% if v.h1 %}{{ v.h1 }}{% else %}<em class="bo-variant-card-empty-h1">{% trans "Без H1 — placeholder" %}</em>{% endif %}
+                </div>
+                <div class="bo-variant-card-meta">
+                  <span>{{ v.testing_count }}/4 {% trans "карточек" %}</span>
+                  <span>·</span>
+                  <span>{{ v.pricing_count }} {% trans "плана" %}</span>
+                  {% if v.is_filled %}
+                    <span class="bo-variant-status bo-variant-status-filled" title="{% trans 'Все три lead-параграфа заполнены' %}">●</span>
+                  {% else %}
+                    <span class="bo-variant-status bo-variant-status-empty" title="{% trans 'Не все lead-параграфы заполнены' %}">○</span>
+                  {% endif %}
+                </div>
+                <span class="bo-variant-card-cta">{% trans "Редактировать →" %}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="bo-empty">{% trans "Варианты создаются миграцией. Обратись к разработчику если регион новый." %}</p>
+      {% endif %}
+    </section>
+
+    {# ===== Sticky footer + stepper ===== #}
+    <div class="bo-form-foot bo-form-foot-sticky"
+         x-data="boFormSteps"
+         data-form-id="admission-page-edit-form"
+         data-steps-json='{{ steps_json|safe }}'>
+      <ul class="bo-steps">
+        <template x-for="step in steps" :key="step.id">
+          <li class="bo-step" :class="stepClass(step)" :title="step.label + ' — ' + step.filled + '/' + step.total + (step.required ? ' (обязательно)' : '')">
+            <span class="bo-step-dot"></span>
+            <span class="bo-step-label" x-text="step.label"></span>
+            <span class="bo-step-count" x-text="step.filled + '/' + step.total"></span>
+            <span class="bo-step-req" x-show="step.required" x-cloak title="{% trans 'Обязательный шаг' %}">*</span>
+          </li>
+        </template>
+      </ul>
+
+      <div class="bo-form-foot-actions">
+        <a href="{% url 'backoffice:content_admission_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+        <button type="submit" form="admission-page-edit-form"
+                class="btn btn-primary"
+                :disabled="!canSave"
+                :class="!canSave && 'bo-btn-disabled'"
+                :title="canSave ? '' : blockedReason">{% trans "Сохранить" %}</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

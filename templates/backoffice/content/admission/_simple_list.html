@@ -1,0 +1,45 @@
+{% load i18n backoffice_tags %}
+{% comment %}
+  Простой DnD-список для inline-formset с короткими translatable текстами.
+  Используется для AdmissionIncludedItem и AdmissionDocument.
+
+  Обёртка `boInlineCollapse` даёт add (через <template>), Sortable и renumber.
+  Сами карточки рендерятся как stacked items (не collapse — body всегда виден).
+
+  Params:
+    formset, translate_url, form_id
+    add_label    — текст кнопки «Добавить» («Добавить пункт» / «Добавить документ»)
+    placeholder  — placeholder заголовок для новых («Новый пункт» / «Новый документ»)
+    help_key     — ключ из FIELD_HELP под textarea
+    show_excluded — bool: True для included_items — рендерит чекбокс «Это не входит»
+{% endcomment %}
+
+<div class="bo-collapse-formset"
+     x-data="boInlineCollapse"
+     data-prefix="{{ formset.prefix }}">
+
+  {{ formset.management_form }}
+  {% if formset.non_form_errors %}
+    <div class="bo-messages">
+      {% for err in formset.non_form_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+    </div>
+  {% endif %}
+
+  <ul class="bo-formset bo-formset-stacked" x-ref="list">
+    {% for f in formset %}
+      {% include 'backoffice/content/admission/_simple_list_item.html' with f=f translate_url=translate_url form_id=form_id help_key=help_key show_excluded=show_excluded placeholder=placeholder %}
+    {% endfor %}
+  </ul>
+
+  <template x-ref="template">
+    {% include 'backoffice/content/admission/_simple_list_item.html' with f=formset.empty_form translate_url=translate_url form_id=form_id help_key=help_key show_excluded=show_excluded placeholder=placeholder %}
+  </template>
+
+  <div class="bo-collapse-add-row">
+    <button type="button" class="bo-collapse-add-btn" @click="add()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <span>{{ add_label|default:_("Добавить") }}</span>
+    </button>
+    <p class="bo-collapse-add-hint">{% trans "Перетаскивай за ≡ слева, чтобы изменить порядок." %}</p>
+  </div>
+</div>

@@ -75,6 +75,10 @@ class AdmissionVariantTranslationOptions(TranslationOptions):
         'result_intro',
         'result_detail',
         'pricing_lead',
+        'seo_title',
+        'seo_description',
+        'og_title',
+        'og_description',
     )
 
 

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Поступление — Астана</title>
+  <link rel="stylesheet" href="../src/css/main.css">
+</head>
+<body class="bg-slate-50">
+<div class="bo-shell">
+  <main class="bo-main">
+    <div class="bo-page-pad">
+      <a href="#" class="bo-back">← К списку</a>
+
+      <div class="bo-content-stack">
+        <header class="bo-detail-head">
+          <div>
+            <h1 class="bo-page-title">Поступление — Астана</h1>
+            <p class="bo-page-subtitle">Общие тексты страницы и 6 вариантов (отделение × класс). Обновлено 18 мая, 16:30.</p>
+          </div>
+          <div class="bo-detail-head-actions">
+            <a href="#" class="bo-action-btn bo-action-preview">Просмотреть на сайте</a>
+          </div>
+        </header>
+
+        <div class="bo-tabs">
+          <button class="bo-tab bo-tab-active">Русский<span class="bo-tab-meta">основной</span></button>
+          <button class="bo-tab">Қазақша</button>
+          <button class="bo-tab">English</button>
+          <div class="bo-tab-action-wrap"><button class="bo-tab bo-tab-action">Авто-перевод</button></div>
+        </div>
+
+        <form class="bo-form">
+          <section class="bo-panel">
+            <header class="bo-panel-head">
+              <h2 class="bo-panel-title">Этапы (stepper)</h2>
+            </header>
+            <p class="bo-help">5 этапов в боковой колонке. Подписи (meta) опциональны.</p>
+            <div class="bo-row-2">
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">1. Консультация — заголовок</label>
+                <input class="bo-input" value="Есть вопросы?">
+              </div>
+              <div class="bo-field bo-field-translatable">
+                <label class="bo-label">1. Консультация — подпись</label>
+                <input class="bo-input" value="Менеджер свяжется в час">
+              </div>
+            </div>
+          </section>
+
+          <section class="bo-panel">
+            <header class="bo-panel-head">
+              <h2 class="bo-panel-title">Этап «Договор» — общая часть</h2>
+            </header>
+            <!-- simple_list (DnD, add) -->
+            <div class="bo-collapse-formset">
+              <ul class="bo-formset bo-formset-stacked">
+                <li class="bo-formset-item bo-formset-item-stacked">
+                  <div class="bo-formset-head">
+                    <button class="bo-drag-handle">≡</button>
+                    <h3 class="bo-formset-item-title">Учебники и материалы</h3>
+                    <div class="bo-formset-head-actions">
+                      <label class="bo-label-checkbox"><input type="checkbox"><span>Удалить</span></label>
+                    </div>
+                  </div>
+                  <label class="bo-label-checkbox" style="margin: 0 0 .5rem;">
+                    <input type="checkbox">
+                    <span>Это НЕ входит в стоимость (✕ вместо ✓ на сайте)</span>
+                  </label>
+                  <div class="bo-field bo-field-translatable">
+                    <label class="bo-label">Текст пункта</label>
+                    <textarea class="bo-textarea" rows="2">Учебники и материалы</textarea>
+                  </div>
+                </li>
+              </ul>
+              <div class="bo-collapse-add-row">
+                <button class="bo-collapse-add-btn">+ Добавить пункт</button>
+                <p class="bo-collapse-add-hint">Перетаскивай за ≡ слева, чтобы изменить порядок.</p>
+              </div>
+            </div>
+          </section>
+        </form>
+
+        <!-- ===== Variant grid (новое для admission) ===== -->
+        <section class="bo-panel">
+          <header class="bo-panel-head">
+            <h2 class="bo-panel-title">Варианты страницы (отделение × класс)</h2>
+          </header>
+          <p class="bo-help">6 уникальных страниц региона: 3 RU (1, 2-7, 8-11) + 3 KZ (1, 2-6, 7-11). У каждого варианта свои h1, lead'ы этапов, 4 testing-карточки, прайс-карты и SEO.</p>
+
+          <ul class="bo-variant-grid">
+            <li class="bo-variant-card bo-variant-card-filled">
+              <a href="#" class="bo-variant-card-link">
+                <div class="bo-variant-card-head">
+                  <span class="bo-variant-card-dept">Русское отделение</span>
+                  <span class="bo-variant-card-grade">1 класс</span>
+                </div>
+                <div class="bo-variant-card-h1">Поступление в 1 класс</div>
+                <div class="bo-variant-card-meta">
+                  <span>4/4 карточек</span><span>·</span><span>3 плана</span>
+                  <span class="bo-variant-status bo-variant-status-filled">●</span>
+                </div>
+                <span class="bo-variant-card-cta">Редактировать →</span>
+              </a>
+            </li>
+            <li class="bo-variant-card bo-variant-card-empty">
+              <a href="#" class="bo-variant-card-link">
+                <div class="bo-variant-card-head">
+                  <span class="bo-variant-card-dept">Русское отделение</span>
+                  <span class="bo-variant-card-grade">2–7 класс</span>
+                </div>
+                <div class="bo-variant-card-h1"><em class="bo-variant-card-empty-h1">Без H1 — placeholder</em></div>
+                <div class="bo-variant-card-meta">
+                  <span>0/4 карточек</span><span>·</span><span>0 планов</span>
+                  <span class="bo-variant-status bo-variant-status-empty">○</span>
+                </div>
+                <span class="bo-variant-card-cta">Редактировать →</span>
+              </a>
+            </li>
+            <li class="bo-variant-card bo-variant-card-empty">
+              <a href="#" class="bo-variant-card-link">
+                <div class="bo-variant-card-head">
+                  <span class="bo-variant-card-dept">Русское отделение</span>
+                  <span class="bo-variant-card-grade">8–11 класс</span>
+                </div>
+                <div class="bo-variant-card-h1"><em class="bo-variant-card-empty-h1">Без H1 — placeholder</em></div>
+                <div class="bo-variant-card-meta">
+                  <span>0/4 карточек</span><span>·</span><span>0 планов</span>
+                  <span class="bo-variant-status bo-variant-status-empty">○</span>
+                </div>
+                <span class="bo-variant-card-cta">Редактировать →</span>
+              </a>
+            </li>
+            <li class="bo-variant-card bo-variant-card-filled">
+              <a href="#" class="bo-variant-card-link">
+                <div class="bo-variant-card-head">
+                  <span class="bo-variant-card-dept">Казахское отделение</span>
+                  <span class="bo-variant-card-grade">1 сынып</span>
+                </div>
+                <div class="bo-variant-card-h1">1 сыныпқа қабылдау</div>
+                <div class="bo-variant-card-meta">
+                  <span>4/4 карточек</span><span>·</span><span>3 плана</span>
+                  <span class="bo-variant-status bo-variant-status-filled">●</span>
+                </div>
+                <span class="bo-variant-card-cta">Редактировать →</span>
+              </a>
+            </li>
+            <li class="bo-variant-card bo-variant-card-empty">
+              <a href="#" class="bo-variant-card-link">
+                <div class="bo-variant-card-head">
+                  <span class="bo-variant-card-dept">Казахское отделение</span>
+                  <span class="bo-variant-card-grade">2–6 сынып</span>
+                </div>
+                <div class="bo-variant-card-h1"><em class="bo-variant-card-empty-h1">Без H1 — placeholder</em></div>
+                <div class="bo-variant-card-meta">
+                  <span>0/4 карточек</span><span>·</span><span>0 планов</span>
+                  <span class="bo-variant-status bo-variant-status-empty">○</span>
+                </div>
+                <span class="bo-variant-card-cta">Редактировать →</span>
+              </a>
+            </li>
+            <li class="bo-variant-card bo-variant-card-empty">
+              <a href="#" class="bo-variant-card-link">
+                <div class="bo-variant-card-head">
+                  <span class="bo-variant-card-dept">Казахское отделение</span>
+                  <span class="bo-variant-card-grade">7–11 сынып</span>
+                </div>
+                <div class="bo-variant-card-h1"><em class="bo-variant-card-empty-h1">Без H1 — placeholder</em></div>
+                <div class="bo-variant-card-meta">
+                  <span>0/4 карточек</span><span>·</span><span>0 планов</span>
+                  <span class="bo-variant-status bo-variant-status-empty">○</span>
+                </div>
+                <span class="bo-variant-card-cta">Редактировать →</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

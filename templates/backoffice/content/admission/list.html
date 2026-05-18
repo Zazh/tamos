@@ -1,0 +1,71 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head">
+    <h1 class="bo-page-title">{% trans "Поступление" %}</h1>
+    <p class="bo-page-subtitle">{% trans "Лендинг «Поступление» для каждого региона. Общие тексты страницы + 6 вариантов (русское × {1, 2-7, 8-11} + казахское × {1, 2-6, 7-11}). Выберите регион." %}</p>
+  </div>
+
+  {% if rows %}
+    <div class="bo-table-wrap">
+      <table class="bo-table">
+        <thead>
+          <tr>
+            <th class="bo-th">{% trans "Регион" %}</th>
+            <th class="bo-th">{% trans "Вариантов" %}</th>
+            <th class="bo-th">{% trans "Списки" %}</th>
+            <th class="bo-th bo-th-right">{% trans "Обновлено" %}</th>
+            <th class="bo-th bo-th-right"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for page in rows %}
+            <tr class="bo-tr" onclick="location.href='{% url 'backoffice:content_admission_edit' pk=page.pk %}'">
+              <td class="bo-td">
+                <div class="bo-cell-strong">{{ page.region.name }}</div>
+                <div class="bo-cell-muted">{{ page.region.slug }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-muted">{{ page.variant_count }} {% trans "из 6" %}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-muted">{{ page.included_count }} {% trans "пунктов" %} · {{ page.document_count }} {% trans "документов" %}</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <div class="bo-cell-muted">{{ page.updated_at|date:"j E, H:i" }}</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <a href="{% url 'backoffice:content_admission_edit' pk=page.pk %}" class="bo-row-edit">{% trans "Редактировать →" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="bo-cards">
+      {% for page in rows %}
+        <li class="bo-card" onclick="location.href='{% url 'backoffice:content_admission_edit' pk=page.pk %}'">
+          <div class="bo-card-head">
+            <span class="bo-cell-strong">{{ page.region.name }}</span>
+            <time class="bo-cell-muted">{{ page.updated_at|date:"j E, H:i" }}</time>
+          </div>
+          <div class="bo-card-meta">
+            <span>{{ page.variant_count }} {% trans "вариантов из 6" %}</span>
+          </div>
+          <div class="bo-card-foot">
+            <span class="bo-cell-muted">{{ page.included_count }} + {{ page.document_count }}</span>
+            <span class="bo-row-edit">{% trans "Редактировать →" %}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="bo-list-empty">
+      {% trans "Лендинги «Поступление» создаются миграцией. Если регион новый — обратись к разработчику." %}
+    </div>
+  {% endif %}
+{% endblock %}

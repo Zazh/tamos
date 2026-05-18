@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% load static i18n region_tags %}
 
-{% block title %}{{ variant.h1 }} — Space School{% endblock %}
-{% block meta_description %}{{ variant.hero_lead|default:variant.h1 }}{% endblock %}
+{% block title %}{{ variant.effective_seo_title|default:variant.h1 }} — Space School{% endblock %}
+{% block meta_description %}{{ variant.effective_seo_description|default:default_description }}{% endblock %}
+{% block og_title %}{{ variant.effective_og_title|default:variant.h1 }}{% endblock %}
+{% block og_description %}{{ variant.effective_og_description|default:default_description }}{% endblock %}
+{% block og_image %}{% if variant.effective_og_image %}{{ request.scheme }}://{{ request.get_host }}{{ variant.effective_og_image.url }}{% endif %}{% endblock %}
 
 {% block layout_top %}
   <section class="hero hero-tint">
