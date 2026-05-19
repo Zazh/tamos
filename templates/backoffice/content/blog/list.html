@@ -13,9 +13,12 @@
       <a href="{% url 'backoffice:content_blog_taxonomy' %}" class="bo-action-btn bo-action-secondary">
         {% trans "Категории и теги" %}
       </a>
-      <a href="{% url 'backoffice:content_blog_create' %}" class="bo-action-btn bo-action-primary">
-        {% trans "Новый пост" %}
-      </a>
+      <form method="post" action="{% url 'backoffice:content_blog_create' %}" class="bo-inline-form">
+        {% csrf_token %}
+        <button type="submit" class="bo-action-btn bo-action-primary">
+          {% trans "Новый пост" %}
+        </button>
+      </form>
     </div>
   </div>
 

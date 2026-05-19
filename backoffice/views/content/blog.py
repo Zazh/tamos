@@ -6,6 +6,7 @@ translate/SEO/suggest_tags.
 """
 
 import json
+import secrets
 
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -35,7 +36,6 @@ from ...shortcuts import backoffice_required, region_scoped, render_backoffice
 from .._common import (
     auto_slug,
     get_for_user_or_404,
-    make_blank_step,
     make_published_chips,
     make_step,
     run_seo,
@@ -46,10 +46,22 @@ from .._common import (
 BLOG_POSTS_PER_PAGE = 20
 BLOG_MAIN_GALLERY_SLUG = 'main'
 SUGGEST_TAGS_MAX_CONTENT = 10000
+DRAFT_SLUG_PREFIX = 'draft-'
 
 
 def _auto_slug_for_blog(title):
     return auto_slug(title, model=BlogPost, prefix='post')
+
+
+def _new_draft_slug():
+    # 4 байта = 8 hex-символов, 4 миллиарда вариантов; коллизия в БД ловится
+    # UniqueConstraint(region, slug), но мы выбираем глобально-уникальный, чтобы
+    # не зависеть от региона на момент создания черновика.
+    for _ in range(5):
+        slug = f'{DRAFT_SLUG_PREFIX}{secrets.token_hex(4)}'
+        if not BlogPost.objects.filter(slug=slug).exists():
+            return slug
+    return f'{DRAFT_SLUG_PREFIX}{secrets.token_hex(8)}'
 
 
 def _get_blog_post_for_user(request, pk):
@@ -72,16 +84,6 @@ def _blogpost_steps(post):
         make_step(post, id='en', label='Перевод EN', fields=en_fields),
         make_step(post, id='seo', label='SEO', fields=seo_fields),
         make_step(post, id='publish', label='Публикация', fields=pub_fields),
-    ]
-
-
-def _blogpost_steps_for_create():
-    return [
-        make_blank_step(id='ru', label='Основа (RU)', total=4, required=True),
-        make_blank_step(id='kk', label='Перевод KZ', total=3),
-        make_blank_step(id='en', label='Перевод EN', total=3),
-        make_blank_step(id='seo', label='SEO', total=4),
-        make_blank_step(id='publish', label='Публикация', total=2),
     ]
 
 
@@ -209,63 +211,46 @@ def content_blog_list(request):
     )
 
 
-@never_cache
+@require_POST
 @backoffice_required
-@require_http_methods(['GET', 'POST'])
 def content_blog_create(request):
-    """Создание поста за 1 шаг + 2 CTA (черновик / опубликовать).
+    """Создаёт пустой draft и сразу редиректит на edit.
 
-    После save редиректим на edit (паттерн WordPress/Ghost). Slug генерируется
-    автоматически из title с 4-hex суффиксом.
+    Так галерея/теги/обложка доступны с первого экрана: всё в edit, без
+    промежуточной create-формы. Менеджер заполняет инлайн, жмёт «Сохранить».
+    Пустые draft'ы видны в списке как «Без названия» — можно удалить.
+
+    `region`/`category` определяются автоматически: регион — из user (для su
+    берётся первый активный), категория — первая в БД. Менеджер меняет на edit.
     """
-    if request.method == 'POST':
-        # `published_at` рендерится только на edit-странице (секция «Публикация»),
-        # на create его в форме нет. Подставляем «сейчас» по дефолту.
-        post_data = request.POST.copy()
-        if not post_data.get('published_at'):
-            post_data['published_at'] = timezone.now().strftime('%Y-%m-%dT%H:%M')
-        form = BlogPostEditForm(post_data, request.FILES, user=request.user)
-        if form.is_valid():
-            post = form.save(commit=False)
-            title = form.cleaned_data.get('title_ru') or post.title or 'Без названия'
-            post.slug = _auto_slug_for_blog(title)
-            post.is_published = bool(request.POST.get('publish_now'))
-            if not post.published_at:
-                post.published_at = timezone.now()
-            post.save()
-            form.save_m2m()
-            _sync_blog_post_tags(post, form.cleaned_data.get('tags_json') or [])
-
-            if post.is_published:
-                messages.success(request, f'Пост «{post.title}» опубликован.')
-            else:
-                messages.success(request, f'Черновик «{post.title}» сохранён.')
-            return redirect('backoffice:content_blog_edit', pk=post.pk)
+    if request.user.is_superuser:
+        region = Region.objects.filter(is_active=True).order_by('pk').first()
     else:
-        form = BlogPostEditForm(
-            initial={'published_at': timezone.now().strftime('%Y-%m-%dT%H:%M')},
-            user=request.user,
+        region_id = getattr(request.user, 'manager_region_id', None)
+        region = Region.objects.filter(pk=region_id).first() if region_id else None
+
+    if region is None:
+        messages.error(request, 'Не удалось определить регион. Создай регион или назначь его менеджеру.')
+        return redirect('backoffice:content_blog_list')
+
+    category = BlogCategory.objects.order_by('order', 'name').first()
+    if category is None:
+        messages.error(
+            request,
+            'Сначала создай хотя бы одну категорию в разделе «Категории и теги» — без неё пост не сохранить.',
         )
+        return redirect('backoffice:content_blog_taxonomy')
 
-    all_tags = _tags_payload(BlogTag.objects.all())
-    categories = list(BlogCategory.objects.all().order_by('order', 'name'))
-    steps = _blogpost_steps_for_create()
-
-    return render_backoffice(
-        request,
-        'backoffice/content/blog/create.html',
-        active='blog',
-        page_title='Новый пост',
-        context={
-            'form': form,
-            'translation_langs': TRANSLATION_LANGS,
-            'categories': categories,
-            'all_tags_json': json.dumps(all_tags),
-            'steps_json': json.dumps(steps),
-            'translatable_bases_json': json.dumps(list(BLOG_POST_TRANSLATABLE)),
-            'out_of_form_bases': BLOG_POST_OUT_OF_FORM_BASES,
-        },
+    post = BlogPost.objects.create(
+        region=region,
+        category=category,
+        slug=_new_draft_slug(),
+        title='',
+        content='',
+        is_published=False,
+        published_at=timezone.now(),
     )
+    return redirect('backoffice:content_blog_edit', pk=post.pk)
 
 
 @never_cache
@@ -286,6 +271,11 @@ def content_blog_edit(request, pk):
             saved.region_id = original_region_id
             if not saved.slug:
                 saved.slug = original_slug
+            # Первый save draft'а с заполненным title → пересчитать slug в
+            # читаемый. Иначе URL поста останется `/blog/draft-abc12345/`.
+            title_for_slug = (form.cleaned_data.get('title_ru') or saved.title or '').strip()
+            if original_slug.startswith(DRAFT_SLUG_PREFIX) and title_for_slug:
+                saved.slug = _auto_slug_for_blog(title_for_slug)
             saved.save()
             form.save_m2m()
             _sync_blog_post_tags(saved, form.cleaned_data.get('tags_json') or [])

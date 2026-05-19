@@ -19,9 +19,13 @@
   <div class="bo-content-stack" x-data="{ lang: 'ru' }">
     <header class="bo-detail-head">
       <div>
-        <h1 class="bo-page-title">{{ post.title|default:'Без названия' }}</h1>
+        <h1 class="bo-page-title">{% if post.title %}{{ post.title }}{% else %}{% trans "Новый пост" %}{% endif %}</h1>
         <p class="bo-page-subtitle">
-          {% if post.updated_at %}{% blocktrans with date=post.updated_at|date:"j E, H:i" %}Обновлено {{ date }}{% endblocktrans %}{% endif %}
+          {% if not post.title %}
+            {% trans "Черновик · заполни заголовок и нажми «Сохранить»." %}
+          {% elif post.updated_at %}
+            {% blocktrans with date=post.updated_at|date:"j E, H:i" %}Обновлено {{ date }}{% endblocktrans %}
+          {% endif %}
         </p>
       </div>
       <div class="bo-detail-head-actions">

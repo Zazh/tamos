@@ -10,9 +10,12 @@
       <p class="bo-page-subtitle">{% trans "Лента анонсов и отчётов в каждом регионе. Без категорий и тегов — плоский список по дате." %}</p>
     </div>
     <div class="bo-page-head-actions">
-      <a href="{% url 'backoffice:content_events_create' %}" class="bo-action-btn bo-action-primary">
-        {% trans "Новое событие" %}
-      </a>
+      <form method="post" action="{% url 'backoffice:content_events_create' %}" class="bo-inline-form">
+        {% csrf_token %}
+        <button type="submit" class="bo-action-btn bo-action-primary">
+          {% trans "Новое событие" %}
+        </button>
+      </form>
     </div>
   </div>
 

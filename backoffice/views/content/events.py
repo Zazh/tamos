@@ -4,6 +4,7 @@
 """
 
 import json
+import secrets
 
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -28,7 +29,6 @@ from ...shortcuts import backoffice_required, region_scoped, render_backoffice
 from .._common import (
     auto_slug,
     get_for_user_or_404,
-    make_blank_step,
     make_published_chips,
     make_step,
     run_seo,
@@ -38,10 +38,19 @@ from .._common import (
 
 EVENTS_PER_PAGE = 20
 EVENT_MAIN_GALLERY_SLUG = 'main'
+DRAFT_SLUG_PREFIX = 'draft-'
 
 
 def _auto_slug_for_event(title):
     return auto_slug(title, model=Event, prefix='event')
+
+
+def _new_draft_slug():
+    for _ in range(5):
+        slug = f'{DRAFT_SLUG_PREFIX}{secrets.token_hex(4)}'
+        if not Event.objects.filter(slug=slug).exists():
+            return slug
+    return f'{DRAFT_SLUG_PREFIX}{secrets.token_hex(8)}'
 
 
 def _get_event_for_user(request, pk):
@@ -61,16 +70,6 @@ def _event_steps(event):
         make_step(event, id='en', label='Перевод EN', fields=en_fields),
         make_step(event, id='seo', label='SEO', fields=seo_fields),
         make_step(event, id='publish', label='Публикация', fields=pub_fields),
-    ]
-
-
-def _event_steps_for_create():
-    return [
-        make_blank_step(id='ru', label='Основа (RU)', total=4, required=True),
-        make_blank_step(id='kk', label='Перевод KZ', total=3),
-        make_blank_step(id='en', label='Перевод EN', total=3),
-        make_blank_step(id='seo', label='SEO', total=4),
-        make_blank_step(id='publish', label='Публикация', total=2),
     ]
 
 
@@ -132,51 +131,29 @@ def content_events_list(request):
     )
 
 
-@never_cache
+@require_POST
 @backoffice_required
-@require_http_methods(['GET', 'POST'])
 def content_events_create(request):
-    if request.method == 'POST':
-        post_data = request.POST.copy()
-        if not post_data.get('published_at'):
-            post_data['published_at'] = timezone.now().strftime('%Y-%m-%dT%H:%M')
-        form = EventEditForm(post_data, request.FILES, user=request.user)
-        if form.is_valid():
-            event = form.save(commit=False)
-            title = form.cleaned_data.get('title_ru') or event.title or 'Без названия'
-            event.slug = _auto_slug_for_event(title)
-            event.is_published = bool(request.POST.get('publish_now'))
-            if not event.published_at:
-                event.published_at = timezone.now()
-            event.save()
-            form.save_m2m()
-
-            if event.is_published:
-                messages.success(request, f'Событие «{event.title}» опубликовано.')
-            else:
-                messages.success(request, f'Черновик «{event.title}» сохранён.')
-            return redirect('backoffice:content_events_edit', pk=event.pk)
+    """Создаёт пустой draft и сразу редиректит на edit (см. blog.content_blog_create)."""
+    if request.user.is_superuser:
+        region = Region.objects.filter(is_active=True).order_by('pk').first()
     else:
-        form = EventEditForm(
-            initial={'published_at': timezone.now().strftime('%Y-%m-%dT%H:%M')},
-            user=request.user,
-        )
+        region_id = getattr(request.user, 'manager_region_id', None)
+        region = Region.objects.filter(pk=region_id).first() if region_id else None
 
-    steps = _event_steps_for_create()
+    if region is None:
+        messages.error(request, 'Не удалось определить регион. Создай регион или назначь его менеджеру.')
+        return redirect('backoffice:content_events_list')
 
-    return render_backoffice(
-        request,
-        'backoffice/content/events/create.html',
-        active='events',
-        page_title='Новое событие',
-        context={
-            'form': form,
-            'translation_langs': TRANSLATION_LANGS,
-            'steps_json': json.dumps(steps),
-            'translatable_bases_json': json.dumps(list(EVENT_TRANSLATABLE)),
-            'out_of_form_bases': EVENT_OUT_OF_FORM_BASES,
-        },
+    event = Event.objects.create(
+        region=region,
+        slug=_new_draft_slug(),
+        title='',
+        content='',
+        is_published=False,
+        published_at=timezone.now(),
     )
+    return redirect('backoffice:content_events_edit', pk=event.pk)
 
 
 @never_cache
@@ -195,6 +172,9 @@ def content_events_edit(request, pk):
             saved.region_id = original_region_id
             if not saved.slug:
                 saved.slug = original_slug
+            title_for_slug = (form.cleaned_data.get('title_ru') or saved.title or '').strip()
+            if original_slug.startswith(DRAFT_SLUG_PREFIX) and title_for_slug:
+                saved.slug = _auto_slug_for_event(title_for_slug)
             saved.save()
             form.save_m2m()
             messages.success(request, 'Событие сохранено.')
