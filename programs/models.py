@@ -1,11 +1,21 @@
 from django.db import models
 from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFit
 
 
 # Лендинг «Программа». Singleton per region (как HomePage/ContactsPage).
 # Большая часть текстов — на самой ProgramPage (Hero, заголовки секций).
 # Списочные секции (карточки, члены команды, FAQ-пункты и т.д.) — inline-модели.
 PROGRAM_IMAGE_QUALITY = 85
+# Секция «Кому подходит»: два маленьких фото (круглое + прямоугольное).
+# CSS-слот ~250px, 2× retina = ~500.
+AUDIENCE_MAX_DIMENSION = 500
+# Секция «Результаты обучения» (benefits): одно фото справа.
+# CSS-слот lg:col-span-5 ≈ 500px, 2× retina = ~1000, округлено до 1024.
+BENEFITS_MAX_DIMENSION = 1024
+# Секция «О нас» / «В цифрах» (stats): большое фото школы справа.
+# CSS-слот xl:col-span-7 ≈ 740px, 2× retina = ~1480.
+STATS_MAX_DIMENSION = 1480
 
 
 class ProgramPage(models.Model):
@@ -55,10 +65,12 @@ class ProgramPage(models.Model):
         source='audience_photo_woman',
         format='WEBP',
         options={'quality': PROGRAM_IMAGE_QUALITY},
+        processors=[ResizeToFit(AUDIENCE_MAX_DIMENSION, AUDIENCE_MAX_DIMENSION, upscale=False)],
     )
     audience_photo_woman_compressed = ImageSpecField(
         source='audience_photo_woman',
         options={'quality': PROGRAM_IMAGE_QUALITY, 'optimize': True},
+        processors=[ResizeToFit(AUDIENCE_MAX_DIMENSION, AUDIENCE_MAX_DIMENSION, upscale=False)],
     )
     audience_photo_library = models.ImageField(
         'Фото справа (прямоугольное, библиотека)',
@@ -70,10 +82,12 @@ class ProgramPage(models.Model):
         source='audience_photo_library',
         format='WEBP',
         options={'quality': PROGRAM_IMAGE_QUALITY},
+        processors=[ResizeToFit(AUDIENCE_MAX_DIMENSION, AUDIENCE_MAX_DIMENSION, upscale=False)],
     )
     audience_photo_library_compressed = ImageSpecField(
         source='audience_photo_library',
         options={'quality': PROGRAM_IMAGE_QUALITY, 'optimize': True},
+        processors=[ResizeToFit(AUDIENCE_MAX_DIMENSION, AUDIENCE_MAX_DIMENSION, upscale=False)],
     )
 
     # --- Section «Что получает» (benefits / results) ---
@@ -90,10 +104,12 @@ class ProgramPage(models.Model):
         source='benefits_photo_kid',
         format='WEBP',
         options={'quality': PROGRAM_IMAGE_QUALITY},
+        processors=[ResizeToFit(BENEFITS_MAX_DIMENSION, BENEFITS_MAX_DIMENSION, upscale=False)],
     )
     benefits_photo_kid_compressed = ImageSpecField(
         source='benefits_photo_kid',
         options={'quality': PROGRAM_IMAGE_QUALITY, 'optimize': True},
+        processors=[ResizeToFit(BENEFITS_MAX_DIMENSION, BENEFITS_MAX_DIMENSION, upscale=False)],
     )
 
     # --- Section «Программы» (две карточки: Начальная / Старшая) ---
@@ -148,10 +164,12 @@ class ProgramPage(models.Model):
         source='stats_photo',
         format='WEBP',
         options={'quality': PROGRAM_IMAGE_QUALITY},
+        processors=[ResizeToFit(STATS_MAX_DIMENSION, STATS_MAX_DIMENSION, upscale=False)],
     )
     stats_photo_compressed = ImageSpecField(
         source='stats_photo',
         options={'quality': PROGRAM_IMAGE_QUALITY, 'optimize': True},
+        processors=[ResizeToFit(STATS_MAX_DIMENSION, STATS_MAX_DIMENSION, upscale=False)],
     )
 
     # --- Section FAQ ---
@@ -415,8 +433,7 @@ class ProgramStat(models.Model):
     label = models.CharField(
         'Подпись',
         max_length=120,
-        help_text='Перенос строки можно добавить через <br> (HTML экранируется — '
-                  'для переноса используется CSS, текст вводи одной строкой).',
+        help_text='Для переноса строки нажми Enter. HTML экранируется.',
     )
     order = models.PositiveSmallIntegerField('Порядок', default=0)
 

@@ -77,6 +77,31 @@
     }
   }
 
+  /* Стрелка-CTA в футере карточки.
+     Цвет круга = currentColor, hover-оттенки совпадают с btn-primary / btn-secondary. */
+  .program-card__arrow {
+    display: block;
+    cursor: pointer;
+    color: var(--color-gold);
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+
+  .program-card__arrow[data-accent="secondary"] {
+    color: var(--color-secondary);
+  }
+
+  .program-card__arrow:hover {
+    transform: translateY(-1px);
+  }
+
+  .program-card__arrow[data-accent="gold"]:hover {
+    color: #fcad14;
+  }
+
+  .program-card__arrow[data-accent="secondary"]:hover {
+    color: #0080c0;
+  }
+
   .feature-card {
     display: flex;
     flex-direction: column;

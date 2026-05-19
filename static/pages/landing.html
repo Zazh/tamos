@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Landing — Space School</title>
-    <script type="module" crossorigin src="/static/assets/js/main-DYghhOqu.js"></script>
+    <script type="module" crossorigin src="/static/assets/js/main-BnyH4x2i.js"></script>
     <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-DrwnXrKK.js"></script>
     <link rel="stylesheet" crossorigin href="/static/assets/css/main-vh-t_kPv.css">
-    <link rel="stylesheet" crossorigin href="/static/assets/css/main-VJMX25Ut.css">
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-LFgaK2iE.css">
   </head>
   <body>
   <!-- Hero -->
@@ -259,16 +259,17 @@
           </svg>
 
         </div>
-        <div class="rounded-full aspect-square overflow-hidden">
+        <div class="rounded-full aspect-square overflow-hidden" x-data="ambientVideo">
           <!-- Video -->
           <video
-            autoplay
+            x-ref="video"
             loop
             muted
             playsinline
             webkit-playsinline
             disableRemotePlayback
-            poster="/static/images/sections-images/Planet.jpg"
+            preload="none"
+            poster="/static/images/sections-images/planet2-poster.jpg"
             class="w-full h-full object-cover"
           >
             <source src="/static/videos/planet2.mp4" type="video/mp4">
@@ -606,9 +607,12 @@
                   <img src="/static/images/sections-images/cambridge-gerb.png" alt="Cambridge" class="w-7 h-7 object-contain">
                 </span>
                 <!-- Arrow button -->
-                <svg class="w-12 h-12 text-gold" viewBox="0 0 50 50" fill="none">
-                  <rect width="50" height="50" rx="25" fill="currentColor"/>
-                  <path d="M18.4694 31.5306C18.539 31.6004 18.6217 31.6557 18.7128 31.6934C18.8038 31.7312 18.9014 31.7506 19 31.7506C19.0986 31.7506 19.1962 31.7312 19.2872 31.6934C19.3783 31.6557 19.461 31.6004 19.5306 31.5306L30.25 20.8103V28.75C30.25 28.9489 30.329 29.1397 30.4697 29.2803C30.6103 29.421 30.8011 29.5 31 29.5C31.1989 29.5 31.3897 29.421 31.5303 29.2803C31.671 29.1397 31.75 28.9489 31.75 28.75V19C31.75 18.8011 31.671 18.6103 31.5303 18.4697C31.3897 18.329 31.1989 18.25 31 18.25H21.25C21.0511 18.25 20.8603 18.329 20.7197 18.4697C20.579 18.6103 20.5 18.8011 20.5 19C20.5 19.1989 20.579 19.3897 20.7197 19.5303C20.8603 19.671 21.0511 19.75 21.25 19.75H29.1897L18.4694 30.4694C18.3996 30.539 18.3443 30.6217 18.3066 30.7128C18.2688 30.8038 18.2494 30.9014 18.2494 31C18.2494 31.0986 18.2688 31.1962 18.3066 31.2872C18.3443 31.3783 18.3996 31.461 18.4694 31.5306Z" fill="#111111"/></svg>
+                <button type="button" class="program-card__arrow" data-accent="gold" aria-label="Оставить заявку">
+                  <svg class="w-12 h-12" viewBox="0 0 50 50" fill="none">
+                    <rect width="50" height="50" rx="25" fill="currentColor"/>
+                    <path d="M18.4694 31.5306C18.539 31.6004 18.6217 31.6557 18.7128 31.6934C18.8038 31.7312 18.9014 31.7506 19 31.7506C19.0986 31.7506 19.1962 31.7312 19.2872 31.6934C19.3783 31.6557 19.461 31.6004 19.5306 31.5306L30.25 20.8103V28.75C30.25 28.9489 30.329 29.1397 30.4697 29.2803C30.6103 29.421 30.8011 29.5 31 29.5C31.1989 29.5 31.3897 29.421 31.5303 29.2803C31.671 29.1397 31.75 28.9489 31.75 28.75V19C31.75 18.8011 31.671 18.6103 31.5303 18.4697C31.3897 18.329 31.1989 18.25 31 18.25H21.25C21.0511 18.25 20.8603 18.329 20.7197 18.4697C20.579 18.6103 20.5 18.8011 20.5 19C20.5 19.1989 20.579 19.3897 20.7197 19.5303C20.8603 19.671 21.0511 19.75 21.25 19.75H29.1897L18.4694 30.4694C18.3996 30.539 18.3443 30.6217 18.3066 30.7128C18.2688 30.8038 18.2494 30.9014 18.2494 31C18.2494 31.0986 18.2688 31.1962 18.3066 31.2872C18.3443 31.3783 18.3996 31.461 18.4694 31.5306Z" fill="#111111"/>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -665,9 +669,12 @@
                   <img src="/static/images/sections-images/cambridge-gerb.png" alt="Cambridge" class="w-7 h-7 object-contain">
                 </span>
                 <!-- Arrow button -->
-                <svg class="w-12 h-12 text-secondary" viewBox="0 0 50 50" fill="none">
-                  <rect width="50" height="50" rx="25" fill="currentColor"/>
-                  <path d="M18.4694 31.5306C18.539 31.6004 18.6217 31.6557 18.7128 31.6934C18.8038 31.7312 18.9014 31.7506 19 31.7506C19.0986 31.7506 19.1962 31.7312 19.2872 31.6934C19.3783 31.6557 19.461 31.6004 19.5306 31.5306L30.25 20.8103V28.75C30.25 28.9489 30.329 29.1397 30.4697 29.2803C30.6103 29.421 30.8011 29.5 31 29.5C31.1989 29.5 31.3897 29.421 31.5303 29.2803C31.671 29.1397 31.75 28.9489 31.75 28.75V19C31.75 18.8011 31.671 18.6103 31.5303 18.4697C31.3897 18.329 31.1989 18.25 31 18.25H21.25C21.0511 18.25 20.8603 18.329 20.7197 18.4697C20.579 18.6103 20.5 18.8011 20.5 19C20.5 19.1989 20.579 19.3897 20.7197 19.5303C20.8603 19.671 21.0511 19.75 21.25 19.75H29.1897L18.4694 30.4694C18.3996 30.539 18.3443 30.6217 18.3066 30.7128C18.2688 30.8038 18.2494 30.9014 18.2494 31C18.2494 31.0986 18.2688 31.1962 18.3066 31.2872C18.3443 31.3783 18.3996 31.461 18.4694 31.5306Z" fill="#fff"/></svg>
+                <button type="button" class="program-card__arrow" data-accent="secondary" aria-label="Оставить заявку">
+                  <svg class="w-12 h-12" viewBox="0 0 50 50" fill="none">
+                    <rect width="50" height="50" rx="25" fill="currentColor"/>
+                    <path d="M18.4694 31.5306C18.539 31.6004 18.6217 31.6557 18.7128 31.6934C18.8038 31.7312 18.9014 31.7506 19 31.7506C19.0986 31.7506 19.1962 31.7312 19.2872 31.6934C19.3783 31.6557 19.461 31.6004 19.5306 31.5306L30.25 20.8103V28.75C30.25 28.9489 30.329 29.1397 30.4697 29.2803C30.6103 29.421 30.8011 29.5 31 29.5C31.1989 29.5 31.3897 29.421 31.5303 29.2803C31.671 29.1397 31.75 28.9489 31.75 28.75V19C31.75 18.8011 31.671 18.6103 31.5303 18.4697C31.3897 18.329 31.1989 18.25 31 18.25H21.25C21.0511 18.25 20.8603 18.329 20.7197 18.4697C20.579 18.6103 20.5 18.8011 20.5 19C20.5 19.1989 20.579 19.3897 20.7197 19.5303C20.8603 19.671 21.0511 19.75 21.25 19.75H29.1897L18.4694 30.4694C18.3996 30.539 18.3443 30.6217 18.3066 30.7128C18.2688 30.8038 18.2494 30.9014 18.2494 31C18.2494 31.0986 18.2688 31.1962 18.3066 31.2872C18.3443 31.3783 18.3996 31.461 18.4694 31.5306Z" fill="#fff"/>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>

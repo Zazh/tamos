@@ -70,7 +70,7 @@ def _contactspage_steps(contacts):
     seo_fields = [
         'seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_description_ru',
     ]
-    socials_fields = ['facebook_url', 'instagram_url', 'tiktok_url', 'telegram_url']
+    socials_fields = ['facebook_url', 'instagram_url', 'threads_url', 'telegram_url']
 
     dept_total = contacts.departments.count()
     dept_filled = sum(

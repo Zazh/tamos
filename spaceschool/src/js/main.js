@@ -18,6 +18,7 @@ import { registerBackofficeActivities } from "./backoffice-activities.js";
 import { registerBackofficeBlogTags } from "./backoffice-blog-tags.js";
 import { registerBackofficeTeam } from "./backoffice-team.js";
 import { registerHeroVideo } from "./hero-video.js";
+import { registerAmbientVideo } from "./ambient-video.js";
 
 Alpine.plugin(collapse);
 registerStarfield(Alpine);
@@ -33,6 +34,7 @@ registerBackofficeActivities(Alpine);
 registerBackofficeBlogTags(Alpine);
 registerBackofficeTeam(Alpine);
 registerHeroVideo(Alpine);
+registerAmbientVideo(Alpine);
 Alpine.data("boMapPreview", boMapPreview);
 
 

@@ -23,6 +23,7 @@ from programs.models import (
 
 from .._common import (
     FileSizeMixin,
+    TRANSLATION_LANGS,
     _apply_backoffice_widget_classes,
     _limit_chars,
     _localized,
@@ -205,6 +206,10 @@ class ProgramStatForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        for lang in TRANSLATION_LANGS:
+            name = f'label_{lang}'
+            if name in self.fields:
+                self.fields[name].widget = forms.Textarea()
         _apply_backoffice_widget_classes(self)
         _relax_required(self, _PROGRAM_STAT_TRANSLATABLE)
 

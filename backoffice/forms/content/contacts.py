@@ -47,7 +47,7 @@ class ContactsPageEditForm(FileSizeMixin, forms.ModelForm):
             'og_image',
             'facebook_url',
             'instagram_url',
-            'tiktok_url',
+            'threads_url',
             'telegram_url',
         ) + _localized(*CONTACTS_TRANSLATABLE)
 

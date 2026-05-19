@@ -1,13 +1,13 @@
 from .models import ContactsPage
 
 
-SOCIAL_KEYS = ('facebook', 'instagram', 'tiktok', 'telegram')
+SOCIAL_KEYS = ('instagram', 'facebook', 'threads', 'telegram')
 
 
 def socials(request):
     """Соцсети текущего региона для рендера в footer.
 
-    Берёт URL'ы из ContactsPage.{facebook,instagram,tiktok,telegram}_url.
+    Берёт URL'ы из ContactsPage.{facebook,instagram,threads,telegram}_url.
     Если регион не определён или у него нет ContactsPage — возвращает
     пустой dict (шаблон через {% if %} скроет иконки).
     """

@@ -188,11 +188,11 @@
         <p class="bo-help">{% trans "Ссылки на профили в соцсетях. Отображаются иконками в футере сайта. Пустое поле — иконка скрыта." %}</p>
 
         <div class="bo-row-2">
-          {% include 'backoffice/content/_field.html' with field=form.facebook_url label='Facebook' %}
           {% include 'backoffice/content/_field.html' with field=form.instagram_url label='Instagram' %}
+          {% include 'backoffice/content/_field.html' with field=form.facebook_url label='Facebook' %}
         </div>
         <div class="bo-row-2">
-          {% include 'backoffice/content/_field.html' with field=form.tiktok_url label='TikTok' %}
+          {% include 'backoffice/content/_field.html' with field=form.threads_url label='Threads' %}
           {% include 'backoffice/content/_field.html' with field=form.telegram_url label='Telegram' %}
         </div>
       </section>

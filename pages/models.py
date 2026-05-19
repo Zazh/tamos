@@ -467,7 +467,7 @@ class ContactsPage(models.Model):
     # --- Соцсети (рендерятся в footer; пустые поля скрывают иконку) ---
     facebook_url = models.URLField('Facebook URL', max_length=300, blank=True)
     instagram_url = models.URLField('Instagram URL', max_length=300, blank=True)
-    tiktok_url = models.URLField('TikTok URL', max_length=300, blank=True)
+    threads_url = models.URLField('Threads URL', max_length=300, blank=True)
     telegram_url = models.URLField('Telegram URL', max_length=300, blank=True)
 
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
