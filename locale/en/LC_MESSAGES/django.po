@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tamos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-19 04:57+0500\n"
+"POT-Creation-Date: 2026-05-19 09:00+0500\n"
 "PO-Revision-Date: 2026-05-10 18:47+0500\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -80,19 +80,19 @@ msgid "Вс"
 msgstr "Sun"
 
 msgid "Логин"
-msgstr ""
+msgstr "Login"
 
 msgid "Пароль"
-msgstr ""
+msgstr "Password"
 
 msgid "Неверный логин или пароль."
-msgstr ""
+msgstr "Incorrect login or password."
 
 msgid "У этой учётной записи нет доступа в backoffice."
-msgstr ""
+msgstr "This account does not have backoffice access."
 
 msgid "Учётная запись отключена."
-msgstr ""
+msgstr "Account is disabled."
 
 #, fuzzy
 #| msgid "Записаться"
@@ -100,13 +100,13 @@ msgid "Поделиться"
 msgstr "Sign up"
 
 msgid "Копировать ссылку"
-msgstr ""
+msgstr "Copy link"
 
 msgid "Скопировано"
-msgstr ""
+msgstr "Copied"
 
 msgid "Похожие публикации"
-msgstr ""
+msgstr "Related posts"
 
 msgid "Администрация"
 msgstr "Administration"
@@ -171,25 +171,25 @@ msgid "Сбросить фильтры"
 msgstr "Reset filters"
 
 msgid "Хлебные крошки"
-msgstr ""
+msgstr "Breadcrumbs"
 
 msgid "Главная"
 msgstr "Home"
 
 msgid "Открыть меню"
-msgstr ""
+msgstr "Open menu"
 
 msgid "Выйти"
-msgstr ""
+msgstr "Log out"
 
 msgid "Принудительно перевести блок на KK/EN (перезапишет существующие)"
-msgstr ""
+msgstr "Force translate block to KK/EN (will overwrite existing)"
 
 msgid "Перевести блок"
-msgstr ""
+msgstr "Translate block"
 
 msgid "Переводим…"
-msgstr ""
+msgstr "Translating…"
 
 #, fuzzy, python-format
 #| msgid "Запись на «%(name)s»"
@@ -198,30 +198,32 @@ msgstr "Sign up for «%(name)s»"
 
 #, python-format
 msgid "%(name)s"
-msgstr ""
+msgstr "%(name)s"
 
 msgid "Язык контента"
-msgstr ""
+msgstr "Content language"
 
 msgid "Русский"
-msgstr ""
+msgstr "Russian"
 
 msgid "основной"
-msgstr ""
+msgstr "primary"
 
 msgid "Перевести пустые KK/EN из RU через Gemini"
-msgstr ""
+msgstr "Translate empty KK/EN from RU via Gemini"
 
 msgid "Авто-перевод"
-msgstr ""
+msgstr "Auto-translate"
 
 msgid "Параметры группы"
-msgstr ""
+msgstr "Group settings"
 
 msgid ""
 "Если пусто — на сайте будет авто-подпись типа «1–4 класс». Заполни если "
 "нужно «Младшие», «Продвинутые» и т.п."
 msgstr ""
+"If empty, the site will show an auto-generated label like \"Grades 1–4\". "
+"Fill this in if you need something like \"Juniors\", \"Advanced\", etc."
 
 #, fuzzy
 #| msgid "Все классы"
@@ -229,9 +231,11 @@ msgid "Классы"
 msgstr "All grades"
 
 msgid ""
-"Выбери классы, в которых занимаются. Если ничего не выбрано — на сайте «1–11 "
-"класс»."
+"Выбери классы, в которых занимаются. Если ничего не выбрано — на сайте «1–11"
+" класс»."
 msgstr ""
+"Select the grades in this group. If nothing is selected, the site will show "
+"\"Grades 1–11\"."
 
 #, fuzzy
 #| msgid "Стоимость"
@@ -239,7 +243,7 @@ msgid "Стоимость, ₸/мес"
 msgstr "Price"
 
 msgid "Целое число. Пусто — цена не указана."
-msgstr ""
+msgstr "An integer. If empty, the price won't be displayed."
 
 #, fuzzy
 #| msgid "Идёт набор"
@@ -247,18 +251,20 @@ msgid "Статус набора"
 msgstr "Recruiting"
 
 msgid "Лимит учеников"
-msgstr ""
+msgstr "Student limit"
 
 msgid ""
-"Имя/телефон/био тренера этой группы. У разных групп одного кружка могут быть "
-"разные тренера."
+"Имя/телефон/био тренера этой группы. У разных групп одного кружка могут быть"
+" разные тренера."
 msgstr ""
+"Name/phone/bio of this group's coach. Different groups within the same club "
+"may have different coaches."
 
 msgid "Телефон"
-msgstr ""
+msgstr "Phone"
 
 msgid "+77051234567. На сайте сейчас не выводится — хранится для будущего."
-msgstr ""
+msgstr "+77051234567. Not shown on the site right now—saved for later."
 
 #, fuzzy
 #| msgid "Питание"
@@ -269,6 +275,8 @@ msgid ""
 "Каждый слот — день недели + время начала/окончания. Используется фильтром "
 "«День недели» на публичной странице."
 msgstr ""
+"Each slot is a day of the week + start/end time. Used by the 'Day of the "
+"week' filter on the public page."
 
 #, fuzzy
 #| msgid "Записаться"
@@ -276,31 +284,31 @@ msgid "Удалить"
 msgstr "Sign up"
 
 msgid "Убрать слот"
-msgstr ""
+msgstr "Remove slot"
 
 msgid "Добавить слот"
-msgstr ""
+msgstr "Add slot"
 
 msgid "Удалить группу со всеми слотами расписания?"
-msgstr ""
+msgstr "Delete the group with all its schedule slots?"
 
 msgid "Отмена"
-msgstr ""
+msgstr "Cancel"
 
 msgid "Сохранить"
-msgstr ""
+msgstr "Save"
 
 msgid "Активности"
-msgstr ""
+msgstr "Activities"
 
 msgid "Внеклассные кружки — свой набор на каждый регион. Выбери регион."
-msgstr ""
+msgstr "Extracurricular clubs—each region has its own set. Choose a region."
 
 msgid "Регион"
-msgstr ""
+msgstr "Region"
 
 msgid "Кружков"
-msgstr ""
+msgstr "Clubs"
 
 #, fuzzy
 #| msgid "Закрыть"
@@ -308,78 +316,85 @@ msgid "Открыть →"
 msgstr "Close"
 
 msgid "кружков"
-msgstr ""
+msgstr "clubs"
 
 msgid "Нет доступных регионов."
-msgstr ""
+msgstr "No available regions."
 
 msgid "К списку регионов"
-msgstr ""
+msgstr "Back to region list"
 
 #, python-format
 msgid "Активности — %(region)s"
-msgstr ""
+msgstr "Activities — %(region)s"
 
 #, python-format
 msgid ""
 "%(a)s кружков. Клик по карточке — разворачивает форму, сохранение на каждом "
 "аккордеоне отдельной кнопкой."
 msgstr ""
+"%(a)s clubs. Click a card to expand the form. Each section saves with its "
+"own button."
 
 msgid "Просмотреть на сайте"
-msgstr ""
+msgstr "View on site"
 
 msgid "Добавить кружок"
-msgstr ""
+msgstr "Add club"
 
 msgid "Перетащить"
-msgstr ""
+msgstr "Drag"
 
 msgid "групп"
-msgstr ""
+msgstr "groups"
 
 msgid "Показывается на лендинге Программы"
-msgstr ""
+msgstr "Shown on the Program's landing page"
 
 msgid "Скрыт с сайта"
-msgstr ""
+msgstr "Hidden from the site"
 
 msgid "Секция"
-msgstr ""
+msgstr "Section"
 
 msgid ""
 "При смене кружок переместится в выбранную секцию каталога после сохранения."
 msgstr ""
+"When changed, the club will move to the selected catalog section after "
+"saving."
 
 msgid "Флаги"
-msgstr ""
+msgstr "Flags"
 
 msgid "Опубликован"
-msgstr ""
+msgstr "Published"
 
 msgid "Избранный (на Программа)"
-msgstr ""
+msgstr "Featured (on the Program page)"
 
 msgid "Автоперевод"
-msgstr ""
+msgstr "Auto-translate"
 
 msgid "Перевести пустые KK/EN из RU"
-msgstr ""
+msgstr "Translate empty KK/EN from RU"
 
 msgid "RU → KK/EN"
-msgstr ""
+msgstr "RU → KK/EN"
 
 msgid ""
 "Тренер задаётся отдельно для каждой группы — открой страницу группы ниже."
 msgstr ""
+"The coach is set for each group separately — open the group page below."
 
 msgid "Группы"
-msgstr ""
+msgstr "Groups"
 
 msgid ""
 "Каждая группа — свой набор классов, цена, расписание и лимит. Расписание "
 "(дни и время) редактируется на странице группы."
 msgstr ""
+"Each group has its own set of classes, price, schedule, and limit. The "
+"schedule (days and times) can be edited on the group's page."
 
 #, fuzzy
 #| msgid "/мес"
@@ -387,82 +402,84 @@ msgid "мес"
 msgstr "/mo"
 
 msgid "слотов"
-msgstr ""
+msgstr "slots"
 
 msgid "без расписания"
-msgstr ""
+msgstr "no schedule"
 
 msgid "Редактировать →"
-msgstr ""
+msgstr "Edit →"
 
 msgid "Добавить группу"
-msgstr ""
+msgstr "Add group"
 
 msgid "Удалить кружок? Группы и слоты удалятся вместе с ним."
-msgstr ""
+msgstr "Delete this club? Its groups and slots will be deleted as well."
 
 msgid "Нет кружков в этой секции. Нажми «Добавить кружок» чтобы создать."
-msgstr ""
+msgstr "There are no clubs in this section. Click “Add Club” to create one."
 
 msgid "Новый план"
-msgstr ""
+msgstr "New plan"
 
 msgid "Перетащить для сортировки"
-msgstr ""
+msgstr "Drag to sort"
 
 msgid "Отменить"
-msgstr ""
+msgstr "Cancel"
 
 msgid "Убрать карточку"
-msgstr ""
+msgstr "Remove card"
 
 msgid "Убрать карточку (до сохранения)"
-msgstr ""
+msgstr "Remove card (before saving)"
 
 msgid "Редактировать SVG-иконку"
-msgstr ""
+msgstr "Edit SVG icon"
 
 msgid "SVG-иконка прайс-карты"
-msgstr ""
+msgstr "Price card SVG icon"
 
 msgid "Закрыть"
 msgstr "Close"
 
 msgid "Полная разметка <svg>…</svg>"
-msgstr ""
+msgstr "Full <svg>…</svg> markup"
 
 msgid ""
 "Иконка слева сверху карточки на сайте. Превью обновится после сохранения "
 "формы."
 msgstr ""
+"Icon for the top-left corner of the card on the site. The preview will "
+"update after you save the form."
 
 msgid "Готово"
-msgstr ""
+msgstr "Done"
 
 msgid "Прайс-карты этапа «Договор и взнос»"
-msgstr ""
+msgstr "Price cards for the 'Contract and Fee' stage"
 
 msgid "Добавить план оплаты"
-msgstr ""
+msgstr "Add payment plan"
 
 msgid ""
 "Обычно 3 плана (best/quarterly/yearly). Перетаскивай за ≡ для сортировки."
-msgstr ""
+msgstr "Usually 3 plans (best/quarterly/yearly). Drag by ≡ to sort."
 
 msgid "Добавить"
-msgstr ""
+msgstr "Add"
 
 msgid "Перетаскивай за ≡ слева, чтобы изменить порядок."
-msgstr ""
+msgstr "Drag by ≡ on the left to change the order."
 
 msgid "Убрать строку"
-msgstr ""
+msgstr "Remove row"
 
 msgid "Убрать строку (до сохранения)"
-msgstr ""
+msgstr "Remove row (before saving)"
 
 msgid "Это НЕ входит в стоимость (✕ вместо ✓ на сайте)"
-msgstr ""
+msgstr "This is NOT included in the price (✕ instead of ✓ on the website)"
 
 msgid "Поступление"
 msgstr "Admissions"
@@ -472,35 +489,39 @@ msgid ""
 "вариантов (русское × {1, 2-7, 8-11} + казахское × {1, 2-6, 7-11}). Выберите "
 "регион."
 msgstr ""
+"'Admissions' landing page for each region. Common page texts + 6 variants "
+"(Russian × {1, 2-7, 8-11} + Kazakh × {1, 2-6, 7-11}). Select a region."
 
 msgid "Вариантов"
-msgstr ""
+msgstr "Variants"
 
 msgid "Списки"
-msgstr ""
+msgstr "Lists"
 
 msgid "Обновлено"
-msgstr ""
+msgstr "Updated"
 
 msgid "из 6"
-msgstr ""
+msgstr "of 6"
 
 msgid "пунктов"
-msgstr ""
+msgstr "items"
 
 msgid "документов"
-msgstr ""
+msgstr "documents"
 
 msgid "вариантов из 6"
-msgstr ""
+msgstr "variants of 6"
 
 msgid ""
 "Лендинги «Поступление» создаются миграцией. Если регион новый — обратись к "
 "разработчику."
 msgstr ""
+"'Admissions' landing pages are created by migration. If the region is new, "
+"contact a developer."
 
 msgid "К списку"
-msgstr ""
+msgstr "Back to list"
 
 #, fuzzy, python-format
 #| msgid "Поступление"
@@ -511,92 +532,105 @@ msgstr "Admissions"
 msgid ""
 "Общие тексты страницы и 6 вариантов (отделение × класс). Обновлено %(date)s."
 msgstr ""
+"Common page texts and 6 variants (branch × grade). Updated on %(date)s."
 
 msgid "Открыть страницу в новой вкладке на текущем языке"
-msgstr ""
+msgstr "Open page in a new tab in the current language"
 
 msgid "Этапы (stepper)"
-msgstr ""
+msgstr "Steps (stepper)"
 
 msgid "5 этапов в боковой колонке. Подписи (meta) опциональны."
-msgstr ""
+msgstr "5 steps in the side column. Labels (meta) are optional."
 
 msgid "Заголовки секций (h3)"
-msgstr ""
+msgstr "Section headings (h3)"
 
 msgid ""
 "Заголовки в правой колонке. Префикс «01 — », «02 — » добавляется "
 "автоматически."
 msgstr ""
+"Headings in the right column. The '01 — ', '02 — ' prefix is added "
+"automatically."
 
 msgid "UI-лейблы"
-msgstr ""
+msgstr "UI labels"
 
 msgid "Этап «Тестирование» — общая часть"
-msgstr ""
+msgstr "Testing stage — common part"
 
 msgid ""
 "Параграф с правилами под 4 карточками и плашка с ценой. 4 карточки "
 "тестирования — на странице каждого варианта."
 msgstr ""
+"Paragraph with rules under the 4 cards and the price badge. The 4 testing "
+"cards are on each option's page."
 
 msgid "Этап «Договор» — общая часть"
-msgstr ""
+msgstr "Contract stage — common part"
 
 msgid ""
 "Текст про вступительный взнос + заголовки подсписков. Сам прайс — на каждой "
 "странице варианта."
 msgstr ""
+"Text about the admission fee + sublist titles. The price list itself is on "
+"each option's page."
 
 msgid "Этап «Зачисление»"
-msgstr ""
+msgstr "Enrollment stage"
 
 msgid "Этап «Консультация»"
-msgstr ""
+msgstr "Consultation stage"
 
 msgid "Варианты страницы (отделение × класс)"
-msgstr ""
+msgstr "Page variants (branch × grade)"
 
 msgid ""
 "6 уникальных страниц региона: 3 RU (1, 2-7, 8-11) + 3 KZ (1, 2-6, 7-11). У "
 "каждого варианта свои h1, lead'ы этапов, 4 testing-карточки, прайс-карты и "
 "SEO."
 msgstr ""
+"6 unique region pages: 3 RU (1, 2-7, 8-11) + 3 KZ (1, 2-6, 7-11). Each "
+"variant has its own h1, stage leads, 4 testing cards, price cards, and SEO."
 
 msgid "Без H1 — placeholder"
-msgstr ""
+msgstr "No H1 — placeholder"
 
 msgid "карточек"
-msgstr ""
+msgstr "cards"
 
 msgid "плана"
-msgstr ""
+msgstr "plan"
 
 msgid "Все три lead-параграфа заполнены"
-msgstr ""
+msgstr "All three lead paragraphs are filled in"
 
 msgid "Не все lead-параграфы заполнены"
-msgstr ""
+msgstr "Not all lead paragraphs are filled in"
 
 msgid ""
 "Варианты создаются миграцией. Обратись к разработчику если регион новый."
 msgstr ""
+"Variants are created by migration. Contact a developer if the region is new."
 
 msgid "Обязательный шаг"
-msgstr ""
+msgstr "Required step"
 
 #, python-format
 msgid "К общим текстам (%(region)s)"
-msgstr ""
+msgstr "To common texts (%(region)s)"
 
 #, python-format
 msgid ""
 "Регион %(region)s. Вариант страницы поступления: hero, lead'ы 3 этапов "
-"(Тестирование / Результат / Договор), 4 testing-карточки + прайс-карты + SEO."
+"(Тестирование / Результат / Договор), 4 testing-карточки + прайс-карты + "
+"SEO."
 msgstr ""
+"Region %(region)s. Admission page variant: hero, leads for 3 stages (Testing"
+" / Result / Contract), 4 testing cards + price cards + SEO."
 
 msgid "Открыть страницу в новой вкладке"
-msgstr ""
+msgstr "Open page in a new tab"
 
 #, fuzzy
 #| msgid "Питание"
@@ -605,72 +639,82 @@ msgstr "Meals"
 
 #, python-format
 msgid ""
-"Заголовок секции редактируется в общих текстах региона «%(region)s». Правила "
-"и цена тестирования — тоже общие. Здесь — lead этого варианта и 4 карточки "
+"Заголовок секции редактируется в общих текстах региона «%(region)s». Правила"
+" и цена тестирования — тоже общие. Здесь — lead этого варианта и 4 карточки "
 "тестирования."
 msgstr ""
+"The section title is edited in the common texts for the %(region)s region. "
+"Testing rules and price are also common. This variant's lead and 4 testing "
+"cards are here."
 
 msgid "Результат"
-msgstr ""
+msgstr "Result"
 
 #, python-format
 msgid "Заголовок секции редактируется в общих текстах региона «%(region)s»."
 msgstr ""
+"The section title is edited in the common texts for the %(region)s region."
 
 msgid "Договор и взнос"
-msgstr ""
+msgstr "Contract and fee"
 
 #, python-format
 msgid ""
-"Заголовок секции, текст про взнос и Стоимость включает/Не включено — в общих "
-"текстах региона «%(region)s». Здесь — lead и сами прайс-карты этого варианта."
+"Заголовок секции, текст про взнос и Стоимость включает/Не включено — в общих"
+" текстах региона «%(region)s». Здесь — lead и сами прайс-карты этого "
+"варианта."
 msgstr ""
+"The section title, the text about the fee, and the Included/Not included "
+"sections are in the common texts for the %(region)s region. This variant's "
+"lead and price cards are here."
 
 msgid "Сгенерировать SEO/OG для всех 3 языков из RU контента"
-msgstr ""
+msgstr "Generate SEO/OG for all 3 languages from RU content"
 
 msgid "Авто-генерация SEO"
-msgstr ""
+msgstr "Auto-generate SEO"
 
 msgid "Генерируем…"
-msgstr ""
+msgstr "Generating..."
 
 msgid "OG-картинка (для шеринга)"
-msgstr ""
+msgstr "OG Image (for sharing)"
 
 msgid "Не загружена"
-msgstr ""
+msgstr "Not uploaded"
 
 msgid "Изменить OG-картинку"
-msgstr ""
+msgstr "Change OG Image"
 
 msgid "(пусто — берётся из RU)"
-msgstr ""
+msgstr "(empty — defaults to RU)"
 
 msgid ""
 "Пишите HTML-контент: заголовки, абзацы, списки, цитаты, ссылки. Картинки "
 "добавляются через галерею."
 msgstr ""
+"Write your HTML content: headings, paragraphs, lists, quotes, links. Add "
+"images via the gallery."
 
 msgid "Выбранные теги"
-msgstr ""
+msgstr "Selected Tags"
 
 msgid "Убрать"
-msgstr ""
+msgstr "Remove"
 
 msgid ""
 "Пока ничего не выбрано — кликни на тег ниже или используй «Подобрать через "
 "AI»."
-msgstr ""
+msgstr "Nothing selected yet. Click a tag below or use 'Suggest with AI'."
 
 msgid "Доступные в этом регионе"
-msgstr ""
+msgstr "Available in this region"
 
 msgid "Все теги уже выбраны. Создай новый ниже."
-msgstr ""
+msgstr "All available tags are selected. Create a new one below."
 
 msgid "Предложено AI"
-msgstr ""
+msgstr "Suggested by AI"
 
 #, fuzzy
 #| msgid "Закрыть"
@@ -678,104 +722,58 @@ msgid "Скрыть"
 msgstr "Close"
 
 msgid "Создать новый тег"
-msgstr ""
+msgstr "Create a new tag"
 
 msgid "Тег уже существует — переиспользуем"
-msgstr ""
+msgstr "Tag already exists, reusing it."
 
 msgid ""
 "Кликни тег чтобы принять — он переедет в «Выбранные». Новые (✦) создадутся "
 "при сохранении."
 msgstr ""
+"Click a tag to accept it; it will move to 'Selected Tags'. New tags (✦) will"
+" be created when you save."
 
 msgid "Свой тег (например: Cambridge)"
-msgstr ""
+msgstr "Custom tag (e.g., Cambridge)"
 
 msgid "+ Добавить"
-msgstr ""
+msgstr "+ Add"
 
 msgid "Gemini подберёт SEO-friendly теги по контенту RU"
-msgstr ""
+msgstr "Gemini will suggest SEO-friendly tags based on the RU content."
 
 msgid "Подобрать через AI"
-msgstr ""
+msgstr "Suggest with AI"
 
 msgid "Думаем…"
-msgstr ""
+msgstr "Thinking..."
 
 msgid "Новый пост"
-msgstr ""
+msgstr "New Post"
 
-msgid ""
-"Заполни RU-контент и нажми «Опубликовать» — или «Сохранить как черновик», "
-"если не готово."
-msgstr ""
-
-msgid "Основное"
-msgstr ""
-
-msgid "Категория"
-msgstr ""
-
-msgid "Управлять категориями →"
-msgstr ""
-
-msgid "Обложка"
-msgstr ""
-
-msgid "Изображение обложки"
-msgstr ""
-
-msgid "Не загружена — на сайте покажется плейсхолдер «Нет фото»."
-msgstr ""
-
-msgid "Выбрать обложку"
-msgstr ""
-
-msgid "Содержимое статьи"
-msgstr ""
-
-#, fuzzy
-#| msgid "Фотогалерея"
-msgid "Галерея"
-msgstr "Photo Gallery"
-
-msgid ""
-"Загрузка картинок будет доступна после первого сохранения — сохрани черновик "
-"или опубликуй пост, и блок «Галерея» появится здесь."
-msgstr ""
-
-msgid "Теги"
-msgstr ""
-
-msgid ""
-"Используй существующие теги где возможно — это повышает связность блога. "
-"Подбирай 3-7 SEO-friendly тегов."
-msgstr ""
-
-msgid "Кликни на тег ниже или добавь свой."
-msgstr ""
-
-#, fuzzy
-#| msgid "Поступление"
-msgid "Доступные теги"
-msgstr "Admissions"
-
-msgid "Сохранить как черновик"
-msgstr ""
-
-msgid "Опубликовать"
-msgstr ""
+msgid "Черновик · заполни заголовок и нажми «Сохранить»."
+msgstr "Draft · Fill in the title and click 'Save'."
 
 #, python-format
 msgid "Обновлено %(date)s"
-msgstr ""
+msgstr "Updated %(date)s"
 
 msgid "Открыть пост на сайте на текущем языке"
-msgstr ""
+msgstr "View post on the website in the current language"
 
 msgid "Точно удалить этот пост? Действие необратимо."
 msgstr ""
+"Are you sure you want to delete this post? This action cannot be undone."
+
+msgid "Основное"
+msgstr "Main"
+
+msgid "Категория"
+msgstr "Category"
+
+msgid "Управлять категориями →"
+msgstr "Manage categories →"
 
 msgid "Автор"
 msgstr "Author"
@@ -784,32 +782,60 @@ msgid ""
 "Член команды того же региона. На сайте появится подпись с фото и ссылкой на "
 "профиль."
 msgstr ""
+"Team member from the same region. A signature with their photo and a link to"
+" their profile will appear on the site."
 
 msgid "Открыть команду региона →"
-msgstr ""
+msgstr "Open region team →"
+
+msgid "Обложка"
+msgstr "Cover image"
+
+msgid "Содержимое статьи"
+msgstr "Article content"
+
+#, fuzzy
+#| msgid "Фотогалерея"
+msgid "Галерея"
+msgstr "Photo Gallery"
 
 msgid ""
-"Дополнительные изображения под статьёй. Перетащи карточки для смены порядка. "
-"Alt-текст и подпись редактируются на 3 языках — переключай через табы сверху."
+"Дополнительные изображения под статьёй. Перетащи карточки для смены порядка."
+" Alt-текст и подпись редактируются на 3 языках — переключай через табы "
+"сверху."
 msgstr ""
+"Additional images below the article. Drag and drop cards to reorder them. "
+"Alt text and captions can be edited in 3 languages—switch using the tabs "
+"above."
 
 msgid "Перетащи картинки сюда или"
-msgstr ""
+msgstr "Drag and drop images here or"
 
 msgid "выбери файлы"
-msgstr ""
+msgstr "select files"
 
 msgid "Загружаем…"
-msgstr ""
+msgstr "Uploading…"
 
 msgid "Перетащить для смены порядка"
-msgstr ""
+msgstr "Drag to reorder"
 
 msgid "Удалить картинку"
-msgstr ""
+msgstr "Delete image"
 
 msgid "Пока ни одной картинки в галерее. Загрузи первую через зону выше."
 msgstr ""
+"No images in the gallery yet. Upload the first one using the area above."
+
+msgid "Теги"
+msgstr "Tags"
+
+msgid ""
+"Используй существующие теги где возможно — это повышает связность блога. "
+"Подбирай 3-7 SEO-friendly тегов."
+msgstr ""
+"Use existing tags whenever possible to improve blog consistency. Choose 3-7 "
+"SEO-friendly tags."
 
 #, fuzzy
 #| msgid "Локация"
@@ -817,21 +843,24 @@ msgid "Публикация"
 msgstr "Location"
 
 msgid "Опубликовано на сайте"
-msgstr ""
+msgstr "Published on the website"
 
 msgid "Снять галку — пост уйдёт в черновики."
-msgstr ""
+msgstr "Uncheck to move the post to drafts."
 
 msgid "Дата публикации"
-msgstr ""
+msgstr "Publication date"
 
 msgid ""
 "Сгенерировать SEO/OG для всех 3 языков из title+lead. Заполняет только "
 "пустые."
 msgstr ""
+"Generate SEO/OG for all 3 languages from the title and lead. Fills in empty "
+"fields only."
 
 msgid "Не загружена — на шеринге сработает fallback на обложку поста."
 msgstr ""
+"Not uploaded—the post's cover image will be used as a fallback for sharing."
 
 msgid "Блог"
 msgstr "Blog"
@@ -840,9 +869,11 @@ msgid ""
 "Статьи на /blog/ в каждом регионе. Создавай посты, привязывай теги и "
 "категории, публикуй."
 msgstr ""
+"Articles on /blog/ for each region. Create posts, assign tags and "
+"categories, and publish."
 
 msgid "Категории и теги"
-msgstr ""
+msgstr "Categories and tags"
 
 #, fuzzy
 #| msgid "Идёт набор"
@@ -850,10 +881,10 @@ msgid "Статус публикации"
 msgstr "Recruiting"
 
 msgid "Поиск по заголовку"
-msgstr ""
+msgstr "Search by title"
 
 msgid "Все категории"
-msgstr ""
+msgstr "All categories"
 
 #, fuzzy
 #| msgid "Все классы"
@@ -861,13 +892,13 @@ msgid "Все регионы"
 msgstr "All grades"
 
 msgid "Применить"
-msgstr ""
+msgstr "Apply"
 
 msgid "Заголовок"
-msgstr ""
+msgstr "Title"
 
 msgid "Дата"
-msgstr ""
+msgstr "Date"
 
 #, fuzzy
 #| msgid "Любой статус"
@@ -875,43 +906,45 @@ msgid "Статус"
 msgstr "Any status"
 
 msgid "Опубликовано"
-msgstr ""
+msgstr "Published"
 
 msgid "Черновик"
-msgstr ""
+msgstr "Draft"
 
 msgid "Постраничная навигация"
-msgstr ""
+msgstr "Pagination"
 
 msgid "Назад"
-msgstr ""
+msgstr "Previous"
 
 #, python-format
 msgid "Стр. %(current)s из %(total)s"
-msgstr ""
+msgstr "Page %(current)s of %(total)s"
 
 msgid "Вперёд"
-msgstr ""
+msgstr "Next"
 
 msgid "По текущим фильтрам постов не нашлось. Сбросьте часть условий."
-msgstr ""
+msgstr "No posts found for the current filters. Try removing some conditions."
 
 msgid "Ещё ни одного поста. Нажмите «Новый пост» в правом верхнем углу."
-msgstr ""
+msgstr "No posts yet. Click \"New Post\" in the top right corner."
 
 msgid "К списку постов"
-msgstr ""
+msgstr "Back to post list"
 
 msgid "Категории и теги блога"
-msgstr ""
+msgstr "Blog categories and tags"
 
 msgid ""
 "Категории — chip-фильтр на ленте, у каждого поста одна. Теги — облако, у "
 "поста может быть несколько. Общие для всех регионов."
 msgstr ""
+"Categories are chip filters on the feed; each post has one. Tags form a "
+"cloud; a post can have multiple. They are common for all regions."
 
 msgid "Категории"
-msgstr ""
+msgstr "Categories"
 
 #, fuzzy
 #| msgid "Питание"
@@ -919,7 +952,7 @@ msgid "Название (RU)"
 msgstr "Meals"
 
 msgid "пост."
-msgstr ""
+msgstr "posts."
 
 #, fuzzy, python-format
 #| msgid "Запись на «%(name)s»"
@@ -927,28 +960,31 @@ msgid "Удалить категорию «%(name)s»?"
 msgstr "Sign up for «%(name)s»"
 
 msgid "Пока нет категорий"
-msgstr ""
+msgstr "No categories yet"
 
 msgid "Новая категория (RU)"
-msgstr ""
+msgstr "New category (RU)"
 
 msgid "Создать"
-msgstr ""
+msgstr "Create"
 
 #, python-format
 msgid "Удалить тег «%(name)s»? Он отвяжется ото всех статей."
-msgstr ""
+msgstr "Delete the tag \"%(name)s\"? It will be removed from all articles."
 
 msgid "Пока нет тегов"
-msgstr ""
+msgstr "No tags yet"
 
 msgid "Новый тег (RU)"
-msgstr ""
+msgstr "New tag (RU)"
 
 msgid ""
 "Slug, порядок и переводы (KK/EN) генерируются автоматически из RU-названия. "
 "Slug у популярных категорий лучше не менять — сломаются URL."
 msgstr ""
+"The slug, order, and translations (KK/EN) are generated automatically from "
+"the RU title. It's best not to change the slug for popular categories, as it"
+" will break URLs."
 
 #, fuzzy, python-format
 #| msgid "Контакты"
@@ -957,73 +993,376 @@ msgstr "Contact"
 
 #, python-format
 msgid "Singleton-контент страницы «Контакты». Обновлено %(date)s."
-msgstr ""
+msgstr "Singleton content for the \"Contacts\" page. Updated on %(date)s."
 
 msgid "Вводный блок"
-msgstr ""
+msgstr "Intro block"
 
 msgid "Офис (overlay над картой)"
-msgstr ""
+msgstr "Office (overlay on the map)"
 
 msgid "Карта (Leaflet · CartoDB light_nolabels)"
-msgstr ""
+msgstr "Map (Leaflet · CartoDB light_nolabels)"
 
 msgid "Введи широту и долготу, чтобы увидеть точку на карте."
-msgstr ""
+msgstr "Enter latitude and longitude to see the point on the map."
 
 msgid ""
 "Кликни по карте, чтобы поставить точку. Перетащи маркер, чтобы уточнить "
 "положение. Кнопки +/- слева сверху меняют zoom (сохранится автоматически)."
 msgstr ""
+"Click on the map to place a point. Drag the marker to adjust the position. "
+"The +/- buttons in the top left change the zoom (it will be saved "
+"automatically)."
 
 msgid "Отделы"
-msgstr ""
+msgstr "Departments"
 
 msgid ""
 "Поступление, Партнёрство, Вакансии и т.д. Порядок задаётся числом. "
-"Контактные поля (телефон/email) — language-neutral, переводятся только title/"
-"description/hours."
+"Контактные поля (телефон/email) — language-neutral, переводятся только "
+"title/description/hours."
 msgstr ""
+"Admissions, Partnerships, Careers, etc. The order is set by a number. "
+"Contact fields (phone/email) are language-neutral; only "
+"title/description/hours are translated."
 
 msgid "Новый отдел"
-msgstr ""
+msgstr "New department"
 
 msgid ""
 "Чтобы добавить ещё один отдел — заполни блок «Новый отдел» внизу и сохрани "
 "форму, появится новый пустой блок."
 msgstr ""
+"To add another department, fill out the \"New department\" block below and "
+"save the form. A new empty block will appear."
+
+msgid "Соцсети"
+msgstr "Social media"
+
+msgid ""
+"Ссылки на профили в соцсетях. Отображаются иконками в футере сайта. Пустое "
+"поле — иконка скрыта."
+msgstr ""
+"Links to social media profiles. Displayed as icons in the site footer. An "
+"empty field means the icon is hidden."
 
 msgid ""
 "Сгенерировать SEO/OG для всех 3 языков из RU контента. Заполняет только "
 "пустые."
 msgstr ""
+"Generate SEO/OG for all 3 languages from the RU content. Fills only empty "
+"fields."
 
 msgid "Не загружена — на сайте OG-картинки не будет"
-msgstr ""
+msgstr "Not uploaded — there will be no OG image on the site"
 
 msgid "Контакты"
 msgstr "Contact"
 
 msgid ""
 "Singleton-страница для каждого региона. Выберите регион для редактирования."
-msgstr ""
+msgstr "A singleton page for each region. Select a region to edit."
 
 msgid "Офис"
-msgstr ""
-
-msgid "Координаты"
-msgstr ""
+msgstr "Office"
 
 msgid "Отделов"
-msgstr ""
+msgstr "Departments"
 
 msgid "отделов"
-msgstr ""
+msgstr "departments"
 
 msgid ""
 "Страницы «Контакты» создаются миграцией. Если регион новый — обратись к "
 "разработчику."
 msgstr ""
+"\"Contacts\" pages are created by migration. If the region is new, contact a"
+" developer."
+
+msgid "Новое событие"
+msgstr "New event"
+
+msgid "Открыть событие на сайте на текущем языке"
+msgstr "Open event on the site in the current language"
+
+msgid "Точно удалить это событие? Действие необратимо."
+msgstr ""
+"Are you sure you want to delete this event? This action cannot be undone."
+
+msgid "Содержимое события"
+msgstr "Event content"
+
+msgid ""
+"Дополнительные изображения под событием. Перетащи карточки для смены "
+"порядка. Alt-текст и подпись редактируются на 3 языках — переключай через "
+"табы сверху."
+msgstr ""
+"Additional images below the event. Drag and drop cards to reorder. Alt text "
+"and caption can be edited in 3 languages — switch using the tabs above."
+
+msgid "Снять галку — событие уйдёт в черновики."
+msgstr "Uncheck this to move the event to drafts."
+
+msgid "Не загружена — на шеринге сработает fallback на обложку события."
+msgstr ""
+"Not uploaded — the event cover image will be used as a fallback when "
+"sharing."
+
+msgid "События"
+msgstr "Events"
+
+msgid ""
+"Лента анонсов и отчётов в каждом регионе. Без категорий и тегов — плоский "
+"список по дате."
+msgstr ""
+"A feed of announcements and reports for each region. No categories or "
+"tags—just a simple list sorted by date."
+
+msgid "По текущим фильтрам ничего не нашлось. Сбросьте часть условий."
+msgstr "Nothing found for the current filters. Try removing some conditions."
+
+msgid "Ещё ни одного события. Нажмите «Новое событие» в правом верхнем углу."
+msgstr "No events yet. Click 'New Event' in the top right corner."
+
+msgid "Пишите HTML-контент: заголовки, абзацы, списки, цитаты, ссылки."
+msgstr "Write HTML content: headings, paragraphs, lists, quotes, links."
+
+msgid "Новая доп. страница"
+msgstr "New Additional Page"
+
+msgid ""
+"Slug — короткое латинское имя (about, uniform, privacy). Будет частью URL: "
+"/info/<slug>/."
+msgstr ""
+"Slug is a short name in Latin letters (e.g., about, uniform, privacy). It "
+"will be part of the URL: /info/<slug>/."
+
+#, fuzzy
+#| msgid "Администрация"
+msgid "Содержимое страницы"
+msgstr "Administration"
+
+msgid "Обложка и SEO"
+msgstr "Cover & SEO"
+
+msgid ""
+"Эти секции будут доступны после первого сохранения — сохрани черновик или "
+"опубликуй страницу."
+msgstr ""
+"These sections will become available after the first save. Save a draft or "
+"publish the page to continue."
+
+msgid "Сохранить как черновик"
+msgstr "Save as draft"
+
+msgid "Опубликовать"
+msgstr "Publish"
+
+#, python-format
+msgid "обновлено %(date)s"
+msgstr "updated %(date)s"
+
+msgid "Открыть страницу на сайте на текущем языке"
+msgstr "Open page on the website in the current language"
+
+msgid ""
+"Точно удалить эту страницу? Если на неё ссылается меню — ссылка станет "
+"битой."
+msgstr ""
+"Are you sure you want to delete this page? If it's linked in a menu, the "
+"link will be broken."
+
+msgid "Идентификатор страницы"
+msgstr "Page ID"
+
+msgid "часть URL"
+msgstr "part of the URL"
+
+msgid ""
+"Slug изменить нельзя — если переименовать, на сайте сломаются ссылки из меню"
+" и поиска (NavItem линкуется по этой странице). Если нужен другой slug — "
+"создай новую страницу и удали эту."
+msgstr ""
+"The slug cannot be changed. Renaming it will break links from menus and "
+"search results (NavItems are linked to this page). If you need a different "
+"slug, create a new page and delete this one."
+
+msgid ""
+"Снять галку — страница уйдёт в черновики (404 на сайте). Ссылки из "
+"меню/футера, если есть, останутся, но открываться не будут."
+msgstr ""
+"Uncheck this to move the page to drafts (it will show a 404 error on the "
+"site). Any links in the menu or footer will remain but will no longer work."
+
+msgid "Не загружена — на шеринге сработает fallback на обложку страницы."
+msgstr ""
+"Not uploaded—the page's main cover will be used as a fallback for social "
+"sharing."
+
+msgid "Доп. страницы"
+msgstr "Additional Pages"
+
+msgid ""
+"Статичные страницы: «О нас», «Форма», «Питание», privacy, oferta и т.п. "
+"Создаются per-region и линкуются в меню или футере."
+msgstr ""
+"Static pages like 'About Us,' 'Uniform,' 'Meals,' 'Privacy,' 'Terms,' etc. "
+"They are created per region and can be linked in the menu or footer."
+
+#, fuzzy
+#| msgid "Пятница"
+msgid "Новая страница"
+msgstr "Friday"
+
+msgid "Поиск по заголовку или slug"
+msgstr "Search by title or slug"
+
+msgid ""
+"Ещё ни одной доп. страницы. Нажмите «Новая страница» в правом верхнем углу."
+msgstr "No additional pages yet. Click 'New Page' in the top right corner."
+
+msgid "К альбомам"
+msgstr "Back to Albums"
+
+msgid "Новый альбом"
+msgstr "New Album"
+
+msgid "Заполни название и выбери тему. Фото добавишь после сохранения."
+msgstr "Enter a title and select a theme. You'll add photos after saving."
+
+msgid "Тема"
+msgstr "Theme"
+
+msgid "Управлять темами →"
+msgstr "Manage themes →"
+
+#, python-format
+msgid "обновлён %(date)s"
+msgstr "updated %(date)s"
+
+msgid "Точно удалить альбом со всеми фотографиями? Действие необратимо."
+msgstr "Delete this album and all its photos? This action is irreversible."
+
+#, fuzzy
+#| msgid "Записаться"
+msgid "Удалить альбом"
+msgstr "Sign up"
+
+msgid "Параметры альбома"
+msgstr "Album settings"
+
+#, fuzzy
+#| msgid "Закрыть"
+msgid "Опубликован на сайте"
+msgstr "Close"
+
+msgid "Снять — все фото альбома пропадут с публичной страницы галереи."
+msgstr "Unpublish — all album photos will be hidden from the public gallery."
+
+msgid "Сохранить параметры альбома"
+msgstr "Save album settings"
+
+#, fuzzy
+#| msgid "Фотогалерея"
+msgid "Фото в альбоме"
+msgstr "Photo Gallery"
+
+msgid "Свежие сверху. Ориентация — авто."
+msgstr "Newest on top. Orientation: auto."
+
+msgid "Перетащи пачку фото сюда или"
+msgstr "Drag and drop photos here or"
+
+msgid "Опубликовано — кликни чтобы скрыть"
+msgstr "Published — click to unpublish"
+
+msgid "Черновик — кликни чтобы опубликовать"
+msgstr "Draft — click to publish"
+
+msgid "Переключить широкую/обычную"
+msgstr "Toggle wide/regular"
+
+msgid "Альбом пуст — перетащи первые фото в зону выше."
+msgstr "Album is empty — drag your first photos to the area above."
+
+msgid "Фотогалерея"
+msgstr "Photo Gallery"
+
+msgid ""
+"Альбомы фотографий региона. Создай альбом, выбери тему — потом грузи в него "
+"пачку фото. Ориентация (широкое/обычное) определяется автоматически, "
+"чередование в мозаике на сайте — тоже."
+msgstr ""
+"Regional photo albums. Create an album, pick a theme, and then upload your "
+"photos. The orientation (wide/regular) and the mosaic layout on the site are"
+" set automatically."
+
+msgid "Темы"
+msgstr "Themes"
+
+msgid "Поиск по названию"
+msgstr "Search by title"
+
+#, fuzzy
+#| msgid "Все классы"
+msgid "Все темы"
+msgstr "All grades"
+
+msgid "Альбом"
+msgstr "Album"
+
+msgid "Фото"
+msgstr "Photos"
+
+msgid "Создан"
+msgstr "Created"
+
+#, fuzzy
+#| msgid "Никого по этому фильтру не нашлось."
+msgid "По текущим фильтрам альбомов не нашлось."
+msgstr "No team members match this filter."
+
+msgid "Ещё ни одного альбома. Нажмите «Новый альбом» в правом верхнем углу."
+msgstr "No albums yet. Click \"New Album\" in the top right corner."
+
+#, fuzzy
+#| msgid "Фотогалерея"
+msgid "Темы фотогалереи"
+msgstr "Photo Gallery"
+
+msgid ""
+"Темы группируют альбомы. Chip-фильтр на странице галереи на сайте. "
+"Одинаковые для всех регионов."
+msgstr ""
+"Themes group albums and work as chip filters on the gallery page. They are "
+"the same across all regions."
+
+msgid "Видна"
+msgstr "Visible"
+
+msgid "альб."
+msgstr "alb."
+
+#, fuzzy, python-format
+#| msgid "Запись на «%(name)s»"
+msgid "Удалить тему «%(name)s»?"
+msgstr "Sign up for «%(name)s»"
+
+msgid "Пока нет тем"
+msgstr "No themes yet"
+
+#, fuzzy
+#| msgid "Питание"
+msgid "Новая тема (RU)"
+msgstr "Meals"
+
+msgid ""
+"Удалить тему можно только если в ней нет альбомов — перенеси альбомы в "
+"другую тему сначала."
+msgstr ""
+"You can only delete a topic if it has no albums. Please move the albums to "
+"another topic first."
 
 #, fuzzy, python-format
 #| msgid "Главная"
@@ -1032,22 +1371,22 @@ msgstr "Home"
 
 #, python-format
 msgid "Singleton-контент главной страницы региона. Обновлено %(date)s."
-msgstr ""
+msgstr "Singleton content for the region's main page. Updated on %(date)s."
 
 msgid "Изменить картинку"
-msgstr ""
+msgstr "Change image"
 
 msgid "О нас"
 msgstr "About"
 
 msgid "Шоурил"
-msgstr ""
+msgstr "Showreel"
 
 msgid "Размер"
-msgstr ""
+msgstr "Size"
 
 msgid "Разрешение"
-msgstr ""
+msgstr "Resolution"
 
 #, fuzzy
 #| msgid "Стоимость"
@@ -1055,42 +1394,47 @@ msgid "Длительность"
 msgstr "Price"
 
 msgid "Видео не загружено"
-msgstr ""
+msgstr "No video uploaded"
 
 msgid "Изменить видео"
-msgstr ""
+msgstr "Change video"
 
 msgid ""
 "Poster (cover) автоматически генерируется из 1-й секунды видео при "
 "сохранении через ffmpeg. Отображается до старта воспроизведения."
 msgstr ""
+"The poster (cover) is automatically generated from the 1st second of the "
+"video upon saving via ffmpeg. It's displayed before playback begins."
 
 msgid "Галерея на главной"
-msgstr ""
+msgstr "Main page gallery"
 
 msgid ""
 "Карусель под hero-блоком. Перетащи файлы сюда — ориентация определится "
 "автоматически, картинки расставятся чередованием «широкая → высокая». "
 "Порядок можно менять перетаскиванием карточек."
 msgstr ""
+"Carousel below the hero block. Drag files here — orientation will be "
+"detected automatically, and images will be arranged in an alternating 'wide "
+"→ tall' pattern. You can change the order by dragging the cards."
 
 msgid "Перетащи файлы сюда"
-msgstr ""
+msgstr "Drag files here"
 
 msgid "или нажми — выберешь несколько за раз"
-msgstr ""
+msgstr "or click to select multiple files"
 
 msgid "Загрузка…"
-msgstr ""
+msgstr "Loading..."
 
 msgid "Картинок пока нет. Перетащи файлы в зону выше."
-msgstr ""
+msgstr "No images yet. Drag your files into the area above."
 
 msgid "Не загружена — fallback на hero_image"
-msgstr ""
+msgstr "Not uploaded — will fall back to hero_image"
 
 msgid "Заголовок hero"
-msgstr ""
+msgstr "Hero title"
 
 #, fuzzy
 #| msgid "Фотогалерея"
@@ -1098,82 +1442,92 @@ msgid "Картинок в галерее"
 msgstr "Photo Gallery"
 
 msgid "картинок"
-msgstr ""
+msgstr "images"
 
 msgid ""
 "Главные страницы создаются миграцией. Если регион новый — обратись к "
 "разработчику."
 msgstr ""
+"Main pages are created via migration. If the region is new, please contact a"
+" developer."
 
 msgid "Новый вопрос"
-msgstr ""
+msgstr "New question"
 
 msgid "Вопросы и ответы"
-msgstr ""
+msgstr "Questions and answers"
 
 msgid "Добавить вопрос"
-msgstr ""
+msgstr "Add question"
 
 msgid ""
 "Перетаскивай за ≡ слева, чтобы изменить порядок. Свёрнутые карточки кликни "
 "по строке — раскроется."
 msgstr ""
+"Drag by the ≡ icon on the left to reorder. Click a collapsed card to expand "
+"it."
 
 msgid "Карточка"
-msgstr ""
+msgstr "Card"
 
 #, python-format
 msgid "Карточка %(n)s"
-msgstr ""
+msgstr "Card %(n)s"
 
 msgid "Новая карточка"
-msgstr ""
+msgstr "New card"
 
 msgid "Редактировать SVG"
-msgstr ""
+msgstr "Edit SVG"
 
 msgid "SVG-иконка"
-msgstr ""
+msgstr "SVG icon"
 
 msgid "Превью обновится после сохранения формы."
-msgstr ""
+msgstr "The preview will update after you save the form."
 
 msgid ""
 "Перетащи карточки за иконку слева, чтобы изменить порядок. Чтобы добавить "
 "ещё — заполни блок «Новая карточка» внизу и сохрани форму."
 msgstr ""
+"Drag the cards by the icon on the left to reorder them. To add more, fill "
+"out the 'New card' block below and save the form."
 
 msgid ""
 "Ровно 4 карточки. Перетащи за иконку слева, чтобы изменить порядок. Чтобы "
 "скрыть слот на сайте — оставь заголовок пустым."
 msgstr ""
+"Exactly 4 cards. Drag by the icon on the left to reorder. To hide a slot on "
+"the site, leave the title empty."
 
 msgid "Не загружено"
-msgstr ""
+msgstr "Not uploaded"
 
 msgid "Изменить"
-msgstr ""
+msgstr "Change"
 
 msgid "Цифры (ровно 4 карточки)"
-msgstr ""
+msgstr "Numbers (exactly 4 cards)"
 
 #, python-format
 msgid "Цифра %(n)s"
-msgstr ""
+msgstr "Number %(n)s"
 
 msgid "Новая цифра"
-msgstr ""
+msgstr "New number"
 
 msgid ""
 "Ровно 4 цифры, сетка 2×2. Перетащи за иконку слева, чтобы изменить порядок. "
 "Чтобы скрыть слот на сайте — оставь оба поля пустыми."
 msgstr ""
+"Exactly 4 numbers, 2x2 grid. Drag by the icon on the left to reorder. To "
+"hide a slot on the site, leave both fields empty."
 
 msgid "Карточки программ (Начальная / Старшая)"
-msgstr ""
+msgstr "Program cards (Primary / Secondary)"
 
 msgid "Новая карточка программы"
-msgstr ""
+msgstr "New program card"
 
 #, fuzzy, python-format
 #| msgid "Программа"
@@ -1185,12 +1539,14 @@ msgid ""
 "Лендинг «Программа» региона. 7 inline-секций + Hero + SEO. Обновлено "
 "%(date)s."
 msgstr ""
+"Regional 'Program' landing page. 7 inline sections + Hero + SEO. Updated "
+"%(date)s."
 
 msgid "Фото и карточки «Кому подходит»"
-msgstr ""
+msgstr "Photo and 'Who it's for' cards"
 
 msgid "Фото и карточки «Что получает»"
-msgstr ""
+msgstr "Photo and 'What you get' cards"
 
 #, fuzzy
 #| msgid "Программа"
@@ -1198,45 +1554,54 @@ msgid "Секция «Программы»"
 msgstr "Curriculum"
 
 msgid "Секция «Аттестат»"
-msgstr ""
+msgstr "'Diploma' section"
 
 msgid "Секция «Внеклассные»"
-msgstr ""
+msgstr "'Extracurriculars' section"
 
 msgid ""
 "Сами карточки активностей берутся из приложения «Активности» (галочка «В "
 "подборке на главной/программы»). Здесь — только тексты обрамляющей секции."
 msgstr ""
+"The activity cards themselves are taken from the 'Activities' app (the "
+"'Featured on main/programs' checkbox). This section only contains the "
+"surrounding text."
 
 msgid "Секция «В цифрах»"
-msgstr ""
+msgstr "'In numbers' section"
 
 msgid "Секция «FAQ»"
-msgstr ""
+msgstr "'FAQ' section"
 
 msgid "Программа"
 msgstr "Curriculum"
 
 msgid ""
-"Лендинг «Программа» для каждого региона. Hero и 7 секций (кому подходит, что "
-"получает, программы, команда, аттестат, цифры, FAQ). Выберите регион."
+"Лендинг «Программа» для каждого региона. Hero и 7 секций (кому подходит, что"
+" получает, программы, команда, аттестат, цифры, FAQ). Выберите регион."
 msgstr ""
+"'Program' landing page for each region. Hero and 7 sections (who it's for, "
+"what you get, programs, team, diploma, numbers, FAQ). Select a region."
 
 msgid "Hero"
-msgstr ""
+msgstr "Hero"
 
 msgid "Секции"
-msgstr ""
+msgstr "Sections"
 
 msgid ""
 "Лендинги «Программа» создаются миграцией. Если регион новый — обратись к "
 "разработчику."
 msgstr ""
+"'Program' landing pages are created through migration. If the region is new,"
+" please contact a developer."
 
 msgid ""
 "Биография: заголовки, абзацы, списки, цитаты, ссылки. Что человек делает в "
 "школе и его трек до неё."
 msgstr ""
+"Bio: headings, paragraphs, lists, quotes, links. What the person does at the"
+" school and their career path before joining."
 
 msgid "Младшие"
 msgstr "Primary"
@@ -1248,15 +1613,18 @@ msgid "Старшие"
 msgstr "Senior"
 
 msgid "Новый член команды"
-msgstr ""
+msgstr "New team member"
 
 msgid ""
 "Заполни RU-имя и должность — остальные поля можно дозаполнить после "
 "сохранения."
 msgstr ""
+"Fill in the RU-name and position — the other fields can be completed after "
+"saving."
 
 msgid "Порядок настраивается перетаскиванием на странице региона."
 msgstr ""
+"The order can be adjusted by dragging and dropping on the region's page."
 
 #, fuzzy
 #| msgid "Закрыть"
@@ -1265,12 +1633,11 @@ msgstr "Close"
 
 msgid "Точно удалить этого члена команды? Действие необратимо."
 msgstr ""
+"Are you sure you want to delete this team member? This action cannot be "
+"undone."
 
 msgid "Опционально. Если задано — на детальной появится кнопка."
-msgstr ""
-
-msgid "Фото"
-msgstr ""
+msgstr "Optional. If provided, a button will appear on the detail page."
 
 #, fuzzy
 #| msgid "Поступление"
@@ -1279,6 +1646,7 @@ msgstr "Admissions"
 
 msgid "Не загружено — на сайте покажется плейсхолдер «Нет фото»."
 msgstr ""
+"Not uploaded — the 'No photo' placeholder will be displayed on the website."
 
 #, fuzzy
 #| msgid "Нет фото"
@@ -1286,13 +1654,13 @@ msgid "Выбрать фото"
 msgstr "No photo"
 
 msgid "Анкета"
-msgstr ""
+msgstr "Profile"
 
 msgid "На списке не выводится — только на детальной странице."
-msgstr ""
+msgstr "Not displayed in the list view — only on the detail page."
 
 msgid "Снять — временно скрыть из публичного списка, не удаляя."
-msgstr ""
+msgstr "Unpublish — temporarily hide from the public list without deleting."
 
 #, fuzzy
 #| msgid "Программа"
@@ -1303,40 +1671,50 @@ msgid ""
 "Попадает в блок «Команда профессионалов» на лендинге программы текущего "
 "региона."
 msgstr ""
+"Appears in the 'Team of Professionals' block on the current region's program"
+" landing page."
 
 msgid "Преподаёт в классах"
-msgstr ""
+msgstr "Teaches grades"
 
-msgid "Можно отметить несколько уровней (если преподаёт и младшим, и средним)."
+msgid ""
+"Можно отметить несколько уровней (если преподаёт и младшим, и средним)."
 msgstr ""
+"You can select multiple levels (e.g., if they teach both junior and middle "
+"school)."
 
 msgid ""
 "Директор, координатор, куратор. Не зависит от уровней — учитель-завуч может "
 "быть одновременно преподавателем и администрацией."
 msgstr ""
+"Director, coordinator, curator. This is not tied to grade levels — a teacher"
+" can be a faculty member and an administrator at the same time."
 
 msgid "Если пусто — fallback на «ФИО — Должность»."
-msgstr ""
+msgstr "If empty, falls back to “Full Name — Position”."
 
 msgid "Если пусто — fallback на начало биографии."
-msgstr ""
+msgstr "If empty, falls back to the beginning of the bio."
 
 msgid "Не загружена — на шеринге fallback на фото члена команды."
 msgstr ""
+"If not uploaded, it falls back to the team member's photo when sharing."
 
 msgid "Команда"
 msgstr "Team"
 
 msgid ""
-"Состав команды — свой на каждый регион. Выбери город, чтобы открыть список и "
-"настроить порядок."
+"Состав команды — свой на каждый регион. Выбери город, чтобы открыть список и"
+" настроить порядок."
 msgstr ""
+"Each region has its own team roster. Select a city to open the list and set "
+"the order."
 
 msgid "Всего"
-msgstr ""
+msgstr "Total"
 
 msgid "Избранные"
-msgstr ""
+msgstr "Featured"
 
 #, fuzzy
 #| msgid "Программа"
@@ -1344,7 +1722,7 @@ msgid "на «Программе»"
 msgstr "Curriculum"
 
 msgid "членов"
-msgstr ""
+msgstr "members"
 
 #, fuzzy, python-format
 #| msgid "Программа"
@@ -1355,49 +1733,59 @@ msgid ""
 "Перетаскивай за «≡» чтобы поменять порядок. Избранные всегда сверху и "
 "попадают на лендинг «Программа»."
 msgstr ""
+"Drag by the “≡” icon to reorder. Featured members are always at the top and "
+"appear on the “Program” landing page."
 
 msgid ""
 "Выводятся в блоке «Команда профессионалов» на лендинге «Программа» этого "
 "региона."
 msgstr ""
+"Displayed in the “Team of Professionals” block on this region's “Program” "
+"landing page."
 
 msgid ""
 "Никто пока не избран. Открой члена команды и поставь галочку «Избранный»."
 msgstr ""
+"No one is featured yet. Open a team member's profile and check the "
+"“Featured” box."
 
 msgid "Остальные"
-msgstr ""
+msgstr "Others"
 
 msgid ""
 "Видны на /team/, но НЕ на «Программе». Перетаскивай чтобы поменять порядок "
 "внутри списка."
 msgstr ""
+"Visible on the /team/ page, but NOT on the “Program” page. Drag and drop to "
+"reorder them within this list."
 
 msgid "Пусто."
-msgstr ""
+msgstr "Empty."
 
 msgid "Дашборд"
-msgstr ""
+msgstr "Dashboard"
 
 msgid "Добро пожаловать"
-msgstr ""
+msgstr "Welcome"
 
 msgid ""
 "Раздел будет наполнен в следующих шагах: контент, заявки, навигация, медиа."
 msgstr ""
+"This section will be populated in the next steps: content, applications, "
+"navigation, media."
 
 msgid "Здесь появятся разделы CMS."
-msgstr ""
+msgstr "CMS sections will appear here."
 
 msgid "К списку заявок"
-msgstr ""
+msgstr "Back to applications list"
 
 #, python-format
 msgid "Заявка #%(id)s · %(region)s · %(date)s"
-msgstr ""
+msgstr "Application #%(id)s · %(region)s · %(date)s"
 
 msgid "В работу"
-msgstr ""
+msgstr "Process"
 
 #, fuzzy
 #| msgid "Закрыть"
@@ -1405,7 +1793,7 @@ msgid "Закрыть успешно"
 msgstr "Close"
 
 msgid "Отказ"
-msgstr ""
+msgstr "Decline"
 
 #, fuzzy
 #| msgid "Контакты"
@@ -1413,37 +1801,37 @@ msgid "Контакт"
 msgstr "Contact"
 
 msgid "Имя"
-msgstr ""
+msgstr "Name"
 
 msgid "Город (из формы)"
-msgstr ""
+msgstr "City (from the form)"
 
 msgid "Заголовок модалки"
-msgstr ""
+msgstr "Modal title"
 
 msgid "Источник (origin)"
-msgstr ""
+msgstr "Source (origin)"
 
 msgid "Аудит"
-msgstr ""
+msgstr "Audit"
 
 msgid "Создана"
-msgstr ""
+msgstr "Created"
 
 msgid "Обновлена"
-msgstr ""
+msgstr "Updated"
 
 msgid "Согласие"
-msgstr ""
+msgstr "Consent"
 
 msgid "Обработка"
-msgstr ""
+msgstr "Processing"
 
 msgid "Заметка менеджера"
-msgstr ""
+msgstr "Manager's note"
 
 msgid "Что по звонку, договорённости, причина отказа."
-msgstr ""
+msgstr "Call details, agreements, reason for refusal."
 
 #, fuzzy
 #| msgid "Любой статус"
@@ -1451,7 +1839,7 @@ msgid "Фильтр по статусу"
 msgstr "Any status"
 
 msgid "Имя, телефон, источник, заметка…"
-msgstr ""
+msgstr "Name, phone, source, note…"
 
 #, fuzzy
 #| msgid "Сбросить фильтры"
@@ -1459,10 +1847,10 @@ msgid "Сброс"
 msgstr "Reset filters"
 
 msgid "Регион · Город"
-msgstr ""
+msgstr "Region · City"
 
 msgid "Источник"
-msgstr ""
+msgstr "Source"
 
 #, fuzzy
 #| msgid "Локация"
@@ -1471,16 +1859,16 @@ msgstr "Location"
 
 #, python-format
 msgid "Стр. %(cur)s из %(total)s · всего %(count)s"
-msgstr ""
+msgstr "Page %(cur)s of %(total)s · %(count)s total"
 
 msgid "По выбранным фильтрам заявок не найдено."
-msgstr ""
+msgstr "No applications found for the selected filters."
 
 msgid "Заявок пока нет."
-msgstr ""
+msgstr "No applications yet."
 
 msgid "Вход"
-msgstr ""
+msgstr "Sign In"
 
 #, fuzzy
 #| msgid "Главная"
@@ -1488,21 +1876,276 @@ msgid "На главную"
 msgstr "Home"
 
 msgid "Вход в панель"
-msgstr ""
+msgstr "Sign in to the dashboard"
 
 msgid "Введите данные учётной записи, чтобы продолжить."
-msgstr ""
+msgstr "Enter your account details to continue."
 
 msgid "Войти"
-msgstr ""
+msgstr "Sign In"
 
 msgid "На сайт"
+msgstr "Go to site"
+
+#, fuzzy
+#| msgid "Все классы"
+msgid "Новый регион"
+msgstr "All grades"
+
+msgid ""
+"Slug станет частью URL: `/<lang>/<slug>/...`. После создания перейдёте на "
+"редактирование — там зададите переводы (KK/EN) и флаг is_default."
 msgstr ""
+"The slug will become part of the URL: `/<lang>/<slug>/...`. After creating "
+"it, you'll be taken to the edit page to set translations (KK/EN) and the "
+"is_default flag."
+
+msgid "Активен"
+msgstr "Active"
+
+msgid "URL `/<lang>/<slug>/` доступен публично"
+msgstr "URL `/<lang>/<slug>/` is publicly available"
+
+#, fuzzy, python-format
+#| msgid "Запись на «%(name)s»"
+msgid "Регион «%(name)s» (%(slug)s)"
+msgstr "Sign up for «%(name)s»"
+
+msgid ""
+"Изменение slug ломает существующие URL. Деактивация скрывает регион в "
+"переключателе и `/<lang>/<slug>/` → 404."
+msgstr ""
+"Changing the slug breaks existing URLs. Deactivation hides the region in the"
+" switcher and makes `/<lang>/<slug>/` return a 404."
+
+#, python-format
+msgid ""
+"Удалить регион «%(name)s»? Каскадно удалится весь его контент (HomePage, "
+"BlogPost, Контакты и т.п.). Это нельзя отменить!"
+msgstr ""
+"Delete the '%(name)s' region? This will permanently delete all its content "
+"(HomePage, BlogPost, Contacts, etc.). This action cannot be undone!"
+
+#, fuzzy
+#| msgid "Записаться"
+msgid "Удалить регион"
+msgstr "Sign up"
+
+msgid "Язык названия"
+msgstr "Name language"
+
+msgid "По умолчанию"
+msgstr "Default"
+
+msgid ""
+"корневой URL ведёт сюда; пользователи без выбора региона попадают сюда. "
+"Можно поставить только одному."
+msgstr ""
+"The root URL will point here; users without a selected region will be "
+"redirected here. Only one region can be set as default."
+
+msgid "URL `/<lang>/<slug>/` доступен публично; в переключателе показывается."
+msgstr ""
+"The `/<lang>/<slug>/` URL is publicly available and will be shown in the "
+"region switcher."
+
+#, fuzzy
+#| msgid "Все классы"
+msgid "Регионы"
+msgstr "All grades"
+
+msgid ""
+"Справочник филиалов школы. Slug — сегмент URL `/<lang>/<slug>/`. Один регион"
+" по умолчанию (используется при корневом URL и для пользователей без "
+"выбора)."
+msgstr ""
+"A directory of school branches. The slug is the URL segment "
+"`/<lang>/<slug>/`. One region is set as default (used for the root URL and "
+"for users without a selected region)."
+
+msgid "Состояние"
+msgstr "Status"
+
+msgid "Менеджеров"
+msgstr "Managers"
+
+#, fuzzy
+#| msgid "Закрыть"
+msgid "Скрыт"
+msgstr "Close"
+
+msgid "менедж."
+msgstr "mgr."
+
+msgid "Регионов пока нет. Создай первый — astana, almaty и т.п."
+msgstr "No regions yet. Create the first one, e.g., astana, almaty, etc."
+
+msgid "Новый пользователь"
+msgstr "New user"
+
+msgid ""
+"Менеджеру укажи manager_region — он будет видеть только свой регион. "
+"Суперадмин видит всё, регион не нужен."
+msgstr ""
+"Assign a manager_region to a manager — they will only see their own region. "
+"A superadmin can see everything, no region is needed."
+
+msgid "Учётная запись"
+msgstr "Account"
+
+msgid "Роль и доступ"
+msgstr "Role and access"
+
+msgid "если снять, пользователь не сможет войти даже с правильным паролем"
+msgstr "If disabled, the user cannot log in, even with the correct password."
+
+#, python-format
+msgid "Последний вход: %(date)s."
+msgstr "Last login: %(date)s."
+
+msgid "Ни разу не входил."
+msgstr "Never logged in."
+
+#, python-format
+msgid "Удалить пользователя «%(name)s»? Действие нельзя отменить."
+msgstr "Delete user '%(name)s'? This action cannot be undone."
+
+msgid ""
+"Это ваш собственный аккаунт. Роль и флаг «Активен» нельзя изменить — защита "
+"от самоблокировки. Чтобы понизить себя, попросите другого суперадмина."
+msgstr ""
+"This is your own account. The 'Active' status and role cannot be changed to "
+"prevent self-lockout. To downgrade your account, please ask another "
+"superadmin."
+
+msgid "Смена пароля"
+msgstr "Change password"
+
+#, fuzzy
+#| msgid "Нет фото"
+msgid "Сменить пароль"
+msgstr "No photo"
+
+msgid "Пользователи"
+msgstr "Users"
+
+msgid ""
+"Аккаунты backoffice: суперадмины (видят всё) и менеджеры (manager_region → "
+"видят только свой регион). Обычные посетители сайта здесь не показываются."
+msgstr ""
+"Backoffice accounts: superadmins (can see everything) and managers "
+"(manager_region → can only see their region). Regular site visitors are not "
+"shown here."
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Роль"
+msgstr "Role"
+
+msgid "Отключён"
+msgstr "Disabled"
+
+msgid "Суперадмин"
+msgstr "Superadmin"
+
+msgid "Менеджер"
+msgstr "Manager"
+
+msgid "Без доступа"
+msgstr "No access"
+
+msgid "Пользователей нет."
+msgstr "No users."
+
+msgid "Новый пункт"
+msgstr "New item"
+
+msgid "Показывать в шапке (top nav)"
+msgstr "Show in header (top nav)"
+
+msgid "К списку секций"
+msgstr "Back to sections"
+
+msgid "Новая секция меню"
+msgstr "New menu section"
+
+msgid ""
+"Создайте секцию с slug (латиница, технический id) и заголовком на русском. "
+"Переводы и порядок зададите на странице редактирования."
+msgstr ""
+"Create a section with a slug (Latin characters, technical ID) and a Russian "
+"title. You'll set the translations and order on the edit page."
+
+#, python-format
+msgid "Секция «%(label)s» (%(slug)s)"
+msgstr "Section \"%(label)s\" (%(slug)s)"
+
+msgid "Заголовок секции, порядок отображения и список пунктов."
+msgstr "Section title, display order, and list of items."
+
+#, python-format
+msgid "Удалить секцию «%(label)s»? Каскадно удалятся все %(count)s пункт(ов)."
+msgstr ""
+"Delete section \"%(label)s\"? All %(count)s items in this section will also "
+"be deleted."
+
+#, fuzzy
+#| msgid "Записаться"
+msgid "Удалить секцию"
+msgstr "Sign up"
+
+msgid "Язык содержания"
+msgstr "Content language"
+
+#, fuzzy
+#| msgid "Идёт набор"
+msgid "Пункты навигации"
+msgstr "Recruiting"
+
+msgid ""
+"Каждый пункт — звено навигации. Перетаскивай за ≡ слева, чтобы изменить "
+"порядок (сохранится при «Сохранить» внизу). Клик по строке — "
+"раскрыть/свернуть детали."
+msgstr ""
+"Each item is a navigation link. Drag the ≡ icon to reorder items (your "
+"changes will be saved when you click 'Save' below). Click a row to expand or"
+" collapse its details."
+
+#, fuzzy
+#| msgid "Нет фото"
+msgid "Добавить пункт"
+msgstr "No photo"
+
+msgid "Меню"
+msgstr "Menu"
+
+msgid "Секции мегаменю и пункты навигации. Структура общая для всех регионов."
+msgstr ""
+"Megamenu sections and navigation items. The structure is the same for all "
+"regions."
+
+msgid "Новая секция"
+msgstr "New section"
+
+msgid "Порядок"
+msgstr "Order"
+
+msgid "Пунктов"
+msgstr "Items"
+
+msgid "пункт."
+msgstr "item."
+
+msgid "Пока нет секций. Создайте первую — например «main» для главного меню."
+msgstr ""
+"No sections yet. Create the first one — for example, 'main' for the main "
+"menu."
 
 #, fuzzy, python-format
 #| msgid ""
-#| "Tamos Space School — международная школа Cambridge Assessment "
-#| "International Education. %(cities)s."
+#| "Tamos Space School — международная школа Cambridge Assessment International "
+#| "Education. %(cities)s."
 msgid ""
 "Space School — международная школа Cambridge Assessment International "
 "Education. %(cities)s."
@@ -1516,21 +2159,23 @@ msgid "Space School"
 msgstr "Tamos Space School"
 
 msgid "Предыдущее"
-msgstr ""
+msgstr "Previous"
 
 msgid "Следующее"
-msgstr ""
+msgstr "Next"
 
 msgid "Копировать"
-msgstr ""
+msgstr "Copy"
 
 msgid ""
 "Новости и статьи Space School: школьная жизнь, спорт, достижения и события."
 msgstr ""
+"Space School News and Articles: school life, sports, achievements, and "
+"events."
 
 #, python-format
 msgid "Записи по тегу <strong>#%(tag)s</strong>"
-msgstr ""
+msgstr "Posts tagged <strong>#%(tag)s</strong>"
 
 #, fuzzy
 #| msgid "Сбросить фильтры"
@@ -1543,140 +2188,136 @@ msgid "Все"
 msgstr "Sun"
 
 msgid "Загрузить еще"
-msgstr ""
+msgstr "Load more"
 
 msgid "Пока нет публикаций в этой категории."
-msgstr ""
+msgstr "No posts in this category yet."
 
 msgid "Мероприятия"
-msgstr ""
+msgstr "Events"
 
 msgid "Другие мероприятия"
-msgstr ""
+msgstr "Other events"
 
 msgid "Анонсы и отчёты о мероприятиях Space School."
-msgstr ""
+msgstr "Announcements and reports on Space School events."
 
 msgid "Пока нет анонсов мероприятий."
-msgstr ""
-
-msgid "Фотогалерея"
-msgstr "Photo Gallery"
+msgstr "No event announcements yet."
 
 msgid ""
 "Фотохроника жизни школы: учебные будни, достижения, мероприятия и "
 "робототехника."
 msgstr ""
+"Photos from our school life: daily studies, achievements, events, and "
+"robotics."
 
 msgid "Пока нет фото в этой категории."
-msgstr ""
+msgstr "No photos in this category yet."
 
 msgid "Знакомство со Space School"
-msgstr ""
+msgstr "Meet Space School"
 
 msgid "Ваш браузер не поддерживает воспроизведение видео."
-msgstr ""
+msgstr "Your browser can't play this video."
 
 msgid "Запустить видео"
-msgstr ""
+msgstr "Play video"
 
 msgid "Медленное соединение — видео не запущено автоматически."
-msgstr ""
+msgstr "Slow connection — video didn't start automatically."
 
 msgid "Загрузить всё равно"
-msgstr ""
+msgstr "Load anyway"
 
 msgid "Включить звук"
-msgstr ""
+msgstr "Unmute"
 
 msgid "Выключить звук"
-msgstr ""
+msgstr "Mute"
 
 msgid "Нет фото"
 msgstr "No photo"
 
 msgid "Готовы запустить"
-msgstr ""
+msgstr "Ready to launch"
 
 msgid "будущее вашего ребёнка?"
-msgstr ""
+msgstr "your child's future?"
 
 msgid "Запишитесь на бесплатную консультацию —"
-msgstr ""
+msgstr "Book a free consultation —"
 
 msgid "расскажем о программе, покажем школу и ответим"
-msgstr ""
+msgstr "we'll discuss the program, give you a tour, and answer"
 
 msgid "на все вопросы"
-msgstr ""
+msgstr "all your questions"
 
 msgid "Запишитесь на бесплатную консультацию"
-msgstr ""
+msgstr "Book a free consultation"
 
 msgid "Получить консультацию"
-msgstr ""
+msgstr "Get a consultation"
 
 msgid "Выберите свой город"
-msgstr ""
+msgstr "Select your city"
 
 msgid "Записаться в кампус"
-msgstr ""
+msgstr "Enroll at a campus"
 
 msgid ""
 "Space School — международная школа нового поколения, где дети учатся думать "
 "глобально, готовятся к поступлению в ведущие университеты мира и получают "
 "двойной сертификат с правом сдачи SAT."
 msgstr ""
-"Space School is an international next-generation school where children learn "
-"to think globally, prepare to enter the world's leading universities, and "
+"Space School is an international next-generation school where children learn"
+" to think globally, prepare to enter the world's leading universities, and "
 "receive a dual certificate with the right to take the SAT."
 
 msgid "Документы"
-msgstr ""
+msgstr "Documents"
 
 msgid "Политика конфиденциальности"
-msgstr ""
+msgstr "Privacy Policy"
 
 #, fuzzy
 #| msgid "Школьная форма"
 msgid "Публичная оферта"
 msgstr "Uniform"
 
-msgid "Меню"
-msgstr "Menu"
-
 msgid "Город"
-msgstr ""
+msgstr "City"
 
 msgid "Выберите город"
-msgstr ""
+msgstr "Select a city"
 
 msgid "Отправляем…"
-msgstr ""
+msgstr "Sending…"
 
 msgid "Отправить"
-msgstr ""
+msgstr "Submit"
 
 msgid "Не удалось отправить. Попробуйте ещё раз или позвоните нам."
-msgstr ""
+msgstr "Couldn't send. Please try again or call us."
 
 msgid "Нажимая кнопку, вы соглашаетесь на обработку"
-msgstr ""
+msgstr "By clicking the button, you agree to the processing of"
 
 msgid "персональных данных"
-msgstr ""
+msgstr "personal data"
 
 msgid "Заявка принята!"
-msgstr ""
+msgstr "Application received!"
 
 msgid "Перезвоним вам в течение 2 часов"
-msgstr ""
+msgstr "We'll call you back within 2 hours"
 
 msgid "Предыдущий"
-msgstr ""
+msgstr "Previous"
 
 msgid "Следующий"
-msgstr ""
+msgstr "Next"
 
 msgid "Стоимость"
 msgstr "Price"
@@ -1698,11 +2339,11 @@ msgid "Команда профессионалов, которая заботи�
 msgstr "A team of professionals who care about your child"
 
 msgid ""
-"Каждый педагог — практик с опытом в международных школах и университетах. Мы "
-"отвечаем за развитие каждого ученика."
+"Каждый педагог — практик с опытом в международных школах и университетах. Мы"
+" отвечаем за развитие каждого ученика."
 msgstr ""
-"Every teacher is a practitioner with experience at international schools and "
-"universities. We take responsibility for each student's growth."
+"Every teacher is a practitioner with experience at international schools and"
+" universities. We take responsibility for each student's growth."
 
 msgid "Подробнее"
 msgstr "Read more"
@@ -1714,9 +2355,8 @@ msgid "Информация о команде скоро появится."
 msgstr "Information about the team is coming soon."
 
 #, fuzzy
-#~| msgid "Нет фото"
-#~ msgid "Изменить фото"
-#~ msgstr "No photo"
+#~ msgid "Доступные теги"
+#~ msgstr "Admissions"
 
 #~ msgid "Резюме"
 #~ msgstr "Resume"
