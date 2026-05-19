@@ -1,7 +1,7 @@
 {
-  "_main-LFgaK2iE.css": {
-    "file": "assets/css/main-LFgaK2iE.css",
-    "src": "_main-LFgaK2iE.css"
+  "_main-CrsZf3VJ.css": {
+    "file": "assets/css/main-CrsZf3VJ.css",
+    "src": "_main-CrsZf3VJ.css"
   },
   "_modulepreload-polyfill-DrwnXrKK.js": {
     "file": "assets/js/modulepreload-polyfill-DrwnXrKK.js",
@@ -32,13 +32,13 @@
     "src": "src/fonts/gotham_medium.otf"
   },
   "src/js/main.js": {
-    "file": "assets/js/main-BnyH4x2i.js",
+    "file": "assets/js/main-DO0Qn_ag.js",
     "name": "main",
     "src": "src/js/main.js",
     "isEntry": true,
     "css": [
       "assets/css/main-vh-t_kPv.css",
-      "assets/css/main-LFgaK2iE.css"
+      "assets/css/main-CrsZf3VJ.css"
     ],
     "assets": [
       "assets/fonts/gotham_book-sprPKk5v.otf",

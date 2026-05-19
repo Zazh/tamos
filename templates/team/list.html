@@ -55,7 +55,9 @@
           <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
             {% for member in members %}
               <article class="team-card">
-                <div class="team-card__photo">
+                <a href="{% region_url 'team:detail' slug=member.slug %}"
+                   class="team-card__photo block"
+                   aria-label="{% blocktrans with name=member.name %}Подробнее о {{ name }}{% endblocktrans %}">
                   {% if member.photo %}
                     <picture>
                       <source srcset="{{ member.photo_webp.url }}" type="image/webp">
@@ -72,7 +74,7 @@
                       <span>{% trans 'Нет фото' %}</span>
                     </div>
                   {% endif %}
-                </div>
+                </a>
                 <div class="team-card__body">
                   <h3 class="team-card__name">
                     <span class="marquee"><span class="marquee-inner">{{ member.name }}</span></span>
