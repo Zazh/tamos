@@ -45,10 +45,6 @@ class ContactsPageEditForm(FileSizeMixin, forms.ModelForm):
             'longitude',
             'map_zoom',
             'og_image',
-            'facebook_url',
-            'instagram_url',
-            'threads_url',
-            'telegram_url',
         ) + _localized(*CONTACTS_TRANSLATABLE)
 
     def __init__(self, *args, **kwargs):

@@ -70,8 +70,6 @@ def _contactspage_steps(contacts):
     seo_fields = [
         'seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_description_ru',
     ]
-    socials_fields = ['facebook_url', 'instagram_url', 'threads_url', 'telegram_url']
-
     dept_total = contacts.departments.count()
     dept_filled = sum(
         1 for d in contacts.departments.all()
@@ -84,7 +82,6 @@ def _contactspage_steps(contacts):
         make_step(contacts, id='kk', label='Перевод KZ', fields=kk_fields),
         make_step(contacts, id='en', label='Перевод EN', fields=en_fields),
         make_step(contacts, id='seo', label='SEO', fields=seo_fields),
-        make_step(contacts, id='socials', label='Соцсети', fields=socials_fields),
         make_readonly_step(id='departments', label='Отделы', filled=dept_filled, total=dept_total),
     ]
 

@@ -1,6 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import ContactsDepartment, ContactsPage, FlatPage, HomeGalleryImage, HomePage
+from .models import ContactsDepartment, ContactsPage, FlatPage, FooterPage, HomeGalleryImage, HomePage
 
 
 @register(HomePage)
@@ -46,6 +46,11 @@ class ContactsPageTranslationOptions(TranslationOptions):
 @register(ContactsDepartment)
 class ContactsDepartmentTranslationOptions(TranslationOptions):
     fields = ('title', 'description', 'hours')
+
+
+@register(FooterPage)
+class FooterPageTranslationOptions(TranslationOptions):
+    fields = ('intro_text',)
 
 
 @register(FlatPage)

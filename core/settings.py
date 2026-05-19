@@ -99,7 +99,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'regions.context_processors.regions_and_language',
                 'navigation.context_processors.navigation',
-                'pages.context_processors.socials',
+                'pages.context_processors.footer',
             ],
         },
     },

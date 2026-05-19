@@ -38,6 +38,11 @@ from .content.contacts import (  # noqa: F401
     content_contacts_translate,
     content_contacts_seo,
 )
+from .content.footer import (  # noqa: F401
+    content_footer_list,
+    content_footer_edit,
+    content_footer_translate,
+)
 from .content.program import (  # noqa: F401
     content_program_list,
     content_program_edit,

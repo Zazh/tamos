@@ -464,12 +464,6 @@ class ContactsPage(models.Model):
         help_text='Если пусто — fallback на seo_description → intro_text.',
     )
 
-    # --- Соцсети (рендерятся в footer; пустые поля скрывают иконку) ---
-    facebook_url = models.URLField('Facebook URL', max_length=300, blank=True)
-    instagram_url = models.URLField('Instagram URL', max_length=300, blank=True)
-    threads_url = models.URLField('Threads URL', max_length=300, blank=True)
-    telegram_url = models.URLField('Telegram URL', max_length=300, blank=True)
-
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     class Meta:
@@ -688,3 +682,43 @@ class FlatPage(models.Model):
     @property
     def effective_og_image(self):
         return self.og_image or self.cover_image or None
+
+
+class FooterPage(models.Model):
+    """Содержимое футера: краткое описание + ссылки на соцсети.
+
+    Singleton per region (как ContactsPage/HomePage). Текст переводится через
+    modeltranslation (intro_text).
+
+    Соцсети были у ContactsPage до миграции pages/0025 — перенесены сюда,
+    чтобы редактор управлял футером в одном месте (а не лез в «Контакты»).
+    """
+
+    region = models.OneToOneField(
+        'regions.Region',
+        verbose_name='Регион',
+        on_delete=models.PROTECT,
+        related_name='footer_page',
+    )
+
+    intro_text = models.TextField(
+        'Текст под лого',
+        blank=True,
+        help_text='Короткий параграф под логотипом школы в футере. '
+                  'Если пусто — параграф скрыт.',
+    )
+
+    # --- Соцсети (рендерятся в footer; пустые поля скрывают иконку) ---
+    facebook_url = models.URLField('Facebook URL', max_length=300, blank=True)
+    instagram_url = models.URLField('Instagram URL', max_length=300, blank=True)
+    threads_url = models.URLField('Threads URL', max_length=300, blank=True)
+    telegram_url = models.URLField('Telegram URL', max_length=300, blank=True)
+
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Страница «Футер»'
+        verbose_name_plural = 'Страницы «Футер»'
+
+    def __str__(self):
+        return f'Футер — {self.region}'

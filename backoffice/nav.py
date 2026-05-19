@@ -78,6 +78,7 @@ def build_nav(user=None):
                 {'id': 'team', 'label': 'Команда', 'icon': 'users', 'url': _own('content_team_list')},
                 {'id': 'admission', 'label': 'Поступление', 'icon': 'target', 'url': _own('content_admission_list')},
                 {'id': 'activities', 'label': 'Активности', 'icon': 'pulse', 'url': _own('content_activities_list')},
+                {'id': 'footer', 'label': 'Футер', 'icon': 'file', 'url': _own('content_footer_list')},
             ],
         },
         {

@@ -144,9 +144,6 @@
       </section>
 
       {# ===== Team ===== #}
-      {# Секция «Команда» на лендинге: тексты заголовка (team_label/team_title/
-         team_subtitle) правятся в Django admin /admin/programs/programpage/.
-         Список членов команды — отдельный app `team`, флаг is_featured. #}
       {% include 'backoffice/content/program/_section_intro.html' with section_id='team' section_title='Секция «Команда» (тексты — в Django admin; состав — app «Команда» с галочкой «Избранный»)' bases='["team_label","team_title","team_subtitle"]' translate_url=program_translate_url form_id='program-edit-form' %}
 
       {# ===== Certificate ===== #}

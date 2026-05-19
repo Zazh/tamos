@@ -77,7 +77,7 @@ class ProgramPageEditForm(FileSizeMixin, forms.ModelForm):
     # Заголовки секций — в модели TextField (исторически), в UI это короткие
     # однострочные подписи. rows=1 чтобы не занимать пол-экрана пустым местом.
     COMPACT_FIELDS = frozenset({
-        'audience_title', 'audience_subtitle',
+        'audience_subtitle',
         'benefits_title', 'benefits_subtitle',
         'programs_title', 'programs_subtitle',
         'team_title', 'team_subtitle',
@@ -160,6 +160,10 @@ class ProgramAudienceItemForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        for lang in TRANSLATION_LANGS:
+            name = f'title_{lang}'
+            if name in self.fields:
+                self.fields[name].widget = forms.Textarea()
         _apply_backoffice_widget_classes(self)
         _relax_required(self, _PROGRAM_AUDIENCE_TRANSLATABLE)
         _limit_chars(self, ('title',), 60)
@@ -172,6 +176,10 @@ class ProgramBenefitItemForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        for lang in TRANSLATION_LANGS:
+            name = f'title_{lang}'
+            if name in self.fields:
+                self.fields[name].widget = forms.Textarea()
         _apply_backoffice_widget_classes(self)
         _relax_required(self, _PROGRAM_BENEFIT_TRANSLATABLE)
         _limit_chars(self, ('title',), 60)
@@ -196,7 +204,7 @@ class ProgramCertificateFeatureForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         _apply_backoffice_widget_classes(self)
         _relax_required(self, _PROGRAM_CERT_FEATURE_TRANSLATABLE)
-        _limit_chars(self, ('title',), 60)
+        _limit_chars(self, ('title',), 80)
 
 
 class ProgramStatForm(forms.ModelForm):

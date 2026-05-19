@@ -1,0 +1,65 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head">
+    <h1 class="bo-page-title">{% trans "Футер" %}</h1>
+    <p class="bo-page-subtitle">{% trans "Текст под лого + ссылки на соцсети. Singleton-страница для каждого региона." %}</p>
+  </div>
+
+  {% if rows %}
+    <div class="bo-table-wrap">
+      <table class="bo-table">
+        <thead>
+          <tr>
+            <th class="bo-th">{% trans "Регион" %}</th>
+            <th class="bo-th">{% trans "Соцсети" %}</th>
+            <th class="bo-th bo-th-right">{% trans "Обновлено" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for footer in rows %}
+            <tr class="bo-tr" onclick="location.href='{% url 'backoffice:content_footer_edit' pk=footer.pk %}'">
+              <td class="bo-td">
+                <div class="bo-cell-strong">{{ footer.region.name }}</div>
+                <div class="bo-cell-muted">{{ footer.region.slug }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-muted">
+                  {% if footer.instagram_url %}Instagram · {% endif %}
+                  {% if footer.facebook_url %}Facebook · {% endif %}
+                  {% if footer.threads_url %}Threads · {% endif %}
+                  {% if footer.telegram_url %}Telegram{% endif %}
+                  {% if not footer.instagram_url and not footer.facebook_url and not footer.threads_url and not footer.telegram_url %}—{% endif %}
+                </div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <div class="bo-cell-muted">{{ footer.updated_at|date:"j E, H:i" }}</div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="bo-cards">
+      {% for footer in rows %}
+        <li class="bo-card" onclick="location.href='{% url 'backoffice:content_footer_edit' pk=footer.pk %}'">
+          <div class="bo-card-head">
+            <span class="bo-cell-strong">{{ footer.region.name }}</span>
+            <time class="bo-cell-muted">{{ footer.updated_at|date:"j E, H:i" }}</time>
+          </div>
+          <div class="bo-card-meta">
+            <span>{{ footer.intro_text|truncatechars:80|default:'—' }}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="bo-list-empty">
+      {% trans "Страницы «Футер» создаются миграцией. Если регион новый — обратись к разработчику." %}
+    </div>
+  {% endif %}
+{% endblock %}

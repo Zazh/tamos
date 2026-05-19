@@ -24,6 +24,10 @@ from .content.contacts import (  # noqa: F401
     ContactsDepartmentItemForm,
     ContactsPageEditForm,
 )
+from .content.footer import (  # noqa: F401
+    FOOTER_TRANSLATABLE,
+    FooterPageEditForm,
+)
 from .content.program import (  # noqa: F401
     PROGRAM_FIXED_SLOT_COUNT,
     PROGRAM_FIXED_SLOT_SECTIONS,
