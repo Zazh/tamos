@@ -180,6 +180,22 @@
 
         <p class="bo-help">{% trans "Чтобы добавить ещё один отдел — заполни блок «Новый отдел» внизу и сохрани форму, появится новый пустой блок." %}</p>
       </section>
+
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Соцсети" %}</h2>
+        </header>
+        <p class="bo-help">{% trans "Ссылки на профили в соцсетях. Отображаются иконками в футере сайта. Пустое поле — иконка скрыта." %}</p>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field.html' with field=form.facebook_url label='Facebook' %}
+          {% include 'backoffice/content/_field.html' with field=form.instagram_url label='Instagram' %}
+        </div>
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field.html' with field=form.tiktok_url label='TikTok' %}
+          {% include 'backoffice/content/_field.html' with field=form.telegram_url label='Telegram' %}
+        </div>
+      </section>
     </form>
 
     <section class="bo-panel">
