@@ -100,6 +100,15 @@ class FlatPageAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
         ('Содержимое', {
             'fields': ('content',),
         }),
+        ('SEO & Social', {
+            'fields': (
+                'seo_title',
+                'seo_description',
+                'og_title',
+                'og_description',
+                'og_image',
+            ),
+        }),
         ('Публикация', {
             'fields': (
                 'is_published',

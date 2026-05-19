@@ -1,0 +1,70 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head">
+    <h1 class="bo-page-title">{% trans "Меню" %}</h1>
+    <p class="bo-page-subtitle">{% trans "Секции мегаменю и пункты навигации. Структура общая для всех регионов." %}</p>
+    <div class="bo-page-head-actions">
+      <a href="{% url 'backoffice:site_menu_create' %}" class="bo-action-btn bo-action-primary">+ {% trans "Новая секция" %}</a>
+    </div>
+  </div>
+
+  {% if sections %}
+    <div class="bo-table-wrap">
+      <table class="bo-table">
+        <thead>
+          <tr>
+            <th class="bo-th">{% trans "Заголовок" %}</th>
+            <th class="bo-th">slug</th>
+            <th class="bo-th bo-th-right">{% trans "Порядок" %}</th>
+            <th class="bo-th bo-th-right">{% trans "Пунктов" %}</th>
+            <th class="bo-th bo-th-right"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in sections %}
+            <tr class="bo-tr" onclick="location.href='{% url 'backoffice:site_menu_edit' pk=s.pk %}'">
+              <td class="bo-td">
+                <div class="bo-cell-strong">{{ s.label|default:s.slug }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-mono">{{ s.slug }}</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <div class="bo-cell-muted">{{ s.order }}</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <div class="bo-cell-muted">{{ s.item_count }}</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <a href="{% url 'backoffice:site_menu_edit' pk=s.pk %}" class="bo-row-edit">{% trans "Редактировать →" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="bo-cards">
+      {% for s in sections %}
+        <li class="bo-card" onclick="location.href='{% url 'backoffice:site_menu_edit' pk=s.pk %}'">
+          <div class="bo-card-head">
+            <span class="bo-cell-strong">{{ s.label|default:s.slug }}</span>
+            <span class="bo-cell-muted bo-cell-mono">{{ s.slug }}</span>
+          </div>
+          <div class="bo-card-foot">
+            <span class="bo-cell-muted">{{ s.item_count }} {% trans "пункт." %}</span>
+            <span class="bo-row-edit">{% trans "Редактировать →" %}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="bo-list-empty">
+      {% trans "Пока нет секций. Создайте первую — например «main» для главного меню." %}
+    </div>
+  {% endif %}
+{% endblock %}

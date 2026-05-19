@@ -37,9 +37,12 @@
     <form id="blog-edit-form" method="post" action="" enctype="multipart/form-data" class="bo-form">
       {% csrf_token %}
 
-      {% if form.non_field_errors %}
+      {% if form.errors %}
         <div class="bo-messages">
           {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+          {% for fld, errs in form.errors.items %}{% if fld != '__all__' %}{% for err in errs %}
+            <div class="bo-message bo-message-error">{{ fld }}: {{ err }}</div>
+          {% endfor %}{% endif %}{% endfor %}
         </div>
       {% endif %}
 

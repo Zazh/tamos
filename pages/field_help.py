@@ -1501,6 +1501,426 @@ BLOGPOST_OG_IMAGE = """
 """
 
 
+# ===== Event (раздел «События») ============================================
+
+EVENT_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Главный заголовок события (h1) — он же выводится в карточках ленты <code>/events/</code> и в выдаче Google. Должен сразу говорить, <em>что</em> и <em>когда</em>.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До <strong>300 символов</strong>, оптимум — <strong>40–80</strong></li>
+  <li>1 строка, без HTML, без эмодзи</li>
+  <li>Указывай тип события: анонс / отчёт</li>
+</ul>
+
+<h4>✨ Референс</h4>
+<blockquote>День открытых дверей · весна 2026</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши заголовок школьного события: [ТЕМА], [ДАТА]. До 80 символов, активный глагол, без воды. На языке [LANG].</blockquote>
+"""
+
+
+EVENT_LEAD = """
+<h4>📝 Назначение</h4>
+<p>Короткое введение (1–2 предложения), которое выводится в карточке события и используется как meta description (если SEO description пуст).</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До <strong>~250 символов</strong></li>
+  <li>Без HTML, без переноса строк</li>
+  <li>Содержит ключевую информацию: <em>что</em>, <em>когда</em>, <em>для кого</em></li>
+</ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Приходите познакомиться со школой, поговорить с педагогами и пройти пробный урок. Регистрация обязательна.</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши лид (1–2 предложения, до 250 символов) для анонса события «[TITLE]». Укажи что/когда/для кого, без воды. На языке [LANG].</blockquote>
+"""
+
+
+EVENT_COVER_IMAGE = """
+<h4>📝 Назначение</h4>
+<p>Фоновая картинка карточки события на ленте и hero детальной страницы. Также служит fallback для OG-картинки.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>Формат: JPEG, PNG или WebP</li>
+  <li>Размер: минимум 1504×818, соотношение <strong>~16:9</strong></li>
+  <li>Вес: <strong>до 5 MB</strong>. Сжимай через TinyPNG/CloudConvert</li>
+</ul>
+
+<h4>🤖 Автоматическая обработка</h4>
+<p>Картинка конвертируется в WebP и compressed-версию (quality 85).</p>
+
+<h4>⚠️ Если обложки нет</h4>
+<p>На сайте сработает плейсхолдер «Нет фото». Для свежих событий загружай.</p>
+"""
+
+
+EVENT_COVER_ALT = """
+<h4>📝 Назначение</h4>
+<p>Alt-текст обложки — атрибут <code>alt</code> у <code>&lt;img&gt;</code>. Читают скрин-ридеры и поисковые движки.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов</li><li>Без слов «фото/картинка»; описание <em>самого изображения</em></li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — подставляется <code>title</code> события.</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Опиши обложку события «[TITLE]» одним коротким предложением для alt-атрибута. Без слов «фото», «картинка». На языке [LANG].</blockquote>
+"""
+
+
+EVENT_COVER_CAPTION = """
+<h4>📝 Назначение</h4>
+<p>Опциональный figcaption под обложкой в теле события (например, фотограф/локация/дата кадра).</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов, без HTML</li><li>Опционально — оставь пустым, если подпись не нужна</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>На фото: гости Дня открытых дверей в холле школы, Астана, март 2026.</blockquote>
+"""
+
+
+EVENT_CONTENT = """
+<h4>📝 Назначение</h4>
+<p>Тело события: анонс (что/где/когда) или отчёт (как прошло, фото). Сохраняется как HTML, рендерится через <code>|safe</code>. Редактор Trix даёт нужный минимум разметки.</p>
+
+<h4>🎨 Доступные теги Trix</h4>
+<ul>
+  <li><strong>h2/h3</strong> — подзаголовки</li>
+  <li><strong>p, ul/ol, li</strong> — параграфы, списки</li>
+  <li><strong>blockquote</strong> — цитаты (выделятся золотой полосой)</li>
+  <li><strong>a, strong, em</strong> — ссылки и форматирование</li>
+</ul>
+
+<h4>🖼 Картинки</h4>
+<p>Дополнительные изображения добавляются в секции «Галерея» ниже — она показывается под текстом. Никаких шорткодов в самом тексте.</p>
+
+<h4>📐 Что писать</h4>
+<ul>
+  <li><strong>Анонс</strong>: дата+время, локация, формат, что взять с собой, ссылка на регистрацию</li>
+  <li><strong>Отчёт</strong>: как прошло, что узнали гости, цитаты, фото-галерея</li>
+</ul>
+"""
+
+
+EVENT_PUBLISHED_AT = """
+<h4>📝 Назначение</h4>
+<p>Дата публикации события в ленте (свежие сверху). Это <strong>не</strong> дата самого мероприятия — если нужна, укажи её в заголовке или внутри текста.</p>
+
+<h4>📐 Поведение</h4>
+<ul>
+  <li>Можно поставить <strong>в будущем</strong> — событие встанет в ленту в момент даты (если <em>«Опубликовано»</em> выставлен)</li>
+  <li>Для черновиков (<em>is_published=False</em>) дата не влияет на видимость</li>
+</ul>
+"""
+
+
+EVENT_SEO_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;title&gt;</code> — вкладка браузера и заголовок в выдаче Google.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li><strong>50–60 символов</strong></li>
+  <li>Ключевое слово в первой трети</li>
+  <li>В конце «— Space School» (бренд)</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>title</code>.</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши SEO-title для события Space School «[TITLE]». 50–60 символов. Ключевое слово в начале, в конце «— Space School». Уникальный, не клише.</blockquote>
+"""
+
+
+EVENT_SEO_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;meta name="description"&gt;</code> — описание в выдаче под заголовком.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li><strong>150–160 символов</strong></li>
+  <li>2–3 ключевых слова естественно вписаны</li>
+  <li>Призыв или ценность; не дублировать <code>title</code></li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>lead</code>.</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши SEO meta description для события Space School «[TITLE]». 150–160 символов. Что/когда/для кого + мягкий призыв.</blockquote>
+"""
+
+
+EVENT_OG_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок при шеринге ссылки в Telegram/WhatsApp/Facebook. Может звучать «человечнее» чем SEO-title.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 60 символов</li><li>Без эмодзи</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — <code>seo_title</code> → <code>title</code>.</p>
+"""
+
+
+EVENT_OG_IMAGE = """
+<h4>📝 Назначение</h4>
+<p>Картинка для превью ссылки в соцсетях.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>Размер: <strong>1200×630</strong> (1.91:1)</li>
+  <li>JPEG/PNG (не WebP — поддержка хуже)</li>
+  <li>Вес до 5 MB</li>
+  <li>Важное по центру (мессенджеры обрезают по бокам)</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>cover_image</code>.</p>
+"""
+
+
+# ===== FlatPage (раздел «Доп. страницы») ===================================
+
+FLATPAGE_SLUG = """
+<h4>📝 Назначение</h4>
+<p>Семантическое имя страницы в URL: <code>/<strong>info/about/</strong></code>, <code>/info/uniform/</code>, <code>/info/privacy/</code>. Уникален в пределах региона.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>Только латиница, цифры и дефис (<code>a-z0-9-</code>)</li>
+  <li>До 80 символов; оптимум — <strong>5–20</strong></li>
+  <li>На <strong>edit</strong> поле <em>нельзя</em> поменять — иначе сломаются ссылки из меню и закладки</li>
+</ul>
+
+<h4>✨ Стандартные slug'и</h4>
+<ul>
+  <li><code>about</code> — О школе</li>
+  <li><code>uniform</code> — Школьная форма</li>
+  <li><code>food</code> — Питание</li>
+  <li><code>transport</code> — Подвоз</li>
+  <li><code>privacy</code> — Политика конфиденциальности (footer)</li>
+  <li><code>oferta</code> — Публичная оферта (footer)</li>
+</ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Транслитерируй название в URL-slug. Только латиница, цифры и дефис. 5–20 символов. Без стоп-слов (для/и/the/в).</blockquote>
+"""
+
+
+FLATPAGE_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Главный заголовок страницы (h1) — он же выводится в <code>&lt;title&gt;</code> и в шапке.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До <strong>200 символов</strong>, оптимум — <strong>30–60</strong></li>
+  <li>1 строка, без HTML, без эмодзи</li>
+  <li>Должен прямо отвечать на «что это за страница»</li>
+</ul>
+
+<h4>✨ Референс</h4>
+<blockquote>О школе Space School</blockquote>
+<blockquote>Школьная форма: цвета, фасон, где купить</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши заголовок информационной страницы школы «[ТЕМА]». До 60 символов, ясный, без воды. На языке [LANG].</blockquote>
+"""
+
+
+FLATPAGE_LEAD = """
+<h4>📝 Назначение</h4>
+<p>Опциональное введение (1–2 предложения). Используется как meta description, если SEO description пуст.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До <strong>~250 символов</strong></li>
+  <li>Без HTML, без переноса строк</li>
+  <li>Можно оставить пустым, если на странице сразу h2 + текст</li>
+</ul>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши лид (1–2 предложения, до 250 символов) для информационной страницы «[TITLE]». Кратко, что найдёт читатель. На языке [LANG].</blockquote>
+"""
+
+
+FLATPAGE_COVER_IMAGE = """
+<h4>📝 Назначение</h4>
+<p>Опциональная обложка над контентом. Если пусто — секция с картинкой не отрисовывается (текст идёт сразу после заголовка).</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>JPEG / PNG / WebP, минимум 1504×818, соотношение ~16:9</li>
+  <li>Вес: до 5 MB. Сжимай через TinyPNG/CloudConvert</li>
+</ul>
+
+<h4>⚠️ Когда обложка нужна</h4>
+<p>Эмоциональные/визуальные страницы (О школе, форма) — да. Юридические (privacy, oferta) — обычно нет.</p>
+"""
+
+
+FLATPAGE_COVER_ALT = """
+<h4>📝 Назначение</h4>
+<p>Alt-текст обложки для скрин-ридеров и SEO.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов</li><li>Без слов «фото/картинка»</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — подставляется <code>title</code>.</p>
+"""
+
+
+FLATPAGE_COVER_CAPTION = """
+<h4>📝 Назначение</h4>
+<p>Опциональный figcaption под обложкой.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов, без HTML</li><li>Оставь пустым, если подпись не нужна</li></ul>
+"""
+
+
+FLATPAGE_CONTENT = """
+<h4>📝 Назначение</h4>
+<p>Тело страницы. Сохраняется как HTML, рендерится через <code>|safe</code> в <code>.content-redactor</code>.</p>
+
+<h4>🎨 Доступные теги Trix</h4>
+<ul>
+  <li><strong>h2/h3</strong> — подзаголовки (h1 = title страницы)</li>
+  <li><strong>p, ul/ol, li</strong> — параграфы, списки</li>
+  <li><strong>blockquote</strong> — цитаты (выделятся золотой полосой)</li>
+  <li><strong>a, strong, em</strong> — ссылки и форматирование</li>
+</ul>
+
+<h4>📐 Что писать</h4>
+<ul>
+  <li><strong>«О школе»</strong>: миссия, история, цифры, ценности</li>
+  <li><strong>«Форма»/«Питание»</strong>: правила, ссылки на каталог/магазин, контакты завхоза</li>
+  <li><strong>«Privacy»/«Oferta»</strong>: юридический текст из шаблона; копировать как есть</li>
+</ul>
+"""
+
+
+FLATPAGE_SEO_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;title&gt;</code> — вкладка браузера и заголовок в выдаче Google.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li><strong>50–60 символов</strong></li>
+  <li>Ключевое слово в начале</li>
+  <li>В конце «— Space School»</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>title</code>.</p>
+"""
+
+
+FLATPAGE_SEO_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;meta name="description"&gt;</code> — описание в выдаче.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li><strong>150–160 символов</strong></li>
+  <li>2–3 ключевых слова естественно вписаны</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>lead</code>.</p>
+"""
+
+
+FLATPAGE_OG_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок при шеринге ссылки в соцсетях. Может звучать «человечнее» чем SEO-title.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 60 символов</li><li>Без эмодзи</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — <code>seo_title</code> → <code>title</code>.</p>
+"""
+
+
+FLATPAGE_OG_IMAGE = """
+<h4>📝 Назначение</h4>
+<p>Картинка для превью ссылки в соцсетях.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>Размер: <strong>1200×630</strong> (1.91:1)</li>
+  <li>JPEG/PNG (не WebP)</li>
+  <li>Вес до 5 MB</li>
+</ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — используется <code>cover_image</code>.</p>
+"""
+
+
+# ===== GalleryImage (раздел «Фотогалерея») =================================
+
+GALLERYIMAGE_ALT = """
+<h4>📝 Назначение</h4>
+<p>Alt-текст фотографии — атрибут <code>alt</code> у <code>&lt;img&gt;</code>. Читают скрин-ридеры и поисковые движки. На сайте дублируется в lightbox.</p>
+
+<h4>📐 Ограничения</h4>
+<ul>
+  <li>До <strong>300 символов</strong>, оптимум — <strong>40–80</strong></li>
+  <li>Без слов «фото», «картинка» — описание <em>самого</em> кадра</li>
+  <li>Естественное предложение, не keyword-stuffing</li>
+</ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Ученики 4 класса собирают робота на занятии по робототехнике, Астана, март 2026.</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Опиши кадр школьной галереи (тема «[CATEGORY]») для alt-атрибута. Одно предложение, до 80 символов, без слов «фото/картинка». На языке [LANG].</blockquote>
+"""
+
+
+GALLERYIMAGE_CAPTION = """
+<h4>📝 Назначение</h4>
+<p>Подпись к фото. Опциональная — не выводится в плитке, но видна в lightbox (если когда-нибудь добавим).</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов, без HTML</li><li>Можно оставить пустым — fallback на alt</li></ul>
+"""
+
+
+GALLERYIMAGE_CATEGORY = """
+<h4>📝 Назначение</h4>
+<p>Категория для chip-фильтра на странице галереи. Опциональная (фото без категории показывается во вкладке «Все»).</p>
+
+<h4>📐 Где редактировать набор</h4>
+<p>Категории создаются на странице <strong>«Категории»</strong> (кнопка в шапке списка). <strong>Глобальные</strong> — одни и те же во всех регионах.</p>
+"""
+
+
+GALLERYIMAGE_IS_WIDE = """
+<h4>📝 Назначение</h4>
+<p>Растянуть карточку на <strong>2 колонки</strong> в мозаике (класс <code>mosaic-card-wide</code>). Используй для широких/панорамных кадров, чтобы они не сжимались.</p>
+
+<h4>📐 Когда включать</h4>
+<ul>
+  <li>Соотношение сторон 16:9 или шире — да</li>
+  <li>Квадрат или портрет — нет (растянется некрасиво)</li>
+  <li>Эмоционально-важные кадры (награждение, общий план) — для акцента</li>
+</ul>
+"""
+
+
 FIELD_HELP = {
     # Image / Video — AI-pipeline скипает (LLM не генерирует бинарные файлы).
     'homepage.hero_image': _h(HOMEPAGE_HERO_IMAGE, ai_processable=False),
@@ -1614,6 +2034,38 @@ FIELD_HELP = {
     'blogpost.seo_description': _h(BLOGPOST_SEO_DESCRIPTION),
     'blogpost.og_title': _h(BLOGPOST_OG_TITLE),
     'blogpost.og_image': _h(BLOGPOST_OG_IMAGE, ai_processable=False),
+
+    # Event
+    'event.title': _h(EVENT_TITLE),
+    'event.lead': _h(EVENT_LEAD),
+    'event.cover_image': _h(EVENT_COVER_IMAGE, ai_processable=False),
+    'event.cover_alt': _h(EVENT_COVER_ALT),
+    'event.cover_caption': _h(EVENT_COVER_CAPTION),
+    'event.content': _h(EVENT_CONTENT),
+    'event.published_at': _h(EVENT_PUBLISHED_AT, ai_processable=False),
+    'event.seo_title': _h(EVENT_SEO_TITLE),
+    'event.seo_description': _h(EVENT_SEO_DESCRIPTION),
+    'event.og_title': _h(EVENT_OG_TITLE),
+    'event.og_image': _h(EVENT_OG_IMAGE, ai_processable=False),
+
+    # FlatPage
+    'flatpage.slug': _h(FLATPAGE_SLUG, ai_processable=False),
+    'flatpage.title': _h(FLATPAGE_TITLE),
+    'flatpage.lead': _h(FLATPAGE_LEAD),
+    'flatpage.cover_image': _h(FLATPAGE_COVER_IMAGE, ai_processable=False),
+    'flatpage.cover_alt': _h(FLATPAGE_COVER_ALT),
+    'flatpage.cover_caption': _h(FLATPAGE_COVER_CAPTION),
+    'flatpage.content': _h(FLATPAGE_CONTENT),
+    'flatpage.seo_title': _h(FLATPAGE_SEO_TITLE),
+    'flatpage.seo_description': _h(FLATPAGE_SEO_DESCRIPTION),
+    'flatpage.og_title': _h(FLATPAGE_OG_TITLE),
+    'flatpage.og_image': _h(FLATPAGE_OG_IMAGE, ai_processable=False),
+
+    # GalleryImage
+    'galleryimage.alt': _h(GALLERYIMAGE_ALT),
+    'galleryimage.caption': _h(GALLERYIMAGE_CAPTION),
+    'galleryimage.category': _h(GALLERYIMAGE_CATEGORY, ai_processable=False),
+    'galleryimage.is_wide': _h(GALLERYIMAGE_IS_WIDE, ai_processable=False),
 
     # Activities — Activity (тренер вынесен на уровень ActivityGroup, поэтому здесь его НЕТ)
     'activity.name': _h(ACTIVITY_NAME),

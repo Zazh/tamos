@@ -1,0 +1,65 @@
+{% load i18n backoffice_tags %}
+{% comment %}
+  Одна карточка NavItem (пункт меню). Используется и в цикле, и в <template>
+  для empty_form. Summary = label (RU) + slug. Body = label×3 + slug + url_name +
+  flat_page + чекбоксы. order — hidden, управляется DnD-обвязкой
+  boInlineCollapse родителя (поле order скрыто через HiddenInput в форме).
+
+  Params: f.
+{% endcomment %}
+<li class="bo-collapse-card{% if not f.instance.pk %} bo-collapse-card-new{% endif %}"
+    x-data="boInlineCollapseCard({ initialOpen: {% if not f.instance.pk %}true{% else %}false{% endif %}, placeholderLabel: '{% trans "Новый пункт" %}', summaryPrimary: 'label' })">
+  {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+
+  <header class="bo-collapse-card-head">
+    <button type="button" class="bo-drag-handle" aria-label="{% trans 'Перетащить для сортировки' %}" title="{% trans 'Перетащить' %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>
+    </button>
+
+    <button type="button" class="bo-collapse-card-summary" @click="open = !open" :aria-expanded="open">
+      <span class="bo-collapse-card-info">
+        <strong class="bo-collapse-card-name" x-text="displayName || placeholderLabel"></strong>
+        {% if f.instance.pk %}
+          <span class="bo-cell-muted bo-cell-mono bo-collapse-card-sub">{{ f.instance.slug }}{% if f.instance.url_name %} · {{ f.instance.url_name }}{% elif f.instance.flat_page_id %} · FlatPage{% endif %}</span>
+        {% endif %}
+      </span>
+      <svg class="bo-collapse-card-chevron" :class="open && 'bo-collapse-card-chevron-open'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+
+    <div class="bo-collapse-card-actions" @click.stop>
+      {% if f.instance.pk %}
+        <label class="bo-collapse-card-delete" :class="markedForDelete && 'bo-collapse-card-delete-on'">
+          {{ f.DELETE }}
+          <span x-text="markedForDelete ? '{% trans "Отменить" %}' : '{% trans "Удалить" %}'"></span>
+        </label>
+      {% else %}
+        <button type="button" class="bo-collapse-card-remove" @click="$root.__remove($el.closest('li'))" aria-label="{% trans 'Убрать карточку' %}" title="{% trans 'Убрать карточку (до сохранения)' %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="bo-collapse-card-body" x-show="open" x-collapse>
+    {% include 'backoffice/content/_field_translatable.html' with form=f base='label' label='Подпись' %}
+
+    <div class="bo-row-3">
+      {% include 'backoffice/content/_field.html' with field=f.slug label='Slug' help='Уникальный, для подсветки активной ссылки.' %}
+      {% include 'backoffice/content/_field.html' with field=f.url_name label='URL name' help='pages:about, blog:list и т.д. Пусто = заглушка.' %}
+      {% include 'backoffice/content/_field.html' with field=f.flat_page label='Статичная страница' help='Приоритет над URL name.' %}
+    </div>
+
+    <div class="bo-row-2">
+      <label class="bo-label-checkbox">
+        {{ f.is_top_nav }}
+        <span>{% trans "Показывать в шапке (top nav)" %}</span>
+      </label>
+      <label class="bo-label-checkbox">
+        {{ f.is_published }}
+        <span>{% trans "Опубликован" %}</span>
+      </label>
+    </div>
+  </div>
+</li>

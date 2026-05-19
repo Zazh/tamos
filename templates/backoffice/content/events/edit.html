@@ -1,0 +1,337 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n backoffice_tags %}
+
+{% block head %}
+  {# Trix через CDN — закрытая админка, грузить только на этой странице. #}
+  <link rel="stylesheet" href="https://unpkg.com/trix@2.1.15/dist/trix.css">
+  <script type="text/javascript" src="https://unpkg.com/trix@2.1.15/dist/trix.umd.min.js" defer></script>
+  <style>
+    /* Отключаем upload через drag-drop — менеджер вставляет картинки через галерею. */
+    trix-toolbar [data-trix-button-group="file-tools"] { display: none; }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <a href="{% url 'backoffice:content_events_list' %}" class="bo-back">← {% trans "К списку" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-content-stack" x-data="{ lang: 'ru' }">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{{ event.title|default:'Без названия' }}</h1>
+        <p class="bo-page-subtitle">
+          {% if event.updated_at %}{% blocktrans with date=event.updated_at|date:"j E, H:i" %}Обновлено {{ date }}{% endblocktrans %}{% endif %}
+        </p>
+      </div>
+      <div class="bo-detail-head-actions">
+        {% if event.is_published %}
+          <a :href="'/' + lang + '/{{ event.region.slug }}/events/{{ event.slug }}/'"
+             target="_blank" rel="noopener"
+             class="bo-action-btn bo-action-preview"
+             :title="'{% trans "Открыть событие на сайте на текущем языке" %} (' + lang.toUpperCase() + ')'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            <span>{% trans "Просмотреть на сайте" %}</span>
+          </a>
+        {% endif %}
+        <form method="post" action="{% url 'backoffice:content_events_delete' pk=event.pk %}"
+              class="bo-inline-form"
+              onsubmit="return confirm('{% trans "Точно удалить это событие? Действие необратимо." %}');">
+          {% csrf_token %}
+          <button type="submit" class="bo-action-btn bo-action-rejected">
+            {% trans "Удалить" %}
+          </button>
+        </form>
+      </div>
+    </header>
+
+    <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык контента' %}">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+        {% trans "Русский" %}<span class="bo-tab-meta">{% trans "основной" %}</span>
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
+        Қазақша
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
+        English
+      </button>
+
+      <div class="bo-tab-action-wrap"
+           x-data="boAutoTranslate"
+           data-url="{{ events_translate_url }}"
+           data-form-id="event-edit-form"
+           data-bases-json='{{ translatable_bases_json|safe }}'>
+        <button type="button" class="bo-tab bo-tab-action"
+                :class="loading && 'bo-btn-disabled'"
+                :disabled="loading"
+                @click="run()"
+                :title="error || status || '{% trans "Перевести пустые KK/EN из RU через Gemini" %}'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+            <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+          </svg>
+          <span x-show="!loading">{% trans "Авто-перевод" %}</span>
+          <span x-show="loading" x-cloak>{% trans "Переводим…" %}</span>
+        </button>
+        <small class="bo-tab-action-status" x-show="status && !error" x-cloak x-text="status"></small>
+        <small class="bo-tab-action-error" x-show="error" x-cloak x-text="error"></small>
+      </div>
+    </div>
+
+    <form id="event-edit-form" method="post" action="" enctype="multipart/form-data" class="bo-form">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="bo-messages">
+          {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endif %}
+
+      {# Регион/slug — hidden (регион фиксирован при создании, slug auto-gen) #}
+      {{ form.region }}
+      {{ form.slug }}
+
+      {# ===== Основное ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Основное" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["title","lead"]' translate_url=events_translate_url form_id='event-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='title' label='Заголовок' %}
+        {% field_help 'event.title' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='lead' label='Лид' %}
+        {% field_help 'event.lead' %}
+      </section>
+
+      {# ===== Обложка ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Обложка" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["cover_alt","cover_caption"]' translate_url=events_translate_url form_id='event-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/program/_photo_field.html' with field=form.cover_image instance=event attr='cover_image' label='Изображение обложки' help_key='event.cover_image' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='cover_alt' label='Alt-текст обложки' %}
+        {% field_help 'event.cover_alt' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='cover_caption' label='Подпись под обложкой (figcaption)' %}
+        {% field_help 'event.cover_caption' %}
+      </section>
+
+      {# ===== Содержимое ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Содержимое события" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["content"]' translate_url=events_translate_url form_id='event-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/events/_content_editor.html' with form=form base='content' label='HTML контент' %}
+        {% field_help 'event.content' %}
+      </section>
+    </form>
+
+    {# ===== Галерея (вне формы, AJAX: upload/reorder/update/delete независимо от save) ===== #}
+    <section class="bo-panel">
+      <header class="bo-panel-head">
+        <h2 class="bo-panel-title">{% trans "Галерея" %}</h2>
+      </header>
+      <p class="bo-help">
+        {% trans "Дополнительные изображения под событием. Перетащи карточки для смены порядка. Alt-текст и подпись редактируются на 3 языках — переключай через табы сверху." %}
+      </p>
+
+      <div class="bo-blog-gallery"
+           x-data="boBlogGallery"
+           x-effect="syncLang($parent && $parent.lang)"
+           data-upload-url="{{ gallery_upload_url }}"
+           data-reorder-url="{{ gallery_reorder_url }}"
+           data-update-url-template="{{ gallery_update_url_tpl }}"
+           data-delete-url-template="{{ gallery_delete_url_tpl }}"
+           data-items-script="bo-event-gallery-data-{{ event.pk }}">
+
+        <script id="bo-event-gallery-data-{{ event.pk }}" type="application/json">{{ gallery_items_json|safe }}</script>
+
+        <div class="bo-dropzone"
+             :class="dragging && 'bo-dropzone-active'"
+             @dragover.prevent="dragging = true"
+             @dragleave.prevent="dragging = false"
+             @drop.prevent="onDrop($event)">
+          <svg class="bo-dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <span class="bo-dropzone-text">
+            {% trans "Перетащи картинки сюда или" %}
+            <label class="bo-dropzone-input">
+              <span>{% trans "выбери файлы" %}</span>
+              <input type="file" accept="image/jpeg,image/png,image/webp" multiple @change="onPick($event)">
+            </label>
+          </span>
+          <span class="bo-dropzone-status"
+                x-show="uploading" x-cloak>{% trans "Загружаем…" %}</span>
+        </div>
+
+        <p class="bo-help" x-show="error" x-cloak style="color:#b91c1c" x-text="error"></p>
+
+        <ul class="bo-gallery-grid" x-ref="grid" x-show="items.length > 0" x-cloak>
+          <template x-for="item in items" :key="item.pk">
+            <li class="bo-gallery-card" :data-pk="item.pk">
+              <div class="bo-gallery-card-thumb">
+                <img :src="item.url" :alt="item['alt_' + currentLang] || item.alt_ru || ''">
+                <button type="button" class="bo-gallery-card-drag" aria-label="{% trans 'Перетащить' %}" title="{% trans 'Перетащить для смены порядка' %}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/>
+                    <circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/>
+                  </svg>
+                </button>
+                <button type="button" class="bo-gallery-card-delete" @click="remove(item)" aria-label="{% trans 'Удалить' %}" title="{% trans 'Удалить картинку' %}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="bo-gallery-card-fields">
+                <input type="text" class="bo-input bo-input-sm"
+                       :value="item['alt_' + currentLang]"
+                       @input="item['alt_' + currentLang] = $event.target.value"
+                       @blur="saveMeta(item)"
+                       :placeholder="'alt · ' + currentLang.toUpperCase()">
+                <input type="text" class="bo-input bo-input-sm"
+                       :value="item['caption_' + currentLang]"
+                       @input="item['caption_' + currentLang] = $event.target.value"
+                       @blur="saveMeta(item)"
+                       :placeholder="'подпись · ' + currentLang.toUpperCase()">
+              </div>
+            </li>
+          </template>
+        </ul>
+
+        <p class="bo-help" x-show="items.length === 0" x-cloak>
+          {% trans "Пока ни одной картинки в галерее. Загрузи первую через зону выше." %}
+        </p>
+      </div>
+    </section>
+
+    {# ===== Публикация ===== #}
+    <section class="bo-panel">
+      <header class="bo-panel-head">
+        <h2 class="bo-panel-title">{% trans "Публикация" %}</h2>
+      </header>
+
+      <div class="bo-row-2">
+        <div class="bo-field">
+          <label class="bo-label-checkbox">
+            {{ form.is_published }}
+            <span>{% trans "Опубликовано на сайте" %}</span>
+          </label>
+          <p class="bo-help">{% trans "Снять галку — событие уйдёт в черновики." %}</p>
+          {% for err in form.is_published.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+        </div>
+
+        <div class="bo-field">
+          <label class="bo-label" for="{{ form.published_at.id_for_label }}">{% trans "Дата публикации" %}</label>
+          {{ form.published_at }}
+          {% for err in form.published_at.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+          {% field_help 'event.published_at' %}
+        </div>
+      </div>
+    </section>
+
+    {# ===== SEO & Social (вне form, привязка через HTML5 form=) ===== #}
+    <section class="bo-panel">
+      <header class="bo-panel-head">
+        <h2 class="bo-panel-title">SEO &amp; Social</h2>
+        <div class="bo-block-translate"
+             x-data="boAutoSEO"
+             data-url="{{ events_seo_url }}"
+             data-form-id="event-edit-form"
+             data-source-fields="title,lead">
+          <button type="button"
+                  class="bo-block-translate-btn"
+                  :class="loading && 'bo-btn-disabled'"
+                  :disabled="loading"
+                  @click="run()"
+                  :title="error || status || '{% trans "Сгенерировать SEO/OG для всех 3 языков из title+lead. Заполняет только пустые." %}'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+              <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+            </svg>
+            <span x-show="!loading">{% trans "Авто-генерация SEO" %}</span>
+            <span x-show="loading" x-cloak>{% trans "Генерируем…" %}</span>
+          </button>
+          <small class="bo-block-translate-status" x-show="status && !error" x-cloak x-text="status"></small>
+          <small class="bo-block-translate-error" x-show="error" x-cloak x-text="error"></small>
+        </div>
+      </header>
+
+      {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_title' label='SEO title' %}
+      {% field_help 'event.seo_title' %}
+
+      {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_description' label='SEO description' %}
+      {% field_help 'event.seo_description' %}
+
+      <div class="bo-row-2">
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='og_title' label='OG title (соцсети)' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='og_description' label='OG description (соцсети)' %}
+      </div>
+      {% field_help 'event.og_title' %}
+
+      <div class="bo-field">
+        <label class="bo-label">{% trans "OG-картинка (для шеринга)" %}</label>
+        {% if event.og_image %}
+          <div class="bo-media-preview" style="min-height:180px">
+            <img src="{{ event.og_image.url }}" alt="og preview">
+          </div>
+        {% else %}
+          <div class="bo-media-preview" style="min-height:120px">
+            <div style="color:rgba(255,255,255,.6); font-size:.875rem">
+              {% trans "Не загружена — на шеринге сработает fallback на обложку события." %}
+            </div>
+          </div>
+        {% endif %}
+        <div class="bo-media-controls">
+          <label class="bo-media-replace">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>{% trans "Изменить OG-картинку" %}</span>
+            <input type="file" form="event-edit-form" name="{{ form.og_image.html_name }}" accept="image/jpeg,image/png,image/webp">
+          </label>
+        </div>
+        {% for err in form.og_image.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+        {% field_help 'event.og_image' %}
+      </div>
+    </section>
+
+    {# ===== Sticky footer + stepper ===== #}
+    <div class="bo-form-foot bo-form-foot-sticky"
+         x-data="boFormSteps"
+         data-form-id="event-edit-form"
+         data-steps-json='{{ steps_json|safe }}'>
+      <ul class="bo-steps">
+        <template x-for="step in steps" :key="step.id">
+          <li class="bo-step" :class="stepClass(step)" :title="step.label + ' — ' + step.filled + '/' + step.total + (step.required ? ' (обязательно)' : '')">
+            <span class="bo-step-dot"></span>
+            <span class="bo-step-label" x-text="step.label"></span>
+            <span class="bo-step-count" x-text="step.filled + '/' + step.total"></span>
+            <span class="bo-step-req" x-show="step.required" x-cloak title="{% trans 'Обязательный шаг' %}">*</span>
+          </li>
+        </template>
+      </ul>
+
+      <div class="bo-form-foot-actions">
+        <a href="{% url 'backoffice:content_events_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+        <button type="submit" form="event-edit-form"
+                class="btn btn-primary"
+                :disabled="!canSave"
+                :class="!canSave && 'bo-btn-disabled'"
+                :title="canSave ? '' : blockedReason">{% trans "Сохранить" %}</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

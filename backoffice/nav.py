@@ -1,24 +1,16 @@
 """Sidebar navigation for backoffice.
 
-Каждая item.url либо ссылается на свой backoffice-view, либо на admin
-(fallback, пока native UI не построен — менеджер сразу попадает на edit-форму).
-
-При появлении native view: поменять `url_name` у item — `external` уходит.
+Все пункты — native backoffice views.
 
 `build_nav(user)` дополнительно считает «алерт-счётчики» — число элементов
 требующих внимания (например, новые заявки) — и кладёт их в `item.badge`.
 Шаблон рисует красный pill + `.has-alert` подсветку на пункте.
+
+Секции `site` (Меню) и `settings` (Регионы, Пользователи) видны только
+суперадмину — это глобальные инфра-справочники.
 """
 
 from django.urls import NoReverseMatch, reverse
-
-
-def _admin(app_label: str, model: str) -> str:
-    """Reverse admin changelist URL, или '#' если нет регистрации."""
-    try:
-        return reverse(f'admin:{app_label}_{model}_changelist')
-    except NoReverseMatch:
-        return '#'
 
 
 def _own(name: str) -> str:
@@ -60,10 +52,14 @@ def build_nav(user=None):
     `external=True` означает «уходим в Django admin» — отрисуем стрелочку.
     `badge` — необязательное число (новые заявки и т.п.), считается per-user
     с учётом region-scope.
+
+    Секции `site` и `settings` показываются только суперадмину — это
+    инфра-справочники (навигация, регионы, юзеры), менеджеры туда не лезут.
     """
     new_leads = _count_new_leads(user)
+    is_superuser = bool(user and getattr(user, 'is_superuser', False))
 
-    return [
+    sections = [
         {
             'id': 'main',
             'items': [
@@ -89,24 +85,28 @@ def build_nav(user=None):
             'label': 'Лента',
             'items': [
                 {'id': 'blog', 'label': 'Блог', 'icon': 'newspaper', 'url': _own('content_blog_list')},
-                {'id': 'events', 'label': 'События', 'icon': 'sparkles', 'url': _admin('events', 'event'), 'external': True},
-                {'id': 'gallery', 'label': 'Галерея', 'icon': 'image', 'url': _admin('gallery', 'galleryimage'), 'external': True},
-                {'id': 'flatpages', 'label': 'Доп. страницы', 'icon': 'file', 'url': _admin('pages', 'flatpage'), 'external': True},
-            ],
-        },
-        {
-            'id': 'site',
-            'label': 'Сайт',
-            'items': [
-                {'id': 'navigation', 'label': 'Меню', 'icon': 'menu', 'url': _admin('navigation', 'navsection'), 'external': True},
-            ],
-        },
-        {
-            'id': 'settings',
-            'label': 'Настройки',
-            'items': [
-                {'id': 'regions', 'label': 'Регионы', 'icon': 'pin', 'url': _admin('regions', 'region'), 'external': True},
-                {'id': 'users', 'label': 'Пользователи', 'icon': 'users', 'url': _admin('accounts', 'user'), 'external': True},
+                {'id': 'events', 'label': 'События', 'icon': 'sparkles', 'url': _own('content_events_list')},
+                {'id': 'gallery', 'label': 'Галерея', 'icon': 'image', 'url': _own('content_gallery_list')},
+                {'id': 'flatpages', 'label': 'Доп. страницы', 'icon': 'file', 'url': _own('content_flatpages_list')},
             ],
         },
     ]
+
+    if is_superuser:
+        sections.append({
+            'id': 'site',
+            'label': 'Сайт',
+            'items': [
+                {'id': 'navigation', 'label': 'Меню', 'icon': 'menu', 'url': _own('site_menu_list')},
+            ],
+        })
+        sections.append({
+            'id': 'settings',
+            'label': 'Настройки',
+            'items': [
+                {'id': 'regions', 'label': 'Регионы', 'icon': 'pin', 'url': _own('settings_regions_list')},
+                {'id': 'users', 'label': 'Пользователи', 'icon': 'shield', 'url': _own('settings_users_list')},
+            ],
+        })
+
+    return sections

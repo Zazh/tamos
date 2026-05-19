@@ -1,0 +1,32 @@
+{% load i18n backoffice_tags %}
+{% comment %}
+  Trix-редактор для translatable HTML-поля (например content_ru/kk/en).
+  Подключается в {% block head %} страницы (см. edit.html).
+
+  Принцип: для каждого языка рендерим скрытый `<input>` (имя <base>_<lang>) +
+  `<trix-editor input="...">` в обёртке с `x-show="lang === ..."`. Trix
+  синхронизирует значения автоматически.
+
+  Параметры:
+    form    — основная форма с _ru/_kk/_en полями
+    base    — base-имя поля (например 'content')
+    label   — подпись над редактором
+{% endcomment %}
+<div class="bo-field bo-field-trix">
+  <label class="bo-label">{{ label }}</label>
+
+  {% for lang in translation_langs %}{% with name=base|add:'_'|add:lang %}{% with bf=form|getfield:name %}{% if bf %}
+    <div x-show="lang === '{{ lang }}'"{% if not forloop.first %} x-cloak{% endif %}
+         class="bo-trix-slot"
+         data-lang="{{ lang }}">
+      <input id="id_event_{{ base }}_{{ lang }}"
+             type="hidden"
+             name="{{ bf.html_name }}"
+             value="{{ bf.value|default_if_none:'' }}">
+      <trix-editor input="id_event_{{ base }}_{{ lang }}"
+                   class="bo-trix"
+                   placeholder="{% if lang != 'ru' %}{% trans '(пусто — берётся из RU)' %}{% else %}{% trans 'Пишите HTML-контент: заголовки, абзацы, списки, цитаты, ссылки. Картинки добавляются через галерею.' %}{% endif %}"></trix-editor>
+      {% for err in bf.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+    </div>
+  {% endif %}{% endwith %}{% endwith %}{% endfor %}
+</div>

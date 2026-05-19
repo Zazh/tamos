@@ -1,11 +1,16 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import GalleryCategory, GalleryImage
+from .models import Album, GalleryCategory, GalleryImage
 
 
 @register(GalleryCategory)
 class GalleryCategoryTranslationOptions(TranslationOptions):
     fields = ('name',)
+
+
+@register(Album)
+class AlbumTranslationOptions(TranslationOptions):
+    fields = ('title', 'lead')
 
 
 @register(GalleryImage)

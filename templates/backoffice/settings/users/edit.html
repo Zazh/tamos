@@ -1,0 +1,130 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n backoffice_tags %}
+
+{% block content %}
+  <a href="{% url 'backoffice:settings_users_list' %}" class="bo-back">← {% trans "К списку" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-content-stack">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{{ user_obj.username }}{% if is_self %} <span class="bo-cell-muted">(это вы)</span>{% endif %}</h1>
+        <p class="bo-page-subtitle">
+          {% if user_obj.last_login %}
+            {% blocktrans with date=user_obj.last_login|date:"j E Y, H:i" %}Последний вход: {{ date }}.{% endblocktrans %}
+          {% else %}
+            {% trans "Ни разу не входил." %}
+          {% endif %}
+        </p>
+      </div>
+      <div class="bo-detail-head-actions">
+        {% if not is_self %}
+          <form method="post" action="{% url 'backoffice:settings_users_delete' pk=user_obj.pk %}"
+                onsubmit="return confirm('{% blocktrans with name=user_obj.username %}Удалить пользователя «{{ name }}»? Действие нельзя отменить.{% endblocktrans %}');"
+                style="display:inline-block">
+            {% csrf_token %}
+            <button type="submit" class="bo-action-btn bo-action-rejected">
+              {% trans "Удалить" %}
+            </button>
+          </form>
+        {% endif %}
+      </div>
+    </header>
+
+    {% if is_self %}
+      <div class="bo-messages">
+        <div class="bo-message bo-message-info">
+          {% trans "Это ваш собственный аккаунт. Роль и флаг «Активен» нельзя изменить — защита от самоблокировки. Чтобы понизить себя, попросите другого суперадмина." %}
+        </div>
+      </div>
+    {% endif %}
+
+    <form id="user-edit-form" method="post" action="" class="bo-form" autocomplete="off">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="bo-messages">
+          {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endif %}
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">{% trans "Учётная запись" %}</h2>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field.html' with field=form.username label='Логин' %}
+          {% include 'backoffice/content/_field.html' with field=form.email label='Email' %}
+        </div>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field.html' with field=form.first_name label='Имя' %}
+          {% include 'backoffice/content/_field.html' with field=form.last_name label='Фамилия' %}
+        </div>
+      </section>
+
+      <section class="bo-panel" x-data="{ role: '{{ form.role.value|default:'manager' }}' }">
+        <h2 class="bo-panel-title">{% trans "Роль и доступ" %}</h2>
+
+        <fieldset class="bo-role-fieldset{% if is_self %} bo-role-fieldset-locked{% endif %}">
+          {% for value, label in form.role.field.choices %}
+            <label class="bo-role-card" :class="role === '{{ value }}' && 'bo-role-card-active'">
+              <input type="radio" name="{{ form.role.name }}" value="{{ value }}" x-model="role" class="bo-role-card-input"{% if is_self %} disabled{% endif %}>
+              <span class="bo-role-card-body">
+                <span class="bo-role-card-title">{{ label }}</span>
+                <span class="bo-role-card-desc">{{ role_descriptions|get_item:value }}</span>
+              </span>
+            </label>
+          {% endfor %}
+        </fieldset>
+        {% for err in form.role.errors %}<p class="bo-help" style="color:#b91c1c">{{ err }}</p>{% endfor %}
+
+        <div x-show="role === 'manager'" x-cloak class="bo-role-region">
+          {% include 'backoffice/content/_field.html' with field=form.manager_region label='Регион менеджера' help='Пользователь будет видеть только контент этого региона.' %}
+        </div>
+
+        <label class="bo-label-checkbox{% if is_self %} bo-label-checkbox-disabled{% endif %}">
+          {{ form.is_active }}
+          <span>{% trans "Активен" %} — {% trans "если снять, пользователь не сможет войти даже с правильным паролем" %}</span>
+        </label>
+      </section>
+
+      <div class="bo-form-foot bo-form-foot-sticky">
+        <div class="bo-form-foot-actions">
+          <a href="{% url 'backoffice:settings_users_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+          <button type="submit" class="btn btn-primary">{% trans "Сохранить" %}</button>
+        </div>
+      </div>
+    </form>
+
+    <section class="bo-panel" x-data="{ open: {% if password_open %}true{% else %}false{% endif %} }">
+      <header class="bo-panel-head">
+        <h2 class="bo-panel-title">{% trans "Смена пароля" %}</h2>
+        <button type="button" class="bo-action-btn bo-action-secondary bo-action-tiny" @click="open = !open">
+          <span x-text="open ? '{% trans "Скрыть" %}' : '{% trans "Изменить" %}'"></span>
+        </button>
+      </header>
+
+      <div x-show="open"{% if not password_open %} x-cloak{% endif %}>
+        <form method="post" action="{% url 'backoffice:settings_users_password' pk=user_obj.pk %}" class="bo-form" autocomplete="off">
+          {% csrf_token %}
+
+          {% if password_form.non_field_errors %}
+            <div class="bo-messages">
+              {% for err in password_form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+            </div>
+          {% endif %}
+
+          <div class="bo-row-2">
+            {% include 'backoffice/content/_field.html' with field=password_form.password1 label='Новый пароль' help=password_form.password1.help_text %}
+            {% include 'backoffice/content/_field.html' with field=password_form.password2 label='Новый пароль (ещё раз)' %}
+          </div>
+
+          <div class="bo-form-foot-actions" style="margin-top:1rem">
+            <button type="submit" class="btn btn-primary">{% trans "Сменить пароль" %}</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+{% endblock %}

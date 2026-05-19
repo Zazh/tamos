@@ -1,0 +1,137 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n backoffice_tags %}
+
+{% block content %}
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head bo-page-head-row">
+    <div>
+      <h1 class="bo-page-title">{% trans "События" %}</h1>
+      <p class="bo-page-subtitle">{% trans "Лента анонсов и отчётов в каждом регионе. Без категорий и тегов — плоский список по дате." %}</p>
+    </div>
+    <div class="bo-page-head-actions">
+      <a href="{% url 'backoffice:content_events_create' %}" class="bo-action-btn bo-action-primary">
+        {% trans "Новое событие" %}
+      </a>
+    </div>
+  </div>
+
+  {# Status chips со счётчиками — паттерн blog/leads. #}
+  <div class="bo-chip-bar" role="tablist" aria-label="{% trans 'Статус публикации' %}">
+    {% for chip in status_chips %}
+      <a href="{{ chip.url }}"
+         class="bo-chip{% if chip.active %} bo-chip-active{% endif %}"
+         role="tab"
+         aria-selected="{% if chip.active %}true{% else %}false{% endif %}">
+        {% if chip.code %}<span class="bo-chip-dot bo-chip-dot-{{ chip.code }}"></span>{% endif %}
+        <span class="bo-chip-label">{{ chip.label }}</span>
+        <span class="bo-chip-count">{{ chip.count }}</span>
+      </a>
+    {% endfor %}
+  </div>
+
+  <form method="get" action="" class="bo-filter-bar">
+    {% if filters.status %}<input type="hidden" name="status" value="{{ filters.status }}">{% endif %}
+
+    <div class="bo-filter-search">
+      <svg class="bo-icon bo-filter-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="search" name="q" value="{{ filters.q }}"
+             placeholder="{% trans 'Поиск по заголовку' %}"
+             class="bo-filter-input">
+    </div>
+
+    {% if all_regions %}
+      <select name="region" class="bo-select bo-filter-select" onchange="this.form.submit()">
+        <option value="">{% trans "Все регионы" %}</option>
+        {% for r in all_regions %}
+          <option value="{{ r.slug }}"{% if filters.region == r.slug %} selected{% endif %}>{{ r.name }}</option>
+        {% endfor %}
+      </select>
+    {% endif %}
+    <button type="submit" class="bo-action-btn bo-action-secondary">{% trans "Применить" %}</button>
+  </form>
+
+  {% if page.object_list %}
+    <div class="bo-table-wrap">
+      <table class="bo-table bo-table-blog">
+        <thead>
+          <tr>
+            <th class="bo-th">{% trans "Заголовок" %}</th>
+            <th class="bo-th">{% trans "Регион" %}</th>
+            <th class="bo-th">{% trans "Дата" %}</th>
+            <th class="bo-th">{% trans "Статус" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in page.object_list %}
+            <tr class="bo-tr" onclick="location.href='{% url 'backoffice:content_events_edit' pk=event.pk %}'">
+              <td class="bo-td">
+                <div class="bo-cell-strong">{{ event.title|default:'Без названия' }}</div>
+                <div class="bo-cell-muted">{{ event.lead|default:''|truncatechars:80 }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-muted">{{ event.region.name }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-muted">{{ event.published_at|date:"j E Y" }}</div>
+              </td>
+              <td class="bo-td">
+                {% if event.is_published %}
+                  <span class="bo-status-dot bo-status-published" title="{% trans 'Опубликовано' %}"></span>
+                {% else %}
+                  <span class="bo-status-dot bo-status-draft" title="{% trans 'Черновик' %}"></span>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="bo-cards">
+      {% for event in page.object_list %}
+        <li class="bo-card" onclick="location.href='{% url 'backoffice:content_events_edit' pk=event.pk %}'">
+          <div class="bo-card-head">
+            <span class="bo-cell-strong">{{ event.title|default:'Без названия' }}</span>
+            <time class="bo-cell-muted">{{ event.published_at|date:"j E" }}</time>
+          </div>
+          <div class="bo-card-meta">
+            <span class="bo-cell-muted">{{ event.region.name }}</span>
+          </div>
+          <div class="bo-card-foot">
+            {% if event.is_published %}
+              <span class="bo-cell-muted">{% trans "Опубликовано" %}</span>
+            {% else %}
+              <span class="bo-cell-muted">{% trans "Черновик" %}</span>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% if paginator.num_pages > 1 %}
+      <nav class="bo-pagination" aria-label="{% trans 'Постраничная навигация' %}">
+        {% if page.has_previous %}
+          <a href="?page={{ page.previous_page_number }}{% if base_qs %}&{{ base_qs }}{% endif %}" class="bo-pagination-link">← {% trans "Назад" %}</a>
+        {% endif %}
+        <span class="bo-pagination-state">
+          {% blocktrans with current=page.number total=paginator.num_pages %}Стр. {{ current }} из {{ total }}{% endblocktrans %}
+        </span>
+        {% if page.has_next %}
+          <a href="?page={{ page.next_page_number }}{% if base_qs %}&{{ base_qs }}{% endif %}" class="bo-pagination-link">{% trans "Вперёд" %} →</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  {% else %}
+    <div class="bo-list-empty">
+      {% if filters.q or filters.region or filters.status %}
+        {% trans "По текущим фильтрам ничего не нашлось. Сбросьте часть условий." %}
+      {% else %}
+        {% trans "Ещё ни одного события. Нажмите «Новое событие» в правом верхнем углу." %}
+      {% endif %}
+    </div>
+  {% endif %}
+{% endblock %}

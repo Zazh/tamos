@@ -34,9 +34,9 @@ class Event(models.Model):
     cover_image = models.ImageField(
         'Обложка',
         upload_to='events/covers/',
+        blank=True,
         null=True,
-        help_text='Обязательное поле в админке. Сид-миграции/legacy-записи '
-                  'могут быть без файла — в шаблоне сработает fallback на '
+        help_text='Опционально. Если не загружена — на сайте покажется '
                   'плейсхолдер «Нет фото».',
     )
     cover_image_webp = ImageSpecField(
@@ -75,6 +75,38 @@ class Event(models.Model):
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
+    seo_title = models.CharField(
+        'SEO title (<title>)',
+        max_length=80,
+        blank=True,
+        help_text='50–60 символов. Если пусто — fallback на title.',
+    )
+    seo_description = models.CharField(
+        'SEO description (meta)',
+        max_length=200,
+        blank=True,
+        help_text='150–160 символов. Если пусто — fallback на lead.',
+    )
+    og_title = models.CharField(
+        'OG title',
+        max_length=80,
+        blank=True,
+        help_text='Если пусто — fallback на seo_title → title.',
+    )
+    og_description = models.CharField(
+        'OG description',
+        max_length=300,
+        blank=True,
+        help_text='Если пусто — fallback на seo_description → lead.',
+    )
+    og_image = models.ImageField(
+        'OG/share картинка',
+        upload_to='events/og/',
+        blank=True,
+        null=True,
+        help_text='1200×630 для соцсетей. Если пусто — fallback на обложку события.',
+    )
+
     class Meta:
         verbose_name = 'Мероприятие'
         verbose_name_plural = 'Мероприятия'
@@ -92,3 +124,114 @@ class Event(models.Model):
     @property
     def cover_alt_display(self) -> str:
         return (self.cover_alt or '').strip() or self.title
+
+    @property
+    def main_gallery(self):
+        """Главная inline-галерея события (slug='main'). Рендерится после
+        .content-redactor. Создаётся лениво при первом upload через backoffice."""
+        return self.galleries.filter(slug='main').first()
+
+    @property
+    def effective_seo_title(self) -> str:
+        return self.seo_title or (self.title or '').strip()
+
+    @property
+    def effective_seo_description(self) -> str:
+        return self.seo_description or (self.lead or '').replace('\n', ' ').strip()
+
+    @property
+    def effective_og_title(self) -> str:
+        return self.og_title or self.effective_seo_title
+
+    @property
+    def effective_og_description(self) -> str:
+        return self.og_description or self.effective_seo_description
+
+    @property
+    def effective_og_image(self):
+        return self.og_image or self.cover_image or None
+
+
+class EventGallery(models.Model):
+    """Фотогалерея внутри события. Главная (slug='main') рендерится после
+    контента на public-странице. Дополнительные галереи можно вставлять
+    шорткодом `[[gallery slug=NAME]]` (legacy, для совместимости с blog)."""
+
+    event = models.ForeignKey(
+        Event,
+        verbose_name='Событие',
+        on_delete=models.CASCADE,
+        related_name='galleries',
+    )
+    slug = models.SlugField(
+        'Slug',
+        max_length=64,
+        help_text='Ссылка в шорткоде: [[gallery slug=ЭТО]]. Уникален в пределах события.',
+    )
+    title = models.CharField(
+        'Название',
+        max_length=200,
+        blank=True,
+        help_text='Внутренняя метка для админки; не выводится на сайте.',
+    )
+    order = models.PositiveSmallIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Фотогалерея'
+        verbose_name_plural = 'Фотогалереи'
+        ordering = ['order', 'pk']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['event', 'slug'],
+                name='event_gallery_event_slug_unique',
+            ),
+        ]
+
+    def __str__(self):
+        return self.title or self.slug or f'Gallery #{self.pk}'
+
+
+class EventGalleryImage(models.Model):
+    """Снимок в галерее события. Подпись и alt переводятся."""
+
+    gallery = models.ForeignKey(
+        EventGallery,
+        verbose_name='Галерея',
+        on_delete=models.CASCADE,
+        related_name='images',
+    )
+    image = models.ImageField('Изображение', upload_to='events/galleries/')
+    image_webp = ImageSpecField(
+        source='image',
+        format='WEBP',
+        options={'quality': EVENT_IMAGE_QUALITY},
+    )
+    image_compressed = ImageSpecField(
+        source='image',
+        options={'quality': EVENT_IMAGE_QUALITY, 'optimize': True},
+    )
+    caption = models.CharField(
+        'Подпись',
+        max_length=300,
+        blank=True,
+        help_text='Опциональный figcaption под картинкой.',
+    )
+    alt = models.CharField(
+        'Alt-текст',
+        max_length=300,
+        blank=True,
+        help_text='Для SEO/доступности. Если пусто — подставляется подпись или название галереи.',
+    )
+    order = models.PositiveSmallIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Фото в галерее'
+        verbose_name_plural = 'Фото в галерее'
+        ordering = ['order', 'pk']
+
+    def __str__(self):
+        return self.caption or f'Image #{self.pk}'
+
+    @property
+    def alt_display(self) -> str:
+        return (self.alt or '').strip() or (self.caption or '').strip() or str(self.gallery)

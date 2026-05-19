@@ -1,0 +1,78 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n backoffice_tags %}
+
+{% block content %}
+  <a href="{% url 'backoffice:content_gallery_list' %}" class="bo-back">← {% trans "К альбомам" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-content-stack" x-data="{ lang: 'ru' }">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{% trans "Новый альбом" %}</h1>
+        <p class="bo-page-subtitle">{% trans "Заполни название и выбери тему. Фото добавишь после сохранения." %}</p>
+      </div>
+    </header>
+
+    <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык контента' %}">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+        {% trans "Русский" %}<span class="bo-tab-meta">{% trans "основной" %}</span>
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
+        Қазақша
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
+        English
+      </button>
+    </div>
+
+    <form id="album-edit-form" method="post" action="" enctype="multipart/form-data" class="bo-form">
+      {% csrf_token %}
+
+      {% if form.errors %}
+        <div class="bo-messages">
+          {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+          {% for fld, errs in form.errors.items %}{% if fld != '__all__' %}{% for err in errs %}
+            <div class="bo-message bo-message-error">{{ fld }}: {{ err }}</div>
+          {% endfor %}{% endif %}{% endfor %}
+        </div>
+      {% endif %}
+
+      {{ form.slug }}
+
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Основное" %}</h2>
+        </header>
+
+        <div class="bo-row-2">
+          <div class="bo-field">
+            <label class="bo-label" for="{{ form.region.id_for_label }}">{% trans "Регион" %}</label>
+            {{ form.region }}
+            {% for err in form.region.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+          </div>
+
+          <div class="bo-field">
+            <label class="bo-label" for="{{ form.category.id_for_label }}">{% trans "Тема" %}</label>
+            {{ form.category }}
+            {% for err in form.category.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+            <p class="bo-help">
+              <a href="{% url 'backoffice:content_gallery_taxonomy' %}" target="_blank">{% trans "Управлять темами →" %}</a>
+            </p>
+          </div>
+        </div>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='title' label='Название альбома' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='lead' label='Описание (опционально)' %}
+      </section>
+    </form>
+
+    <div class="bo-form-foot bo-form-foot-sticky">
+      <div class="bo-form-foot-actions">
+        <a href="{% url 'backoffice:content_gallery_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+        <button type="submit" form="album-edit-form" class="bo-action-btn bo-action-secondary">{% trans "Сохранить как черновик" %}</button>
+        <button type="submit" form="album-edit-form" name="publish_now" value="1" class="btn btn-primary">{% trans "Опубликовать" %}</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

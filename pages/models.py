@@ -613,6 +613,38 @@ class FlatPage(models.Model):
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
+    seo_title = models.CharField(
+        'SEO title (<title>)',
+        max_length=80,
+        blank=True,
+        help_text='50–60 символов. Если пусто — fallback на title.',
+    )
+    seo_description = models.CharField(
+        'SEO description (meta)',
+        max_length=200,
+        blank=True,
+        help_text='150–160 символов. Если пусто — fallback на lead.',
+    )
+    og_title = models.CharField(
+        'OG title',
+        max_length=80,
+        blank=True,
+        help_text='Если пусто — fallback на seo_title → title.',
+    )
+    og_description = models.CharField(
+        'OG description',
+        max_length=300,
+        blank=True,
+        help_text='Если пусто — fallback на seo_description → lead.',
+    )
+    og_image = models.ImageField(
+        'OG/share картинка',
+        upload_to='pages/flat/og/',
+        blank=True,
+        null=True,
+        help_text='1200×630 для соцсетей. Если пусто — fallback на обложку страницы.',
+    )
+
     class Meta:
         verbose_name = 'Статичная страница'
         verbose_name_plural = 'Статичные страницы'
@@ -630,3 +662,23 @@ class FlatPage(models.Model):
     @property
     def cover_alt_display(self) -> str:
         return (self.cover_alt or '').strip() or self.title
+
+    @property
+    def effective_seo_title(self) -> str:
+        return self.seo_title or (self.title or '').strip()
+
+    @property
+    def effective_seo_description(self) -> str:
+        return self.seo_description or (self.lead or '').replace('\n', ' ').strip()
+
+    @property
+    def effective_og_title(self) -> str:
+        return self.og_title or self.effective_seo_title
+
+    @property
+    def effective_og_description(self) -> str:
+        return self.og_description or self.effective_seo_description
+
+    @property
+    def effective_og_image(self):
+        return self.og_image or self.cover_image or None

@@ -1,0 +1,78 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n backoffice_tags %}
+
+{% block content %}
+  <a href="{% url 'backoffice:settings_regions_list' %}" class="bo-back">← {% trans "К списку" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-content-stack" x-data="{ lang: 'ru' }">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{% blocktrans with name=region.name slug=region.slug %}Регион «{{ name }}» ({{ slug }}){% endblocktrans %}</h1>
+        <p class="bo-page-subtitle">{% trans "Изменение slug ломает существующие URL. Деактивация скрывает регион в переключателе и `/<lang>/<slug>/` → 404." %}</p>
+      </div>
+      <div class="bo-detail-head-actions">
+        <form method="post" action="{% url 'backoffice:settings_regions_delete' pk=region.pk %}"
+              onsubmit="return confirm('{% blocktrans with name=region.name %}Удалить регион «{{ name }}»? Каскадно удалится весь его контент (HomePage, BlogPost, Контакты и т.п.). Это нельзя отменить!{% endblocktrans %}');"
+              style="display:inline-block">
+          {% csrf_token %}
+          <button type="submit" class="bo-action-btn bo-action-rejected"
+                  {% if region.is_default %}disabled title="Сначала переключи default на другой регион"{% endif %}>
+            {% trans "Удалить регион" %}
+          </button>
+        </form>
+      </div>
+    </header>
+
+    <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык названия' %}">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+        {% trans "Русский" %}<span class="bo-tab-meta">{% trans "основной" %}</span>
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
+        Қазақша
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
+        English
+      </button>
+    </div>
+
+    <form id="region-edit-form" method="post" action="" class="bo-form">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="bo-messages">
+          {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endif %}
+
+      <section class="bo-panel">
+        <h2 class="bo-panel-title">{% trans "Регион" %}</h2>
+
+        <div class="bo-row-2">
+          {% include 'backoffice/content/_field.html' with field=form.slug label='Slug' help='Сегмент URL. Не менять без причины — поломает ссылки.' %}
+        </div>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='name' label='Название' %}
+
+        <div class="bo-row-2">
+          <label class="bo-label-checkbox">
+            {{ form.is_default }}
+            <span>{% trans "По умолчанию" %} — {% trans "корневой URL ведёт сюда; пользователи без выбора региона попадают сюда. Можно поставить только одному." %}</span>
+          </label>
+          <label class="bo-label-checkbox">
+            {{ form.is_active }}
+            <span>{% trans "Активен" %} — {% trans "URL `/<lang>/<slug>/` доступен публично; в переключателе показывается." %}</span>
+          </label>
+        </div>
+      </section>
+
+      <div class="bo-form-foot bo-form-foot-sticky">
+        <div class="bo-form-foot-actions">
+          <a href="{% url 'backoffice:settings_regions_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+          <button type="submit" class="btn btn-primary">{% trans "Сохранить" %}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}

@@ -80,6 +80,10 @@ ICONS = {
         '<circle cx="9" cy="7" r="4"/>'
         '<path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'
     ),
+    # shield — для раздела «Пользователи» (admin scope, отличить от «Команды»)
+    'shield': (
+        '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'
+    ),
     # external-link (для admin-fallback значков)
     'external': (
         '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>'

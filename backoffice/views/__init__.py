@@ -127,6 +127,24 @@ from .content.team import (  # noqa: F401
     content_team_translate,
     content_team_seo,
 )
+from .site import (  # noqa: F401
+    site_menu_list,
+    site_menu_create,
+    site_menu_edit,
+    site_menu_delete,
+    site_menu_item_delete,
+)
+from .settings import (  # noqa: F401
+    settings_regions_list,
+    settings_regions_create,
+    settings_regions_edit,
+    settings_regions_delete,
+    settings_users_list,
+    settings_users_create,
+    settings_users_edit,
+    settings_users_password,
+    settings_users_delete,
+)
 
 
 @never_cache

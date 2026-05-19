@@ -1,0 +1,39 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  <a href="{% url 'backoffice:site_menu_list' %}" class="bo-back">← {% trans "К списку секций" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head">
+    <h1 class="bo-page-title">{% trans "Новая секция меню" %}</h1>
+    <p class="bo-page-subtitle">{% trans "Создайте секцию с slug (латиница, технический id) и заголовком на русском. Переводы и порядок зададите на странице редактирования." %}</p>
+  </div>
+
+  <form method="post" action="" class="bo-form" id="menu-create-form">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="bo-messages">
+        {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+      </div>
+    {% endif %}
+
+    <section class="bo-panel">
+      <div class="bo-row-2">
+        {% include 'backoffice/content/_field.html' with field=form.slug label='Slug' help='main, school-life — латиница, без пробелов. Не менять у популярных секций — слетят CSS-классы.' %}
+        {% include 'backoffice/content/_field.html' with field=form.order label='Порядок' help='Колонки сортируются по возрастанию. Шаг 10 рекомендуется.' %}
+      </div>
+
+      {% include 'backoffice/content/_field.html' with field=form.label_ru label='Заголовок (RU)' help='Например «Меню» или «Жизнь школы». Переводы KK/EN можно дозаполнить на edit.' %}
+    </section>
+
+    <div class="bo-form-foot bo-form-foot-sticky">
+      <div class="bo-form-foot-actions">
+        <a href="{% url 'backoffice:site_menu_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+        <button type="submit" class="btn btn-primary">{% trans "Создать" %}</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

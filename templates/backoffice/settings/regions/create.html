@@ -1,0 +1,42 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  <a href="{% url 'backoffice:settings_regions_list' %}" class="bo-back">← {% trans "К списку" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head">
+    <h1 class="bo-page-title">{% trans "Новый регион" %}</h1>
+    <p class="bo-page-subtitle">{% trans "Slug станет частью URL: `/<lang>/<slug>/...`. После создания перейдёте на редактирование — там зададите переводы (KK/EN) и флаг is_default." %}</p>
+  </div>
+
+  <form method="post" action="" class="bo-form" id="region-create-form">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="bo-messages">
+        {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+      </div>
+    {% endif %}
+
+    <section class="bo-panel">
+      <div class="bo-row-2">
+        {% include 'backoffice/content/_field.html' with field=form.slug label='Slug' help='astana, almaty, shymkent. Только латиница и дефисы.' %}
+        {% include 'backoffice/content/_field.html' with field=form.name_ru label='Название (RU)' help='«Астана», «Алматы» и т.п.' %}
+      </div>
+
+      <label class="bo-label-checkbox">
+        {{ form.is_active }}
+        <span>{% trans "Активен" %} — {% trans "URL `/<lang>/<slug>/` доступен публично" %}</span>
+      </label>
+    </section>
+
+    <div class="bo-form-foot bo-form-foot-sticky">
+      <div class="bo-form-foot-actions">
+        <a href="{% url 'backoffice:settings_regions_list' %}" class="bo-action-btn bo-action-rejected">{% trans "Отмена" %}</a>
+        <button type="submit" class="btn btn-primary">{% trans "Создать" %}</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

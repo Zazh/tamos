@@ -1,0 +1,98 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head">
+    <h1 class="bo-page-title">{% trans "Пользователи" %}</h1>
+    <p class="bo-page-subtitle">{% trans "Аккаунты backoffice: суперадмины (видят всё) и менеджеры (manager_region → видят только свой регион). Обычные посетители сайта здесь не показываются." %}</p>
+    <div class="bo-page-head-actions">
+      <a href="{% url 'backoffice:settings_users_create' %}" class="bo-action-btn bo-action-primary">+ {% trans "Новый пользователь" %}</a>
+    </div>
+  </div>
+
+  {% if rows %}
+    <div class="bo-table-wrap">
+      <table class="bo-table">
+        <thead>
+          <tr>
+            <th class="bo-th">{% trans "Логин" %}</th>
+            <th class="bo-th">{% trans "Имя" %}</th>
+            <th class="bo-th">{% trans "Email" %}</th>
+            <th class="bo-th">{% trans "Роль" %}</th>
+            <th class="bo-th">{% trans "Регион" %}</th>
+            <th class="bo-th bo-th-right"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in rows %}
+            <tr class="bo-tr" onclick="location.href='{% url 'backoffice:settings_users_edit' pk=u.pk %}'">
+              <td class="bo-td">
+                <div class="bo-cell-strong">{{ u.username }}</div>
+                {% if not u.is_active %}
+                  <span class="bo-badge bo-badge-hidden">{% trans "Отключён" %}</span>
+                {% endif %}
+              </td>
+              <td class="bo-td">
+                <div>{{ u.get_full_name|default:'—' }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-muted">{{ u.email|default:'—' }}</div>
+              </td>
+              <td class="bo-td">
+                {% if u.is_superuser %}
+                  <span class="bo-badge bo-badge-featured">{% trans "Суперадмин" %}</span>
+                {% elif u.is_staff %}
+                  <span class="bo-badge bo-badge-done">{% trans "Менеджер" %}</span>
+                {% else %}
+                  <span class="bo-badge bo-badge-hidden">{% trans "Без доступа" %}</span>
+                {% endif %}
+              </td>
+              <td class="bo-td">
+                {% if u.manager_region %}
+                  <div class="bo-cell-muted">{{ u.manager_region.name }}</div>
+                {% else %}
+                  <div class="bo-cell-muted">—</div>
+                {% endif %}
+              </td>
+              <td class="bo-td bo-td-right">
+                <a href="{% url 'backoffice:settings_users_edit' pk=u.pk %}" class="bo-row-edit">{% trans "Редактировать →" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="bo-cards">
+      {% for u in rows %}
+        <li class="bo-card" onclick="location.href='{% url 'backoffice:settings_users_edit' pk=u.pk %}'">
+          <div class="bo-card-head">
+            <span class="bo-cell-strong">{{ u.username }}</span>
+            <span class="bo-cell-muted">{{ u.get_full_name|default:'—' }}</span>
+          </div>
+          <div class="bo-card-meta">
+            {% if u.is_superuser %}
+              <span class="bo-badge bo-badge-featured">{% trans "Суперадмин" %}</span>
+            {% elif u.is_staff %}
+              <span class="bo-badge bo-badge-done">{% trans "Менеджер" %}</span>
+            {% else %}
+              <span class="bo-badge bo-badge-hidden">{% trans "Без доступа" %}</span>
+            {% endif %}
+            {% if not u.is_active %}<span class="bo-badge bo-badge-hidden">{% trans "Отключён" %}</span>{% endif %}
+            {% if u.manager_region %}<span class="bo-cell-muted">· {{ u.manager_region.name }}</span>{% endif %}
+          </div>
+          <div class="bo-card-foot">
+            <span class="bo-cell-muted">{{ u.email|default:'—' }}</span>
+            <span class="bo-row-edit">{% trans "Редактировать →" %}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="bo-list-empty">
+      {% trans "Пользователей нет." %}
+    </div>
+  {% endif %}
+{% endblock %}

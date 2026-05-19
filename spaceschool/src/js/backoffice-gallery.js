@@ -300,10 +300,135 @@ function boBlogGallery() {
   };
 }
 
+/* Backoffice — управление фото внутри ОДНОГО альбома (edit-страница альбома).
+ *
+ * Компонент работает на странице /backoffice/content/gallery/<album_pk>/.
+ * Альбом задаёт region/category на серверной стороне — JS не передаёт их в
+ * upload. Фото внутри альбома: bulk-upload, inline toggle is_wide/is_published,
+ * inline edit alt, delete. Сортировка — по `-created_at` (без DnD: новые
+ * автоматически сверху).
+ *
+ * `is_wide` ставится auto на upload (PIL по aspect ratio на сервере); кнопка
+ * на карточке — ручной override (если автодетект ошибся). */
+function boAlbumPhotos() {
+  return {
+    photos: [],
+    uploadUrl: "",
+    toggleUrlTemplate: "",
+    updateUrlTemplate: "",
+    deleteUrlTemplate: "",
+    dragging: false,
+    uploading: false,
+    error: "",
+    lang: "ru",
+
+    init() {
+      const root = this.$root;
+      this.uploadUrl = root.dataset.uploadUrl || "";
+      this.toggleUrlTemplate = root.dataset.toggleUrlTemplate || "";
+      this.updateUrlTemplate = root.dataset.updateUrlTemplate || "";
+      this.deleteUrlTemplate = root.dataset.deleteUrlTemplate || "";
+
+      const photosScriptId = root.dataset.photosScript;
+      if (photosScriptId) {
+        const el = document.getElementById(photosScriptId);
+        if (el) {
+          try { this.photos = JSON.parse(el.textContent || "[]"); }
+          catch (e) { this.error = "Не удалось разобрать данные фото"; }
+        }
+      }
+
+      // Подхватываем lang из родительского tab-bar (x-data="{ lang: 'ru' }")
+      this.$watch("$parent.lang", (v) => { if (v) this.lang = v; });
+      if (this.$el.parentElement?.parentElement?._x_dataStack) {
+        // best-effort initial sync
+        const parentStack = this.$el.parentElement.parentElement._x_dataStack;
+        const parentData = parentStack && parentStack[0];
+        if (parentData && parentData.lang) this.lang = parentData.lang;
+      }
+    },
+
+    async handleFiles(fileList) {
+      if (!fileList || !fileList.length) return;
+      const files = Array.from(fileList).filter((f) => f.type.startsWith("image/"));
+      if (!files.length) {
+        this.error = "Только изображения (JPEG/PNG/WebP).";
+        return;
+      }
+
+      this.uploading = true;
+      this.error = "";
+      const fd = new FormData();
+      for (const f of files) fd.append("images", f);
+
+      try {
+        const data = await postJSON(this.uploadUrl, fd, { isForm: true });
+        // Prepend новые фото — самое свежее сверху (сортировка как на public).
+        this.photos = [...(data.items || []), ...this.photos];
+      } catch (e) {
+        this.error = String(e.message || e);
+      } finally {
+        this.uploading = false;
+      }
+    },
+
+    onDrop(event) {
+      this.dragging = false;
+      this.handleFiles(event.dataTransfer.files);
+    },
+
+    onPick(event) {
+      this.handleFiles(event.target.files);
+      event.target.value = "";
+    },
+
+    async toggleField(item, field) {
+      const newValue = !item[field];
+      try {
+        const data = await postJSON(this.toggleUrlTemplate.replace("0", item.pk), {
+          field,
+          value: newValue,
+        });
+        const idx = this.photos.findIndex((i) => i.pk === item.pk);
+        if (idx >= 0 && data.item) this.photos[idx] = data.item;
+      } catch (e) {
+        this.error = String(e.message || e);
+      }
+    },
+
+    async saveMeta(item) {
+      try {
+        await postJSON(this.updateUrlTemplate.replace("0", item.pk), {
+          alt_ru: item.alt_ru || "",
+          alt_kk: item.alt_kk || "",
+          alt_en: item.alt_en || "",
+          caption_ru: item.caption_ru || "",
+          caption_kk: item.caption_kk || "",
+          caption_en: item.caption_en || "",
+        });
+      } catch (e) {
+        this.error = String(e.message || e);
+      }
+    },
+
+    async remove(item) {
+      if (!confirm("Удалить фото из альбома?")) return;
+      try {
+        await postJSON(this.deleteUrlTemplate.replace("0", item.pk), {});
+        this.photos = this.photos.filter((i) => i.pk !== item.pk);
+      } catch (e) {
+        this.error = String(e.message || e);
+      }
+    },
+  };
+}
+
+
 export function registerBackofficeGallery(Alpine) {
   Alpine.data("boVideoPreview", boVideoPreview);
   Alpine.data("boFormSteps", boFormSteps);
   Alpine.data("boBlogGallery", boBlogGallery);
+  Alpine.data("boAlbumPhotos", boAlbumPhotos);
 
   Alpine.data("boGallery", () => ({
     items: [],

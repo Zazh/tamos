@@ -1,0 +1,81 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-page-head">
+    <h1 class="bo-page-title">{% trans "Регионы" %}</h1>
+    <p class="bo-page-subtitle">{% trans "Справочник филиалов школы. Slug — сегмент URL `/<lang>/<slug>/`. Один регион по умолчанию (используется при корневом URL и для пользователей без выбора)." %}</p>
+    <div class="bo-page-head-actions">
+      <a href="{% url 'backoffice:settings_regions_create' %}" class="bo-action-btn bo-action-primary">+ {% trans "Новый регион" %}</a>
+    </div>
+  </div>
+
+  {% if rows %}
+    <div class="bo-table-wrap">
+      <table class="bo-table">
+        <thead>
+          <tr>
+            <th class="bo-th">{% trans "Регион" %}</th>
+            <th class="bo-th">slug</th>
+            <th class="bo-th">{% trans "Состояние" %}</th>
+            <th class="bo-th bo-th-right">{% trans "Менеджеров" %}</th>
+            <th class="bo-th bo-th-right"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+            <tr class="bo-tr" onclick="location.href='{% url 'backoffice:settings_regions_edit' pk=r.pk %}'">
+              <td class="bo-td">
+                <div class="bo-cell-strong">{{ r.name|default:r.slug }}</div>
+              </td>
+              <td class="bo-td">
+                <div class="bo-cell-mono">{{ r.slug }}</div>
+              </td>
+              <td class="bo-td">
+                {% if r.is_default %}
+                  <span class="bo-badge bo-badge-featured">{% trans "По умолчанию" %}</span>
+                {% endif %}
+                {% if r.is_active %}
+                  <span class="bo-badge bo-badge-done">{% trans "Активен" %}</span>
+                {% else %}
+                  <span class="bo-badge bo-badge-hidden">{% trans "Скрыт" %}</span>
+                {% endif %}
+              </td>
+              <td class="bo-td bo-td-right">
+                <div class="bo-cell-muted">{{ r.manager_count }}</div>
+              </td>
+              <td class="bo-td bo-td-right">
+                <a href="{% url 'backoffice:settings_regions_edit' pk=r.pk %}" class="bo-row-edit">{% trans "Редактировать →" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="bo-cards">
+      {% for r in rows %}
+        <li class="bo-card" onclick="location.href='{% url 'backoffice:settings_regions_edit' pk=r.pk %}'">
+          <div class="bo-card-head">
+            <span class="bo-cell-strong">{{ r.name|default:r.slug }}</span>
+            <span class="bo-cell-muted bo-cell-mono">{{ r.slug }}</span>
+          </div>
+          <div class="bo-card-meta">
+            {% if r.is_default %}<span class="bo-badge bo-badge-featured">{% trans "По умолчанию" %}</span>{% endif %}
+            {% if r.is_active %}<span class="bo-badge bo-badge-done">{% trans "Активен" %}</span>{% else %}<span class="bo-badge bo-badge-hidden">{% trans "Скрыт" %}</span>{% endif %}
+          </div>
+          <div class="bo-card-foot">
+            <span class="bo-cell-muted">{{ r.manager_count }} {% trans "менедж." %}</span>
+            <span class="bo-row-edit">{% trans "Редактировать →" %}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="bo-list-empty">
+      {% trans "Регионов пока нет. Создай первый — astana, almaty и т.п." %}
+    </div>
+  {% endif %}
+{% endblock %}
