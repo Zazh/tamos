@@ -16,10 +16,8 @@
           <tr>
             <th class="bo-th">{% trans "Регион" %}</th>
             <th class="bo-th">{% trans "Офис" %}</th>
-            <th class="bo-th">{% trans "Координаты" %}</th>
             <th class="bo-th">{% trans "Отделов" %}</th>
             <th class="bo-th bo-th-right">{% trans "Обновлено" %}</th>
-            <th class="bo-th bo-th-right"></th>
           </tr>
         </thead>
         <tbody>
@@ -34,20 +32,10 @@
                 <div class="bo-cell-muted">{{ contacts.office_address|default:'—' }}</div>
               </td>
               <td class="bo-td">
-                {% if contacts.coordinates %}
-                  <div class="bo-cell-mono">{{ contacts.coordinates }}</div>
-                {% else %}
-                  <div class="bo-cell-muted">—</div>
-                {% endif %}
-              </td>
-              <td class="bo-td">
                 <div class="bo-cell-muted">{{ contacts.department_count }}</div>
               </td>
               <td class="bo-td bo-td-right">
                 <div class="bo-cell-muted">{{ contacts.updated_at|date:"j E, H:i" }}</div>
-              </td>
-              <td class="bo-td bo-td-right">
-                <a href="{% url 'backoffice:content_contacts_edit' pk=contacts.pk %}" class="bo-row-edit">{% trans "Редактировать →" %}</a>
               </td>
             </tr>
           {% endfor %}
@@ -67,7 +55,6 @@
           </div>
           <div class="bo-card-foot">
             <span class="bo-cell-muted">{{ contacts.department_count }} {% trans "отделов" %}</span>
-            <span class="bo-row-edit">{% trans "Редактировать →" %}</span>
           </div>
         </li>
       {% endfor %}
