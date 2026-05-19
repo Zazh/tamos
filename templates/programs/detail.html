@@ -30,7 +30,11 @@
         <img src="{% static 'images/hero/Object-4.png' %}" class="hero-meteor absolute z-0 w-6 top-110 -left-20" data-speed="0.25" data-rotate="90" alt="">
       </div>
       <ul class="flex flex-col md:flex-row justify-center gap-2 w-full max-w-screen-md">
-        <li><button class="btn btn-primary w-[16rem] text-nowrap md:w-auto">{{ program.hero_cta_primary_text }}</button></li>
+        <li><button type="button"
+                    class="btn btn-primary w-[16rem] text-nowrap md:w-auto"
+                    data-feedback-trigger
+                    data-feedback-title="{{ program.hero_cta_primary_text }}"
+                    data-feedback-origin="program-hero-primary">{{ program.hero_cta_primary_text }}</button></li>
         <li><button type="button"
                     class="btn btn-default w-[16rem] text-nowrap md:w-auto"
                     data-feedback-trigger
