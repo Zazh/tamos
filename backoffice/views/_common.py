@@ -29,7 +29,11 @@ from ..shortcuts import region_scoped
 
 
 # Защита от мусорных payload'ов и слишком длинных значений.
-TRANSLATE_MAX_FIELDS_PER_LANG = 30
+TRANSLATE_MAX_FIELDS_PER_LANG = 40
+# Сколько полей в одном запросе к Gemini. Маленькие чанки = быстрый ответ и
+# меньше шанс таймаута; крупные = меньше round-trip'ов. 15 — компромисс,
+# проверено для program edit (35 translatable fields).
+TRANSLATE_CHUNK_SIZE = 15
 TRANSLATE_MAX_VALUE_CHARS = 5000
 SEO_SOURCE_MAX_FIELDS = 12
 SEO_SOURCE_MAX_CHARS = 8000
@@ -83,12 +87,19 @@ def run_translate(request):
         }
         if not sanitized:
             continue
+        # Чанкуем: один большой запрос на 30+ полей часто превышает 60s таймаут
+        # Gemini. Разбиваем на пачки по TRANSLATE_CHUNK_SIZE и склеиваем ответы.
+        merged: dict[str, str] = {}
+        items = list(sanitized.items())
         try:
-            result[lang] = translate_fields(sanitized, lang)
+            for i in range(0, len(items), TRANSLATE_CHUNK_SIZE):
+                chunk = dict(items[i:i + TRANSLATE_CHUNK_SIZE])
+                merged.update(translate_fields(chunk, lang))
         except TranslationConfigError as e:
             return JsonResponse({'error': str(e)}, status=503)
         except TranslationError as e:
             return JsonResponse({'error': str(e)}, status=502)
+        result[lang] = merged
 
     return JsonResponse({'translations': result})
 

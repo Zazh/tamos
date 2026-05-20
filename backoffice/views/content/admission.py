@@ -81,8 +81,8 @@ def _admissionpage_steps(page):
         'testing_rules_text_ru', 'testing_price_value_ru',
         'enrollment_lead_ru', 'consultation_lead_ru',
     ]
-    kk_fields = [f.replace('_ru', '_kk') for f in ru_fields]
-    en_fields = [f.replace('_ru', '_en') for f in ru_fields]
+    kk_fields = [f.removesuffix('_ru') + '_kk' for f in ru_fields]
+    en_fields = [f.removesuffix('_ru') + '_en' for f in ru_fields]
 
     inline_total = page.included_items.count() + page.documents.count()
     return [
@@ -195,8 +195,8 @@ def _admissionvariant_steps(variant):
         'h1_ru', 'hero_lead_ru',
         'testing_lead_ru', 'result_intro_ru', 'result_detail_ru', 'pricing_lead_ru',
     ]
-    kk_fields = [f.replace('_ru', '_kk') for f in ru_fields]
-    en_fields = [f.replace('_ru', '_en') for f in ru_fields]
+    kk_fields = [f.removesuffix('_ru') + '_kk' for f in ru_fields]
+    en_fields = [f.removesuffix('_ru') + '_en' for f in ru_fields]
     seo_fields = ['seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_description_ru']
 
     inline_total = variant.testing_features.count() + variant.pricing_plans.count()

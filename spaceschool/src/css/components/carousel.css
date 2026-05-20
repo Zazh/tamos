@@ -61,7 +61,7 @@
   .carousel-item {
     flex-shrink: 0;
     overflow: hidden;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
   }
 
   /* Slot диктует размер по ПОЗИЦИИ: odd = wide, even = tall.

@@ -30,17 +30,18 @@ async function postJSON(url, body) {
     body: JSON.stringify(body),
     credentials: "same-origin",
   });
+  const raw = await res.text();
+  let data;
+  try {
+    data = raw ? JSON.parse(raw) : {};
+  } catch (_) {
+    data = null;
+  }
   if (!res.ok) {
-    let detail = "";
-    try {
-      const data = await res.json();
-      detail = data.error || "";
-    } catch (_) {
-      detail = await res.text();
-    }
+    const detail = (data && data.error) || raw || "";
     throw new Error(detail.slice(0, 300) || `HTTP ${res.status}`);
   }
-  return res.json();
+  return data || {};
 }
 
 function boTeamSort() {

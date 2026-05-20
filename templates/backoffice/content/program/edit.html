@@ -45,7 +45,8 @@
            x-data="boAutoTranslate"
            data-url="{{ program_translate_url }}"
            data-form-id="program-edit-form"
-           data-bases-json='{{ translatable_bases_json|safe }}'>
+           data-bases-json='{{ translatable_bases_json|safe }}'
+           data-scan-form="1">
         <button type="button"
                 class="bo-tab bo-tab-action"
                 :class="loading && 'bo-btn-disabled'"

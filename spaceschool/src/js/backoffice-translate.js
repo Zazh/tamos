@@ -27,8 +27,12 @@ function getCookie(name) {
 
 /* Опции на компонент:
  * - data-url, data-form-id — обязательные.
- * - data-bases-json — список base полей. Если пуст/не задан — fallback на «все
- *   translatable из формы» (не используется в текущем UI, но безопасный default).
+ * - data-bases-json — список base полей (статичный режим, scope = главная форма + опц. prefix).
+ * - data-prefix — префикс для inline-formset (статичный режим), напр. "departments-0-".
+ * - data-scan-form="1" — авто-режим: компонент сам сканирует форму и находит ВСЕ
+ *   `<prefix><base>_ru` инпуты (включая inline-formset карточки типа audience_items-0-title_ru).
+ *   В этом режиме data-bases-json и data-prefix игнорируются. Используется для глобальной
+ *   кнопки «Авто-перевод» в табах языков — чтобы карточки inline-formset'а тоже попадали в перевод.
  * - data-force="1" — перетирать непустые KK/EN. Требует confirm() если хоть
  *   одно KK/EN было заполнено. Без force заполняются только пустые. */
 function boAutoTranslate() {
@@ -38,6 +42,7 @@ function boAutoTranslate() {
     bases: [],
     prefix: "",
     force: false,
+    scanForm: false,
     loading: false,
     status: "",
     error: "",
@@ -48,6 +53,7 @@ function boAutoTranslate() {
       this.formId = root.dataset.formId || "";
       this.prefix = root.dataset.prefix || "";  // для inline-formset, напр. "departments-0-"
       this.force = root.dataset.force === "1" || root.dataset.force === "true";
+      this.scanForm = root.dataset.scanForm === "1" || root.dataset.scanForm === "true";
       try {
         this.bases = JSON.parse(root.dataset.basesJson || "[]");
       } catch (e) {
@@ -55,10 +61,13 @@ function boAutoTranslate() {
       }
     },
 
-    _input(base, lang) {
-      const form = document.getElementById(this.formId);
+    _form() {
+      return document.getElementById(this.formId);
+    },
+
+    _inputByName(name) {
+      const form = this._form();
       if (!form) return null;
-      const name = `${this.prefix}${base}_${lang}`;
       // form.elements включает поля, привязанные к форме через HTML5
       // form="..." атрибут, даже если они лежат вне DOM-tree <form>.
       // SEO-блок и og_image в edit-страницах рендерятся ВНЕ <form>
@@ -66,11 +75,44 @@ function boAutoTranslate() {
       return form.elements[name] || form.querySelector(`[name="${CSS.escape(name)}"]`);
     },
 
-    /* Имя поля для отправки на сервер. Для основной формы — `base`,
-     * для inline-formset — с префиксом (чтобы при возврате с сервера мы
-     * могли заполнить правильный инпут). */
-    _serverKey(base) {
-      return `${this.prefix}${base}`;
+    /* Возвращает список {prefix, base} для перевода.
+     * Статический режим: декартово произведение this.prefix × this.bases.
+     * Scan-режим: ищем в форме все `<prefix><base>_ru` инпуты — включая inline-formset
+     *   (audience_items-0-title_ru), у которых есть пара `_kk` или `_en`. */
+    _pairs() {
+      if (!this.scanForm) {
+        return this.bases.map(base => ({ prefix: this.prefix, base }));
+      }
+      const form = this._form();
+      if (!form) return [];
+      // Django formset name: `<formset>-<index>-<field>` (например audience_items-0-title).
+      // Главная форма: просто `<field>` без `-N-`. Этим regex отделяем formset-prefix.
+      const FORMSET_RE = /^(.*-\d+-)([^-]+)$/;
+      const out = [];
+      const seen = new Set();
+      for (const el of form.elements) {
+        const name = el.name || "";
+        if (!name.endsWith("_ru")) continue;
+        const stem = name.slice(0, -3);
+        let prefix, base;
+        const m = stem.match(FORMSET_RE);
+        if (m) {
+          prefix = m[1];
+          base = m[2];
+        } else {
+          prefix = "";
+          base = stem;
+        }
+        const key = `${prefix}|${base}`;
+        if (seen.has(key)) continue;
+        // Игнорим случайные `_ru` имена без translation-пары (`_kk` или `_en`).
+        const kk = form.elements[`${prefix}${base}_kk`];
+        const en = form.elements[`${prefix}${base}_en`];
+        if (!kk && !en) continue;
+        seen.add(key);
+        out.push({ prefix, base });
+      }
+      return out;
     },
 
     /* Собираем payload для сервера.
@@ -80,18 +122,19 @@ function boAutoTranslate() {
       const payload = { kk: {}, en: {} };
       let pending = 0;
       let willOverwrite = 0;
-      for (const base of this.bases) {
-        const ru = this._input(base, "ru");
+      for (const { prefix, base } of this._pairs()) {
+        const ru = this._inputByName(`${prefix}${base}_ru`);
         if (!ru) continue;
         const ruValue = (ru.value || "").trim();
         if (!ruValue) continue;
         for (const lang of ["kk", "en"]) {
-          const target = this._input(base, lang);
+          const target = this._inputByName(`${prefix}${base}_${lang}`);
           if (!target) continue;
           const targetValue = (target.value || "").trim();
           if (targetValue && !this.force) continue;
           if (targetValue) willOverwrite += 1;
-          payload[lang][this._serverKey(base)] = ru.value;
+          // serverKey включает prefix — при возврате с сервера можно найти инпут напрямую.
+          payload[lang][`${prefix}${base}`] = ru.value;
           pending += 1;
         }
       }
@@ -132,30 +175,28 @@ function boAutoTranslate() {
           body: JSON.stringify({ by_lang: payload }),
         });
 
-        if (!res.ok) {
-          let detail = "";
-          try {
-            const data = await res.json();
-            detail = data.error || JSON.stringify(data);
-          } catch (e) {
-            detail = await res.text();
-          }
-          throw new Error(`${res.status}: ${detail.slice(0, 300)}`);
+        const raw = await res.text();
+        let data;
+        try {
+          data = raw ? JSON.parse(raw) : {};
+        } catch (e) {
+          data = null;
         }
 
-        const data = await res.json();
-        const translations = data.translations || {};
+        if (!res.ok) {
+          const detail = (data && (data.error || JSON.stringify(data))) || raw;
+          throw new Error(`${res.status}: ${(detail || "").slice(0, 300)}`);
+        }
+
+        const translations = (data && data.translations) || {};
         let filled = 0;
 
         for (const lang of ["kk", "en"]) {
           const fields = translations[lang] || {};
           for (const [serverKey, text] of Object.entries(fields)) {
-            // Снимаем prefix обратно — для inline-formset серверный ключ
-            // содержит его, а _input ожидает «голый» base.
-            const base = this.prefix && serverKey.startsWith(this.prefix)
-              ? serverKey.slice(this.prefix.length)
-              : serverKey;
-            const input = this._input(base, lang);
+            // serverKey == `<prefix><base>` — ищем инпут по имени напрямую,
+            // одинаково работает и для главной формы, и для inline-formset.
+            const input = this._inputByName(`${serverKey}_${lang}`);
             if (!input) continue;
             if (!this.force && (input.value || "").trim()) continue;
             input.value = text;
@@ -265,19 +306,20 @@ function boAutoSEO() {
           body: JSON.stringify({ content }),
         });
 
-        if (!res.ok) {
-          let detail = "";
-          try {
-            const data = await res.json();
-            detail = data.error || JSON.stringify(data);
-          } catch (e) {
-            detail = await res.text();
-          }
-          throw new Error(`${res.status}: ${detail.slice(0, 300)}`);
+        const raw = await res.text();
+        let data;
+        try {
+          data = raw ? JSON.parse(raw) : {};
+        } catch (e) {
+          data = null;
         }
 
-        const data = await res.json();
-        const seo = data.seo || {};
+        if (!res.ok) {
+          const detail = (data && (data.error || JSON.stringify(data))) || raw;
+          throw new Error(`${res.status}: ${(detail || "").slice(0, 300)}`);
+        }
+
+        const seo = (data && data.seo) || {};
         let filled = 0;
 
         for (const lang of this.LANGS) {

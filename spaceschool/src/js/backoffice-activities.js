@@ -31,17 +31,18 @@ async function fetchJSON(url, opts = {}) {
       : undefined,
     credentials: "same-origin",
   });
+  const raw = await res.text();
+  let data;
+  try {
+    data = raw ? JSON.parse(raw) : {};
+  } catch (_) {
+    data = null;
+  }
   if (!res.ok) {
-    let detail = "";
-    try {
-      const data = await res.json();
-      detail = data.error || "";
-    } catch (_) {
-      detail = await res.text();
-    }
+    const detail = (data && data.error) || raw || "";
     throw new Error(detail.slice(0, 300) || `HTTP ${res.status}`);
   }
-  return res.json();
+  return data || {};
 }
 
 /* boActivitySort — DnD на каталоге кружков. Один компонент на секцию. */

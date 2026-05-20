@@ -241,19 +241,20 @@ function boTagPicker() {
           body: JSON.stringify({ title, lead, content }),
         });
 
-        if (!res.ok) {
-          let detail = "";
-          try {
-            const data = await res.json();
-            detail = data.error || JSON.stringify(data);
-          } catch (e) {
-            detail = await res.text();
-          }
-          throw new Error(`${res.status}: ${detail.slice(0, 300)}`);
+        const raw = await res.text();
+        let data;
+        try {
+          data = raw ? JSON.parse(raw) : {};
+        } catch (e) {
+          data = null;
         }
 
-        const data = await res.json();
-        const tags = data.tags || [];
+        if (!res.ok) {
+          const detail = (data && (data.error || JSON.stringify(data))) || raw;
+          throw new Error(`${res.status}: ${(detail || "").slice(0, 300)}`);
+        }
+
+        const tags = (data && data.tags) || [];
         // Фильтруем те, что уже выбраны
         const selectedSlugs = new Set(this.selected.map((t) => t.slug));
         this.suggested = tags.filter((t) => !selectedSlugs.has(t.slug));

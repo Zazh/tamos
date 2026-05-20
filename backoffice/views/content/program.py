@@ -72,8 +72,8 @@ def _programpage_steps(program):
         'stats_label_ru', 'stats_title_ru',
         'faq_label_ru', 'faq_title_ru',
     ]
-    kk_fields = [f.replace('_ru', '_kk') for f in ru_fields]
-    en_fields = [f.replace('_ru', '_en') for f in ru_fields]
+    kk_fields = [f.removesuffix('_ru') + '_kk' for f in ru_fields]
+    en_fields = [f.removesuffix('_ru') + '_en' for f in ru_fields]
     seo_fields = ['seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_description_ru']
 
     inline_total = sum(

@@ -116,7 +116,8 @@
                         <div x-data="boAutoTranslate"
                              data-url="{% url 'backoffice:content_activities_translate' pk=activity.pk %}"
                              data-form-id="activity-{{ activity.pk }}-form"
-                             data-bases-json='{{ translatable_bases_json|safe }}'>
+                             data-bases-json='{{ translatable_bases_json|safe }}'
+                             data-scan-form="1">
                           <button type="button"
                                   class="bo-action-btn bo-action-preview"
                                   :class="loading && 'bo-btn-disabled'"
