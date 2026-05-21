@@ -138,6 +138,9 @@
               <input type="file" name="{{ form.photo.html_name }}" accept="image/jpeg,image/png,image/webp">
             </label>
           </div>
+          <p class="bo-help">
+            {% blocktrans with min=form.PHOTO_MIN_DIMENSION %}Минимум {{ min }}×{{ min }}px. JPG/PNG/WebP. Прозрачность у PNG автоматически кладётся на белый фон, фото ужимается до {{ min }}px по большей стороне.{% endblocktrans %}
+          </p>
           {% for err in form.photo.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
         </div>
       </section>

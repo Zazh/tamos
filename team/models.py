@@ -1,9 +1,18 @@
 from django.db import models
 from django.utils.html import strip_tags
 from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFit
+
+from .image_processors import FlattenAlphaToWhite
 
 
 TEAM_IMAGE_QUALITY = 85
+# Основное фото на /team/, /team/<slug>/ и в блоке featured на /program/.
+# CSS-слот на detail.html lg:col-span-5 (~500px), 2× retina ≈ 1000, округлено.
+TEAM_PHOTO_MAX_DIMENSION = 1024
+# Маленькая аватарка для author-card в /blog/<slug>/ — CSS даёт 48×48,
+# берём с запасом на retina (2×) и чуть выше.
+TEAM_PHOTO_THUMB_DIMENSION = 256
 
 
 class TeamMember(models.Model):
@@ -63,10 +72,39 @@ class TeamMember(models.Model):
         source='photo',
         format='WEBP',
         options={'quality': TEAM_IMAGE_QUALITY},
+        processors=[
+            FlattenAlphaToWhite(),
+            ResizeToFit(TEAM_PHOTO_MAX_DIMENSION, TEAM_PHOTO_MAX_DIMENSION, upscale=False),
+        ],
     )
+    # JPEG (а не «как исходник»): PNG-аватарки на 5–10× тяжелее, прозрачность
+    # тут не нужна — отдаём плоский JPG.
     photo_compressed = ImageSpecField(
         source='photo',
+        format='JPEG',
+        options={'quality': TEAM_IMAGE_QUALITY, 'optimize': True, 'progressive': True},
+        processors=[
+            FlattenAlphaToWhite(),
+            ResizeToFit(TEAM_PHOTO_MAX_DIMENSION, TEAM_PHOTO_MAX_DIMENSION, upscale=False),
+        ],
+    )
+    photo_thumb_webp = ImageSpecField(
+        source='photo',
+        format='WEBP',
+        options={'quality': TEAM_IMAGE_QUALITY},
+        processors=[
+            FlattenAlphaToWhite(),
+            ResizeToFit(TEAM_PHOTO_THUMB_DIMENSION, TEAM_PHOTO_THUMB_DIMENSION, upscale=False),
+        ],
+    )
+    photo_thumb_compressed = ImageSpecField(
+        source='photo',
+        format='JPEG',
         options={'quality': TEAM_IMAGE_QUALITY, 'optimize': True},
+        processors=[
+            FlattenAlphaToWhite(),
+            ResizeToFit(TEAM_PHOTO_THUMB_DIMENSION, TEAM_PHOTO_THUMB_DIMENSION, upscale=False),
+        ],
     )
 
     # Уровни преподавания — простой набор 1-4 / 5-8 / 9-11 (не M2M на справочник).

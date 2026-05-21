@@ -3,10 +3,13 @@
   <p class="author-card__label">{% trans 'Автор' %}</p>
   <a href="{% region_url 'team:detail' slug=author.slug %}" class="author-card__link">
     {% if author.photo %}
-      <img src="{{ author.photo_compressed.url }}"
-           alt="{{ author.name }}"
-           width="56" height="56" loading="lazy"
-           class="author-card__photo">
+      <picture>
+        <source srcset="{{ author.photo_thumb_webp.url }}" type="image/webp">
+        <img src="{{ author.photo_thumb_compressed.url }}"
+             alt="{{ author.name }}"
+             width="56" height="56" loading="lazy"
+             class="author-card__photo">
+      </picture>
     {% else %}
       <span class="author-card__photo author-card__photo--empty" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">

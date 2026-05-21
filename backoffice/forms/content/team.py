@@ -5,8 +5,9 @@ SEO/OG + «Публикация» (is_published / is_featured / teaches_*) ре�
 """
 
 from django import forms
+from PIL import Image
 
-from team.models import TeamMember
+from team.models import TeamMember, TEAM_PHOTO_MAX_DIMENSION
 
 from .._common import (
     FileSizeMixin,
@@ -55,6 +56,10 @@ class TeamMemberEditForm(FileSizeMixin, forms.ModelForm):
     FORM_ID = 'team-edit-form'
 
     IMAGE_MAX_BYTES = 5 * 1024 * 1024
+    # Минимальная сторона исходника. ImageSpec ужимает фото до
+    # TEAM_PHOTO_MAX_DIMENSION (1024) с upscale=False, поэтому загружать
+    # фото меньше — оно останется маленьким и будет мылиться на retina.
+    PHOTO_MIN_DIMENSION = TEAM_PHOTO_MAX_DIMENSION
 
     class Meta:
         model = TeamMember
@@ -103,8 +108,24 @@ class TeamMemberEditForm(FileSizeMixin, forms.ModelForm):
         setup_region_field(self, user=user, instance=kwargs.get('instance'))
 
     def clean_photo(self):
-        return self._check_size(self.cleaned_data.get('photo'),
-                                self.IMAGE_MAX_BYTES, 'Фото')
+        photo = self._check_size(self.cleaned_data.get('photo'),
+                                 self.IMAGE_MAX_BYTES, 'Фото')
+        uploaded = self.files.get('photo')
+        if uploaded is not None:
+            try:
+                uploaded.seek(0)
+                with Image.open(uploaded) as im:
+                    w, h = im.size
+            finally:
+                uploaded.seek(0)
+            min_dim = self.PHOTO_MIN_DIMENSION
+            if min(w, h) < min_dim:
+                raise forms.ValidationError(
+                    f'Фото слишком маленькое: {w}×{h}px. '
+                    f'Минимум {min_dim}×{min_dim}px — иначе на странице '
+                    f'команды и в retina-дисплеях оно будет мылиться.'
+                )
+        return photo
 
     def clean_og_image(self):
         return self._check_size(self.cleaned_data.get('og_image'),
