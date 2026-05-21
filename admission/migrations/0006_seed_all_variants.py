@@ -39,8 +39,8 @@ def seed_all(apps, schema_editor):
                 variant=variant, order=order,
                 defaults={
                     'highlight': plan['highlight'],
-                    'badge_text': plan['badge_text'],
-                    'badge_text_ru': plan['badge_text'],
+                    'badge_text': plan.get('badge_text', ''),
+                    'badge_text_ru': plan.get('badge_text', ''),
                     'icon_svg': plan['icon_svg'],
                     'label': plan['label'],
                     'label_ru': plan['label'],
