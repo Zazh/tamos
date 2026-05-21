@@ -8,6 +8,7 @@ URL, если ещё рендерится где-то).
 
 from django import forms
 
+from core.image_optimize import normalize_uploaded_image
 from gallery.models import Album, GalleryCategory, GalleryImage
 
 from .._common import (
@@ -69,7 +70,7 @@ class AlbumEditForm(forms.ModelForm):
             raise forms.ValidationError(
                 f'Обложка: файл {mb:.1f} MB больше лимита {limit_mb} MB.'
             )
-        return f
+        return normalize_uploaded_image(f)
 
 
 # ----- GalleryImage (legacy single-photo edit) ------------------------------

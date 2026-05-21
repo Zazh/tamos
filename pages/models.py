@@ -664,6 +664,12 @@ class FlatPage(models.Model):
         return (self.cover_alt or '').strip() or self.title
 
     @property
+    def main_gallery(self):
+        """Главная inline-галерея страницы (slug='main'). Рендерится после
+        .content-redactor. Создаётся лениво при первом upload через backoffice."""
+        return self.galleries.filter(slug='main').first()
+
+    @property
     def effective_seo_title(self) -> str:
         return self.seo_title or (self.title or '').strip()
 
@@ -682,6 +688,90 @@ class FlatPage(models.Model):
     @property
     def effective_og_image(self):
         return self.og_image or self.cover_image or None
+
+
+class FlatPageGallery(models.Model):
+    """Фотогалерея внутри статичной страницы. Главная (slug='main') рендерится
+    после контента на public-странице."""
+
+    flat_page = models.ForeignKey(
+        FlatPage,
+        verbose_name='Страница',
+        on_delete=models.CASCADE,
+        related_name='galleries',
+    )
+    slug = models.SlugField(
+        'Slug',
+        max_length=64,
+        help_text='Уникален в пределах страницы. Для главной — `main`.',
+    )
+    title = models.CharField(
+        'Название',
+        max_length=200,
+        blank=True,
+        help_text='Внутренняя метка для админки; не выводится на сайте.',
+    )
+    order = models.PositiveSmallIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Фотогалерея'
+        verbose_name_plural = 'Фотогалереи'
+        ordering = ['order', 'pk']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['flat_page', 'slug'],
+                name='pages_flatpage_gallery_page_slug_unique',
+            ),
+        ]
+
+    def __str__(self):
+        return self.title or self.slug or f'Gallery #{self.pk}'
+
+
+class FlatPageGalleryImage(models.Model):
+    """Снимок в галерее статичной страницы. Подпись и alt переводятся."""
+
+    gallery = models.ForeignKey(
+        FlatPageGallery,
+        verbose_name='Галерея',
+        on_delete=models.CASCADE,
+        related_name='images',
+    )
+    image = models.ImageField('Изображение', upload_to='pages/flat/galleries/')
+    image_webp = ImageSpecField(
+        source='image',
+        format='WEBP',
+        options={'quality': FLAT_IMAGE_QUALITY},
+    )
+    image_compressed = ImageSpecField(
+        source='image',
+        options={'quality': FLAT_IMAGE_QUALITY, 'optimize': True},
+    )
+    caption = models.CharField(
+        'Подпись',
+        max_length=300,
+        blank=True,
+        help_text='Опциональный figcaption под картинкой.',
+    )
+    alt = models.CharField(
+        'Alt-текст',
+        max_length=300,
+        blank=True,
+        help_text='Для SEO/доступности. Если пусто — подставляется подпись или название галереи.',
+    )
+    order = models.PositiveSmallIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Фото в галерее'
+        verbose_name_plural = 'Фото в галерее'
+        ordering = ['order', 'pk']
+
+    def __str__(self):
+        return self.caption or f'Image #{self.pk}'
+
+    @property
+    def alt_display(self) -> str:
+        return (self.alt or '').strip() or (self.caption or '').strip() or str(self.gallery)
 
 
 class FooterPage(models.Model):

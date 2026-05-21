@@ -207,7 +207,7 @@ class AdmissionVariantEditForm(FileSizeMixin, forms.ModelForm):
 
 
 _ADMISSION_TESTING_FEATURE_TRANSLATABLE = ('title', 'description')
-_ADMISSION_PRICING_PLAN_TRANSLATABLE = ('badge_text', 'label', 'note')
+_ADMISSION_PRICING_PLAN_TRANSLATABLE = ('label', 'note')
 
 
 class AdmissionTestingFeatureForm(forms.ModelForm):
@@ -225,7 +225,7 @@ class AdmissionTestingFeatureForm(forms.ModelForm):
 
 
 class AdmissionPricingPlanForm(forms.ModelForm):
-    COMPACT_FIELDS = frozenset({'label', 'price_value', 'price_currency', 'badge_text'})
+    COMPACT_FIELDS = frozenset({'label', 'price_value', 'price_currency'})
 
     class Meta:
         model = AdmissionPricingPlan

@@ -16,6 +16,7 @@ from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST
 
+from core.image_optimize import normalize_uploaded_image
 from events.models import Event, EventGallery, EventGalleryImage
 from regions.models import Region
 
@@ -250,7 +251,9 @@ def content_events_gallery_upload(request, pk):
     max_order = gallery.images.aggregate(Max('order'))['order__max'] or 0
     for f in files:
         max_order += 10
-        EventGalleryImage.objects.create(gallery=gallery, image=f, order=max_order)
+        EventGalleryImage.objects.create(
+            gallery=gallery, image=normalize_uploaded_image(f), order=max_order,
+        )
 
     items = [_serialize_event_gallery_image(i) for i in gallery.images.all().order_by('order', 'pk')]
     return JsonResponse({'items': items})

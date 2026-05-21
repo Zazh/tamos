@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n region_tags blog_extras %}
+{% load i18n region_tags blog_extras content_extras %}
 
 {% block title %}{{ post.effective_seo_title }} — Space School{% endblock %}
 {% block meta_description %}{{ post.effective_seo_description|truncatechars:200 }}{% endblock %}
@@ -134,7 +134,7 @@
             <p>{{ post.lead }}</p>
           {% endif %}
 
-          {{ post.content|render_galleries:post }}
+          {{ post.content|render_galleries:post|render_youtube }}
         </div>
 
         {% if post.main_gallery and post.main_gallery.images.all %}

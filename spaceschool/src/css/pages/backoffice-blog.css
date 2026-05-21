@@ -476,16 +476,23 @@
   outline-offset: -2px;
 }
 
-.bo-trix h1 {
+/* Заголовки в редакторе — соответствуют .content-redactor на сайте.
+   h1 в редакторе не используется (это название поста, рендерится снаружи);
+   мы прячем дефолтную кнопку H1 в JS и добавляем H2/H3. */
+.bo-trix h2 {
   font-size: 1.375rem;
   font-weight: var(--font-weight-bold);
-  margin: 1.25rem 0 .75rem;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  margin: 1.25rem 0 .5rem;
 }
 
-.bo-trix h2 {
+.bo-trix h3 {
   font-size: 1.125rem;
   font-weight: var(--font-weight-bold);
-  margin: 1rem 0 .5rem;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+  margin: 1rem 0 .375rem;
 }
 
 .bo-trix blockquote {
@@ -505,9 +512,17 @@
 .bo-trix ul { list-style: disc; }
 .bo-trix ol { list-style: decimal; }
 
+/* Ссылки — голубой как на сайте (.content-redactor a → --color-secondary).
+   В редакторе и на странице должен совпадать визуал. */
 .bo-trix a {
-  color: var(--color-brand);
+  color: var(--color-secondary);
   text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+.bo-trix a:hover {
+  color: var(--color-brand);
 }
 
 .bo-trix pre {
@@ -517,6 +532,71 @@
   font-family: ui-monospace, monospace;
   font-size: var(--text-xs);
   overflow-x: auto;
+}
+
+/* Текстовые кнопки H2 / H3 в toolbar — без SVG-иконки, чистая типографика.
+   trix-button--icon (с text-indent:-9999px) НЕ ставим — текст должен быть виден. */
+.bo-field-trix trix-toolbar .bo-trix-btn-text {
+  text-indent: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  height: 1.875rem !important;
+  padding: 0 .5rem !important;
+  font-weight: var(--font-weight-bold) !important;
+  font-size: .8125rem !important;
+  letter-spacing: -.01em;
+  min-width: 2rem;
+  background-image: none !important;
+}
+
+.bo-field-trix trix-toolbar .bo-trix-btn-heading3 {
+  font-size: .75rem !important;
+  opacity: .9;
+}
+
+/* YouTube-кнопка — SVG-иконка в собственной группе. SVG inline, видим без
+   text-indent трюков, поэтому --icon класс не ставим. */
+.bo-field-trix trix-toolbar .bo-trix-btn-youtube {
+  width: 2.25rem !important;
+  height: 1.875rem !important;
+  padding: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-image: none !important;
+}
+
+.bo-field-trix trix-toolbar .bo-trix-btn-youtube svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.bo-field-trix trix-toolbar .bo-trix-extras {
+  margin: 0 .25rem !important;
+}
+
+/* Подсказка под редактором про Enter / Shift+Enter. */
+.bo-trix-tips {
+  margin-top: .5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .375rem .75rem;
+  align-items: center;
+  font-size: .75rem;
+  color: color-mix(in srgb, var(--color-black) 55%, transparent);
+}
+
+.bo-trix-tips kbd {
+  display: inline-block;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: .6875rem;
+  font-weight: var(--font-weight-medium);
+  padding: .0625rem .375rem;
+  background: var(--color-white);
+  color: var(--color-black);
+  border: 1px solid var(--color-gray-300);
+  border-bottom-width: 2px;
+  border-radius: .25rem;
 }
 
 /* ===== Taxonomy page ===== */

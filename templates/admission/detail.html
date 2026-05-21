@@ -244,11 +244,6 @@
                 <li class="rounded-2xl p-5 md:p-6 {{ plan.bg_css }} flex flex-col gap-6">
                   <span class="flex justify-between items-center">
                     {{ plan.icon_svg|safe }}
-                    {% if plan.badge_text %}
-                      <span class="badge bg-gold self-start">{{ plan.badge_text }}</span>
-                    {% else %}
-                      <span class="badge invisible self-start">—</span>
-                    {% endif %}
                   </span>
                   <div class="mt-auto text-black/60">
                     <p class="text-sm font-medium">{{ plan.label }}</p>

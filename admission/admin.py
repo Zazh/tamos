@@ -152,7 +152,7 @@ class AdmissionPricingPlanInline(TranslationStackedInline):
     model = AdmissionPricingPlan
     extra = 0
     fields = (
-        'order', 'highlight', 'badge_text', 'label',
+        'order', 'highlight', 'label',
         'price_value', 'price_currency', 'note', 'icon_svg',
     )
 

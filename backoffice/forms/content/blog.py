@@ -13,6 +13,7 @@ import json
 from django import forms
 
 from blog.models import BlogCategory, BlogPost, BlogTag
+from core.image_optimize import normalize_uploaded_image
 
 from .._common import (
     FileSizeMixin,
@@ -154,9 +155,10 @@ class BlogPostEditForm(FileSizeMixin, forms.ModelForm):
             self.initial['tags_json'] = json.dumps(tags, ensure_ascii=False)
 
     def clean_cover_image(self):
-        return self._check_size(
+        f = self._check_size(
             self.cleaned_data.get('cover_image'), self.IMAGE_MAX_BYTES, 'Обложка',
         )
+        return normalize_uploaded_image(f)
 
     def clean_og_image(self):
         return self._check_size(

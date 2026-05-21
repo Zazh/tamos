@@ -1,6 +1,14 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import ContactsDepartment, ContactsPage, FlatPage, FooterPage, HomeGalleryImage, HomePage
+from .models import (
+    ContactsDepartment,
+    ContactsPage,
+    FlatPage,
+    FlatPageGalleryImage,
+    FooterPage,
+    HomeGalleryImage,
+    HomePage,
+)
 
 
 @register(HomePage)
@@ -66,3 +74,8 @@ class FlatPageTranslationOptions(TranslationOptions):
         'og_title',
         'og_description',
     )
+
+
+@register(FlatPageGalleryImage)
+class FlatPageGalleryImageTranslationOptions(TranslationOptions):
+    fields = ('caption', 'alt')

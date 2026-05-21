@@ -89,4 +89,4 @@ class AdmissionTestingFeatureTranslationOptions(TranslationOptions):
 
 @register(AdmissionPricingPlan)
 class AdmissionPricingPlanTranslationOptions(TranslationOptions):
-    fields = ('badge_text', 'label', 'note')
+    fields = ('label', 'note')

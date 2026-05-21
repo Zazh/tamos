@@ -161,6 +161,29 @@
     text-align: right;
     color: var(--color-gray-500);
   }
+
+  /* -- YouTube-embed (рендер из [[youtube id=...]]) ----- */
+
+  .content-video {
+    margin: 0;
+  }
+
+  .content-video__frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: var(--color-gray-900);
+  }
+
+  .content-video__frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
 }
 
 /* ============================================================

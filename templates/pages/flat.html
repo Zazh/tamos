@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n region_tags %}
+{% load i18n region_tags content_extras %}
 
 {% block title %}{{ page.title }} — Space School{% endblock %}
 {% block meta_description %}{{ page.lead|default:page.title|truncatechars:200 }}{% endblock %}
@@ -35,8 +35,12 @@
             <p>{{ page.lead }}</p>
           {% endif %}
 
-          {{ page.content|safe }}
+          {{ page.content|render_youtube }}
         </div>
+
+        {% if page.main_gallery and page.main_gallery.images.all %}
+          {% include 'blog/_gallery.html' with gallery=page.main_gallery %}
+        {% endif %}
       </div>
     </div>
   </section>

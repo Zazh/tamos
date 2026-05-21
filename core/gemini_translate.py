@@ -9,6 +9,7 @@
 """
 from __future__ import annotations
 
+import http.client
 import json
 import logging
 import urllib.error
@@ -91,12 +92,23 @@ def _try_one_model(model: str, prompt: str, api_key: str, timeout: float) -> str
     """
     url = f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}'
 
+    generation_config = {
+        'temperature': 0.2,
+        'responseMimeType': 'application/json',
+        # Без явного лимита Gemini 2.5/3.0 может обрезать длинный HTML-ответ
+        # и вернуть невалидный JSON (finishReason=MAX_TOKENS). 65536 — потолок 2.5-flash/pro.
+        'maxOutputTokens': 65536,
+    }
+    # Thinking ест output-токены. Для перевода рассуждения не нужны — отключаем
+    # только на 2.5-flash (там thinkingBudget=0 валиден). На 2.5-pro и 3.x thinking
+    # обязателен (`Budget 0 is invalid. This model only works in thinking mode.`),
+    # оставляем дефолт.
+    if model.startswith('gemini-2.5-flash'):
+        generation_config['thinkingConfig'] = {'thinkingBudget': 0}
+
     body = {
         'contents': [{'parts': [{'text': prompt}]}],
-        'generationConfig': {
-            'temperature': 0.2,
-            'responseMimeType': 'application/json',
-        },
+        'generationConfig': generation_config,
     }
     req = urllib.request.Request(
         url,
@@ -129,6 +141,11 @@ def _try_one_model(model: str, prompt: str, api_key: str, timeout: float) -> str
         # В Python 3.10+ urllib иногда бросает голый TimeoutError (= socket.timeout),
         # не оборачивая в URLError. Ловим отдельно, иначе пробьёт до Django как 500.
         raise _RetryableModelError(f'Gemini[{model}] timeout после {timeout}s') from e
+    except (http.client.HTTPException, ConnectionError) as e:
+        # RemoteDisconnected (=BadStatusLine=HTTPException) — Gemini закрыл TCP
+        # без ответа (типично для thinking-моделей, не успевших уложиться). Не
+        # ловится URLError. Без retryable выпадает 500 на пользователя.
+        raise _RetryableModelError(f'Gemini[{model}] соединение оборвалось: {type(e).__name__}: {e}') from e
 
     try:
         parsed = json.loads(raw)
@@ -136,12 +153,23 @@ def _try_one_model(model: str, prompt: str, api_key: str, timeout: float) -> str
         raise _RetryableModelError(f'Gemini[{model}] невалидный JSON: {raw[:200]}') from e
 
     try:
-        return parsed['candidates'][0]['content']['parts'][0]['text']
+        candidate = parsed['candidates'][0]
+        text = candidate['content']['parts'][0]['text']
     except (KeyError, IndexError, TypeError) as e:
         finish = parsed.get('candidates', [{}])[0].get('finishReason') if isinstance(parsed, dict) else None
         raise _RetryableModelError(
             f'Gemini[{model}] не нашёл текст (finishReason={finish}). Сырое: {raw[:200]}'
         ) from e
+
+    # finishReason != STOP означает, что модель не закончила ответ нормально
+    # (MAX_TOKENS, SAFETY и т.п.) — текст почти наверняка обрезан и json.loads
+    # упадёт. Сразу retryable, чтобы fallback на следующую модель сработал.
+    finish = candidate.get('finishReason')
+    if finish and finish != 'STOP':
+        raise _RetryableModelError(
+            f'Gemini[{model}] ответ оборвался: finishReason={finish}. Текст: {text[:200]}'
+        )
+    return text
 
 
 class _RetryableModelError(TranslationError):
@@ -183,7 +211,7 @@ def _call_gemini(prompt: str, *, timeout: float = 30.0) -> str:
     ) from last_error
 
 
-def translate_fields(values: dict[str, str], target_lang: str, *, timeout: float = 60.0) -> dict[str, str]:
+def translate_fields(values: dict[str, str], target_lang: str, *, timeout: float = 120.0) -> dict[str, str]:
     """Перевести dict ru-значений на `target_lang`.
 
     Args:

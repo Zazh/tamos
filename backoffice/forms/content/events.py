@@ -7,6 +7,7 @@ views._auto_slug_for_event).
 
 from django import forms
 
+from core.image_optimize import normalize_uploaded_image
 from events.models import Event
 
 from .._common import (
@@ -94,9 +95,10 @@ class EventEditForm(FileSizeMixin, forms.ModelForm):
             self.initial['published_at'] = self.instance.published_at.strftime('%Y-%m-%dT%H:%M')
 
     def clean_cover_image(self):
-        return self._check_size(
+        f = self._check_size(
             self.cleaned_data.get('cover_image'), self.IMAGE_MAX_BYTES, 'Обложка',
         )
+        return normalize_uploaded_image(f)
 
     def clean_og_image(self):
         return self._check_size(

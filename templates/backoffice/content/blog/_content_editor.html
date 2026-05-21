@@ -29,4 +29,9 @@
       {% for err in bf.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
     </div>
   {% endif %}{% endwith %}{% endwith %}{% endfor %}
+
+  <p class="bo-help bo-trix-tips">
+    <kbd>Enter</kbd> — {% trans "новый абзац" %} ·
+    <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>Enter</kbd> — {% trans "мягкий перенос строки (без отступа)" %}
+  </p>
 </div>

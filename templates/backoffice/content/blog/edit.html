@@ -1,10 +1,15 @@
 {% extends 'backoffice/base.html' %}
-{% load i18n backoffice_tags %}
+{% load i18n static backoffice_tags %}
 
 {% block head %}
-  {# Trix через CDN — закрытая админка, грузить только на этой странице. #}
+  {% comment %}
+    Trix через CDN — закрытая админка, грузить только на этой странице.
+    Порядок важен: наш setup-скрипт идёт ДО Trix CDN (синхронно), чтобы
+    успеть навесить trix-before-initialize listener до connectedCallback.
+  {% endcomment %}
   <link rel="stylesheet" href="https://unpkg.com/trix@2.1.15/dist/trix.css">
-  <script type="text/javascript" src="https://unpkg.com/trix@2.1.15/dist/trix.umd.min.js" defer></script>
+  <script src="{% static 'js/backoffice-trix-setup.js' %}"></script>
+  <script src="https://unpkg.com/trix@2.1.15/dist/trix.umd.min.js" defer></script>
   <style>
     /* Отключаем upload через drag-drop — менеджер вставляет картинки через галерею. */
     trix-toolbar [data-trix-button-group="file-tools"] { display: none; }

@@ -1,20 +1,24 @@
 """Flat pages: статичные региональные страницы (About / Uniform / Privacy).
 
-Без даты публикации (только is_published), без галерей, без таксономии. Slug —
+Без даты публикации (только is_published), без таксономии. Slug —
 семантический, на edit неизменяем; линкуется в NavItem.flat_page через FK.
+Главная inline-галерея (slug='main') рендерится после контента — по
+образцу blog/events.
 """
 
 import json
 
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.db.models import Q
-from django.shortcuts import redirect
+from django.db.models import Max, Q
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST
 
-from pages.models import FlatPage
+from core.image_optimize import normalize_uploaded_image
+from pages.models import FlatPage, FlatPageGallery, FlatPageGalleryImage
 from regions.models import Region
 
 from ...forms import (
@@ -35,10 +39,34 @@ from .._common import (
 
 
 FLATPAGES_PER_PAGE = 30
+FLATPAGE_MAIN_GALLERY_SLUG = 'main'
 
 
 def _get_flatpage_for_user(request, pk):
     return get_for_user_or_404(FlatPage.objects.select_related('region'), request, pk)
+
+
+def _get_or_create_flatpage_main_gallery(page):
+    gallery, _ = FlatPageGallery.objects.get_or_create(
+        flat_page=page,
+        slug=FLATPAGE_MAIN_GALLERY_SLUG,
+        defaults={'title': 'Главная галерея', 'order': 0},
+    )
+    return gallery
+
+
+def _serialize_flatpage_gallery_image(img):
+    return {
+        'pk': img.pk,
+        'url': img.image.url if img.image else '',
+        'alt_ru': img.alt_ru or '',
+        'alt_kk': img.alt_kk or '',
+        'alt_en': img.alt_en or '',
+        'caption_ru': img.caption_ru or '',
+        'caption_kk': img.caption_kk or '',
+        'caption_en': img.caption_en or '',
+        'order': img.order,
+    }
 
 
 def _flatpage_steps(page):
@@ -191,6 +219,14 @@ def content_flatpages_edit(request, pk):
 
     steps = _flatpage_steps(page)
 
+    gallery_items = []
+    main_gallery = FlatPageGallery.objects.filter(flat_page=page, slug=FLATPAGE_MAIN_GALLERY_SLUG).first()
+    if main_gallery:
+        gallery_items = [
+            _serialize_flatpage_gallery_image(i)
+            for i in main_gallery.images.all().order_by('order', 'pk')
+        ]
+
     return render_backoffice(
         request,
         'backoffice/content/flatpages/edit.html',
@@ -205,6 +241,11 @@ def content_flatpages_edit(request, pk):
             'out_of_form_bases': FLATPAGE_OUT_OF_FORM_BASES,
             'flatpages_translate_url': reverse('backoffice:content_flatpages_translate', kwargs={'pk': page.pk}),
             'flatpages_seo_url': reverse('backoffice:content_flatpages_seo', kwargs={'pk': page.pk}),
+            'gallery_items_json': json.dumps(gallery_items),
+            'gallery_upload_url': reverse('backoffice:content_flatpages_gallery_upload', kwargs={'pk': page.pk}),
+            'gallery_reorder_url': reverse('backoffice:content_flatpages_gallery_reorder', kwargs={'pk': page.pk}),
+            'gallery_update_url_tpl': reverse('backoffice:content_flatpages_gallery_update', kwargs={'pk': page.pk, 'gpk': 0}),
+            'gallery_delete_url_tpl': reverse('backoffice:content_flatpages_gallery_delete', kwargs={'pk': page.pk, 'gpk': 0}),
         },
     )
 
@@ -240,3 +281,72 @@ def content_flatpages_seo(request, pk):
 def content_flatpages_translate(request, pk):
     _get_flatpage_for_user(request, pk)
     return run_translate(request)
+
+
+@require_POST
+@backoffice_required
+def content_flatpages_gallery_upload(request, pk):
+    page = _get_flatpage_for_user(request, pk)
+    files = request.FILES.getlist('images')
+    if not files:
+        return JsonResponse({'error': 'No files'}, status=400)
+
+    gallery = _get_or_create_flatpage_main_gallery(page)
+    max_order = gallery.images.aggregate(Max('order'))['order__max'] or 0
+    for f in files:
+        max_order += 10
+        FlatPageGalleryImage.objects.create(
+            gallery=gallery, image=normalize_uploaded_image(f), order=max_order,
+        )
+
+    items = [_serialize_flatpage_gallery_image(i) for i in gallery.images.all().order_by('order', 'pk')]
+    return JsonResponse({'items': items})
+
+
+@require_POST
+@backoffice_required
+def content_flatpages_gallery_reorder(request, pk):
+    page = _get_flatpage_for_user(request, pk)
+    try:
+        payload = json.loads(request.body or '{}')
+        order = list(payload.get('order') or [])
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    gallery = _get_or_create_flatpage_main_gallery(page)
+    own_ids = set(gallery.images.values_list('pk', flat=True))
+    safe_order = [int(p) for p in order if int(p) in own_ids]
+    for i, p in enumerate(safe_order):
+        FlatPageGalleryImage.objects.filter(pk=p).update(order=i * 10)
+    return JsonResponse({'ok': True})
+
+
+@require_POST
+@backoffice_required
+def content_flatpages_gallery_update(request, pk, gpk):
+    page = _get_flatpage_for_user(request, pk)
+    img = get_object_or_404(FlatPageGalleryImage, pk=gpk, gallery__flat_page=page)
+    try:
+        payload = json.loads(request.body or '{}')
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    for field in ('alt_ru', 'alt_kk', 'alt_en', 'caption_ru', 'caption_kk', 'caption_en'):
+        if field in payload:
+            setattr(img, field, str(payload[field])[:300])
+    img.alt = img.alt_ru or img.alt or ''
+    img.caption = img.caption_ru or img.caption or ''
+    img.save(update_fields=[
+        'alt', 'alt_ru', 'alt_kk', 'alt_en',
+        'caption', 'caption_ru', 'caption_kk', 'caption_en',
+    ])
+    return JsonResponse({'ok': True, 'item': _serialize_flatpage_gallery_image(img)})
+
+
+@require_POST
+@backoffice_required
+def content_flatpages_gallery_delete(request, pk, gpk):
+    page = _get_flatpage_for_user(request, pk)
+    img = get_object_or_404(FlatPageGalleryImage, pk=gpk, gallery__flat_page=page)
+    img.delete()
+    return JsonResponse({'ok': True})

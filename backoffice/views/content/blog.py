@@ -24,6 +24,7 @@ from core.gemini_translate import (
     TranslationError,
     suggest_tags,
 )
+from core.image_optimize import normalize_uploaded_image
 from regions.models import Region
 
 from ...forms import (
@@ -363,7 +364,9 @@ def content_blog_gallery_upload(request, pk):
     max_order = gallery.images.aggregate(Max('order'))['order__max'] or 0
     for f in files:
         max_order += 10
-        BlogGalleryImage.objects.create(gallery=gallery, image=f, order=max_order)
+        BlogGalleryImage.objects.create(
+            gallery=gallery, image=normalize_uploaded_image(f), order=max_order,
+        )
 
     items = [_serialize_blog_gallery_image(i) for i in gallery.images.all().order_by('order', 'pk')]
     return JsonResponse({'items': items})

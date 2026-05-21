@@ -92,6 +92,10 @@ urlpatterns = [
     path('content/flatpages/<int:pk>/delete/', views.content_flatpages_delete, name='content_flatpages_delete'),
     path('content/flatpages/<int:pk>/translate/', views.content_flatpages_translate, name='content_flatpages_translate'),
     path('content/flatpages/<int:pk>/seo/', views.content_flatpages_seo, name='content_flatpages_seo'),
+    path('content/flatpages/<int:pk>/gallery/upload/', views.content_flatpages_gallery_upload, name='content_flatpages_gallery_upload'),
+    path('content/flatpages/<int:pk>/gallery/reorder/', views.content_flatpages_gallery_reorder, name='content_flatpages_gallery_reorder'),
+    path('content/flatpages/<int:pk>/gallery/<int:gpk>/', views.content_flatpages_gallery_update, name='content_flatpages_gallery_update'),
+    path('content/flatpages/<int:pk>/gallery/<int:gpk>/delete/', views.content_flatpages_gallery_delete, name='content_flatpages_gallery_delete'),
 
     # Team
     path('content/team/', views.content_team_list, name='content_team_list'),

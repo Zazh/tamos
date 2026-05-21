@@ -1,0 +1,11 @@
+{% load i18n %}
+<figure class="content-video">
+  <div class="content-video__frame">
+    <iframe src="https://www.youtube.com/embed/{{ video_id }}"
+            title="{% trans 'Видео YouTube' %}"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+  </div>
+</figure>

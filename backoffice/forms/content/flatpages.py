@@ -7,6 +7,7 @@ edit slug — read-only badge в шаблоне + hidden в форме.
 
 from django import forms
 
+from core.image_optimize import normalize_uploaded_image
 from pages.models import FlatPage
 
 from .._common import (
@@ -107,9 +108,10 @@ class FlatPageEditForm(FileSizeMixin, forms.ModelForm):
         return safe
 
     def clean_cover_image(self):
-        return self._check_size(
+        f = self._check_size(
             self.cleaned_data.get('cover_image'), self.IMAGE_MAX_BYTES, 'Обложка',
         )
+        return normalize_uploaded_image(f)
 
     def clean_og_image(self):
         return self._check_size(

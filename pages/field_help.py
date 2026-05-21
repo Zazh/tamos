@@ -1206,15 +1206,6 @@ ADMISSIONPRICINGPLAN_NOTE = """
 """
 
 
-ADMISSIONPRICINGPLAN_BADGE = """
-<h4>📝 Назначение</h4>
-<p>Маленький бадж сверху карточки («Лучшая цена», «Скидка 5%»). Если пусто — место под бадж всё равно остаётся (выравнивание цен по вертикали с соседними картами).</p>
-
-<h4>📐 Ограничения</h4>
-<ul><li>До 80 символов, 1 короткая фраза</li></ul>
-"""
-
-
 ACTIVITY_NAME = """
 <h4>📝 Назначение</h4>
 <p>Название кружка — заголовок в каталоге и в шапке аккордеона на публичной странице активностей.</p>
@@ -1392,15 +1383,19 @@ BLOGPOST_COVER_CAPTION = """
 
 BLOGPOST_CONTENT = """
 <h4>📝 Назначение</h4>
-<p>Тело статьи. Сохраняется как HTML, рендерится через <code>|safe</code> в шаблон <code>.content-redactor</code>. Редактор Trix даёт нужный минимум разметки.</p>
+<p>Тело статьи. Сохраняется как HTML, рендерится в шаблон <code>.content-redactor</code>. Редактор Trix даёт нужный минимум разметки.</p>
 
-<h4>🎨 Доступные теги Trix</h4>
+<h4>🎨 Доступные кнопки Trix</h4>
 <ul>
-  <li><strong>h1/h2/h3</strong> — подзаголовки (в статье начинай с h2, h1 — это title)</li>
-  <li><strong>p, ul/ol, li</strong> — параграфы, списки</li>
-  <li><strong>blockquote</strong> — цитаты (выделятся золотой полосой)</li>
-  <li><strong>a, strong, em</strong> — ссылки и форматирование</li>
+  <li><strong>H2 / H3</strong> — подзаголовки (h1 не используем, это title статьи)</li>
+  <li><strong>Список / Нумерованный список</strong> — ul / ol</li>
+  <li><strong>Цитата</strong> — blockquote с золотой полосой слева</li>
+  <li><strong>Ссылка</strong> — синяя, кликабельная (укажи URL во всплывающем окне)</li>
+  <li><strong>YouTube</strong> — вставит <code>[[youtube id=...]]</code>; на сайте развернётся в плеер</li>
 </ul>
+
+<h4>⌨ Переносы строк</h4>
+<p><kbd>Enter</kbd> — новый абзац с отступом. <kbd>Shift</kbd>+<kbd>Enter</kbd> — мягкий перенос строки внутри абзаца (без отступа), например для адресов или стихов.</p>
 
 <h4>🖼 Картинки</h4>
 <p>Дополнительные изображения добавляются в отдельной секции «Галерея» ниже — она показывается на сайте под статьёй. Никаких шорткодов в самом тексте.</p>
@@ -1589,15 +1584,19 @@ EVENT_COVER_CAPTION = """
 
 EVENT_CONTENT = """
 <h4>📝 Назначение</h4>
-<p>Тело события: анонс (что/где/когда) или отчёт (как прошло, фото). Сохраняется как HTML, рендерится через <code>|safe</code>. Редактор Trix даёт нужный минимум разметки.</p>
+<p>Тело события: анонс (что/где/когда) или отчёт (как прошло, фото). Сохраняется как HTML, рендерится в шаблон <code>.content-redactor</code>. Редактор Trix даёт нужный минимум разметки.</p>
 
-<h4>🎨 Доступные теги Trix</h4>
+<h4>🎨 Доступные кнопки Trix</h4>
 <ul>
-  <li><strong>h2/h3</strong> — подзаголовки</li>
-  <li><strong>p, ul/ol, li</strong> — параграфы, списки</li>
-  <li><strong>blockquote</strong> — цитаты (выделятся золотой полосой)</li>
-  <li><strong>a, strong, em</strong> — ссылки и форматирование</li>
+  <li><strong>H2 / H3</strong> — подзаголовки</li>
+  <li><strong>Список / Нумерованный список</strong> — ul / ol</li>
+  <li><strong>Цитата</strong> — blockquote с золотой полосой слева</li>
+  <li><strong>Ссылка</strong> — синяя, кликабельная</li>
+  <li><strong>YouTube</strong> — вставит <code>[[youtube id=...]]</code>; на сайте развернётся в плеер</li>
 </ul>
+
+<h4>⌨ Переносы строк</h4>
+<p><kbd>Enter</kbd> — новый абзац с отступом. <kbd>Shift</kbd>+<kbd>Enter</kbd> — мягкий перенос строки внутри абзаца.</p>
 
 <h4>🖼 Картинки</h4>
 <p>Дополнительные изображения добавляются в секции «Галерея» ниже — она показывается под текстом. Никаких шорткодов в самом тексте.</p>
@@ -2018,7 +2017,6 @@ FIELD_HELP = {
     'admissionpricingplan.label': _h(ADMISSIONPRICINGPLAN_LABEL),
     'admissionpricingplan.price_value': _h(ADMISSIONPRICINGPLAN_PRICE_VALUE),
     'admissionpricingplan.note': _h(ADMISSIONPRICINGPLAN_NOTE),
-    'admissionpricingplan.badge_text': _h(ADMISSIONPRICINGPLAN_BADGE),
 
     # BlogPost
     'blogpost.title': _h(BLOGPOST_TITLE),

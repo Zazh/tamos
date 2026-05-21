@@ -18,6 +18,7 @@ from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST
 
+from core.image_optimize import normalize_uploaded_image
 from gallery.models import Album, GalleryCategory, GalleryImage
 from regions.models import Region
 
@@ -271,12 +272,13 @@ def content_gallery_photo_upload(request, pk):
 
     created = []
     for f in files:
-        is_wide = _detect_is_wide(f)
+        normalized = normalize_uploaded_image(f)
+        is_wide = _detect_is_wide(normalized)
         img = GalleryImage.objects.create(
             album=album,
             region=album.region,  # legacy mirror
             category=album.category,  # legacy mirror
-            image=f,
+            image=normalized,
             is_wide=is_wide,
             is_published=True,
         )

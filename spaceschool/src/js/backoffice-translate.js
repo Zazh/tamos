@@ -25,6 +25,20 @@ function getCookie(name) {
   return match ? decodeURIComponent(match[2]) : "";
 }
 
+/* HTML-поля (blog/events/flatpages content_*) рендерятся как hidden input +
+ * <trix-editor input="<id>">. У Trix свой внутренний state — `input.value=...`
+ * его не обновляет, и на submit Trix перезаписывает hidden input обратно
+ * своим (старым) контентом, теряя наш перевод. Загружаем HTML через editor API. */
+function syncTrixIfBound(input) {
+  if (!input || !input.id) return;
+  const editorEl = document.querySelector(
+    `trix-editor[input="${CSS.escape(input.id)}"]`
+  );
+  if (editorEl && editorEl.editor) {
+    editorEl.editor.loadHTML(input.value || "");
+  }
+}
+
 /* Опции на компонент:
  * - data-url, data-form-id — обязательные.
  * - data-bases-json — список base полей (статичный режим, scope = главная форма + опц. prefix).
@@ -200,6 +214,7 @@ function boAutoTranslate() {
             if (!input) continue;
             if (!this.force && (input.value || "").trim()) continue;
             input.value = text;
+            syncTrixIfBound(input);
             input.dispatchEvent(new Event("input", { bubbles: true }));
             input.dispatchEvent(new Event("change", { bubbles: true }));
             filled += 1;

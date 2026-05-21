@@ -1,11 +1,11 @@
 {% load i18n backoffice_tags %}
 {% comment %}
-  Одна карточка прайс-плана (collapsible). Summary = badge + label + цена.
-  Body = highlight + badge_text + icon_svg + label + price_value + currency + note.
+  Одна карточка прайс-плана (collapsible). Summary = label + цена.
+  Body = highlight + icon_svg + label + price_value + currency + note.
   Params: f, translate_url, form_id
 {% endcomment %}
 <li class="bo-collapse-card{% if not f.instance.pk %} bo-collapse-card-new{% endif %}"
-    x-data="boInlineCollapseCard({ initialOpen: {% if not f.instance.pk %}true{% else %}false{% endif %}, placeholderLabel: '{% trans "Новый план" %}', summaryPrimary: 'label', summarySecondary: 'badge_text' })">
+    x-data="boInlineCollapseCard({ initialOpen: {% if not f.instance.pk %}true{% else %}false{% endif %}, placeholderLabel: '{% trans "Новый план" %}', summaryPrimary: 'label' })">
   {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
   {{ f.order.as_hidden }}
 
@@ -27,7 +27,7 @@
     </button>
 
     <div class="bo-collapse-card-actions" @click.stop>
-      {% include 'backoffice/content/_block_translate.html' with bases='["badge_text","label","note"]' translate_url=translate_url form_id=form_id prefix=f.prefix|add:'-' %}
+      {% include 'backoffice/content/_block_translate.html' with bases='["label","note"]' translate_url=translate_url form_id=form_id prefix=f.prefix|add:'-' %}
       {% if f.instance.pk %}
         <label class="bo-collapse-card-delete" :class="markedForDelete && 'bo-collapse-card-delete-on'">
           {{ f.DELETE }}
@@ -42,11 +42,7 @@
   </header>
 
   <div class="bo-collapse-card-body" x-show="open" x-collapse>
-    <div class="bo-row-2">
-      {% include 'backoffice/content/_field.html' with field=f.highlight label='Стиль карточки' %}
-      {% include 'backoffice/content/_field_translatable.html' with form=f base='badge_text' label='Бадж (опц)' %}
-    </div>
-    {% field_help 'admissionpricingplan.badge_text' %}
+    {% include 'backoffice/content/_field.html' with field=f.highlight label='Стиль карточки' %}
 
     {% include 'backoffice/content/_field_translatable.html' with form=f base='label' label='Подпись плана' %}
     {% field_help 'admissionpricingplan.label' %}

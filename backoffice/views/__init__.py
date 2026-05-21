@@ -107,6 +107,10 @@ from .content.flatpages import (  # noqa: F401
     content_flatpages_delete,
     content_flatpages_translate,
     content_flatpages_seo,
+    content_flatpages_gallery_upload,
+    content_flatpages_gallery_reorder,
+    content_flatpages_gallery_update,
+    content_flatpages_gallery_delete,
 )
 from .content.gallery import (  # noqa: F401
     content_gallery_list,

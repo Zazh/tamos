@@ -414,13 +414,6 @@ class AdmissionPricingPlan(models.Model):
         choices=Highlight.choices,
         default=Highlight.REGULAR,
     )
-    badge_text = models.CharField(
-        'Текст баджа',
-        max_length=80,
-        blank=True,
-        help_text='Напр. «Лучшая цена». Если пусто — место под бадж остаётся '
-                  '(чтобы цены выравнивались по вертикали с соседями).',
-    )
     icon_svg = models.TextField(
         'SVG-иконка',
         blank=True,

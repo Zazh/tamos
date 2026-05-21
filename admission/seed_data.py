@@ -249,7 +249,6 @@ TESTING_FEATURES = [
 PRICING_PLANS = [
     {
         'highlight': 'best',
-        'badge_text': 'Лучшая цена',
         'icon_svg': ICON_PRICE_STAR,
         'label': '100% до 1 июня',
         'price_value': '4 086 000',
@@ -257,7 +256,6 @@ PRICING_PLANS = [
     },
     {
         'highlight': 'regular',
-        'badge_text': '',
         'icon_svg': ICON_PRICE_QUADRANTS,
         'label': 'Ежеквартально',
         'price_value': '4 185 000',
@@ -265,7 +263,6 @@ PRICING_PLANS = [
     },
     {
         'highlight': 'regular',
-        'badge_text': '',
         'icon_svg': ICON_PRICE_BOX,
         'label': 'Годовая оплата',
         'price_value': '4 284 000',

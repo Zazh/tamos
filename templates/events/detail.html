@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n region_tags %}
+{% load i18n region_tags content_extras %}
 
 {% block title %}{{ event.title }} — Space School{% endblock %}
 {% block meta_description %}{{ event.lead|default:event.title|truncatechars:200 }}{% endblock %}
@@ -130,7 +130,7 @@
             <p>{{ event.lead }}</p>
           {% endif %}
 
-          {{ event.content|safe }}
+          {{ event.content|render_youtube }}
         </div>
       </div>
     </div>
