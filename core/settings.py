@@ -79,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'regions.middleware.RegionMiddleware',
+    'regions.middleware.LanguageCookieMiddleware',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'

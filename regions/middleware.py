@@ -1,4 +1,37 @@
+from django.conf import settings
 from django.http import Http404
+
+
+class LanguageCookieMiddleware:
+    """
+    Синхронизирует cookie `django_language` с активным языком (URL-префикс).
+
+    Зачем: language switcher в `partials/header.html` — обычные `<a href="/ru/...">`,
+    не POST в `/i18n/setlang/`, поэтому Django сам cookie не ставит. Без синка
+    `root_redirect` (см. `core/views.py`) при следующем визите на `/` не знает
+    о выборе юзера и всегда отправляет на `kk` (default по compliance).
+
+    LocaleMiddleware ставит `request.LANGUAGE_CODE` из URL — берём его как
+    источник истины и пишем cookie на 1 год (как `region`-cookie у соседа).
+    """
+
+    COOKIE_MAX_AGE = 60 * 60 * 24 * 365
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self._allowed = {code for code, _ in settings.LANGUAGES}
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        lang = getattr(request, 'LANGUAGE_CODE', None)
+        if lang in self._allowed and request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME) != lang:
+            response.set_cookie(
+                settings.LANGUAGE_COOKIE_NAME,
+                lang,
+                max_age=settings.LANGUAGE_COOKIE_AGE or self.COOKIE_MAX_AGE,
+                samesite='Lax',
+            )
+        return response
 
 
 class RegionMiddleware:
