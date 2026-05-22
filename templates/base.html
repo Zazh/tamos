@@ -12,6 +12,24 @@
   <title>{% block title %}Space School{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}{{ default_description }}{% endblock %}">
 
+  {# Canonical + hreflang. switch_language_url возвращает '/' если view не реверсится — в таком случае пропускаем тег. x-default → kk (госязык = canonical landing для незнающих язык). #}
+  {% if request.resolver_match %}
+    {% switch_language_url LANGUAGE_CODE as canonical_path %}
+    {% if canonical_path != '/' %}
+      <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ canonical_path }}">
+    {% endif %}
+    {% for code, lang_name in LANGUAGES %}
+      {% switch_language_url code as alt_path %}
+      {% if alt_path != '/' %}
+        <link rel="alternate" hreflang="{% if code == 'kk' %}kk-KZ{% elif code == 'ru' %}ru-KZ{% else %}en{% endif %}" href="{{ request.scheme }}://{{ request.get_host }}{{ alt_path }}">
+      {% endif %}
+    {% endfor %}
+    {% switch_language_url 'kk' as xdefault_path %}
+    {% if xdefault_path != '/' %}
+      <link rel="alternate" hreflang="x-default" href="{{ request.scheme }}://{{ request.get_host }}{{ xdefault_path }}">
+    {% endif %}
+  {% endif %}
+
   <link rel="icon" href="{% static 'favicon/favicon.ico' %}" sizes="any">
   <link rel="icon" href="{% static 'favicon/favicon.svg' %}" type="image/svg+xml">
   <link rel="icon" href="{% static 'favicon/favicon-96x96.png' %}" type="image/png" sizes="96x96">

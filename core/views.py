@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseServerError
 from django.shortcuts import render
 from django.urls import reverse
@@ -11,8 +12,10 @@ SEO_PAGES = ['pages:home', 'pages:contacts', 'gallery:list']
 
 def root_redirect(request):
     """
-    `/` → `/<region>/`. Берём cookie 'region' если стоит,
-    иначе Region.is_default=True, иначе первый существующий регион.
+    `/` → `/<lang>/<region>/`. Регион: cookie 'region' → default → первый активный.
+    Язык: cookie django_language (если юзер уже выбирал) → 'kk' (compliance:
+    казахский = госязык, default landing для первого визита).
+    Accept-Language НЕ учитываем намеренно.
     """
     cookie = request.COOKIES.get('region')
     region = Region.objects.filter(slug=cookie, is_active=True).first() if cookie else None
@@ -20,7 +23,14 @@ def root_redirect(request):
         region = Region.get_default() or Region.objects.filter(is_active=True).first()
     if region is None:
         return HttpResponseServerError('No active regions configured.')
-    return HttpResponseRedirect(reverse('pages:home', kwargs={'region_slug': region.slug}))
+
+    allowed = {code for code, _ in settings.LANGUAGES}
+    lang_cookie = request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME)
+    lang = lang_cookie if lang_cookie in allowed else 'kk'
+
+    with override(lang):
+        url = reverse('pages:home', kwargs={'region_slug': region.slug})
+    return HttpResponseRedirect(url)
 
 
 def robots_txt(request):
