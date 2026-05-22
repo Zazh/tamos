@@ -184,25 +184,18 @@ class AdmissionVariantEditForm(FileSizeMixin, forms.ModelForm):
     OUT_OF_FORM_BASES = frozenset({
         'seo_title', 'seo_description', 'og_title', 'og_description',
     })
-    OUT_OF_FORM_FILE_FIELDS = frozenset({'og_image'})
+    OUT_OF_FORM_FILE_FIELDS = frozenset()
     FORM_ID = 'admission-variant-edit-form'
-
-    IMAGE_MAX_BYTES = 5 * 1024 * 1024
 
     class Meta:
         model = AdmissionVariant
-        fields = ('og_image',) + _localized(*ADMISSION_VARIANT_TRANSLATABLE)
+        fields = _localized(*ADMISSION_VARIANT_TRANSLATABLE)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         _apply_backoffice_widget_classes(self)
         apply_out_of_form_attrs(
             self, self.FORM_ID, self.OUT_OF_FORM_BASES, self.OUT_OF_FORM_FILE_FIELDS,
-        )
-
-    def clean_og_image(self):
-        return self._check_size(
-            self.cleaned_data.get('og_image'), self.IMAGE_MAX_BYTES, 'OG-картинка',
         )
 
 

@@ -315,13 +315,6 @@ class AdmissionVariant(models.Model):
         blank=True,
         help_text='Если пусто — fallback на seo_description → hero_lead.',
     )
-    og_image = models.ImageField(
-        'OG/share картинка',
-        upload_to='admission/og/',
-        blank=True,
-        null=True,
-        help_text='1200×630 для соцсетей. Если пусто — на странице OG-картинки не будет.',
-    )
 
     class Meta:
         verbose_name = 'Вариант страницы'
@@ -351,12 +344,6 @@ class AdmissionVariant(models.Model):
     @property
     def effective_og_description(self) -> str:
         return self.og_description or self.effective_seo_description
-
-    @property
-    def effective_og_image(self):
-        """Без fallback'а: у admission нет общей region-картинки. None → шаблон
-        не отрисует og:image-блок (block_super отдаёт дефолтный favicon-OG)."""
-        return self.og_image or None
 
 
 class AdmissionTestingFeature(models.Model):

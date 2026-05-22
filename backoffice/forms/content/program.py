@@ -91,7 +91,7 @@ class ProgramPageEditForm(FileSizeMixin, forms.ModelForm):
     OUT_OF_FORM_BASES = frozenset({
         'seo_title', 'seo_description', 'og_title', 'og_description',
     })
-    OUT_OF_FORM_FILE_FIELDS = frozenset({'og_image'})
+    OUT_OF_FORM_FILE_FIELDS = frozenset()
     FORM_ID = 'program-edit-form'
 
     IMAGE_MAX_BYTES = 5 * 1024 * 1024
@@ -104,7 +104,6 @@ class ProgramPageEditForm(FileSizeMixin, forms.ModelForm):
             'benefits_photo_kid',
             'certificate_preview_image',
             'stats_photo',
-            'og_image',
         ) + _localized(*PROGRAM_TRANSLATABLE)
 
     def __init__(self, *args, **kwargs):
@@ -137,10 +136,6 @@ class ProgramPageEditForm(FileSizeMixin, forms.ModelForm):
     def clean_stats_photo(self):
         return self._check_size(self.cleaned_data.get('stats_photo'),
                                 self.IMAGE_MAX_BYTES, 'фото школы')
-
-    def clean_og_image(self):
-        return self._check_size(self.cleaned_data.get('og_image'),
-                                self.IMAGE_MAX_BYTES, 'OG-картинка')
 
 
 # --- 6 inline-formset форм ---------------------------------------------------

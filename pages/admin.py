@@ -106,7 +106,6 @@ class FlatPageAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
                 'seo_description',
                 'og_title',
                 'og_description',
-                'og_image',
             ),
         }),
         ('Публикация', {

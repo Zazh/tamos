@@ -6,7 +6,6 @@
 {% block og_title %}{{ page.title }}{% endblock %}
 {% block og_description %}{{ page.lead|default:page.title|truncatechars:200 }}{% endblock %}
 {% block og_type %}article{% endblock %}
-{% block og_image %}{% if page.cover_image %}{{ request.scheme }}://{{ request.get_host }}{{ page.cover_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
 
 {% block layout_top %}
   {# active_page = page.slug. Конвенция: slug FlatPage совпадает со slug NavItem. #}

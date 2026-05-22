@@ -49,7 +49,7 @@ class TeamMemberEditForm(FileSizeMixin, forms.ModelForm):
         'seo_title', 'seo_description', 'og_title', 'og_description',
     })
     OUT_OF_FORM_FILE_FIELDS = frozenset({
-        'og_image', 'is_published', 'is_featured', 'is_admin',
+        'is_published', 'is_featured', 'is_admin',
         'teaches_primary', 'teaches_middle', 'teaches_senior',
         'linkedin_url',
     })
@@ -74,7 +74,6 @@ class TeamMemberEditForm(FileSizeMixin, forms.ModelForm):
             'teaches_middle',
             'teaches_senior',
             'is_admin',
-            'og_image',
             'is_published',
             'is_featured',
         ) + _localized(*TEAM_MEMBER_TRANSLATABLE)
@@ -126,7 +125,3 @@ class TeamMemberEditForm(FileSizeMixin, forms.ModelForm):
                     f'команды и в retina-дисплеях оно будет мылиться.'
                 )
         return photo
-
-    def clean_og_image(self):
-        return self._check_size(self.cleaned_data.get('og_image'),
-                                self.IMAGE_MAX_BYTES, 'OG-картинка')

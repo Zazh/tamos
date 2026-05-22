@@ -62,7 +62,7 @@ def _event_steps(event):
     ru_fields = ['title_ru', 'lead_ru', 'cover_image', 'content_ru']
     kk_fields = ['title_kk', 'lead_kk', 'content_kk']
     en_fields = ['title_en', 'lead_en', 'content_en']
-    seo_fields = ['seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_image']
+    seo_fields = ['seo_title_ru', 'seo_description_ru', 'og_title_ru']
     pub_fields = ['is_published', 'published_at']
 
     return [

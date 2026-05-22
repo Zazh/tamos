@@ -5,7 +5,6 @@
 {% block meta_description %}{{ contacts.effective_seo_description|default:default_description }}{% endblock %}
 {% block og_title %}{{ contacts.effective_og_title|default:contacts.intro_title }}{% endblock %}
 {% block og_description %}{{ contacts.effective_og_description|default:default_description }}{% endblock %}
-{% block og_image %}{% if contacts.effective_og_image %}{{ request.scheme }}://{{ request.get_host }}{{ contacts.effective_og_image.url }}{% endif %}{% endblock %}
 
 {% block layout_top %}
   {% include 'partials/header.html' with active_page='contacts' %}

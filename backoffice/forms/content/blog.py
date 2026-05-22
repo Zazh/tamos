@@ -57,7 +57,7 @@ class BlogPostEditForm(FileSizeMixin, forms.ModelForm):
         'seo_title', 'seo_description', 'og_title', 'og_description',
     })
     OUT_OF_FORM_FILE_FIELDS = frozenset({
-        'og_image', 'is_published', 'published_at', 'tags_json',
+        'is_published', 'published_at', 'tags_json',
     })
     FORM_ID = 'blog-edit-form'
 
@@ -77,7 +77,6 @@ class BlogPostEditForm(FileSizeMixin, forms.ModelForm):
             'author',
             'slug',
             'cover_image',
-            'og_image',
             'is_published',
             'published_at',
         ) + _localized(*BLOG_POST_TRANSLATABLE)
@@ -159,11 +158,6 @@ class BlogPostEditForm(FileSizeMixin, forms.ModelForm):
             self.cleaned_data.get('cover_image'), self.IMAGE_MAX_BYTES, 'Обложка',
         )
         return normalize_uploaded_image(f)
-
-    def clean_og_image(self):
-        return self._check_size(
-            self.cleaned_data.get('og_image'), self.IMAGE_MAX_BYTES, 'OG-картинка',
-        )
 
     def clean_tags_json(self):
         """Валидирует JSON, возвращает уже распарсенный список dict'ов

@@ -45,7 +45,7 @@ class HomePageEditForm(FileSizeMixin, forms.ModelForm):
     OUT_OF_FORM_BASES = frozenset({
         'seo_title', 'seo_description', 'og_title', 'og_description',
     })
-    OUT_OF_FORM_FILE_FIELDS = frozenset({'og_image'})
+    OUT_OF_FORM_FILE_FIELDS = frozenset()
     FORM_ID = 'home-edit-form'
 
     # Server-side лимиты на загрузку (доп. защита поверх DATA_UPLOAD_MAX_MEMORY_SIZE).
@@ -54,7 +54,7 @@ class HomePageEditForm(FileSizeMixin, forms.ModelForm):
 
     class Meta:
         model = HomePage
-        fields = ('hero_image', 'video_file', 'og_image') + _localized(*HOME_TRANSLATABLE)
+        fields = ('hero_image', 'video_file') + _localized(*HOME_TRANSLATABLE)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -66,10 +66,6 @@ class HomePageEditForm(FileSizeMixin, forms.ModelForm):
     def clean_hero_image(self):
         return self._check_size(self.cleaned_data.get('hero_image'),
                                 self.IMAGE_MAX_BYTES, 'hero')
-
-    def clean_og_image(self):
-        return self._check_size(self.cleaned_data.get('og_image'),
-                                self.IMAGE_MAX_BYTES, 'OG-картинка')
 
     def clean_video_file(self):
         return self._check_size(self.cleaned_data.get('video_file'),

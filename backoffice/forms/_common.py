@@ -116,14 +116,13 @@ def apply_out_of_form_attrs(form, form_id, bases, file_fields=()):
     основного `<form id="...">`.
 
     Без этого их значения не попадают в submit. Применяется к SEO/OG-блоку,
-    панели «Публикация», `og_image` и т.п. — всё, что в шаблоне рендерится
+    панели «Публикация» и т.п. — всё, что в шаблоне рендерится
     отдельным блоком вне `<form>`.
 
     Args:
       form_id: значение для атрибута `form="..."` на input.
       bases: набор базовых имён translatable полей (без `_ru/_kk/_en`).
-      file_fields: точные имена нелокализуемых полей (`og_image`,
-        `is_published`, …).
+      file_fields: точные имена нелокализуемых полей (`is_published`, …).
     """
     bases_set = set(bases)
     file_fields_set = set(file_fields)

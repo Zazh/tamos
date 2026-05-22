@@ -270,23 +270,6 @@ HOMEPAGE_SEO_DESCRIPTION = """
 """
 
 
-HOMEPAGE_OG_IMAGE = """
-<h4>📝 Назначение</h4>
-<p>Картинка, которая показывается при шеринге ссылки в социальных сетях (Telegram, WhatsApp, Facebook, LinkedIn).</p>
-
-<h4>📐 Ограничения</h4>
-<ul>
-  <li>Размер: <strong>1200×630</strong> (соотношение 1.91:1)</li>
-  <li>Формат: JPEG или PNG (не WebP — соцсети плохо поддерживают)</li>
-  <li>Вес: <strong>до 5 MB</strong> (server-side validation отклонит больше)</li>
-  <li>На картинке: логотип + название школы + краткий месседж (мобильные мессенджеры обрезают по бокам, ставь важное по центру)</li>
-</ul>
-
-<h4>🔄 Fallback</h4>
-<p>Если пусто — используется <code>hero_image</code> (но он прозрачный, поэтому в соцсетях будет некрасиво — лучше загрузить отдельный OG).</p>
-"""
-
-
 HOMEPAGE_OG_TITLE = """
 <h4>📝 Назначение</h4>
 <p>Заголовок, который видит пользователь при шеринге ссылки в соцсетях. Может отличаться от SEO-title — соцсети любят более «человеческие» формулировки.</p>
@@ -445,22 +428,6 @@ CONTACTSPAGE_SEO_DESCRIPTION = """
 
 <h4>🤖 AI-prompt</h4>
 <blockquote>Напиши meta description для страницы «Контакты» школы [НАЗВАНИЕ] в [ГОРОД]. 150–160 симв. Адрес/район + перечень способов связи (телефон, email, форма). Без воды.</blockquote>
-"""
-
-
-CONTACTSPAGE_OG_IMAGE = """
-<h4>📝 Назначение</h4>
-<p>Картинка, которая показывается при шеринге ссылки на страницу контактов в соцсетях/мессенджерах.</p>
-
-<h4>📐 Ограничения</h4>
-<ul>
-  <li>Размер: <strong>1200×630</strong> (1.91:1)</li>
-  <li>Формат: JPEG или PNG, до <strong>5 MB</strong></li>
-  <li>На картинке: фото фасада / интерьера ресепшна / схема проезда</li>
-</ul>
-
-<h4>🔄 Fallback</h4>
-<p>Если пусто — на сайте OG-картинки не будет (страница контактов редко шерится, это OK). На главной — отдельная og_image.</p>
 """
 
 
@@ -750,18 +717,6 @@ PROGRAMPAGE_OG_TITLE = """
 
 <h4>🔄 Fallback</h4>
 <p>Если пусто — <code>seo_title</code> → <code>hero_title</code>.</p>
-"""
-
-
-PROGRAMPAGE_OG_IMAGE = """
-<h4>📝 Назначение</h4>
-<p>Картинка для шеринга в соцсетях/мессенджерах.</p>
-
-<h4>📐 Ограничения</h4>
-<ul><li>1200×630 (1.91:1)</li><li>JPG/PNG, до 5 MB</li><li>Не WebP (мессенджеры плохо поддерживают)</li></ul>
-
-<h4>🔄 Fallback</h4>
-<p>Если пусто — OG-картинки не будет (на лендинге программы — лучше загрузить).</p>
 """
 
 
@@ -1101,21 +1056,6 @@ ADMISSIONVARIANT_OG_DESCRIPTION = """
 
 <h4>🔄 Fallback</h4>
 <p>Если пусто — <code>seo_description</code> → <code>hero_lead</code>.</p>
-"""
-
-
-ADMISSIONVARIANT_OG_IMAGE = """
-<h4>📝 Назначение</h4>
-<p>Картинка для шеринга страницы конкретного варианта.</p>
-
-<h4>📐 Ограничения</h4>
-<ul>
-  <li>1200×630 (1.91:1)</li>
-  <li>JPG/PNG, до <strong>5 MB</strong></li>
-</ul>
-
-<h4>🔄 Fallback</h4>
-<p>Если пусто — у страницы не будет своего OG-image (соцсети покажут favicon-дефолт). У admission нет общерегиональной картинки — желательно загрузить.</p>
 """
 
 
@@ -1479,23 +1419,6 @@ BLOGPOST_OG_TITLE = """
 """
 
 
-BLOGPOST_OG_IMAGE = """
-<h4>📝 Назначение</h4>
-<p>Картинка для превью ссылки в соцсетях.</p>
-
-<h4>📐 Ограничения</h4>
-<ul>
-  <li>Размер: <strong>1200×630</strong> (1.91:1)</li>
-  <li>JPEG/PNG (не WebP — поддержка хуже)</li>
-  <li>Вес до 5 MB</li>
-  <li>Важное по центру (мессенджеры обрезают по бокам)</li>
-</ul>
-
-<h4>🔄 Fallback</h4>
-<p>Если пусто — используется <code>cover_image</code>. Обычная обложка часто работает хорошо; отдельный OG нужен если хочешь подпись/логотип поверх.</p>
-"""
-
-
 # ===== Event (раздел «События») ============================================
 
 EVENT_TITLE = """
@@ -1671,23 +1594,6 @@ EVENT_OG_TITLE = """
 """
 
 
-EVENT_OG_IMAGE = """
-<h4>📝 Назначение</h4>
-<p>Картинка для превью ссылки в соцсетях.</p>
-
-<h4>📐 Ограничения</h4>
-<ul>
-  <li>Размер: <strong>1200×630</strong> (1.91:1)</li>
-  <li>JPEG/PNG (не WebP — поддержка хуже)</li>
-  <li>Вес до 5 MB</li>
-  <li>Важное по центру (мессенджеры обрезают по бокам)</li>
-</ul>
-
-<h4>🔄 Fallback</h4>
-<p>Если пусто — используется <code>cover_image</code>.</p>
-"""
-
-
 # ===== FlatPage (раздел «Доп. страницы») ===================================
 
 FLATPAGE_SLUG = """
@@ -1852,22 +1758,6 @@ FLATPAGE_OG_TITLE = """
 """
 
 
-FLATPAGE_OG_IMAGE = """
-<h4>📝 Назначение</h4>
-<p>Картинка для превью ссылки в соцсетях.</p>
-
-<h4>📐 Ограничения</h4>
-<ul>
-  <li>Размер: <strong>1200×630</strong> (1.91:1)</li>
-  <li>JPEG/PNG (не WebP)</li>
-  <li>Вес до 5 MB</li>
-</ul>
-
-<h4>🔄 Fallback</h4>
-<p>Если пусто — используется <code>cover_image</code>.</p>
-"""
-
-
 # ===== GalleryImage (раздел «Фотогалерея») =================================
 
 GALLERYIMAGE_ALT = """
@@ -1924,7 +1814,6 @@ FIELD_HELP = {
     # Image / Video — AI-pipeline скипает (LLM не генерирует бинарные файлы).
     'homepage.hero_image': _h(HOMEPAGE_HERO_IMAGE, ai_processable=False),
     'homepage.video_file': _h(HOMEPAGE_VIDEO, ai_processable=False),
-    'homepage.og_image': _h(HOMEPAGE_OG_IMAGE, ai_processable=False),
 
     # Текстовые поля — AI обрабатывает.
     'homepage.hero_badge_text': _h(HOMEPAGE_HERO_BADGE),
@@ -1949,7 +1838,6 @@ FIELD_HELP = {
     'contactspage.map': _h(CONTACTSPAGE_MAP, ai_processable=False),
     'contactspage.seo_title': _h(CONTACTSPAGE_SEO_TITLE),
     'contactspage.seo_description': _h(CONTACTSPAGE_SEO_DESCRIPTION),
-    'contactspage.og_image': _h(CONTACTSPAGE_OG_IMAGE, ai_processable=False),
     'contactspage.og_title': _h(CONTACTSPAGE_OG_TITLE),
     'contactspage.og_description': _h(CONTACTSPAGE_OG_DESCRIPTION),
 
@@ -1974,7 +1862,6 @@ FIELD_HELP = {
     'programpage.seo_title': _h(PROGRAMPAGE_SEO_TITLE),
     'programpage.seo_description': _h(PROGRAMPAGE_SEO_DESCRIPTION),
     'programpage.og_title': _h(PROGRAMPAGE_OG_TITLE),
-    'programpage.og_image': _h(PROGRAMPAGE_OG_IMAGE, ai_processable=False),
 
     # Program inline-models (short hints)
     'programaudienceitem.title': _h(PROGRAMAUDIENCEITEM_TITLE),
@@ -2007,7 +1894,6 @@ FIELD_HELP = {
     'admissionvariant.seo_description': _h(ADMISSIONVARIANT_SEO_DESCRIPTION),
     'admissionvariant.og_title': _h(ADMISSIONVARIANT_OG_TITLE),
     'admissionvariant.og_description': _h(ADMISSIONVARIANT_OG_DESCRIPTION),
-    'admissionvariant.og_image': _h(ADMISSIONVARIANT_OG_IMAGE, ai_processable=False),
 
     # Admission inline-models
     'admissionincludeditem.text': _h(ADMISSIONINCLUDEDITEM_TEXT),
@@ -2031,7 +1917,6 @@ FIELD_HELP = {
     'blogpost.seo_title': _h(BLOGPOST_SEO_TITLE),
     'blogpost.seo_description': _h(BLOGPOST_SEO_DESCRIPTION),
     'blogpost.og_title': _h(BLOGPOST_OG_TITLE),
-    'blogpost.og_image': _h(BLOGPOST_OG_IMAGE, ai_processable=False),
 
     # Event
     'event.title': _h(EVENT_TITLE),
@@ -2044,7 +1929,6 @@ FIELD_HELP = {
     'event.seo_title': _h(EVENT_SEO_TITLE),
     'event.seo_description': _h(EVENT_SEO_DESCRIPTION),
     'event.og_title': _h(EVENT_OG_TITLE),
-    'event.og_image': _h(EVENT_OG_IMAGE, ai_processable=False),
 
     # FlatPage
     'flatpage.slug': _h(FLATPAGE_SLUG, ai_processable=False),
@@ -2057,7 +1941,6 @@ FIELD_HELP = {
     'flatpage.seo_title': _h(FLATPAGE_SEO_TITLE),
     'flatpage.seo_description': _h(FLATPAGE_SEO_DESCRIPTION),
     'flatpage.og_title': _h(FLATPAGE_OG_TITLE),
-    'flatpage.og_image': _h(FLATPAGE_OG_IMAGE, ai_processable=False),
 
     # GalleryImage
     'galleryimage.alt': _h(GALLERYIMAGE_ALT),

@@ -125,7 +125,7 @@ function boFormSteps() {
         }
       }
       this.form = document.getElementById(this.formId);
-      // Слушаем document, не form: некоторые tracked поля (SEO/og_image) лежат
+      // Слушаем document, не form: некоторые tracked поля (SEO) лежат
       // ВНЕ form-tag и связаны с формой через HTML5 form="..." атрибут — события
       // от них до <form> не bubble'ятся. Фильтр по name in fieldFilled оставляет
       // только нужные.

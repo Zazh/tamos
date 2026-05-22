@@ -134,14 +134,6 @@ class HomePage(models.Model):
         blank=True,
         help_text='150–160 символов. Если пусто — fallback на hero_subtitle.',
     )
-    og_image = models.ImageField(
-        'OG/share картинка',
-        upload_to='home/og/',
-        blank=True,
-        null=True,
-        help_text='1200×630 для соцсетей. Если пусто — fallback на hero_image '
-                  '(но он прозрачный — в соцсетях будет некрасиво).',
-    )
     og_title = models.CharField(
         'OG title',
         max_length=80,
@@ -237,10 +229,6 @@ class HomePage(models.Model):
     @property
     def effective_og_description(self) -> str:
         return self.og_description or self.effective_seo_description
-
-    @property
-    def effective_og_image(self):
-        return self.og_image or self.hero_image
 
     @property
     def effective_cta_primary_modal_title(self) -> str:
@@ -443,14 +431,6 @@ class ContactsPage(models.Model):
         blank=True,
         help_text='150–160 символов. Если пусто — fallback на intro_text.',
     )
-    og_image = models.ImageField(
-        'OG/share картинка',
-        upload_to='contacts/og/',
-        blank=True,
-        null=True,
-        help_text='1200×630 для соцсетей. Если пусто — на сайте OG-картинки '
-                  'не будет (контакты — обычно не share-target).',
-    )
     og_title = models.CharField(
         'OG title',
         max_length=80,
@@ -501,10 +481,6 @@ class ContactsPage(models.Model):
     @property
     def effective_og_description(self) -> str:
         return self.og_description or self.effective_seo_description
-
-    @property
-    def effective_og_image(self):
-        return self.og_image or None
 
 
 class ContactsDepartment(models.Model):
@@ -637,13 +613,6 @@ class FlatPage(models.Model):
         blank=True,
         help_text='Если пусто — fallback на seo_description → lead.',
     )
-    og_image = models.ImageField(
-        'OG/share картинка',
-        upload_to='pages/flat/og/',
-        blank=True,
-        null=True,
-        help_text='1200×630 для соцсетей. Если пусто — fallback на обложку страницы.',
-    )
 
     class Meta:
         verbose_name = 'Статичная страница'
@@ -684,10 +653,6 @@ class FlatPage(models.Model):
     @property
     def effective_og_description(self) -> str:
         return self.og_description or self.effective_seo_description
-
-    @property
-    def effective_og_image(self):
-        return self.og_image or self.cover_image or None
 
 
 class FlatPageGallery(models.Model):

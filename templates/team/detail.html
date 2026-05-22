@@ -6,10 +6,8 @@
 {% block og_title %}{{ member.effective_og_title }}{% endblock %}
 {% block og_description %}{{ member.effective_og_description|truncatechars:300 }}{% endblock %}
 {% block og_type %}profile{% endblock %}
-{% block og_image %}{% with og=member.effective_og_image %}{% if og %}{{ request.scheme }}://{{ request.get_host }}{{ og.url }}{% else %}{{ block.super }}{% endif %}{% endwith %}{% endblock %}
 {% block twitter_title %}{{ member.effective_og_title }}{% endblock %}
 {% block twitter_description %}{{ member.effective_og_description|truncatechars:200 }}{% endblock %}
-{% block twitter_image %}{% with og=member.effective_og_image %}{% if og %}{{ request.scheme }}://{{ request.get_host }}{{ og.url }}{% else %}{{ block.super }}{% endif %}{% endwith %}{% endblock %}
 
 {% block layout_top %}
   {% include 'partials/header.html' with active_page='team' %}

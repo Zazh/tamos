@@ -172,27 +172,6 @@
         {% include 'backoffice/content/_field_translatable.html' with form=form base='og_description' label='OG description (соцсети)' %}
       </div>
       {% field_help 'admissionvariant.og_title' %}
-
-      <div class="bo-field">
-        <label class="bo-label">{% trans "OG-картинка (для шеринга)" %}</label>
-        {% if variant.og_image %}
-          <div class="bo-media-preview" style="min-height:180px">
-            <img src="{{ variant.og_image.url }}" alt="og preview">
-          </div>
-        {% else %}
-          <div class="bo-media-preview" style="min-height:120px">
-            <div style="color:rgba(255,255,255,.6); font-size:.875rem">{% trans "Не загружена" %}</div>
-          </div>
-        {% endif %}
-        <div class="bo-media-controls">
-          <label class="bo-media-replace">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>{% trans "Изменить OG-картинку" %}</span>
-            <input type="file" form="admission-variant-edit-form" name="{{ form.og_image.html_name }}" accept="image/jpeg,image/png,image/webp">
-          </label>
-        </div>
-        {% field_help 'admissionvariant.og_image' %}
-      </div>
     </section>
 
     {# ===== Sticky footer + stepper ===== #}

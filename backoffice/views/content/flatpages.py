@@ -73,7 +73,7 @@ def _flatpage_steps(page):
     ru_fields = ['title_ru', 'content_ru']
     kk_fields = ['title_kk', 'content_kk']
     en_fields = ['title_en', 'content_en']
-    seo_fields = ['seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_image']
+    seo_fields = ['seo_title_ru', 'seo_description_ru', 'og_title_ru']
 
     return [
         make_step(page, id='ru', label='Основа (RU)', fields=ru_fields, required=True),

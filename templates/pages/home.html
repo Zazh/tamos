@@ -5,7 +5,6 @@
 {% block meta_description %}{{ home.effective_seo_description|default:default_description }}{% endblock %}
 {% block og_title %}{{ home.effective_og_title|default:'Space School' }}{% endblock %}
 {% block og_description %}{{ home.effective_og_description|default:default_description }}{% endblock %}
-{% block og_image %}{% if home.effective_og_image %}{{ request.scheme }}://{{ request.get_host }}{{ home.effective_og_image.url }}{% endif %}{% endblock %}
 
 {% block layout_top %}
   <!-- Hero -->

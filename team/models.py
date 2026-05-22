@@ -171,13 +171,6 @@ class TeamMember(models.Model):
         blank=True,
         help_text='Если пусто — fallback на seo_description → начало биографии.',
     )
-    og_image = models.ImageField(
-        'OG/share картинка',
-        upload_to='team/og/',
-        blank=True,
-        null=True,
-        help_text='1200×630 для соцсетей. Если пусто — fallback на фото.',
-    )
 
     class Meta:
         verbose_name = 'Член команды'
@@ -220,7 +213,3 @@ class TeamMember(models.Model):
     @property
     def effective_og_description(self) -> str:
         return self.og_description or self.effective_seo_description
-
-    @property
-    def effective_og_image(self):
-        return self.og_image or self.photo or None

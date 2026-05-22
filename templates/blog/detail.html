@@ -6,7 +6,6 @@
 {% block og_title %}{{ post.effective_og_title }}{% endblock %}
 {% block og_description %}{{ post.effective_og_description|truncatechars:300 }}{% endblock %}
 {% block og_type %}article{% endblock %}
-{% block og_image %}{% with og=post.effective_og_image %}{% if og %}{{ request.scheme }}://{{ request.get_host }}{{ og.url }}{% else %}{{ block.super }}{% endif %}{% endwith %}{% endblock %}
 
 {% block layout_top %}
   {% include 'partials/header.html' with active_page='blog' %}

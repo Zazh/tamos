@@ -55,7 +55,7 @@ def _teammember_steps(member):
     ru_fields = ['name_ru', 'role_ru', 'photo']
     kk_fields = ['name_kk', 'role_kk']
     en_fields = ['name_en', 'role_en']
-    seo_fields = ['seo_title_ru', 'seo_description_ru', 'og_title_ru', 'og_image']
+    seo_fields = ['seo_title_ru', 'seo_description_ru', 'og_title_ru']
     pub_fields = ['is_published', 'is_featured']
 
     return [

@@ -33,10 +33,8 @@ class ContactsPageEditForm(FileSizeMixin, forms.ModelForm):
     OUT_OF_FORM_BASES = frozenset({
         'seo_title', 'seo_description', 'og_title', 'og_description',
     })
-    OUT_OF_FORM_FILE_FIELDS = frozenset({'og_image'})
+    OUT_OF_FORM_FILE_FIELDS = frozenset()
     FORM_ID = 'contacts-edit-form'
-
-    IMAGE_MAX_BYTES = 5 * 1024 * 1024
 
     class Meta:
         model = ContactsPage
@@ -44,7 +42,6 @@ class ContactsPageEditForm(FileSizeMixin, forms.ModelForm):
             'latitude',
             'longitude',
             'map_zoom',
-            'og_image',
         ) + _localized(*CONTACTS_TRANSLATABLE)
 
     def __init__(self, *args, **kwargs):
@@ -53,10 +50,6 @@ class ContactsPageEditForm(FileSizeMixin, forms.ModelForm):
         apply_out_of_form_attrs(
             self, self.FORM_ID, self.OUT_OF_FORM_BASES, self.OUT_OF_FORM_FILE_FIELDS,
         )
-
-    def clean_og_image(self):
-        return self._check_size(self.cleaned_data.get('og_image'),
-                                self.IMAGE_MAX_BYTES, 'OG-картинка')
 
 
 _CONTACTS_DEPARTMENT_TRANSLATABLE = ('title', 'description', 'hours')

@@ -49,9 +49,7 @@ class EventEditForm(FileSizeMixin, forms.ModelForm):
     OUT_OF_FORM_BASES = frozenset({
         'seo_title', 'seo_description', 'og_title', 'og_description',
     })
-    OUT_OF_FORM_FILE_FIELDS = frozenset({
-        'og_image', 'is_published', 'published_at',
-    })
+    OUT_OF_FORM_FILE_FIELDS = frozenset({'is_published', 'published_at'})
     FORM_ID = 'event-edit-form'
 
     IMAGE_MAX_BYTES = 5 * 1024 * 1024
@@ -62,7 +60,6 @@ class EventEditForm(FileSizeMixin, forms.ModelForm):
             'region',
             'slug',
             'cover_image',
-            'og_image',
             'is_published',
             'published_at',
         ) + _localized(*EVENT_TRANSLATABLE)
@@ -99,8 +96,3 @@ class EventEditForm(FileSizeMixin, forms.ModelForm):
             self.cleaned_data.get('cover_image'), self.IMAGE_MAX_BYTES, 'Обложка',
         )
         return normalize_uploaded_image(f)
-
-    def clean_og_image(self):
-        return self._check_size(
-            self.cleaned_data.get('og_image'), self.IMAGE_MAX_BYTES, 'OG-картинка',
-        )

@@ -84,7 +84,7 @@ function boAutoTranslate() {
       if (!form) return null;
       // form.elements включает поля, привязанные к форме через HTML5
       // form="..." атрибут, даже если они лежат вне DOM-tree <form>.
-      // SEO-блок и og_image в edit-страницах рендерятся ВНЕ <form>
+      // SEO-блок в edit-страницах рендерится ВНЕ <form>
       // (после inline-formset), поэтому querySelector внутри form не нашёл бы их.
       return form.elements[name] || form.querySelector(`[name="${CSS.escape(name)}"]`);
     },
