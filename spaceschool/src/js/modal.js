@@ -1,12 +1,14 @@
-const DEFAULT_TITLE = "Получить консультацию";
+/* Заголовок по умолчанию НЕ хардкодим здесь: JS не знает активный язык.
+ * Пустой title → шаблон `partials/modals/feedback.html` подставляет
+ * `defaultTitle` из x-data, который отрендерен через {% trans %}. */
 
 export function registerFeedbackModal(Alpine) {
   Alpine.store("feedback", {
     open: false,
-    title: DEFAULT_TITLE,
+    title: "",
     origin: "",
     show(title, origin) {
-      this.title = title && title.trim() ? title.trim() : DEFAULT_TITLE;
+      this.title = title && title.trim() ? title.trim() : "";
       this.origin = origin || (typeof window !== "undefined" ? window.location.pathname : "");
       this.open = true;
     },

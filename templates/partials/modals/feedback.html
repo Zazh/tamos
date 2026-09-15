@@ -4,7 +4,8 @@
 
   Открытие — любой кнопкой с атрибутом [data-feedback-trigger]:
     data-feedback-title="…"  — заголовок внутри модалки
-                                (по умолчанию: "Получить консультацию")
+                                (если пусто — берётся `defaultTitle` из x-data
+                                 ниже: переводимый «Получить консультацию»)
     data-feedback-origin="…" — откуда вызвана (попадёт в скрытое поле)
 
   Поле «Город» рендерится всегда, если активных регионов больше одного
@@ -15,7 +16,7 @@
   Сабмит → POST на `feedback:create` (см. feedback/views.py::LeadCreateView).
 {% endcomment %}
 <div class="modal-overlay"
-     x-data="{ submitted: false, sending: false, error: '' }"
+     x-data="{ submitted: false, sending: false, error: '', defaultTitle: '{% trans 'Получить консультацию' %}' }"
      x-show="$store.feedback.open" x-cloak
      @click.self="!sending && ($store.feedback.hide(), submitted = false, error = '')"
      @keydown.escape.window="$store.feedback.open && !sending && ($store.feedback.hide(), submitted = false, error = '')"
@@ -66,21 +67,21 @@
 
     <!-- Form state -->
     <div x-show="!submitted">
-      <h2 class="modal-feedback__title" x-text="$store.feedback.title">Получить консультацию</h2>
-      <p class="modal-feedback__subtitle mt-2">Перезвоним в течение 2 часов и ответим на все вопросы о поступлении</p>
+      <h2 class="modal-feedback__title" x-text="$store.feedback.title || defaultTitle">{% trans 'Получить консультацию' %}</h2>
+      <p class="modal-feedback__subtitle mt-2">{% trans 'Перезвоним в течение 2 часов и ответим на все вопросы о поступлении' %}</p>
     </div>
 
-    <input type="hidden" name="title" :value="$store.feedback.title">
+    <input type="hidden" name="title" :value="$store.feedback.title || defaultTitle">
     <input type="hidden" name="origin" :value="$store.feedback.origin">
 
     <div class="modal-feedback__form" x-show="!submitted">
       <div class="modal-feedback__field">
-        <label class="modal-feedback__label" for="feedback-name">Имя</label>
+        <label class="modal-feedback__label" for="feedback-name">{% trans 'Имя' %}</label>
         <input class="modal-feedback__input"
                id="feedback-name"
                name="name"
                type="text"
-               placeholder="Ваше имя"
+               placeholder="{% trans 'Ваше имя' %}"
                required>
       </div>
 
@@ -131,7 +132,7 @@
       {% endif %}
 
       <div class="modal-feedback__field">
-        <label class="modal-feedback__label" for="feedback-phone">Телефон</label>
+        <label class="modal-feedback__label" for="feedback-phone">{% trans 'Телефон' %}</label>
         <input class="modal-feedback__input"
                id="feedback-phone"
                name="phone"

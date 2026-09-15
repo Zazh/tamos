@@ -102,17 +102,17 @@ class AdmissionPage(models.Model):
     breadcrumb_root_label = models.CharField(
         'Breadcrumb · корень',
         max_length=80,
-        default='Поступление',
+        blank=True,
     )
     department_dropdown_label = models.CharField(
         'Лейбл dropdown «Отделение»',
         max_length=80,
-        default='Отделение:',
+        blank=True,
     )
     grade_dropdown_label = models.CharField(
         'Лейбл dropdown «Классы»',
         max_length=80,
-        default='Классы:',
+        blank=True,
     )
 
     # --- Testing-rules + цена тестирования ---
@@ -123,7 +123,7 @@ class AdmissionPage(models.Model):
     testing_price_label = models.CharField(
         'Подпись цены тестирования',
         max_length=80,
-        default='Стоимость тестирования',
+        blank=True,
     )
     testing_price_value = models.CharField(
         'Цена тестирования',
@@ -140,12 +140,11 @@ class AdmissionPage(models.Model):
     pricing_included_title = models.CharField(
         'Заголовок «Стоимость включает»',
         max_length=80,
-        default='Стоимость включает',
+        blank=True,
     )
     pricing_excluded_title = models.CharField(
         'Заголовок «Не включено»',
         max_length=80,
-        default='Не включено',
         blank=True,
     )
 
@@ -157,7 +156,7 @@ class AdmissionPage(models.Model):
     documents_title = models.CharField(
         'Заголовок списка документов',
         max_length=120,
-        default='Документы для зачисления',
+        blank=True,
     )
 
     # --- Consultation ---
@@ -165,7 +164,7 @@ class AdmissionPage(models.Model):
     consultation_cta_text = models.CharField(
         'Текст CTA консультации',
         max_length=80,
-        default='Записаться на консультацию',
+        blank=True,
     )
 
     updated_at = models.DateTimeField('Обновлено', auto_now=True)

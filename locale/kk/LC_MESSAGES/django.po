@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tamos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-19 09:00+0500\n"
+"POT-Creation-Date: 2026-09-15 20:04+0500\n"
 "PO-Revision-Date: 2026-05-10 18:47+0500\n"
 "Last-Translator: \n"
 "Language-Team: Kazakh\n"
@@ -16,209 +16,355 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
+#: activities/models.py:156 templates/activities/list.html:62
+#: templates/activities/list.html:220
 msgid "Идёт набор"
 msgstr "Қабылдау жүргізілуде"
 
+#: activities/models.py:157 templates/activities/list.html:63
+#: templates/activities/list.html:221
 msgid "Есть свободные места"
 msgstr "Бос орындар бар"
 
+#: activities/models.py:158 templates/activities/list.html:64
+#: templates/activities/list.html:222
 msgid "Заполнено"
 msgstr "Толды"
 
+#: activities/models.py:275 activities/models.py:282
 #, python-format
 msgid "До %(n)d учеников"
 msgstr "%(n)d оқушыға дейін"
 
+#: activities/models.py:278
 #, python-format
 msgid "%(lo)d–%(hi)d учеников"
 msgstr "%(lo)d–%(hi)d оқушы"
 
+#: activities/models.py:284
 #, python-format
 msgid "От %(n)d учеников"
 msgstr "%(n)d оқушыдан бастап"
 
+#: activities/models.py:350 templates/activities/list.html:213
 msgid "Понедельник"
 msgstr "Дүйсенбі"
 
+#: activities/models.py:351 templates/activities/list.html:214
 msgid "Вторник"
 msgstr "Сейсенбі"
 
+#: activities/models.py:352 templates/activities/list.html:215
 msgid "Среда"
 msgstr "Сәрсенбі"
 
+#: activities/models.py:353 templates/activities/list.html:216
 msgid "Четверг"
 msgstr "Бейсенбі"
 
+#: activities/models.py:354 templates/activities/list.html:217
 msgid "Пятница"
 msgstr "Жұма"
 
+#: activities/models.py:355
 msgid "Суббота"
 msgstr "Сенбі"
 
+#: activities/models.py:356
 msgid "Воскресенье"
 msgstr "Жексенбі"
 
+#: activities/models.py:359
 msgid "Пн"
 msgstr "Дс"
 
+#: activities/models.py:360
 msgid "Вт"
 msgstr "Сс"
 
+#: activities/models.py:361
 msgid "Ср"
 msgstr "Ср"
 
+#: activities/models.py:362
 msgid "Чт"
 msgstr "Бс"
 
+#: activities/models.py:363
 msgid "Пт"
 msgstr "Жм"
 
+#: activities/models.py:364
 msgid "Сб"
 msgstr "Сб"
 
+#: activities/models.py:365
 msgid "Вс"
 msgstr "Жк"
 
+#: backoffice/forms/auth.py:13 templates/backoffice/settings/users/list.html:20
 msgid "Логин"
 msgstr "Логин"
 
+#: backoffice/forms/auth.py:24
+#: templates/backoffice/settings/users/create.html:38
 msgid "Пароль"
 msgstr "Құпия сөз"
 
+#: backoffice/forms/auth.py:30
 msgid "Неверный логин или пароль."
 msgstr "Логин немесе құпия сөз қате."
 
+#: backoffice/forms/auth.py:31
 msgid "У этой учётной записи нет доступа в backoffice."
 msgstr "Бұл аккаунттың backoffice-ке кіруге рұқсаты жоқ."
 
+#: backoffice/forms/auth.py:32
 msgid "Учётная запись отключена."
 msgstr "Аккаунт өшірілген."
 
-#, fuzzy
-#| msgid "Записаться"
-msgid "Поделиться"
-msgstr "Жазылу"
-
-msgid "Копировать ссылку"
-msgstr "Сілтемені көшіру"
-
-msgid "Скопировано"
-msgstr "Көшірілді"
-
-msgid "Похожие публикации"
-msgstr "Ұқсас жарияланымдар"
-
+#: team/views.py:47 templates/backoffice/content/team/_row.html:26
+#: templates/backoffice/content/team/edit.html:207
 msgid "Администрация"
 msgstr "Әкімшілік"
 
+#: team/views.py:48 templates/backoffice/content/team/edit.html:190
 msgid "Младшие (1–4)"
 msgstr "Кіші сыныптар (1–4)"
 
+#: team/views.py:49 templates/backoffice/content/team/edit.html:194
 msgid "Средние (5–8)"
 msgstr "Орта сыныптар (5–8)"
 
+#: team/views.py:50 templates/backoffice/content/team/edit.html:198
 msgid "Старшие (9–11)"
 msgstr "Жоғары сыныптар (9–11)"
 
+#: templates/activities/list.html:4
 msgid "Внеклассные занятия"
 msgstr "Сыныптан тыс сабақтар"
 
+#: templates/activities/list.html:12
 msgid "Space Courses"
 msgstr "Space Courses"
 
+#: templates/activities/list.html:14
 msgid "Центр дополнительного образования"
 msgstr "Қосымша білім беру орталығы"
 
+#: templates/activities/list.html:29 templates/activities/list.html:37
+#: templates/activities/list.html:209
 msgid "Любой день"
 msgstr "Кез келген күн"
 
+#: templates/activities/list.html:53 templates/activities/list.html:61
+#: templates/activities/list.html:219
 msgid "Любой статус"
 msgstr "Кез келген мәртебе"
 
+#: templates/activities/list.html:77 templates/activities/list.html:85
+#: templates/activities/list.html:223
 msgid "Все классы"
 msgstr "Барлық сыныптар"
 
+#: templates/activities/list.html:87 templates/activities/list.html:224
 #, python-format
 msgid "%(n)s класс"
 msgstr "%(n)s сынып"
 
+#: templates/activities/list.html:143
+#: templates/backoffice/content/activities/group_edit.html:108
+#: templates/programs/detail.html:536
 msgid "Тренер"
 msgstr "Жаттықтырушы"
 
+#: templates/activities/list.html:151 templates/programs/detail.html:515
 msgid "Учащихся"
 msgstr "Оқушылар"
 
+#: templates/activities/list.html:161 templates/programs/detail.html:524
 msgid "Локация"
 msgstr "Орын"
 
+#: templates/activities/list.html:172
 #, python-format
 msgid "Запись на «%(name)s»"
 msgstr "«%(name)s» бойынша жазылу"
 
+#: templates/activities/list.html:173
 msgid "Записаться"
 msgstr "Жазылу"
 
+#: templates/activities/list.html:173 templates/programs/detail.html:531
 msgid "/мес"
 msgstr "/ай"
 
+#: templates/activities/list.html:187
 msgid "В этом филиале пока нет активных кружков. Скоро добавим!"
 msgstr "Бұл филиалда әзірге белсенді үйірмелер жоқ. Көп ұзамай қосамыз!"
 
+#: templates/activities/list.html:193
 msgid "Нет кружков, подходящих под выбранные фильтры."
 msgstr "Таңдалған сүзгілерге сай үйірмелер жоқ."
 
+#: templates/activities/list.html:195 templates/backoffice/leads/list.html:135
 msgid "Сбросить фильтры"
 msgstr "Сүзгілерді тастау"
 
+#: templates/admission/detail.html:16 templates/blog/detail.html:18
+#: templates/blog/list.html:15 templates/events/detail.html:18
+#: templates/events/list.html:15 templates/gallery/list.html:29
+#: templates/pages/contacts.html:18 templates/team/detail.html:20
+#: templates/team/list.html:15
 msgid "Хлебные крошки"
 msgstr "Жолсілтеме"
 
+#: templates/admission/detail.html:19 templates/admission/detail.html:42
+#: templates/backoffice/content/home/list.html:8 templates/blog/detail.html:21
+#: templates/blog/list.html:18 templates/events/detail.html:21
+#: templates/events/list.html:18 templates/gallery/list.html:32
+#: templates/pages/contacts.html:21 templates/team/detail.html:23
+#: templates/team/list.html:18
 msgid "Главная"
 msgstr "Басты"
 
+#: templates/backoffice/base.html:28
 msgid "Открыть меню"
 msgstr "Мәзірді ашу"
 
+#: templates/backoffice/base.html:38
 msgid "Выйти"
 msgstr "Шығу"
 
+#: templates/backoffice/content/_block_translate.html:25
 msgid "Принудительно перевести блок на KK/EN (перезапишет существующие)"
 msgstr ""
 "Блокты KK/EN тілдеріне мәжбүрлі түрде аудару (бар мәтінді үстінен жазады)"
 
+#: templates/backoffice/content/_block_translate.html:30
 msgid "Перевести блок"
 msgstr "Блокты аудару"
 
+#: templates/backoffice/content/_block_translate.html:31
+#: templates/backoffice/content/activities/group_edit.html:45
+#: templates/backoffice/content/activities/region.html:132
+#: templates/backoffice/content/admission/page_edit.html:59
+#: templates/backoffice/content/admission/variant_edit.html:59
+#: templates/backoffice/content/blog/edit.html:89
+#: templates/backoffice/content/contacts/edit.html:61
+#: templates/backoffice/content/events/edit.html:89
+#: templates/backoffice/content/flatpages/edit.html:84
+#: templates/backoffice/content/footer/edit.html:61
+#: templates/backoffice/content/home/edit.html:59
+#: templates/backoffice/content/program/edit.html:61
+#: templates/backoffice/content/team/edit.html:78
 msgid "Переводим…"
 msgstr "Аударылуда…"
 
-#, fuzzy, python-format
-#| msgid "Запись на «%(name)s»"
+#: templates/backoffice/content/activities/group_edit.html:5
+#, python-format
 msgid "К кружку «%(name)s»"
-msgstr "«%(name)s» бойынша жазылу"
+msgstr "«%(name)s» үйірмесіне"
 
+#: templates/backoffice/content/activities/group_edit.html:12
 #, python-format
 msgid "%(name)s"
 msgstr "%(name)s"
 
+#: templates/backoffice/content/activities/group_edit.html:17
+#: templates/backoffice/content/activities/region.html:28
+#: templates/backoffice/content/admission/page_edit.html:31
+#: templates/backoffice/content/admission/variant_edit.html:31
+#: templates/backoffice/content/blog/edit.html:62
+#: templates/backoffice/content/contacts/edit.html:33
+#: templates/backoffice/content/events/edit.html:62
+#: templates/backoffice/content/flatpages/create.html:25
+#: templates/backoffice/content/flatpages/edit.html:57
+#: templates/backoffice/content/footer/edit.html:33
+#: templates/backoffice/content/gallery/create.html:17
+#: templates/backoffice/content/gallery/edit.html:30
+#: templates/backoffice/content/home/edit.html:31
+#: templates/backoffice/content/program/edit.html:33
+#: templates/backoffice/content/team/create.html:17
+#: templates/backoffice/content/team/edit.html:51
 msgid "Язык контента"
 msgstr "Контент тілі"
 
+#: templates/backoffice/content/activities/group_edit.html:19
+#: templates/backoffice/content/activities/region.html:30
+#: templates/backoffice/content/admission/page_edit.html:33
+#: templates/backoffice/content/admission/variant_edit.html:33
+#: templates/backoffice/content/blog/edit.html:64
+#: templates/backoffice/content/contacts/edit.html:35
+#: templates/backoffice/content/events/edit.html:64
+#: templates/backoffice/content/flatpages/create.html:27
+#: templates/backoffice/content/flatpages/edit.html:59
+#: templates/backoffice/content/footer/edit.html:35
+#: templates/backoffice/content/gallery/create.html:19
+#: templates/backoffice/content/gallery/edit.html:32
+#: templates/backoffice/content/home/edit.html:33
+#: templates/backoffice/content/program/edit.html:35
+#: templates/backoffice/content/team/create.html:19
+#: templates/backoffice/content/team/edit.html:53
+#: templates/backoffice/settings/regions/edit.html:30
+#: templates/backoffice/site/menu/edit.html:29
 msgid "Русский"
 msgstr "Орыс тілі"
 
+#: templates/backoffice/content/activities/group_edit.html:19
+#: templates/backoffice/content/activities/region.html:30
+#: templates/backoffice/content/admission/page_edit.html:33
+#: templates/backoffice/content/admission/variant_edit.html:33
+#: templates/backoffice/content/blog/edit.html:64
+#: templates/backoffice/content/contacts/edit.html:35
+#: templates/backoffice/content/events/edit.html:64
+#: templates/backoffice/content/flatpages/create.html:27
+#: templates/backoffice/content/flatpages/edit.html:59
+#: templates/backoffice/content/footer/edit.html:35
+#: templates/backoffice/content/gallery/create.html:19
+#: templates/backoffice/content/gallery/edit.html:32
+#: templates/backoffice/content/home/edit.html:33
+#: templates/backoffice/content/program/edit.html:35
+#: templates/backoffice/content/team/create.html:19
+#: templates/backoffice/content/team/edit.html:53
+#: templates/backoffice/settings/regions/edit.html:30
+#: templates/backoffice/site/menu/edit.html:29
 msgid "основной"
 msgstr "негізгі"
 
+#: templates/backoffice/content/activities/group_edit.html:39
+#: templates/backoffice/content/admission/page_edit.html:53
+#: templates/backoffice/content/admission/variant_edit.html:53
+#: templates/backoffice/content/blog/edit.html:83
+#: templates/backoffice/content/contacts/edit.html:55
+#: templates/backoffice/content/events/edit.html:83
+#: templates/backoffice/content/flatpages/edit.html:78
+#: templates/backoffice/content/footer/edit.html:55
+#: templates/backoffice/content/home/edit.html:53
+#: templates/backoffice/content/program/edit.html:55
+#: templates/backoffice/content/team/edit.html:72
 msgid "Перевести пустые KK/EN из RU через Gemini"
 msgstr "Бос KK/EN өрістерін RU тілінен Gemini арқылы аудару"
 
+#: templates/backoffice/content/activities/group_edit.html:44
+#: templates/backoffice/content/admission/page_edit.html:58
+#: templates/backoffice/content/admission/variant_edit.html:58
+#: templates/backoffice/content/blog/edit.html:88
+#: templates/backoffice/content/contacts/edit.html:60
+#: templates/backoffice/content/events/edit.html:88
+#: templates/backoffice/content/flatpages/edit.html:83
+#: templates/backoffice/content/footer/edit.html:60
+#: templates/backoffice/content/home/edit.html:58
+#: templates/backoffice/content/program/edit.html:60
+#: templates/backoffice/content/team/edit.html:77
 msgid "Авто-перевод"
 msgstr "Авто-аударма"
 
+#: templates/backoffice/content/activities/group_edit.html:64
 msgid "Параметры группы"
 msgstr "Топ параметрлері"
 
+#: templates/backoffice/content/activities/group_edit.html:68
 msgid ""
 "Если пусто — на сайте будет авто-подпись типа «1–4 класс». Заполни если "
 "нужно «Младшие», «Продвинутые» и т.п."
@@ -226,52 +372,57 @@ msgstr ""
 "Егер бос болса — сайтта «1–4 сынып» сияқты авто-жазу болады. «Кіші топ», "
 "«Озаттар» және т.б. деп жазу керек болса, толтырыңыз."
 
-#, fuzzy
-#| msgid "Все классы"
+#: templates/backoffice/content/activities/group_edit.html:71
 msgid "Классы"
-msgstr "Барлық сыныптар"
+msgstr "Сыныптар"
 
+#: templates/backoffice/content/activities/group_edit.html:81
 msgid ""
-"Выбери классы, в которых занимаются. Если ничего не выбрано — на сайте «1–11"
-" класс»."
+"Выбери классы, в которых занимаются. Если ничего не выбрано — на сайте «1–11 "
+"класс»."
 msgstr ""
 "Оқитын сыныптарды таңдаңыз. Ештеңе таңдалмаса — сайтта «1–11 сынып» деп "
 "тұрады."
 
-#, fuzzy
-#| msgid "Стоимость"
+#: templates/backoffice/content/activities/group_edit.html:86
 msgid "Стоимость, ₸/мес"
-msgstr "Бағасы"
+msgstr "Құны, ₸/ай"
 
+#: templates/backoffice/content/activities/group_edit.html:89
 msgid "Целое число. Пусто — цена не указана."
 msgstr "Бүтін сан. Бос болса — бағасы көрсетілмеген."
 
-#, fuzzy
-#| msgid "Идёт набор"
+#: templates/backoffice/content/activities/group_edit.html:92
 msgid "Статус набора"
-msgstr "Қабылдау жүргізілуде"
+msgstr "Қабылдау мәртебесі"
 
+#: templates/backoffice/content/activities/group_edit.html:96
 msgid "Лимит учеников"
 msgstr "Оқушылар лимиті"
 
+#: templates/backoffice/content/activities/group_edit.html:110
 msgid ""
-"Имя/телефон/био тренера этой группы. У разных групп одного кружка могут быть"
-" разные тренера."
+"Имя/телефон/био тренера этой группы. У разных групп одного кружка могут быть "
+"разные тренера."
 msgstr ""
 "Осы топ жаттықтырушысының аты/телефоны/өмірбаяны. Бір үйірменің әртүрлі "
 "топтарында әртүрлі жаттықтырушылар болуы мүмкін."
 
+#: templates/backoffice/content/activities/group_edit.html:115
+#: templates/backoffice/leads/detail.html:53
+#: templates/partials/modals/feedback.html:137
 msgid "Телефон"
 msgstr "Телефон"
 
+#: templates/backoffice/content/activities/group_edit.html:118
 msgid "+77051234567. На сайте сейчас не выводится — хранится для будущего."
 msgstr "+77051234567. Қазір сайтта көрсетілмейді — болашақ үшін сақталады."
 
-#, fuzzy
-#| msgid "Питание"
+#: templates/backoffice/content/activities/group_edit.html:127
 msgid "Расписание"
-msgstr "Тамақтану"
+msgstr "Кесте"
 
+#: templates/backoffice/content/activities/group_edit.html:129
 msgid ""
 "Каждый слот — день недели + время начала/окончания. Используется фильтром "
 "«День недели» на публичной странице."
@@ -279,57 +430,152 @@ msgstr ""
 "Әрбір слот — апта күні + басталу/аяқталу уақыты. Жалпыға ортақ бетте «Апта "
 "күні» сүзгісі арқылы қолданылады."
 
-#, fuzzy
-#| msgid "Записаться"
+#: templates/backoffice/content/activities/group_edit.html:151
+#: templates/backoffice/content/activities/group_edit.html:190
+#: templates/backoffice/content/activities/region.html:187
+#: templates/backoffice/content/admission/_pricing_card.html:34
+#: templates/backoffice/content/admission/_simple_list_item.html:26
+#: templates/backoffice/content/blog/edit.html:56
+#: templates/backoffice/content/blog/edit.html:227
+#: templates/backoffice/content/blog/taxonomy.html:36
+#: templates/backoffice/content/blog/taxonomy.html:76
+#: templates/backoffice/content/contacts/edit.html:158
+#: templates/backoffice/content/events/edit.html:56
+#: templates/backoffice/content/events/edit.html:205
+#: templates/backoffice/content/flatpages/edit.html:51
+#: templates/backoffice/content/flatpages/edit.html:217
+#: templates/backoffice/content/gallery/edit.html:132
+#: templates/backoffice/content/gallery/taxonomy.html:39
+#: templates/backoffice/content/home/edit.html:244
+#: templates/backoffice/content/program/_faq_card.html:31
+#: templates/backoffice/content/program/_inline_formset.html:44
+#: templates/backoffice/content/program/_variant_formset.html:34
+#: templates/backoffice/content/team/edit.html:46
+#: templates/backoffice/settings/users/edit.html:28
+#: templates/backoffice/site/menu/_item_card.html:35
 msgid "Удалить"
-msgstr "Жазылу"
+msgstr "Жою"
 
+#: templates/backoffice/content/activities/group_edit.html:154
+#: templates/backoffice/content/activities/group_edit.html:171
 msgid "Убрать слот"
 msgstr "Слотты алып тастау"
 
+#: templates/backoffice/content/activities/group_edit.html:180
 msgid "Добавить слот"
 msgstr "Слот қосу"
 
+#: templates/backoffice/content/activities/group_edit.html:188
 msgid "Удалить группу со всеми слотами расписания?"
 msgstr "Топты кестенің барлық слоттарымен бірге жою керек пе?"
 
+#: templates/backoffice/content/activities/group_edit.html:192
+#: templates/backoffice/content/admission/page_edit.html:266
+#: templates/backoffice/content/admission/variant_edit.html:194
+#: templates/backoffice/content/blog/edit.html:351
+#: templates/backoffice/content/contacts/edit.html:242
+#: templates/backoffice/content/events/edit.html:315
+#: templates/backoffice/content/flatpages/create.html:100
+#: templates/backoffice/content/flatpages/edit.html:318
+#: templates/backoffice/content/footer/edit.html:120
+#: templates/backoffice/content/gallery/create.html:72
+#: templates/backoffice/content/home/edit.html:321
+#: templates/backoffice/content/program/edit.html:281
+#: templates/backoffice/content/team/create.html:61
+#: templates/backoffice/content/team/edit.html:268
+#: templates/backoffice/settings/regions/create.html:37
+#: templates/backoffice/settings/regions/edit.html:72
+#: templates/backoffice/settings/users/create.html:74
+#: templates/backoffice/settings/users/edit.html:94
+#: templates/backoffice/site/menu/create.html:34
+#: templates/backoffice/site/menu/edit.html:96
 msgid "Отмена"
 msgstr "Болдырмау"
 
+#: templates/backoffice/content/activities/group_edit.html:193
+#: templates/backoffice/content/activities/region.html:189
+#: templates/backoffice/content/admission/page_edit.html:271
+#: templates/backoffice/content/admission/variant_edit.html:199
+#: templates/backoffice/content/blog/edit.html:356
+#: templates/backoffice/content/blog/taxonomy.html:31
+#: templates/backoffice/content/blog/taxonomy.html:71
+#: templates/backoffice/content/contacts/edit.html:247
+#: templates/backoffice/content/events/edit.html:320
+#: templates/backoffice/content/flatpages/edit.html:323
+#: templates/backoffice/content/footer/edit.html:125
+#: templates/backoffice/content/gallery/taxonomy.html:34
+#: templates/backoffice/content/home/edit.html:326
+#: templates/backoffice/content/program/edit.html:286
+#: templates/backoffice/content/team/edit.html:273
+#: templates/backoffice/leads/detail.html:105
+#: templates/backoffice/settings/regions/edit.html:73
+#: templates/backoffice/settings/users/edit.html:95
+#: templates/backoffice/site/menu/edit.html:97
 msgid "Сохранить"
 msgstr "Сақтау"
 
+#: templates/backoffice/content/activities/list.html:8
 msgid "Активности"
 msgstr "Іс-шаралар"
 
+#: templates/backoffice/content/activities/list.html:9
 msgid "Внеклассные кружки — свой набор на каждый регион. Выбери регион."
 msgstr ""
 "Сыныптан тыс үйірмелер — әр аймақ үшін өз жиынтығы бар. Аймақты таңдаңыз."
 
+#: templates/backoffice/content/activities/list.html:17
+#: templates/backoffice/content/admission/list.html:17
+#: templates/backoffice/content/blog/list.html:76
+#: templates/backoffice/content/contacts/list.html:17
+#: templates/backoffice/content/events/list.html:66
+#: templates/backoffice/content/flatpages/create.html:57
+#: templates/backoffice/content/flatpages/list.html:63
+#: templates/backoffice/content/footer/list.html:17
+#: templates/backoffice/content/gallery/create.html:50
+#: templates/backoffice/content/gallery/list.html:72
+#: templates/backoffice/content/home/list.html:17
+#: templates/backoffice/content/program/list.html:17
+#: templates/backoffice/content/team/create.html:47
+#: templates/backoffice/content/team/list.html:17
+#: templates/backoffice/leads/detail.html:55
+#: templates/backoffice/settings/regions/edit.html:50
+#: templates/backoffice/settings/regions/list.html:20
+#: templates/backoffice/settings/users/list.html:24
 msgid "Регион"
 msgstr "Аймақ"
 
+#: templates/backoffice/content/activities/list.html:18
 msgid "Кружков"
 msgstr "Үйірмелер"
 
-#, fuzzy
-#| msgid "Закрыть"
+#: templates/backoffice/content/activities/list.html:33
+#: templates/backoffice/content/activities/list.html:52
+#: templates/backoffice/content/team/_row.html:37
+#: templates/backoffice/content/team/list.html:37
+#: templates/backoffice/content/team/list.html:57
 msgid "Открыть →"
-msgstr "Жабу"
+msgstr "Ашу →"
 
+#: templates/backoffice/content/activities/list.html:48
 msgid "кружков"
 msgstr "үйірме"
 
+#: templates/backoffice/content/activities/list.html:59
+#: templates/backoffice/content/team/list.html:64
 msgid "Нет доступных регионов."
 msgstr "Қолжетімді аймақтар жоқ."
 
+#: templates/backoffice/content/activities/region.html:5
+#: templates/backoffice/content/team/region.html:7
 msgid "К списку регионов"
 msgstr "Аймақтар тізіміне"
 
+#: templates/backoffice/content/activities/region.html:12
 #, python-format
 msgid "Активности — %(region)s"
 msgstr "Іс-шаралар — %(region)s"
 
+#: templates/backoffice/content/activities/region.html:13
 #, python-format
 msgid ""
 "%(a)s кружков. Клик по карточке — разворачивает форму, сохранение на каждом "
@@ -338,59 +584,101 @@ msgstr ""
 "%(a)s үйірме. Карточканы басқанда пішін ашылады, әр аккордеон жеке "
 "батырмамен сақталады."
 
+#: templates/backoffice/content/activities/region.html:22
+#: templates/backoffice/content/admission/page_edit.html:26
+#: templates/backoffice/content/admission/variant_edit.html:26
+#: templates/backoffice/content/blog/edit.html:48
+#: templates/backoffice/content/contacts/edit.html:28
+#: templates/backoffice/content/events/edit.html:48
+#: templates/backoffice/content/flatpages/edit.html:43
+#: templates/backoffice/content/footer/edit.html:28
+#: templates/backoffice/content/home/edit.html:26
+#: templates/backoffice/content/program/edit.html:28
+#: templates/backoffice/content/team/edit.html:39
 msgid "Просмотреть на сайте"
 msgstr "Сайттан қарау"
 
+#: templates/backoffice/content/activities/region.html:52
 msgid "Добавить кружок"
 msgstr "Үйірме қосу"
 
+#: templates/backoffice/content/activities/region.html:70
+#: templates/backoffice/content/admission/_pricing_card.html:13
+#: templates/backoffice/content/admission/_simple_list_item.html:11
+#: templates/backoffice/content/blog/edit.html:221
+#: templates/backoffice/content/events/edit.html:199
+#: templates/backoffice/content/flatpages/edit.html:211
+#: templates/backoffice/content/home/edit.html:241
+#: templates/backoffice/content/program/_faq_card.html:13
+#: templates/backoffice/content/program/_inline_formset.html:29
+#: templates/backoffice/content/program/_stat_formset.html:19
+#: templates/backoffice/content/program/_variant_formset.html:23
+#: templates/backoffice/content/team/_row.html:3
+#: templates/backoffice/site/menu/_item_card.html:15
 msgid "Перетащить"
 msgstr "Сүйреп апару"
 
+#: templates/backoffice/content/activities/region.html:78
 msgid "групп"
 msgstr "топ"
 
+#: templates/backoffice/content/activities/region.html:82
 msgid "Показывается на лендинге Программы"
 msgstr "Бағдарлама лендингінде көрсетіледі"
 
+#: templates/backoffice/content/activities/region.html:83
+#: templates/backoffice/content/team/_row.html:33
 msgid "Скрыт с сайта"
 msgstr "Сайттан жасырылған"
 
+#: templates/backoffice/content/activities/region.html:105
+#: templates/backoffice/site/menu/edit.html:49
 msgid "Секция"
 msgstr "Секция"
 
+#: templates/backoffice/content/activities/region.html:107
 msgid ""
 "При смене кружок переместится в выбранную секцию каталога после сохранения."
 msgstr ""
-"Ауыстырған кезде үйірме сақтаудан кейін каталогтың таңдалған бөліміне "
-"көшеді."
+"Ауыстырған кезде үйірме сақтаудан кейін каталогтың таңдалған бөліміне көшеді."
 
+#: templates/backoffice/content/activities/region.html:110
 msgid "Флаги"
 msgstr "Белгілер"
 
+#: templates/backoffice/content/activities/region.html:111
+#: templates/backoffice/content/team/edit.html:171
+#: templates/backoffice/site/menu/_item_card.html:61
 msgid "Опубликован"
 msgstr "Жарияланды"
 
+#: templates/backoffice/content/activities/region.html:112
 msgid "Избранный (на Программа)"
 msgstr "Таңдаулы (Бағдарламада)"
 
+#: templates/backoffice/content/activities/region.html:115
 msgid "Автоперевод"
 msgstr "Автоаударма"
 
+#: templates/backoffice/content/activities/region.html:126
 msgid "Перевести пустые KK/EN из RU"
 msgstr "Бос KK/EN өрістерін RU тілінен аудару"
 
+#: templates/backoffice/content/activities/region.html:131
 msgid "RU → KK/EN"
 msgstr "RU → KK/EN"
 
+#: templates/backoffice/content/activities/region.html:149
 msgid ""
 "Тренер задаётся отдельно для каждой группы — открой страницу группы ниже."
 msgstr ""
 "Жаттықтырушы әр топқа жеке тағайындалады — төмендегі топ парақшасын ашыңыз."
 
+#: templates/backoffice/content/activities/region.html:156
 msgid "Группы"
 msgstr "Топтар"
 
+#: templates/backoffice/content/activities/region.html:159
 msgid ""
 "Каждая группа — свой набор классов, цена, расписание и лимит. Расписание "
 "(дни и время) редактируется на странице группы."
@@ -398,57 +686,99 @@ msgstr ""
 "Әр топтың өз сабақтар жиынтығы, бағасы, кестесі мен лимиті бар. Кесте "
 "(күндері мен уақыты) топ парақшасында өңделеді."
 
-#, fuzzy
-#| msgid "/мес"
+#: templates/backoffice/content/activities/region.html:167
 msgid "мес"
-msgstr "/ай"
+msgstr "ай"
 
+#: templates/backoffice/content/activities/region.html:167
 msgid "слотов"
 msgstr "орын"
 
+#: templates/backoffice/content/activities/region.html:167
 msgid "без расписания"
 msgstr "кестесіз"
 
+#: templates/backoffice/content/activities/region.html:169
+#: templates/backoffice/content/admission/list.html:41
+#: templates/backoffice/content/admission/list.html:61
+#: templates/backoffice/content/admission/page_edit.html:239
+#: templates/backoffice/content/home/list.html:41
+#: templates/backoffice/content/home/list.html:61
+#: templates/backoffice/content/program/list.html:42
+#: templates/backoffice/content/program/list.html:62
+#: templates/backoffice/settings/regions/list.html:50
+#: templates/backoffice/settings/regions/list.html:71
+#: templates/backoffice/settings/users/list.html:60
+#: templates/backoffice/settings/users/list.html:88
+#: templates/backoffice/site/menu/list.html:43
+#: templates/backoffice/site/menu/list.html:60
 msgid "Редактировать →"
 msgstr "Өңдеу →"
 
+#: templates/backoffice/content/activities/region.html:179
 msgid "Добавить группу"
 msgstr "Топ қосу"
 
+#: templates/backoffice/content/activities/region.html:185
 msgid "Удалить кружок? Группы и слоты удалятся вместе с ним."
 msgstr "Үйірмені жою керек пе? Топтар мен орындар онымен бірге жойылады."
 
+#: templates/backoffice/content/activities/region.html:197
 msgid "Нет кружков в этой секции. Нажми «Добавить кружок» чтобы создать."
 msgstr ""
 "Бұл бөлімде үйірмелер жоқ. Жаңасын құру үшін «Үйірме қосу» түймесін басыңыз."
 
+#: templates/backoffice/content/admission/_pricing_card.html:8
 msgid "Новый план"
 msgstr "Жаңа жоспар"
 
+#: templates/backoffice/content/admission/_pricing_card.html:13
+#: templates/backoffice/content/admission/_simple_list_item.html:11
+#: templates/backoffice/content/program/_faq_card.html:13
+#: templates/backoffice/content/program/_inline_formset.html:29
+#: templates/backoffice/site/menu/_item_card.html:15
 msgid "Перетащить для сортировки"
 msgstr "Сұрыптау үшін сүйреңіз"
 
+#: templates/backoffice/content/admission/_pricing_card.html:34
+#: templates/backoffice/content/program/_faq_card.html:31
+#: templates/backoffice/site/menu/_item_card.html:35
 msgid "Отменить"
 msgstr "Болдырмау"
 
+#: templates/backoffice/content/admission/_pricing_card.html:37
+#: templates/backoffice/content/program/_faq_card.html:34
+#: templates/backoffice/site/menu/_item_card.html:38
 msgid "Убрать карточку"
 msgstr "Карточканы алып тастау"
 
+#: templates/backoffice/content/admission/_pricing_card.html:37
+#: templates/backoffice/content/program/_faq_card.html:34
+#: templates/backoffice/site/menu/_item_card.html:38
 msgid "Убрать карточку (до сохранения)"
 msgstr "Карточканы алып тастау (сақтағанға дейін)"
 
+#: templates/backoffice/content/admission/_pricing_card.html:67
 msgid "Редактировать SVG-иконку"
 msgstr "SVG-белгішені өңдеу"
 
+#: templates/backoffice/content/admission/_pricing_card.html:73
 msgid "SVG-иконка прайс-карты"
 msgstr "Баға картасының SVG-белгішесі"
 
+#: templates/backoffice/content/admission/_pricing_card.html:74
+#: templates/backoffice/content/program/_inline_formset.html:67
+#: templates/partials/header.html:27 templates/partials/modals/feedback.html:62
+#: templates/partials/modals/feedback.html:172
 msgid "Закрыть"
 msgstr "Жабу"
 
+#: templates/backoffice/content/admission/_pricing_card.html:79
+#: templates/backoffice/content/program/_inline_formset.html:72
 msgid "Полная разметка <svg>…</svg>"
 msgstr "Толық <svg>…</svg> белгілеуі"
 
+#: templates/backoffice/content/admission/_pricing_card.html:82
 msgid ""
 "Иконка слева сверху карточки на сайте. Превью обновится после сохранения "
 "формы."
@@ -456,39 +786,51 @@ msgstr ""
 "Сайттағы карточканың сол жақ жоғарғы бұрышындағы белгіше. Алдын ала қарау "
 "пішінді сақтағаннан кейін жаңартылады."
 
+#: templates/backoffice/content/admission/_pricing_card.html:85
+#: templates/backoffice/content/program/_inline_formset.html:78
 msgid "Готово"
 msgstr "Дайын"
 
+#: templates/backoffice/content/admission/_pricing_formset.html:2
 msgid "Прайс-карты этапа «Договор и взнос»"
 msgstr "«Келісімшарт және жарна» кезеңінің баға карталары"
 
+#: templates/backoffice/content/admission/_pricing_formset.html:28
 msgid "Добавить план оплаты"
 msgstr "Төлем жоспарын қосу"
 
+#: templates/backoffice/content/admission/_pricing_formset.html:30
 msgid ""
 "Обычно 3 плана (best/quarterly/yearly). Перетаскивай за ≡ для сортировки."
 msgstr ""
-"Әдетте 3 жоспар (best/quarterly/yearly). Сұрыптау үшін ≡ белгісінен "
-"сүйреңіз."
+"Әдетте 3 жоспар (best/quarterly/yearly). Сұрыптау үшін ≡ белгісінен сүйреңіз."
 
+#: templates/backoffice/content/admission/_simple_list.html:41
+#: templates/backoffice/content/blog/_tag_picker.html:54
 msgid "Добавить"
 msgstr "Қосу"
 
+#: templates/backoffice/content/admission/_simple_list.html:43
 msgid "Перетаскивай за ≡ слева, чтобы изменить порядок."
 msgstr "Ретін өзгерту үшін сол жақтағы ≡ белгісінен сүйреңіз."
 
+#: templates/backoffice/content/admission/_simple_list_item.html:29
 msgid "Убрать строку"
 msgstr "Жолды алып тастау"
 
+#: templates/backoffice/content/admission/_simple_list_item.html:29
 msgid "Убрать строку (до сохранения)"
 msgstr "Жолды алып тастау (сақтағанға дейін)"
 
+#: templates/backoffice/content/admission/_simple_list_item.html:39
 msgid "Это НЕ входит в стоимость (✕ вместо ✓ на сайте)"
 msgstr "Бұл бағаға кірмейді (сайтта ✓ орнына ✕)"
 
+#: templates/backoffice/content/admission/list.html:8
 msgid "Поступление"
 msgstr "Қабылдау"
 
+#: templates/backoffice/content/admission/list.html:9
 msgid ""
 "Лендинг «Поступление» для каждого региона. Общие тексты страницы + 6 "
 "вариантов (русское × {1, 2-7, 8-11} + казахское × {1, 2-6, 7-11}). Выберите "
@@ -497,27 +839,40 @@ msgstr ""
 "Әр аймаққа арналған «Оқуға түсу» лендингі. Беттің жалпы мәтіндері + 6 нұсқа "
 "(орысша × {1, 2-7, 8-11} + қазақша × {1, 2-6, 7-11}). Аймақты таңдаңыз."
 
+#: templates/backoffice/content/admission/list.html:18
 msgid "Вариантов"
 msgstr "Нұсқа"
 
+#: templates/backoffice/content/admission/list.html:19
 msgid "Списки"
 msgstr "Тізімдер"
 
+#: templates/backoffice/content/admission/list.html:20
+#: templates/backoffice/content/contacts/list.html:20
+#: templates/backoffice/content/flatpages/list.html:64
+#: templates/backoffice/content/footer/list.html:19
+#: templates/backoffice/content/home/list.html:20
+#: templates/backoffice/content/program/list.html:20
 msgid "Обновлено"
 msgstr "Жаңартылды"
 
+#: templates/backoffice/content/admission/list.html:32
 msgid "из 6"
 msgstr "6-дан"
 
+#: templates/backoffice/content/admission/list.html:35
 msgid "пунктов"
 msgstr "тармақ"
 
+#: templates/backoffice/content/admission/list.html:35
 msgid "документов"
 msgstr "құжат"
 
+#: templates/backoffice/content/admission/list.html:57
 msgid "вариантов из 6"
 msgstr "6 нұсқадан"
 
+#: templates/backoffice/content/admission/list.html:68
 msgid ""
 "Лендинги «Поступление» создаются миграцией. Если регион новый — обратись к "
 "разработчику."
@@ -525,32 +880,56 @@ msgstr ""
 "«Оқуға түсу» лендингтері миграция арқылы жасалады. Егер аймақ жаңа болса, "
 "әзірлеушіге хабарласыңыз."
 
+#: templates/backoffice/content/admission/page_edit.html:5
+#: templates/backoffice/content/blog/edit.html:21
+#: templates/backoffice/content/contacts/edit.html:7
+#: templates/backoffice/content/events/edit.html:21
+#: templates/backoffice/content/flatpages/create.html:13
+#: templates/backoffice/content/flatpages/edit.html:19
+#: templates/backoffice/content/footer/edit.html:7
+#: templates/backoffice/content/home/edit.html:5
+#: templates/backoffice/content/program/edit.html:7
+#: templates/backoffice/content/team/create.html:5
+#: templates/backoffice/content/team/edit.html:15
+#: templates/backoffice/settings/regions/create.html:5
+#: templates/backoffice/settings/regions/edit.html:5
+#: templates/backoffice/settings/users/create.html:5
+#: templates/backoffice/settings/users/edit.html:5
 msgid "К списку"
 msgstr "Тізімге оралу"
 
-#, fuzzy, python-format
-#| msgid "Поступление"
+#: templates/backoffice/content/admission/page_edit.html:12
+#, python-format
 msgid "Поступление — %(region)s"
-msgstr "Қабылдау"
+msgstr "Қабылдау — %(region)s"
 
+#: templates/backoffice/content/admission/page_edit.html:13
 #, python-format
 msgid ""
 "Общие тексты страницы и 6 вариантов (отделение × класс). Обновлено %(date)s."
 msgstr ""
 "Беттің жалпы мәтіндері және 6 нұсқа (бөлімше × сынып). Жаңартылды: %(date)s."
 
+#: templates/backoffice/content/admission/page_edit.html:20
+#: templates/backoffice/content/contacts/edit.html:22
+#: templates/backoffice/content/home/edit.html:20
+#: templates/backoffice/content/program/edit.html:22
 msgid "Открыть страницу в новой вкладке на текущем языке"
 msgstr "Бетті жаңа бетбелгіде ағымдағы тілде ашу"
 
+#: templates/backoffice/content/admission/page_edit.html:78
 msgid "Этапы (stepper)"
 msgstr "Кезеңдер (stepper)"
 
+#: templates/backoffice/content/admission/page_edit.html:81
 msgid "5 этапов в боковой колонке. Подписи (meta) опциональны."
 msgstr "Бүйірдегі бағанда 5 кезең. Қосымша жазбалар (meta) міндетті емес."
 
+#: templates/backoffice/content/admission/page_edit.html:109
 msgid "Заголовки секций (h3)"
 msgstr "Бөлім тақырыптары (h3)"
 
+#: templates/backoffice/content/admission/page_edit.html:112
 msgid ""
 "Заголовки в правой колонке. Префикс «01 — », «02 — » добавляется "
 "автоматически."
@@ -558,12 +937,15 @@ msgstr ""
 "Оң жақ бағандағы тақырыптар. «01 — », «02 — » префиксі автоматты түрде "
 "қосылады."
 
+#: templates/backoffice/content/admission/page_edit.html:125
 msgid "UI-лейблы"
 msgstr "UI белгілері"
 
+#: templates/backoffice/content/admission/page_edit.html:140
 msgid "Этап «Тестирование» — общая часть"
 msgstr "«Тестілеу» кезеңі — жалпы бөлім"
 
+#: templates/backoffice/content/admission/page_edit.html:143
 msgid ""
 "Параграф с правилами под 4 карточками и плашка с ценой. 4 карточки "
 "тестирования — на странице каждого варианта."
@@ -571,9 +953,11 @@ msgstr ""
 "4 карточканың астындағы ережелері бар параграф және бағасы бар тақтайша. "
 "Тестілеудің 4 карточкасы — әр нұсқаның бетінде."
 
+#: templates/backoffice/content/admission/page_edit.html:158
 msgid "Этап «Договор» — общая часть"
 msgstr "«Шарт» кезеңі — жалпы бөлім"
 
+#: templates/backoffice/content/admission/page_edit.html:161
 msgid ""
 "Текст про вступительный взнос + заголовки подсписков. Сам прайс — на каждой "
 "странице варианта."
@@ -581,15 +965,19 @@ msgstr ""
 "Алғашқы жарна туралы мәтін + ішкі тізімдердің тақырыптары. Бағалар тізімі — "
 "әр нұсқаның бетінде."
 
+#: templates/backoffice/content/admission/page_edit.html:180
 msgid "Этап «Зачисление»"
 msgstr "«Оқуға қабылдау» кезеңі"
 
+#: templates/backoffice/content/admission/page_edit.html:198
 msgid "Этап «Консультация»"
 msgstr "«Кеңес беру» кезеңі"
 
+#: templates/backoffice/content/admission/page_edit.html:213
 msgid "Варианты страницы (отделение × класс)"
 msgstr "Бет нұсқалары (бөлімше × сынып)"
 
+#: templates/backoffice/content/admission/page_edit.html:215
 msgid ""
 "6 уникальных страниц региона: 3 RU (1, 2-7, 8-11) + 3 KZ (1, 2-6, 7-11). У "
 "каждого варианта свои h1, lead'ы этапов, 4 testing-карточки, прайс-карты и "
@@ -599,102 +987,137 @@ msgstr ""
 "нұсқаның өз h1, кезеңдердің lead-тары, 4 testing-карточкасы, баға карталары "
 "және SEO бар."
 
+#: templates/backoffice/content/admission/page_edit.html:227
 msgid "Без H1 — placeholder"
 msgstr "H1 жоқ — толтырғыш"
 
+#: templates/backoffice/content/admission/page_edit.html:230
 msgid "карточек"
 msgstr "карточкалар"
 
+#: templates/backoffice/content/admission/page_edit.html:232
 msgid "плана"
 msgstr "жоспар"
 
+#: templates/backoffice/content/admission/page_edit.html:234
 msgid "Все три lead-параграфа заполнены"
 msgstr "Барлық үш lead-параграф толтырылған"
 
+#: templates/backoffice/content/admission/page_edit.html:236
 msgid "Не все lead-параграфы заполнены"
 msgstr "Барлық lead-параграф толтырылмаған"
 
+#: templates/backoffice/content/admission/page_edit.html:245
 msgid ""
 "Варианты создаются миграцией. Обратись к разработчику если регион новый."
 msgstr ""
 "Нұсқалар миграция арқылы жасалады. Егер аймақ жаңа болса, әзірлеушіге "
 "хабарласыңыз."
 
+#: templates/backoffice/content/admission/page_edit.html:260
+#: templates/backoffice/content/admission/variant_edit.html:188
+#: templates/backoffice/content/blog/edit.html:345
+#: templates/backoffice/content/contacts/edit.html:236
+#: templates/backoffice/content/events/edit.html:309
+#: templates/backoffice/content/flatpages/edit.html:312
+#: templates/backoffice/content/footer/edit.html:114
+#: templates/backoffice/content/home/edit.html:315
+#: templates/backoffice/content/program/edit.html:275
+#: templates/backoffice/content/team/edit.html:262
 msgid "Обязательный шаг"
 msgstr "Міндетті қадам"
 
+#: templates/backoffice/content/admission/variant_edit.html:5
 #, python-format
 msgid "К общим текстам (%(region)s)"
 msgstr "Жалпы мәтіндерге (%(region)s)"
 
+#: templates/backoffice/content/admission/variant_edit.html:13
 #, python-format
 msgid ""
 "Регион %(region)s. Вариант страницы поступления: hero, lead'ы 3 этапов "
-"(Тестирование / Результат / Договор), 4 testing-карточки + прайс-карты + "
-"SEO."
+"(Тестирование / Результат / Договор), 4 testing-карточки + прайс-карты + SEO."
 msgstr ""
 "%(region)s аймағы. Оқуға түсу бетінің нұсқасы: hero, 3 кезеңнің lead-тары "
 "(Тестілеу / Нәтиже / Шарт), 4 testing-карточка + баға карталары + SEO."
 
+#: templates/backoffice/content/admission/variant_edit.html:20
 msgid "Открыть страницу в новой вкладке"
 msgstr "Бетті жаңа бетбелгіде ашу"
 
-#, fuzzy
-#| msgid "Питание"
+#: templates/backoffice/content/admission/variant_edit.html:92
 msgid "Тестирование"
-msgstr "Тамақтану"
+msgstr "Тестілеу"
 
+#: templates/backoffice/content/admission/variant_edit.html:95
 #, python-format
 msgid ""
-"Заголовок секции редактируется в общих текстах региона «%(region)s». Правила"
-" и цена тестирования — тоже общие. Здесь — lead этого варианта и 4 карточки "
+"Заголовок секции редактируется в общих текстах региона «%(region)s». Правила "
+"и цена тестирования — тоже общие. Здесь — lead этого варианта и 4 карточки "
 "тестирования."
 msgstr ""
 "Бөлім тақырыбы «%(region)s» аймағының жалпы мәтіндерінде өңделеді. Тестілеу "
 "ережелері мен бағасы да — жалпы. Мұнда — осы нұсқаның lead-ы және "
 "тестілеудің 4 карточкасы."
 
+#: templates/backoffice/content/admission/variant_edit.html:108
 msgid "Результат"
 msgstr "Нәтиже"
 
+#: templates/backoffice/content/admission/variant_edit.html:111
 #, python-format
 msgid "Заголовок секции редактируется в общих текстах региона «%(region)s»."
 msgstr "Бөлім тақырыбы «%(region)s» аймағының жалпы мәтіндерінде өңделеді."
 
+#: templates/backoffice/content/admission/variant_edit.html:123
 msgid "Договор и взнос"
 msgstr "Шарт және жарна"
 
+#: templates/backoffice/content/admission/variant_edit.html:126
 #, python-format
 msgid ""
-"Заголовок секции, текст про взнос и Стоимость включает/Не включено — в общих"
-" текстах региона «%(region)s». Здесь — lead и сами прайс-карты этого "
-"варианта."
+"Заголовок секции, текст про взнос и Стоимость включает/Не включено — в общих "
+"текстах региона «%(region)s». Здесь — lead и сами прайс-карты этого варианта."
 msgstr ""
 "Бөлім тақырыбы, жарна туралы мәтін және Құнына кіреді/Кірмейді — "
 "«%(region)s» аймағының жалпы мәтіндерінде. Мұнда — осы нұсқаның lead-ы және "
 "баға карталары."
 
+#: templates/backoffice/content/admission/variant_edit.html:151
 msgid "Сгенерировать SEO/OG для всех 3 языков из RU контента"
 msgstr "RU контентінен барлық 3 тіл үшін SEO/OG жасау"
 
+#: templates/backoffice/content/admission/variant_edit.html:156
+#: templates/backoffice/content/blog/edit.html:313
+#: templates/backoffice/content/contacts/edit.html:205
+#: templates/backoffice/content/events/edit.html:277
+#: templates/backoffice/content/flatpages/edit.html:280
+#: templates/backoffice/content/home/edit.html:284
+#: templates/backoffice/content/program/edit.html:243
+#: templates/backoffice/content/team/edit.html:231
 msgid "Авто-генерация SEO"
 msgstr "SEO-ны авто-генерациялау"
 
+#: templates/backoffice/content/admission/variant_edit.html:157
+#: templates/backoffice/content/blog/edit.html:314
+#: templates/backoffice/content/contacts/edit.html:206
+#: templates/backoffice/content/events/edit.html:278
+#: templates/backoffice/content/flatpages/edit.html:281
+#: templates/backoffice/content/home/edit.html:285
+#: templates/backoffice/content/program/edit.html:244
+#: templates/backoffice/content/team/edit.html:232
 msgid "Генерируем…"
 msgstr "Жасалуда…"
 
-msgid "OG-картинка (для шеринга)"
-msgstr "OG-сурет (бөлісу үшін)"
-
-msgid "Не загружена"
-msgstr "Жүктелмеген"
-
-msgid "Изменить OG-картинку"
-msgstr "OG-суретті өзгерту"
-
+#: templates/backoffice/content/blog/_content_editor.html:28
+#: templates/backoffice/content/events/_content_editor.html:28
+#: templates/backoffice/content/flatpages/_content_editor.html:22
+#: templates/backoffice/content/team/_content_editor.html:34
 msgid "(пусто — берётся из RU)"
 msgstr "(бос — RU нұсқасынан алынады)"
 
+#: templates/backoffice/content/blog/_content_editor.html:28
+#: templates/backoffice/content/events/_content_editor.html:28
 msgid ""
 "Пишите HTML-контент: заголовки, абзацы, списки, цитаты, ссылки. Картинки "
 "добавляются через галерею."
@@ -702,142 +1125,222 @@ msgstr ""
 "HTML-контент жазыңыз: тақырыптар, абзацтар, тізімдер, дәйексөздер, "
 "сілтемелер. Суреттер галерея арқылы қосылады."
 
+#: templates/backoffice/content/blog/_content_editor.html:34
+#: templates/backoffice/content/events/_content_editor.html:34
+#: templates/backoffice/content/flatpages/_content_editor.html:28
+msgid "новый абзац"
+msgstr "жаңа абзац"
+
+#: templates/backoffice/content/blog/_content_editor.html:35
+#: templates/backoffice/content/events/_content_editor.html:35
+#: templates/backoffice/content/flatpages/_content_editor.html:29
+msgid "мягкий перенос строки (без отступа)"
+msgstr "жұмсақ жол тасымалы (шегініссіз)"
+
+#: templates/backoffice/content/blog/_tag_picker.html:24
 msgid "Выбранные теги"
 msgstr "Таңдалған тегтер"
 
+#: templates/backoffice/content/blog/_tag_picker.html:31
 msgid "Убрать"
 msgstr "Алып тастау"
 
+#: templates/backoffice/content/blog/_tag_picker.html:41
 msgid ""
 "Пока ничего не выбрано — кликни на тег ниже или используй «Подобрать через "
 "AI»."
 msgstr ""
-"Әзірге ештеңе таңдалмады — төмендегі тегті басыңыз немесе «AI арқылы таңдау»"
-" қызметін пайдаланыңыз."
+"Әзірге ештеңе таңдалмады — төмендегі тегті басыңыз немесе «AI арқылы таңдау» "
+"қызметін пайдаланыңыз."
 
+#: templates/backoffice/content/blog/_tag_picker.html:47
 msgid "Доступные в этом регионе"
 msgstr "Осы аймақта қолжетімді"
 
+#: templates/backoffice/content/blog/_tag_picker.html:61
 msgid "Все теги уже выбраны. Создай новый ниже."
 msgstr "Барлық тегтер таңдалған. Төменде жаңасын жасаңыз."
 
+#: templates/backoffice/content/blog/_tag_picker.html:69
 msgid "Предложено AI"
 msgstr "AI ұсынған"
 
-#, fuzzy
-#| msgid "Закрыть"
+#: templates/backoffice/content/blog/_tag_picker.html:71
+#: templates/backoffice/settings/users/edit.html:104
 msgid "Скрыть"
-msgstr "Жабу"
+msgstr "Жасыру"
 
+#: templates/backoffice/content/blog/_tag_picker.html:80
 msgid "Создать новый тег"
 msgstr "Жаңа тег жасау"
 
+#: templates/backoffice/content/blog/_tag_picker.html:80
 msgid "Тег уже существует — переиспользуем"
 msgstr "Тег бұрыннан бар — қайта қолданамыз"
 
+#: templates/backoffice/content/blog/_tag_picker.html:88
 msgid ""
 "Кликни тег чтобы принять — он переедет в «Выбранные». Новые (✦) создадутся "
 "при сохранении."
 msgstr ""
-"Қабылдау үшін тегті басыңыз — ол «Таңдалғандар» бөліміне өтеді. Жаңалары (✦)"
-" сақтау кезінде жасалады."
+"Қабылдау үшін тегті басыңыз — ол «Таңдалғандар» бөліміне өтеді. Жаңалары (✦) "
+"сақтау кезінде жасалады."
 
+#: templates/backoffice/content/blog/_tag_picker.html:97
 msgid "Свой тег (например: Cambridge)"
 msgstr "Өз тегіңіз (мысалы: Cambridge)"
 
+#: templates/backoffice/content/blog/_tag_picker.html:104
 msgid "+ Добавить"
 msgstr "+ Қосу"
 
+#: templates/backoffice/content/blog/_tag_picker.html:111
 msgid "Gemini подберёт SEO-friendly теги по контенту RU"
 msgstr "Gemini RU контенті бойынша SEO-ға ыңғайлы тегтерді таңдайды"
 
+#: templates/backoffice/content/blog/_tag_picker.html:116
 msgid "Подобрать через AI"
 msgstr "AI арқылы таңдау"
 
+#: templates/backoffice/content/blog/_tag_picker.html:117
 msgid "Думаем…"
 msgstr "Ойланудамыз…"
 
+#: templates/backoffice/content/blog/edit.html:28
+#: templates/backoffice/content/blog/list.html:19
 msgid "Новый пост"
 msgstr "Жаңа жазба"
 
+#: templates/backoffice/content/blog/edit.html:31
+#: templates/backoffice/content/events/edit.html:31
 msgid "Черновик · заполни заголовок и нажми «Сохранить»."
 msgstr "Шимайжазба · тақырыпты толтырып, «Сақтау» түймесін басыңыз."
 
+#: templates/backoffice/content/blog/edit.html:33
+#: templates/backoffice/content/events/edit.html:33
+#: templates/backoffice/content/team/edit.html:25
 #, python-format
 msgid "Обновлено %(date)s"
 msgstr "%(date)s жаңартылды"
 
+#: templates/backoffice/content/blog/edit.html:42
 msgid "Открыть пост на сайте на текущем языке"
 msgstr "Жазбаны сайтта ағымдағы тілде ашу"
 
+#: templates/backoffice/content/blog/edit.html:53
 msgid "Точно удалить этот пост? Действие необратимо."
 msgstr "Жазбаны жоюға сенімдісіз бе? Бұл әрекетті қайтару мүмкін емес."
 
+#: templates/backoffice/content/blog/edit.html:112
+#: templates/backoffice/content/events/edit.html:112
+#: templates/backoffice/content/flatpages/create.html:52
+#: templates/backoffice/content/flatpages/edit.html:124
+#: templates/backoffice/content/gallery/create.html:45
+#: templates/backoffice/content/team/create.html:43
+#: templates/backoffice/content/team/edit.html:100
 msgid "Основное"
 msgstr "Негізгі"
 
+#: templates/backoffice/content/blog/edit.html:118
+#: templates/backoffice/leads/detail.html:91
 msgid "Категория"
 msgstr "Санат"
 
+#: templates/backoffice/content/blog/edit.html:122
 msgid "Управлять категориями →"
 msgstr "Санаттарды басқару →"
 
+#: templates/backoffice/content/blog/edit.html:128
+#: templates/blog/_author_card.html:3
 msgid "Автор"
 msgstr "Автор"
 
+#: templates/backoffice/content/blog/edit.html:132
 msgid ""
 "Член команды того же региона. На сайте появится подпись с фото и ссылкой на "
 "профиль."
 msgstr ""
-"Сол аймақ командасының мүшесі. Сайтта фотосуреті мен профиліне сілтемесі бар"
-" қолтаңба пайда болады."
+"Сол аймақ командасының мүшесі. Сайтта фотосуреті мен профиліне сілтемесі бар "
+"қолтаңба пайда болады."
 
+#: templates/backoffice/content/blog/edit.html:133
 msgid "Открыть команду региона →"
 msgstr "Аймақ командасын ашу →"
 
+#: templates/backoffice/content/blog/edit.html:148
+#: templates/backoffice/content/events/edit.html:126
+#: templates/backoffice/content/flatpages/edit.html:138
 msgid "Обложка"
 msgstr "Мұқаба"
 
+#: templates/backoffice/content/blog/edit.html:164
 msgid "Содержимое статьи"
 msgstr "Мақаланың мазмұны"
 
-#, fuzzy
-#| msgid "Фотогалерея"
+#: templates/backoffice/content/blog/edit.html:176
+#: templates/backoffice/content/events/edit.html:154
+#: templates/backoffice/content/flatpages/edit.html:166
 msgid "Галерея"
-msgstr "Фотогалерея"
+msgstr "Галерея"
 
+#: templates/backoffice/content/blog/edit.html:179
 msgid ""
-"Дополнительные изображения под статьёй. Перетащи карточки для смены порядка."
-" Alt-текст и подпись редактируются на 3 языках — переключай через табы "
-"сверху."
+"Дополнительные изображения под статьёй. Перетащи карточки для смены порядка. "
+"Alt-текст и подпись редактируются на 3 языках — переключай через табы сверху."
 msgstr ""
 "Мақала астындағы қосымша суреттер. Ретін өзгерту үшін карточкаларды сүйреп "
 "апарыңыз. Alt-мәтін мен қолтаңба 3 тілде өңделеді — жоғарғы жақтағы "
 "қойындылар арқылы ауыстырыңыз."
 
+#: templates/backoffice/content/blog/edit.html:204
+#: templates/backoffice/content/events/edit.html:182
+#: templates/backoffice/content/flatpages/edit.html:194
 msgid "Перетащи картинки сюда или"
 msgstr "Суреттерді осы жерге сүйреп әкеліңіз немесе"
 
+#: templates/backoffice/content/blog/edit.html:206
+#: templates/backoffice/content/events/edit.html:184
+#: templates/backoffice/content/flatpages/edit.html:196
+#: templates/backoffice/content/gallery/edit.html:118
 msgid "выбери файлы"
 msgstr "файлдарды таңдаңыз"
 
+#: templates/backoffice/content/blog/edit.html:211
+#: templates/backoffice/content/events/edit.html:189
+#: templates/backoffice/content/flatpages/edit.html:201
+#: templates/backoffice/content/gallery/edit.html:122
 msgid "Загружаем…"
 msgstr "Жүктелуде…"
 
+#: templates/backoffice/content/blog/edit.html:221
+#: templates/backoffice/content/events/edit.html:199
+#: templates/backoffice/content/flatpages/edit.html:211
+#: templates/backoffice/content/home/edit.html:241
 msgid "Перетащить для смены порядка"
 msgstr "Ретін өзгерту үшін сүйреңіз"
 
+#: templates/backoffice/content/blog/edit.html:227
+#: templates/backoffice/content/events/edit.html:205
+#: templates/backoffice/content/flatpages/edit.html:217
+#: templates/backoffice/content/home/edit.html:244
 msgid "Удалить картинку"
 msgstr "Суретті жою"
 
+#: templates/backoffice/content/blog/edit.html:250
+#: templates/backoffice/content/events/edit.html:228
+#: templates/backoffice/content/flatpages/edit.html:240
 msgid "Пока ни одной картинки в галерее. Загрузи первую через зону выше."
 msgstr ""
 "Галереяда әзірге бірде-бір сурет жоқ. Алғашқысын жоғарыдағы аймақ арқылы "
 "жүктеңіз."
 
+#: templates/backoffice/content/blog/edit.html:258
+#: templates/backoffice/content/blog/list.html:75
+#: templates/backoffice/content/blog/taxonomy.html:58
 msgid "Теги"
 msgstr "Тегтер"
 
+#: templates/backoffice/content/blog/edit.html:261
 msgid ""
 "Используй существующие теги где возможно — это повышает связность блога. "
 "Подбирай 3-7 SEO-friendly тегов."
@@ -845,34 +1348,44 @@ msgstr ""
 "Мүмкіндігінше бар тегтерді қолданыңыз — бұл блогтың байланысын арттырады. "
 "3-7 SEO-ға ыңғайлы тег таңдаңыз."
 
-#, fuzzy
-#| msgid "Локация"
+#: templates/backoffice/content/blog/edit.html:270
+#: templates/backoffice/content/events/edit.html:236
+#: templates/backoffice/content/flatpages/edit.html:248
+#: templates/backoffice/content/team/edit.html:164
 msgid "Публикация"
-msgstr "Орын"
+msgstr "Жариялау"
 
+#: templates/backoffice/content/blog/edit.html:277
+#: templates/backoffice/content/events/edit.html:243
+#: templates/backoffice/content/flatpages/edit.html:254
 msgid "Опубликовано на сайте"
 msgstr "Сайтта жарияланды"
 
+#: templates/backoffice/content/blog/edit.html:279
 msgid "Снять галку — пост уйдёт в черновики."
 msgstr "Белгіні алып тастасаңыз, жазба шимайжазбаларға өтеді."
 
+#: templates/backoffice/content/blog/edit.html:284
+#: templates/backoffice/content/events/edit.html:250
 msgid "Дата публикации"
 msgstr "Жарияланған күні"
 
+#: templates/backoffice/content/blog/edit.html:308
+#: templates/backoffice/content/events/edit.html:272
+#: templates/backoffice/content/flatpages/edit.html:275
 msgid ""
 "Сгенерировать SEO/OG для всех 3 языков из title+lead. Заполняет только "
 "пустые."
 msgstr ""
 "Барлық 3 тіл үшін title+lead-тен SEO/OG жасау. Тек бос орындарды толтырады."
 
-msgid "Не загружена — на шеринге сработает fallback на обложку поста."
-msgstr ""
-"Жүктелмеген — бөлісу кезінде жазба мұқабасы резервтік нұсқа ретінде "
-"қолданылады."
-
+#: templates/backoffice/content/blog/list.html:9 templates/blog/detail.html:24
+#: templates/blog/list.html:4 templates/blog/list.html:21
+#: templates/blog/list.html:29
 msgid "Блог"
 msgstr "Блог"
 
+#: templates/backoffice/content/blog/list.html:10
 msgid ""
 "Статьи на /blog/ в каждом регионе. Создавай посты, привязывай теги и "
 "категории, публикуй."
@@ -880,74 +1393,138 @@ msgstr ""
 "Әр аймақтағы /blog/ бөліміндегі мақалалар. Жазбалар жасаңыз, тегтер мен "
 "санаттарды байлаңыз, жариялаңыз."
 
+#: templates/backoffice/content/blog/list.html:14
 msgid "Категории и теги"
 msgstr "Санаттар мен тегтер"
 
-#, fuzzy
-#| msgid "Идёт набор"
+#: templates/backoffice/content/blog/list.html:26
+#: templates/backoffice/content/events/list.html:23
+#: templates/backoffice/content/flatpages/list.html:19
+#: templates/backoffice/content/gallery/list.html:22
 msgid "Статус публикации"
-msgstr "Қабылдау жүргізілуде"
+msgstr "Жариялау мәртебесі"
 
+#: templates/backoffice/content/blog/list.html:48
+#: templates/backoffice/content/events/list.html:45
 msgid "Поиск по заголовку"
 msgstr "Тақырыбы бойынша іздеу"
 
+#: templates/backoffice/content/blog/list.html:53
+#: templates/backoffice/leads/list.html:36
 msgid "Все категории"
 msgstr "Барлық санаттар"
 
-#, fuzzy
-#| msgid "Все классы"
+#: templates/backoffice/content/blog/list.html:60
+#: templates/backoffice/content/events/list.html:51
+#: templates/backoffice/content/flatpages/list.html:47
+#: templates/backoffice/content/gallery/list.html:56
+#: templates/backoffice/leads/list.html:44
 msgid "Все регионы"
-msgstr "Барлық сыныптар"
+msgstr "Барлық аймақтар"
 
+#: templates/backoffice/content/blog/list.html:66
+#: templates/backoffice/content/events/list.html:57
+#: templates/backoffice/content/flatpages/list.html:53
+#: templates/backoffice/content/gallery/list.html:62
+#: templates/backoffice/leads/list.html:51
 msgid "Применить"
 msgstr "Қолдану"
 
+#: templates/backoffice/content/blog/list.html:74
+#: templates/backoffice/content/events/list.html:65
+#: templates/backoffice/content/flatpages/list.html:61
+#: templates/backoffice/site/menu/list.html:20
 msgid "Заголовок"
 msgstr "Тақырып"
 
+#: templates/backoffice/content/blog/list.html:77
+#: templates/backoffice/content/events/list.html:67
 msgid "Дата"
 msgstr "Күні"
 
-#, fuzzy
-#| msgid "Любой статус"
+#: templates/backoffice/content/blog/list.html:78
+#: templates/backoffice/content/events/list.html:68
+#: templates/backoffice/content/flatpages/list.html:65
+#: templates/backoffice/content/gallery/list.html:75
+#: templates/backoffice/leads/detail.html:81
+#: templates/backoffice/leads/list.html:61
 msgid "Статус"
-msgstr "Кез келген мәртебе"
+msgstr "Мәртебе"
 
+#: templates/backoffice/content/blog/list.html:106
+#: templates/backoffice/content/blog/list.html:130
+#: templates/backoffice/content/events/list.html:86
+#: templates/backoffice/content/events/list.html:109
+#: templates/backoffice/content/flatpages/list.html:86
+#: templates/backoffice/content/flatpages/list.html:110
+#: templates/backoffice/content/gallery/list.html:99
 msgid "Опубликовано"
 msgstr "Жарияланды"
 
+#: templates/backoffice/content/blog/list.html:108
+#: templates/backoffice/content/blog/list.html:132
+#: templates/backoffice/content/events/list.html:88
+#: templates/backoffice/content/events/list.html:111
+#: templates/backoffice/content/flatpages/list.html:88
+#: templates/backoffice/content/flatpages/list.html:112
+#: templates/backoffice/content/gallery/list.html:101
 msgid "Черновик"
 msgstr "Нобай"
 
+#: templates/backoffice/content/blog/list.html:140
+#: templates/backoffice/content/events/list.html:119
+#: templates/backoffice/content/flatpages/list.html:120
+#: templates/backoffice/content/gallery/list.html:127
 msgid "Постраничная навигация"
 msgstr "Беттер бойынша навигация"
 
+#: templates/backoffice/content/blog/list.html:142
+#: templates/backoffice/content/events/list.html:121
+#: templates/backoffice/content/flatpages/list.html:122
+#: templates/backoffice/content/gallery/list.html:129
+#: templates/backoffice/leads/list.html:120
+#: templates/backoffice/leads/list.html:122
 msgid "Назад"
 msgstr "Артқа"
 
+#: templates/backoffice/content/blog/list.html:145
+#: templates/backoffice/content/events/list.html:124
+#: templates/backoffice/content/flatpages/list.html:125
+#: templates/backoffice/content/gallery/list.html:132
 #, python-format
 msgid "Стр. %(current)s из %(total)s"
 msgstr "%(total)s беттің %(current)s-і"
 
+#: templates/backoffice/content/blog/list.html:148
+#: templates/backoffice/content/events/list.html:127
+#: templates/backoffice/content/flatpages/list.html:128
+#: templates/backoffice/content/gallery/list.html:135
+#: templates/backoffice/leads/list.html:125
+#: templates/backoffice/leads/list.html:127
 msgid "Вперёд"
 msgstr "Алға"
 
+#: templates/backoffice/content/blog/list.html:155
 msgid "По текущим фильтрам постов не нашлось. Сбросьте часть условий."
 msgstr ""
 "Таңдалған сүзгілер бойынша жазбалар табылмады. Кейбір шарттарды алып тастап "
 "көріңіз."
 
+#: templates/backoffice/content/blog/list.html:157
 msgid "Ещё ни одного поста. Нажмите «Новый пост» в правом верхнем углу."
 msgstr ""
 "Әзірге бірде-бір жазба жоқ. Жоғарғы оң жақ бұрыштағы «Жаңа жазба» түймесін "
 "басыңыз."
 
+#: templates/backoffice/content/blog/taxonomy.html:5
 msgid "К списку постов"
 msgstr "Жазбалар тізіміне оралу"
 
+#: templates/backoffice/content/blog/taxonomy.html:10
 msgid "Категории и теги блога"
 msgstr "Блог санаттары мен тегтері"
 
+#: templates/backoffice/content/blog/taxonomy.html:11
 msgid ""
 "Категории — chip-фильтр на ленте, у каждого поста одна. Теги — облако, у "
 "поста может быть несколько. Общие для всех регионов."
@@ -955,70 +1532,92 @@ msgstr ""
 "Санаттар — лентадағы chip-сүзгі, әр жазбада біреуден болады. Тегтер — бұлт "
 "секілді, бір жазбада бірнешеу болуы мүмкін. Барлық аймақтарға ортақ."
 
+#: templates/backoffice/content/blog/taxonomy.html:18
 msgid "Категории"
 msgstr "Санаттар"
 
-#, fuzzy
-#| msgid "Питание"
+#: templates/backoffice/content/blog/taxonomy.html:27
+#: templates/backoffice/content/blog/taxonomy.html:67
+#: templates/backoffice/content/gallery/taxonomy.html:26
 msgid "Название (RU)"
-msgstr "Тамақтану"
+msgstr "Атауы (RU)"
 
+#: templates/backoffice/content/blog/taxonomy.html:30
+#: templates/backoffice/content/blog/taxonomy.html:70
 msgid "пост."
 msgstr "жазба."
 
-#, fuzzy, python-format
-#| msgid "Запись на «%(name)s»"
+#: templates/backoffice/content/blog/taxonomy.html:34
+#, python-format
 msgid "Удалить категорию «%(name)s»?"
-msgstr "«%(name)s» бойынша жазылу"
+msgstr "«%(name)s» санатын жою керек пе?"
 
+#: templates/backoffice/content/blog/taxonomy.html:44
 msgid "Пока нет категорий"
 msgstr "Әзірге санаттар жоқ"
 
+#: templates/backoffice/content/blog/taxonomy.html:50
 msgid "Новая категория (RU)"
 msgstr "Жаңа санат (RU)"
 
+#: templates/backoffice/content/blog/taxonomy.html:51
+#: templates/backoffice/content/blog/taxonomy.html:89
+#: templates/backoffice/content/gallery/taxonomy.html:53
+#: templates/backoffice/settings/regions/create.html:38
+#: templates/backoffice/settings/users/create.html:75
+#: templates/backoffice/site/menu/create.html:35
 msgid "Создать"
 msgstr "Құру"
 
+#: templates/backoffice/content/blog/taxonomy.html:74
 #, python-format
 msgid "Удалить тег «%(name)s»? Он отвяжется ото всех статей."
 msgstr "«%(name)s» тегін жою керек пе? Ол барлық мақаладан алынып тасталады."
 
+#: templates/backoffice/content/blog/taxonomy.html:82
 msgid "Пока нет тегов"
 msgstr "Әзірге тегтер жоқ"
 
+#: templates/backoffice/content/blog/taxonomy.html:88
 msgid "Новый тег (RU)"
 msgstr "Жаңа тег (RU)"
 
+#: templates/backoffice/content/blog/taxonomy.html:95
 msgid ""
 "Slug, порядок и переводы (KK/EN) генерируются автоматически из RU-названия. "
 "Slug у популярных категорий лучше не менять — сломаются URL."
 msgstr ""
 "Slug, реті және аудармалары (KK/EN) RU-атауынан автоматты түрде жасалады. "
-"Танымал санаттардың slug-ын өзгертпеген жөн — URL мекенжайлары істемей қалуы"
-" мүмкін."
+"Танымал санаттардың slug-ын өзгертпеген жөн — URL мекенжайлары істемей қалуы "
+"мүмкін."
 
-#, fuzzy, python-format
-#| msgid "Контакты"
+#: templates/backoffice/content/contacts/edit.html:14
+#, python-format
 msgid "Контакты — %(region)s"
-msgstr "Байланыс"
+msgstr "Байланыс — %(region)s"
 
+#: templates/backoffice/content/contacts/edit.html:15
 #, python-format
 msgid "Singleton-контент страницы «Контакты». Обновлено %(date)s."
 msgstr "«Байланыс» бетінің singleton-мазмұны. %(date)s жаңартылды."
 
+#: templates/backoffice/content/contacts/edit.html:79
 msgid "Вводный блок"
 msgstr "Кіріспе блок"
 
+#: templates/backoffice/content/contacts/edit.html:92
 msgid "Офис (overlay над картой)"
 msgstr "Кеңсе (карта үстіндегі overlay)"
 
+#: templates/backoffice/content/contacts/edit.html:107
 msgid "Карта (Leaflet · CartoDB light_nolabels)"
 msgstr "Карта (Leaflet · CartoDB light_nolabels)"
 
+#: templates/backoffice/content/contacts/edit.html:117
 msgid "Введи широту и долготу, чтобы увидеть точку на карте."
 msgstr "Картадан нүктені көру үшін ендік пен бойлықты енгізіңіз."
 
+#: templates/backoffice/content/contacts/edit.html:120
 msgid ""
 "Кликни по карте, чтобы поставить точку. Перетащи маркер, чтобы уточнить "
 "положение. Кнопки +/- слева сверху меняют zoom (сохранится автоматически)."
@@ -1027,21 +1626,25 @@ msgstr ""
 "жылжытыңыз. Жоғарыдағы сол жақта орналасқан +/- түймелері масштабты (zoom) "
 "өзгертеді (автоматты түрде сақталады)."
 
+#: templates/backoffice/content/contacts/edit.html:133
 msgid "Отделы"
 msgstr "Бөлімдер"
 
+#: templates/backoffice/content/contacts/edit.html:135
 msgid ""
 "Поступление, Партнёрство, Вакансии и т.д. Порядок задаётся числом. "
-"Контактные поля (телефон/email) — language-neutral, переводятся только "
-"title/description/hours."
+"Контактные поля (телефон/email) — language-neutral, переводятся только title/"
+"description/hours."
 msgstr ""
 "Оқуға қабылдау, Серіктестік, Бос жұмыс орындары және т.б. Реті санмен "
-"беріледі. Байланыс өрістері (телефон/email) — language-neutral, тек "
-"title/description/hours аударылады."
+"беріледі. Байланыс өрістері (телефон/email) — language-neutral, тек title/"
+"description/hours аударылады."
 
+#: templates/backoffice/content/contacts/edit.html:151
 msgid "Новый отдел"
 msgstr "Жаңа бөлім"
 
+#: templates/backoffice/content/contacts/edit.html:182
 msgid ""
 "Чтобы добавить ещё один отдел — заполни блок «Новый отдел» внизу и сохрани "
 "форму, появится новый пустой блок."
@@ -1049,16 +1652,10 @@ msgstr ""
 "Тағы бір бөлім қосу үшін — төмендегі «Жаңа бөлім» блогын толтырып, форманы "
 "сақтаңыз, сонда жаңа бос блок пайда болады."
 
-msgid "Соцсети"
-msgstr "Әлеуметтік желілер"
-
-msgid ""
-"Ссылки на профили в соцсетях. Отображаются иконками в футере сайта. Пустое "
-"поле — иконка скрыта."
-msgstr ""
-"Әлеуметтік желілердегі профильдерге сілтемелер. Сайттың төменгі жағында "
-"(футерде) белгішелермен көрсетіледі. Бос өріс — белгіше жасырылған."
-
+#: templates/backoffice/content/contacts/edit.html:200
+#: templates/backoffice/content/home/edit.html:279
+#: templates/backoffice/content/program/edit.html:238
+#: templates/backoffice/content/team/edit.html:226
 msgid ""
 "Сгенерировать SEO/OG для всех 3 языков из RU контента. Заполняет только "
 "пустые."
@@ -1066,25 +1663,29 @@ msgstr ""
 "RU контентінен барлық 3 тілге арналған SEO/OG генерациялау. Тек бос "
 "өрістерді толтырады."
 
-msgid "Не загружена — на сайте OG-картинки не будет"
-msgstr "Жүктелмеген — сайтта OG-сурет болмайды"
-
+#: templates/backoffice/content/contacts/list.html:8
 msgid "Контакты"
 msgstr "Байланыс"
 
+#: templates/backoffice/content/contacts/list.html:9
+#: templates/backoffice/content/home/list.html:9
 msgid ""
 "Singleton-страница для каждого региона. Выберите регион для редактирования."
 msgstr "Әр аймақ үшін Singleton-парақша. Өңдеу үшін аймақты таңдаңыз."
 
+#: templates/backoffice/content/contacts/list.html:18
 msgid "Офис"
 msgstr "Кеңсе"
 
+#: templates/backoffice/content/contacts/list.html:19
 msgid "Отделов"
 msgstr "Бөлімдер"
 
+#: templates/backoffice/content/contacts/list.html:57
 msgid "отделов"
 msgstr "бөлім"
 
+#: templates/backoffice/content/contacts/list.html:64
 msgid ""
 "Страницы «Контакты» создаются миграцией. Если регион новый — обратись к "
 "разработчику."
@@ -1092,20 +1693,25 @@ msgstr ""
 "«Байланыстар» парақшалары миграция арқылы жасалады. Егер аймақ жаңа болса — "
 "әзірлеушіге хабарласыңыз."
 
+#: templates/backoffice/content/events/edit.html:28
+#: templates/backoffice/content/events/list.html:16
 msgid "Новое событие"
 msgstr "Жаңа іс-шара"
 
+#: templates/backoffice/content/events/edit.html:42
 msgid "Открыть событие на сайте на текущем языке"
 msgstr "Іс-шараны сайтта ағымдағы тілде ашу"
 
+#: templates/backoffice/content/events/edit.html:53
 msgid "Точно удалить это событие? Действие необратимо."
 msgstr ""
-"Бұл іс-шараны өшіретініңізге сенімдісіз бе? Бұл әрекетті қайтару мүмкін "
-"емес."
+"Бұл іс-шараны өшіретініңізге сенімдісіз бе? Бұл әрекетті қайтару мүмкін емес."
 
+#: templates/backoffice/content/events/edit.html:142
 msgid "Содержимое события"
 msgstr "Іс-шараның мазмұны"
 
+#: templates/backoffice/content/events/edit.html:157
 msgid ""
 "Дополнительные изображения под событием. Перетащи карточки для смены "
 "порядка. Alt-текст и подпись редактируются на 3 языках — переключай через "
@@ -1115,16 +1721,15 @@ msgstr ""
 "сүйреп апарыңыз. Alt-мәтін мен сипаттама 3 тілде өңделеді — жоғарыдағы "
 "қойындылар (табтар) арқылы ауыстырыңыз."
 
+#: templates/backoffice/content/events/edit.html:245
 msgid "Снять галку — событие уйдёт в черновики."
 msgstr "Құсбелгіні алып тастасаңыз — іс-шара қараламаларға өтеді."
 
-msgid "Не загружена — на шеринге сработает fallback на обложку события."
-msgstr ""
-"Жүктелмеген — бөліскен кезде іс-шараның мұқабасына fallback іске қосылады."
-
+#: templates/backoffice/content/events/list.html:9
 msgid "События"
 msgstr "Оқиғалар"
 
+#: templates/backoffice/content/events/list.html:10
 msgid ""
 "Лента анонсов и отчётов в каждом регионе. Без категорий и тегов — плоский "
 "список по дате."
@@ -1132,39 +1737,47 @@ msgstr ""
 "Әр аймақтағы хабарландырулар мен есептер легі. Санаттар мен тегтерсіз — күн "
 "тәртібі бойынша жай тізім."
 
+#: templates/backoffice/content/events/list.html:134
+#: templates/backoffice/content/flatpages/list.html:135
 msgid "По текущим фильтрам ничего не нашлось. Сбросьте часть условий."
 msgstr ""
 "Ағымдағы сүзгілер бойынша ештеңе табылмады. Шарттардың бір бөлігін алып "
 "тастаңыз."
 
+#: templates/backoffice/content/events/list.html:136
 msgid "Ещё ни одного события. Нажмите «Новое событие» в правом верхнем углу."
 msgstr ""
 "Әлі бірде-бір оқиға жоқ. Жоғарғы оң жақ бұрыштағы «Жаңа оқиға» түймесін "
 "басыңыз."
 
+#: templates/backoffice/content/flatpages/_content_editor.html:22
 msgid "Пишите HTML-контент: заголовки, абзацы, списки, цитаты, ссылки."
 msgstr ""
 "HTML-контент жазыңыз: тақырыптар, абзацтар, тізімдер, дәйексөздер, "
 "сілтемелер."
 
+#: templates/backoffice/content/flatpages/create.html:20
 msgid "Новая доп. страница"
 msgstr "Жаңа қосымша бет"
 
+#: templates/backoffice/content/flatpages/create.html:21
 msgid ""
-"Slug — короткое латинское имя (about, uniform, privacy). Будет частью URL: "
-"/info/<slug>/."
+"Slug — короткое латинское имя (about, uniform, privacy). Будет частью URL: /"
+"info/<slug>/."
 msgstr ""
-"Slug — қысқа латынша атау (about, uniform, privacy). URL мекенжайының бөлігі"
-" болады: /info/<slug>/."
+"Slug — қысқа латынша атау (about, uniform, privacy). URL мекенжайының бөлігі "
+"болады: /info/<slug>/."
 
-#, fuzzy
-#| msgid "Администрация"
+#: templates/backoffice/content/flatpages/create.html:80
+#: templates/backoffice/content/flatpages/edit.html:154
 msgid "Содержимое страницы"
-msgstr "Әкімшілік"
+msgstr "Бет мазмұны"
 
+#: templates/backoffice/content/flatpages/create.html:89
 msgid "Обложка и SEO"
 msgstr "Мұқаба және SEO"
 
+#: templates/backoffice/content/flatpages/create.html:92
 msgid ""
 "Эти секции будут доступны после первого сохранения — сохрани черновик или "
 "опубликуй страницу."
@@ -1172,55 +1785,69 @@ msgstr ""
 "Бұл бөлімдер бірінші сақтаудан кейін қолжетімді болады — нобайды сақтаңыз "
 "немесе бетті жариялаңыз."
 
+#: templates/backoffice/content/flatpages/create.html:101
+#: templates/backoffice/content/gallery/create.html:73
+#: templates/backoffice/content/team/create.html:62
 msgid "Сохранить как черновик"
 msgstr "Нобай ретінде сақтау"
 
+#: templates/backoffice/content/flatpages/create.html:102
+#: templates/backoffice/content/gallery/create.html:74
+#: templates/backoffice/content/team/create.html:63
 msgid "Опубликовать"
 msgstr "Жариялау"
 
+#: templates/backoffice/content/flatpages/edit.html:29
 #, python-format
 msgid "обновлено %(date)s"
 msgstr "жаңартылды %(date)s"
 
+#: templates/backoffice/content/flatpages/edit.html:37
 msgid "Открыть страницу на сайте на текущем языке"
 msgstr "Бетті сайтта ағымдағы тілде ашу"
 
+#: templates/backoffice/content/flatpages/edit.html:48
 msgid ""
-"Точно удалить эту страницу? Если на неё ссылается меню — ссылка станет "
-"битой."
+"Точно удалить эту страницу? Если на неё ссылается меню — ссылка станет битой."
 msgstr ""
 "Осы бетті шынымен жойғыңыз келе ме? Егер мәзірде оған сілтеме болса — "
 "сілтеме жарамсыз болып қалады."
 
+#: templates/backoffice/content/flatpages/edit.html:107
 msgid "Идентификатор страницы"
 msgstr "Бет идентификаторы"
 
+#: templates/backoffice/content/flatpages/edit.html:113
 msgid "часть URL"
 msgstr "URL бөлігі"
 
+#: templates/backoffice/content/flatpages/edit.html:116
 msgid ""
-"Slug изменить нельзя — если переименовать, на сайте сломаются ссылки из меню"
-" и поиска (NavItem линкуется по этой странице). Если нужен другой slug — "
+"Slug изменить нельзя — если переименовать, на сайте сломаются ссылки из меню "
+"и поиска (NavItem линкуется по этой странице). Если нужен другой slug — "
 "создай новую страницу и удали эту."
 msgstr ""
-"Slug атауын өзгертуге болмайды — егер атауын өзгертсеңіз, сайттағы мәзір мен"
-" іздеудегі сілтемелер істемей қалады (NavItem осы бетке сілтейді). Егер "
-"басқа slug қажет болса — жаңа бет ашып, осы бетті жойыңыз."
+"Slug атауын өзгертуге болмайды — егер атауын өзгертсеңіз, сайттағы мәзір мен "
+"іздеудегі сілтемелер істемей қалады (NavItem осы бетке сілтейді). Егер басқа "
+"slug қажет болса — жаңа бет ашып, осы бетті жойыңыз."
 
+#: templates/backoffice/content/flatpages/edit.html:169
+msgid "Дополнительные изображения под содержимым страницы. Перетащи карточки для смены порядка. Alt-текст и подпись редактируются на 3 языках — переключай через табы сверху."
+msgstr "Бет мазмұнының астындағы қосымша суреттер. Ретін өзгерту үшін карточкаларды сүйреңіз. Alt-мәтін мен сипаттама 3 тілде өңделеді — жоғарыдағы қойындылар арқылы ауысыңыз."
+
+#: templates/backoffice/content/flatpages/edit.html:256
 msgid ""
-"Снять галку — страница уйдёт в черновики (404 на сайте). Ссылки из "
-"меню/футера, если есть, останутся, но открываться не будут."
+"Снять галку — страница уйдёт в черновики (404 на сайте). Ссылки из меню/"
+"футера, если есть, останутся, но открываться не будут."
 msgstr ""
 "Белгіні алып тастасаңыз — бет нобайларға өтеді (сайтта 404 қатесі). "
 "Мәзірдегі/футердегі сілтемелер, егер бар болса, қалады, бірақ ашылмайды."
 
-msgid "Не загружена — на шеринге сработает fallback на обложку страницы."
-msgstr ""
-"Жүктелмеген — бөлісу кезінде беттің мұқабасы fallback ретінде қолданылады."
-
+#: templates/backoffice/content/flatpages/list.html:9
 msgid "Доп. страницы"
 msgstr "Қосымша беттер"
 
+#: templates/backoffice/content/flatpages/list.html:10
 msgid ""
 "Статичные страницы: «О нас», «Форма», «Питание», privacy, oferta и т.п. "
 "Создаются per-region и линкуются в меню или футере."
@@ -1229,92 +1856,162 @@ msgstr ""
 "oferta және т.б. Әр аймақ үшін жасалып, мәзірге немесе футерге сілтеме "
 "арқылы қосылады."
 
-#, fuzzy
-#| msgid "Пятница"
+#: templates/backoffice/content/flatpages/list.html:14
 msgid "Новая страница"
-msgstr "Жұма"
+msgstr "Жаңа бет"
 
+#: templates/backoffice/content/flatpages/list.html:41
 msgid "Поиск по заголовку или slug"
 msgstr "Тақырыбы немесе slug бойынша іздеу"
 
+#: templates/backoffice/content/flatpages/list.html:137
 msgid ""
 "Ещё ни одной доп. страницы. Нажмите «Новая страница» в правом верхнем углу."
 msgstr ""
 "Әлі бірде-бір қосымша бет жоқ. Жоғарғы оң жақ бұрыштағы «Жаңа бет» түймесін "
 "басыңыз."
 
+#: templates/backoffice/content/footer/edit.html:14
+#, python-format
+msgid "Футер — %(region)s"
+msgstr "Футер — %(region)s"
+
+#: templates/backoffice/content/footer/edit.html:15
+#, python-format
+msgid "Текст под лого + URL соцсетей. Видно на всех страницах региона. Обновлено %(date)s."
+msgstr "Логотип астындағы мәтін + әлеуметтік желі сілтемелері. Аймақтың барлық беттерінде көрінеді. %(date)s жаңартылды."
+
+#: templates/backoffice/content/footer/edit.html:22
+msgid "Открыть главную в новой вкладке на текущем языке"
+msgstr "Басты бетті ағымдағы тілде жаңа қойындыда ашу"
+
+#: templates/backoffice/content/footer/edit.html:79
+msgid "Текст под лого"
+msgstr "Логотип астындағы мәтін"
+
+#: templates/backoffice/content/footer/edit.html:82
+msgid "Короткий параграф под логотипом школы. Перенос строки → <br>. Если пусто — параграф на сайте скрыт."
+msgstr "Мектеп логотипінің астындағы қысқа абзац. Жол тасымалы → <br>. Бос болса, абзац сайтта көрсетілмейді."
+
+#: templates/backoffice/content/footer/edit.html:89
+#: templates/backoffice/content/footer/list.html:18
+msgid "Соцсети"
+msgstr "Әлеуметтік желілер"
+
+#: templates/backoffice/content/footer/edit.html:91
+msgid ""
+"Ссылки на профили в соцсетях. Отображаются иконками в футере сайта. Пустое "
+"поле — иконка скрыта."
+msgstr ""
+"Әлеуметтік желілердегі профильдерге сілтемелер. Сайттың төменгі жағында "
+"(футерде) белгішелермен көрсетіледі. Бос өріс — белгіше жасырылған."
+
+#: templates/backoffice/content/footer/list.html:8
+msgid "Футер"
+msgstr "Футер"
+
+#: templates/backoffice/content/footer/list.html:9
+msgid "Текст под лого + ссылки на соцсети. Singleton-страница для каждого региона."
+msgstr "Логотип астындағы мәтін + әлеуметтік желі сілтемелері. Әр аймаққа арналған singleton-бет."
+
+#: templates/backoffice/content/footer/list.html:62
+msgid "Страницы «Футер» создаются миграцией. Если регион новый — обратись к разработчику."
+msgstr "«Футер» беттері миграция арқылы жасалады. Аймақ жаңа болса, әзірлеушіге хабарласыңыз."
+
+#: templates/backoffice/content/gallery/create.html:5
+#: templates/backoffice/content/gallery/edit.html:5
+#: templates/backoffice/content/gallery/taxonomy.html:5
 msgid "К альбомам"
 msgstr "Альбомдарға"
 
+#: templates/backoffice/content/gallery/create.html:12
+#: templates/backoffice/content/gallery/list.html:17
 msgid "Новый альбом"
 msgstr "Жаңа альбом"
 
+#: templates/backoffice/content/gallery/create.html:13
 msgid "Заполни название и выбери тему. Фото добавишь после сохранения."
 msgstr ""
 "Атауын толтырып, тақырыбын таңдаңыз. Фотосуретті сақтағаннан кейін қосасыз."
 
+#: templates/backoffice/content/gallery/create.html:56
+#: templates/backoffice/content/gallery/edit.html:65
+#: templates/backoffice/content/gallery/list.html:71
 msgid "Тема"
 msgstr "Тақырып"
 
+#: templates/backoffice/content/gallery/create.html:60
 msgid "Управлять темами →"
 msgstr "Тақырыптарды басқару →"
 
+#: templates/backoffice/content/gallery/edit.html:15
 #, python-format
 msgid "обновлён %(date)s"
 msgstr "%(date)s жаңартылды"
 
+#: templates/backoffice/content/gallery/edit.html:21
 msgid "Точно удалить альбом со всеми фотографиями? Действие необратимо."
 msgstr ""
 "Альбомды барлық фотосуреттерімен бірге жоюға сенімдісіз бе? Бұл әрекетті "
 "қайтару мүмкін емес."
 
-#, fuzzy
-#| msgid "Записаться"
+#: templates/backoffice/content/gallery/edit.html:24
 msgid "Удалить альбом"
-msgstr "Жазылу"
+msgstr "Альбомды жою"
 
+#: templates/backoffice/content/gallery/edit.html:60
 msgid "Параметры альбома"
 msgstr "Альбом параметрлері"
 
-#, fuzzy
-#| msgid "Закрыть"
+#: templates/backoffice/content/gallery/edit.html:72
 msgid "Опубликован на сайте"
-msgstr "Жабу"
+msgstr "Сайтта жарияланған"
 
+#: templates/backoffice/content/gallery/edit.html:74
 msgid "Снять — все фото альбома пропадут с публичной страницы галереи."
 msgstr ""
 "Жасыру — альбомның барлық фотосуреті галереяның жалпы бетінен жоғалады."
 
+#: templates/backoffice/content/gallery/edit.html:83
 msgid "Сохранить параметры альбома"
 msgstr "Альбом параметрлерін сақтау"
 
-#, fuzzy
-#| msgid "Фотогалерея"
+#: templates/backoffice/content/gallery/edit.html:99
 msgid "Фото в альбоме"
-msgstr "Фотогалерея"
+msgstr "Альбомдағы фото"
 
+#: templates/backoffice/content/gallery/edit.html:102
 msgid "Свежие сверху. Ориентация — авто."
 msgstr "Жаңалары жоғарыда. Бағыты — авто."
 
+#: templates/backoffice/content/gallery/edit.html:116
 msgid "Перетащи пачку фото сюда или"
 msgstr "Фотосуреттер топтамасын осы жерге сүйреп әкеліңіз немесе"
 
+#: templates/backoffice/content/gallery/edit.html:154
 msgid "Опубликовано — кликни чтобы скрыть"
 msgstr "Жарияланды — жасыру үшін басыңыз"
 
+#: templates/backoffice/content/gallery/edit.html:154
 msgid "Черновик — кликни чтобы опубликовать"
 msgstr "Жоба — жариялау үшін басыңыз"
 
+#: templates/backoffice/content/gallery/edit.html:161
 msgid "Переключить широкую/обычную"
 msgstr "Кең/қалыпты форматқа ауыстыру"
 
+#: templates/backoffice/content/gallery/edit.html:175
 msgid "Альбом пуст — перетащи первые фото в зону выше."
 msgstr ""
 "Альбом бос — алғашқы фотосуреттерді жоғарыдағы аймаққа сүйреп апарыңыз."
 
+#: templates/backoffice/content/gallery/list.html:9
+#: templates/gallery/list.html:4 templates/gallery/list.html:35
+#: templates/gallery/list.html:43
 msgid "Фотогалерея"
 msgstr "Фотогалерея"
 
+#: templates/backoffice/content/gallery/list.html:10
 msgid ""
 "Альбомы фотографий региона. Создай альбом, выбери тему — потом грузи в него "
 "пачку фото. Ориентация (широкое/обычное) определяется автоматически, "
@@ -1324,41 +2021,47 @@ msgstr ""
 "кейін оған фотосуреттер топтамасын жүктеңіз. Бағыты (кең/қалыпты) автоматты "
 "түрде анықталады, сайттағы мозаикадағы кезектесуі де солай."
 
+#: templates/backoffice/content/gallery/list.html:14
+#: templates/backoffice/content/gallery/taxonomy.html:17
 msgid "Темы"
 msgstr "Тақырыптар"
 
+#: templates/backoffice/content/gallery/list.html:44
 msgid "Поиск по названию"
 msgstr "Атауы бойынша іздеу"
 
-#, fuzzy
-#| msgid "Все классы"
+#: templates/backoffice/content/gallery/list.html:49
 msgid "Все темы"
-msgstr "Барлық сыныптар"
+msgstr "Барлық тақырыптар"
 
+#: templates/backoffice/content/gallery/list.html:70
 msgid "Альбом"
 msgstr "Альбом"
 
+#: templates/backoffice/content/gallery/list.html:73
+#: templates/backoffice/content/team/edit.html:118
 msgid "Фото"
 msgstr "Фото"
 
+#: templates/backoffice/content/gallery/list.html:74
 msgid "Создан"
 msgstr "Құрылды"
 
-#, fuzzy
-#| msgid "Никого по этому фильтру не нашлось."
+#: templates/backoffice/content/gallery/list.html:142
 msgid "По текущим фильтрам альбомов не нашлось."
-msgstr "Бұл сүзгі бойынша ешкім табылмады."
+msgstr "Ағымдағы сүзгілер бойынша альбом табылмады."
 
+#: templates/backoffice/content/gallery/list.html:144
 msgid "Ещё ни одного альбома. Нажмите «Новый альбом» в правом верхнем углу."
 msgstr ""
 "Әлі бірде-бір альбом жоқ. Жоғарғы оң жақ бұрыштағы «Жаңа альбом» түймесін "
 "басыңыз."
 
-#, fuzzy
-#| msgid "Фотогалерея"
+#: templates/backoffice/content/gallery/taxonomy.html:10
 msgid "Темы фотогалереи"
-msgstr "Фотогалерея"
+msgstr "Фотогалерея тақырыптары"
 
+#: templates/backoffice/content/gallery/taxonomy.html:11
 msgid ""
 "Темы группируют альбомы. Chip-фильтр на странице галереи на сайте. "
 "Одинаковые для всех регионов."
@@ -1366,25 +2069,28 @@ msgstr ""
 "Тақырыптар альбомдарды топтастырады. Сайттағы галерея бетінде Chip-сүзгісі "
 "бар. Барлық аймақтар үшін бірдей."
 
+#: templates/backoffice/content/gallery/taxonomy.html:31
 msgid "Видна"
 msgstr "Көрінеді"
 
+#: templates/backoffice/content/gallery/taxonomy.html:33
 msgid "альб."
 msgstr "альб."
 
-#, fuzzy, python-format
-#| msgid "Запись на «%(name)s»"
+#: templates/backoffice/content/gallery/taxonomy.html:37
+#, python-format
 msgid "Удалить тему «%(name)s»?"
-msgstr "«%(name)s» бойынша жазылу"
+msgstr "«%(name)s» тақырыбын жою керек пе?"
 
+#: templates/backoffice/content/gallery/taxonomy.html:46
 msgid "Пока нет тем"
 msgstr "Әзірге тақырыптар жоқ"
 
-#, fuzzy
-#| msgid "Питание"
+#: templates/backoffice/content/gallery/taxonomy.html:52
 msgid "Новая тема (RU)"
-msgstr "Тамақтану"
+msgstr "Жаңа тақырып (RU)"
 
+#: templates/backoffice/content/gallery/taxonomy.html:59
 msgid ""
 "Удалить тему можно только если в ней нет альбомов — перенеси альбомы в "
 "другую тему сначала."
@@ -1392,41 +2098,49 @@ msgstr ""
 "Тақырыпты тек онда альбомдар болмаған жағдайда ғана жоюға болады — алдымен "
 "альбомдарды басқа тақырыпқа ауыстырыңыз."
 
-#, fuzzy, python-format
-#| msgid "Главная"
+#: templates/backoffice/content/home/edit.html:12
+#, python-format
 msgid "Главная — %(region)s"
-msgstr "Басты"
+msgstr "Басты бет — %(region)s"
 
+#: templates/backoffice/content/home/edit.html:13
 #, python-format
 msgid "Singleton-контент главной страницы региона. Обновлено %(date)s."
 msgstr "Аймақтың негізгі бетінің Singleton-мазмұны. %(date)s жаңартылды."
 
+#: templates/backoffice/content/home/edit.html:87
 msgid "Изменить картинку"
 msgstr "Суретті өзгерту"
 
+#: templates/backoffice/content/home/edit.html:139
 msgid "О нас"
 msgstr "Біз туралы"
 
+#: templates/backoffice/content/home/edit.html:154
 msgid "Шоурил"
 msgstr "Шоурил"
 
+#: templates/backoffice/content/home/edit.html:164
 msgid "Размер"
 msgstr "Мөлшері"
 
+#: templates/backoffice/content/home/edit.html:165
 msgid "Разрешение"
 msgstr "Ажыратымдылығы"
 
-#, fuzzy
-#| msgid "Стоимость"
+#: templates/backoffice/content/home/edit.html:166
 msgid "Длительность"
-msgstr "Бағасы"
+msgstr "Ұзақтығы"
 
+#: templates/backoffice/content/home/edit.html:175
 msgid "Видео не загружено"
 msgstr "Видео жүктелмеген"
 
+#: templates/backoffice/content/home/edit.html:182
 msgid "Изменить видео"
 msgstr "Видеоны өзгерту"
 
+#: templates/backoffice/content/home/edit.html:189
 msgid ""
 "Poster (cover) автоматически генерируется из 1-й секунды видео при "
 "сохранении через ffmpeg. Отображается до старта воспроизведения."
@@ -1434,9 +2148,11 @@ msgstr ""
 "Poster (мұқаба) ffmpeg арқылы сақтау кезінде видеоның 1-ші секундынан "
 "автоматты түрде жасалады. Ойнату басталғанға дейін көрсетіледі."
 
+#: templates/backoffice/content/home/edit.html:205
 msgid "Галерея на главной"
 msgstr "Басты беттегі галерея"
 
+#: templates/backoffice/content/home/edit.html:206
 msgid ""
 "Карусель под hero-блоком. Перетащи файлы сюда — ориентация определится "
 "автоматически, картинки расставятся чередованием «широкая → высокая». "
@@ -1446,32 +2162,35 @@ msgstr ""
 "бағыты автоматты түрде анықталады, суреттер «кең → биік» кезектесуімен "
 "орналасады. Ретін карточкаларды сүйреу арқылы өзгертуге болады."
 
+#: templates/backoffice/content/home/edit.html:218
 msgid "Перетащи файлы сюда"
 msgstr "Файлдарды осы жерге сүйреңіз"
 
+#: templates/backoffice/content/home/edit.html:219
 msgid "или нажми — выберешь несколько за раз"
 msgstr "немесе басыңыз — бірден бірнешеуін таңдай аласыз"
 
+#: templates/backoffice/content/home/edit.html:221
 msgid "Загрузка…"
 msgstr "Жүктелуде…"
 
+#: templates/backoffice/content/home/edit.html:262
 msgid "Картинок пока нет. Перетащи файлы в зону выше."
 msgstr "Әзірге суреттер жоқ. Файлдарды жоғарыдағы аймаққа сүйреп апарыңыз."
 
-msgid "Не загружена — fallback на hero_image"
-msgstr "Жүктелмеген — hero_image-ге ауысады"
-
+#: templates/backoffice/content/home/list.html:18
 msgid "Заголовок hero"
 msgstr "Hero тақырыбы"
 
-#, fuzzy
-#| msgid "Фотогалерея"
+#: templates/backoffice/content/home/list.html:19
 msgid "Картинок в галерее"
-msgstr "Фотогалерея"
+msgstr "Галереядағы суреттер"
 
+#: templates/backoffice/content/home/list.html:60
 msgid "картинок"
 msgstr "сурет"
 
+#: templates/backoffice/content/home/list.html:68
 msgid ""
 "Главные страницы создаются миграцией. Если регион новый — обратись к "
 "разработчику."
@@ -1479,15 +2198,19 @@ msgstr ""
 "Басты беттер миграция арқылы жасалады. Егер аймақ жаңа болса — әзірлеушіге "
 "хабарласыңыз."
 
+#: templates/backoffice/content/program/_faq_card.html:8
 msgid "Новый вопрос"
 msgstr "Жаңа сұрақ"
 
+#: templates/backoffice/content/program/_faq_formset.html:2
 msgid "Вопросы и ответы"
 msgstr "Сұрақтар мен жауаптар"
 
+#: templates/backoffice/content/program/_faq_formset.html:27
 msgid "Добавить вопрос"
 msgstr "Сұрақ қосу"
 
+#: templates/backoffice/content/program/_faq_formset.html:29
 msgid ""
 "Перетаскивай за ≡ слева, чтобы изменить порядок. Свёрнутые карточки кликни "
 "по строке — раскроется."
@@ -1495,25 +2218,32 @@ msgstr ""
 "Ретін өзгерту үшін сол жақтағы ≡ белгісінен сүйреңіз. Бүктелген "
 "карточкаларды ашу үшін жолды басыңыз — ол ашылады."
 
+#: templates/backoffice/content/program/_inline_formset.html:32
 msgid "Карточка"
 msgstr "Карточка"
 
+#: templates/backoffice/content/program/_inline_formset.html:34
 #, python-format
 msgid "Карточка %(n)s"
 msgstr "%(n)s карточкасы"
 
+#: templates/backoffice/content/program/_inline_formset.html:36
 msgid "Новая карточка"
 msgstr "Жаңа карточка"
 
+#: templates/backoffice/content/program/_inline_formset.html:59
 msgid "Редактировать SVG"
 msgstr "SVG-ді өңдеу"
 
+#: templates/backoffice/content/program/_inline_formset.html:66
 msgid "SVG-иконка"
 msgstr "SVG-белгіше"
 
+#: templates/backoffice/content/program/_inline_formset.html:75
 msgid "Превью обновится после сохранения формы."
 msgstr "Алдын ала қарау пішінді сақтағаннан кейін жаңартылады."
 
+#: templates/backoffice/content/program/_inline_formset.html:97
 msgid ""
 "Перетащи карточки за иконку слева, чтобы изменить порядок. Чтобы добавить "
 "ещё — заполни блок «Новая карточка» внизу и сохрани форму."
@@ -1522,6 +2252,7 @@ msgstr ""
 "біреуін қосу үшін — төмендегі «Жаңа карточка» блогын толтырып, пішінді "
 "сақтаңыз."
 
+#: templates/backoffice/content/program/_inline_formset.html:99
 msgid ""
 "Ровно 4 карточки. Перетащи за иконку слева, чтобы изменить порядок. Чтобы "
 "скрыть слот на сайте — оставь заголовок пустым."
@@ -1529,22 +2260,29 @@ msgstr ""
 "Тура 4 карточка. Ретін өзгерту үшін сол жақтағы белгішеден сүйреңіз. "
 "Сайттағы ұяшықты жасыру үшін — тақырыпты бос қалдырыңыз."
 
+#: templates/backoffice/content/program/_photo_field.html:17
 msgid "Не загружено"
 msgstr "Жүктелмеген"
 
+#: templates/backoffice/content/program/_photo_field.html:24
+#: templates/backoffice/settings/users/edit.html:104
 msgid "Изменить"
 msgstr "Өзгерту"
 
+#: templates/backoffice/content/program/_stat_formset.html:3
 msgid "Цифры (ровно 4 карточки)"
 msgstr "Сандар (тура 4 карточка)"
 
+#: templates/backoffice/content/program/_stat_formset.html:24
 #, python-format
 msgid "Цифра %(n)s"
 msgstr "Сан %(n)s"
 
+#: templates/backoffice/content/program/_stat_formset.html:25
 msgid "Новая цифра"
 msgstr "Жаңа сан"
 
+#: templates/backoffice/content/program/_stat_formset.html:38
 msgid ""
 "Ровно 4 цифры, сетка 2×2. Перетащи за иконку слева, чтобы изменить порядок. "
 "Чтобы скрыть слот на сайте — оставь оба поля пустыми."
@@ -1552,17 +2290,20 @@ msgstr ""
 "Тура 4 сан, 2×2 торы. Ретін өзгерту үшін сол жақтағы белгішеден сүйреңіз. "
 "Сайттағы ұяшықты жасыру үшін — екі өрісті де бос қалдырыңыз."
 
+#: templates/backoffice/content/program/_variant_formset.html:7
 msgid "Карточки программ (Начальная / Старшая)"
 msgstr "Бағдарламалар карточкалары (Бастауыш / Жоғары)"
 
+#: templates/backoffice/content/program/_variant_formset.html:27
 msgid "Новая карточка программы"
 msgstr "Жаңа бағдарлама карточкасы"
 
-#, fuzzy, python-format
-#| msgid "Программа"
+#: templates/backoffice/content/program/edit.html:14
+#, python-format
 msgid "Программа — %(region)s"
-msgstr "Бағдарлама"
+msgstr "Бағдарлама — %(region)s"
 
+#: templates/backoffice/content/program/edit.html:15
 #, python-format
 msgid ""
 "Лендинг «Программа» региона. 7 inline-секций + Hero + SEO. Обновлено "
@@ -1571,54 +2312,65 @@ msgstr ""
 "Аймақтың «Бағдарлама» лендингі. 7 inline-секция + Hero + SEO. Жаңартылды: "
 "%(date)s."
 
+#: templates/backoffice/content/program/edit.html:104
 msgid "Фото и карточки «Кому подходит»"
 msgstr "«Кімге арналған» фотосуреттері мен карточкалары"
 
+#: templates/backoffice/content/program/edit.html:119
 msgid "Фото и карточки «Что получает»"
 msgstr "«Нені меңгереді» фотосуреттері мен карточкалары"
 
-#, fuzzy
-#| msgid "Программа"
+#: templates/backoffice/content/program/edit.html:130
 msgid "Секция «Программы»"
-msgstr "Бағдарлама"
+msgstr "«Бағдарламалар» бөлімі"
 
+#: templates/backoffice/content/program/edit.html:153
 msgid "Секция «Аттестат»"
 msgstr "«Аттестат» секциясы"
 
+#: templates/backoffice/content/program/edit.html:174
 msgid "Секция «Внеклассные»"
 msgstr "«Сыныптан тыс» секциясы"
 
+#: templates/backoffice/content/program/edit.html:177
 msgid ""
 "Сами карточки активностей берутся из приложения «Активности» (галочка «В "
 "подборке на главной/программы»). Здесь — только тексты обрамляющей секции."
 msgstr ""
-"Іс-шаралар карточкалары «Іс-шаралар» қосымшасынан алынады "
-"(«Басты/бағдарламалар топтамасында» құсбелгісі). Бұл жерде тек қоршаушы "
-"секцияның мәтіндері берілген."
+"Іс-шаралар карточкалары «Іс-шаралар» қосымшасынан алынады («Басты/"
+"бағдарламалар топтамасында» құсбелгісі). Бұл жерде тек қоршаушы секцияның "
+"мәтіндері берілген."
 
+#: templates/backoffice/content/program/edit.html:190
 msgid "Секция «В цифрах»"
 msgstr "«Сандар тілімен» секциясы"
 
+#: templates/backoffice/content/program/edit.html:209
 msgid "Секция «FAQ»"
 msgstr "«FAQ» секциясы"
 
+#: templates/backoffice/content/program/list.html:8
 msgid "Программа"
 msgstr "Бағдарлама"
 
+#: templates/backoffice/content/program/list.html:9
 msgid ""
-"Лендинг «Программа» для каждого региона. Hero и 7 секций (кому подходит, что"
-" получает, программы, команда, аттестат, цифры, FAQ). Выберите регион."
+"Лендинг «Программа» для каждого региона. Hero и 7 секций (кому подходит, что "
+"получает, программы, команда, аттестат, цифры, FAQ). Выберите регион."
 msgstr ""
 "Әр аймаққа арналған «Бағдарлама» лендингі. Hero және 7 секция (кімге "
 "арналған, нені меңгереді, бағдарламалар, команда, аттестат, сандар, FAQ). "
 "Аймақты таңдаңыз."
 
+#: templates/backoffice/content/program/list.html:18
 msgid "Hero"
 msgstr "Hero"
 
+#: templates/backoffice/content/program/list.html:19
 msgid "Секции"
 msgstr "Секциялар"
 
+#: templates/backoffice/content/program/list.html:69
 msgid ""
 "Лендинги «Программа» создаются миграцией. Если регион новый — обратись к "
 "разработчику."
@@ -1626,6 +2378,7 @@ msgstr ""
 "«Бағдарлама» лендингтері миграция арқылы жасалады. Егер аймақ жаңа болса, "
 "әзірлеушіге хабарласыңыз."
 
+#: templates/backoffice/content/team/_content_editor.html:34
 msgid ""
 "Биография: заголовки, абзацы, списки, цитаты, ссылки. Что человек делает в "
 "школе и его трек до неё."
@@ -1633,18 +2386,24 @@ msgstr ""
 "Өмірбаян: тақырыптар, абзацтар, тізімдер, дәйексөздер, сілтемелер. Адамның "
 "мектепте не істейтіні және оған дейінгі жолы."
 
+#: templates/backoffice/content/team/_row.html:23
 msgid "Младшие"
 msgstr "Кіші сыныптар"
 
+#: templates/backoffice/content/team/_row.html:24
 msgid "Средние"
 msgstr "Орта сыныптар"
 
+#: templates/backoffice/content/team/_row.html:25
 msgid "Старшие"
 msgstr "Жоғары сыныптар"
 
+#: templates/backoffice/content/team/create.html:12
+#: templates/backoffice/content/team/region.html:23
 msgid "Новый член команды"
 msgstr "Команданың жаңа мүшесі"
 
+#: templates/backoffice/content/team/create.html:13
 msgid ""
 "Заполни RU-имя и должность — остальные поля можно дозаполнить после "
 "сохранения."
@@ -1652,50 +2411,59 @@ msgstr ""
 "RU-аты мен лауазымын толтырыңыз — қалған жолдарды сақтағаннан кейін "
 "толтыруға болады."
 
+#: templates/backoffice/content/team/create.html:50
 msgid "Порядок настраивается перетаскиванием на странице региона."
 msgstr "Реті аймақ бетінде сүйреу арқылы реттеледі."
 
-#, fuzzy
-#| msgid "Закрыть"
+#: templates/backoffice/content/team/edit.html:33
 msgid "Открыть на сайте"
-msgstr "Жабу"
+msgstr "Сайтта ашу"
 
+#: templates/backoffice/content/team/edit.html:44
 msgid "Точно удалить этого члена команды? Действие необратимо."
 msgstr ""
 "Осы команда мүшесін шынымен жойғыңыз келе ме? Бұл әрекетті қайтару мүмкін "
 "емес."
 
+#: templates/backoffice/content/team/edit.html:108
 msgid "Опционально. Если задано — на детальной появится кнопка."
 msgstr ""
 "Міндетті емес. Егер көрсетілсе, толық ақпарат бетінде батырма пайда болады."
 
-#, fuzzy
-#| msgid "Поступление"
+#: templates/backoffice/content/team/edit.html:122
 msgid "Изображение"
-msgstr "Қабылдау"
+msgstr "Сурет"
 
+#: templates/backoffice/content/team/edit.html:130
 msgid "Не загружено — на сайте покажется плейсхолдер «Нет фото»."
 msgstr "Жүктелмеген — сайтта «Фото жоқ» плейсхолдері көрсетіледі."
 
-#, fuzzy
-#| msgid "Нет фото"
+#: templates/backoffice/content/team/edit.html:137
 msgid "Выбрать фото"
-msgstr "Фото жоқ"
+msgstr "Фото таңдау"
 
+#: templates/backoffice/content/team/edit.html:142
+#, python-format
+msgid "Минимум %(min)s×%(min)spx. JPG/PNG/WebP. Прозрачность у PNG автоматически кладётся на белый фон, фото ужимается до %(min)spx по большей стороне."
+msgstr "Кемінде %(min)s×%(min)spx. JPG/PNG/WebP. PNG мөлдірлігі автоматты түрде ақ фонға қойылады, сурет үлкен қабырғасы бойынша %(min)spx дейін кішірейтіледі."
+
+#: templates/backoffice/content/team/edit.html:150
 msgid "Анкета"
 msgstr "Сауалнама"
 
+#: templates/backoffice/content/team/edit.html:155
 msgid "На списке не выводится — только на детальной странице."
 msgstr "Тізімде көрсетілмейді — тек толық ақпарат бетінде ғана."
 
+#: templates/backoffice/content/team/edit.html:173
 msgid "Снять — временно скрыть из публичного списка, не удаляя."
 msgstr "Жасыру — жоймай, жалпы тізімнен уақытша жасыру."
 
-#, fuzzy
-#| msgid "Программа"
+#: templates/backoffice/content/team/edit.html:179
 msgid "Избранный (на «Программе»)"
-msgstr "Бағдарлама"
+msgstr "Таңдаулы («Бағдарлама» бетінде)"
 
+#: templates/backoffice/content/team/edit.html:181
 msgid ""
 "Попадает в блок «Команда профессионалов» на лендинге программы текущего "
 "региона."
@@ -1703,15 +2471,17 @@ msgstr ""
 "Ағымдағы аймақтың бағдарлама лендингіндегі «Кәсіби мамандар командасы» "
 "блогына түседі."
 
+#: templates/backoffice/content/team/edit.html:186
 msgid "Преподаёт в классах"
 msgstr "Сабақ беретін сыныптары"
 
-msgid ""
-"Можно отметить несколько уровней (если преподаёт и младшим, и средним)."
+#: templates/backoffice/content/team/edit.html:201
+msgid "Можно отметить несколько уровней (если преподаёт и младшим, и средним)."
 msgstr ""
 "Бірнеше деңгейді белгілеуге болады (егер бастауыш және орта сыныптарға да "
 "сабақ берсе)."
 
+#: templates/backoffice/content/team/edit.html:209
 msgid ""
 "Директор, координатор, куратор. Не зависит от уровней — учитель-завуч может "
 "быть одновременно преподавателем и администрацией."
@@ -1719,44 +2489,50 @@ msgstr ""
 "Директор, үйлестіруші, куратор. Деңгейлерге байланысты емес — оқу ісінің "
 "меңгерушісі бір уақытта мұғалім де, әкімшілік қызметкері де бола алады."
 
+#: templates/backoffice/content/team/edit.html:240
 msgid "Если пусто — fallback на «ФИО — Должность»."
 msgstr "Егер бос болса, «Аты-жөні — Лауазымы» мәніне ауысады."
 
+#: templates/backoffice/content/team/edit.html:243
 msgid "Если пусто — fallback на начало биографии."
 msgstr "Егер бос болса, өмірбаянның басына ауысады."
 
-msgid "Не загружена — на шеринге fallback на фото члена команды."
-msgstr "Жүктелмеген — бөлісу кезінде команда мүшесінің фотосына ауысады."
-
+#: templates/backoffice/content/team/list.html:8 templates/team/detail.html:26
+#: templates/team/list.html:4 templates/team/list.html:21
 msgid "Команда"
 msgstr "Команда"
 
+#: templates/backoffice/content/team/list.html:9
 msgid ""
-"Состав команды — свой на каждый регион. Выбери город, чтобы открыть список и"
-" настроить порядок."
+"Состав команды — свой на каждый регион. Выбери город, чтобы открыть список и "
+"настроить порядок."
 msgstr ""
 "Әр аймақтың команда құрамы өзіндік. Тізімді ашып, ретін келтіру үшін қаланы "
 "таңдаңыз."
 
+#: templates/backoffice/content/team/list.html:18
 msgid "Всего"
 msgstr "Барлығы"
 
+#: templates/backoffice/content/team/list.html:19
+#: templates/backoffice/content/team/region.html:32
 msgid "Избранные"
 msgstr "Таңдаулылар"
 
-#, fuzzy
-#| msgid "Программа"
+#: templates/backoffice/content/team/list.html:34
 msgid "на «Программе»"
-msgstr "Бағдарлама"
+msgstr "«Бағдарлама» бетінде"
 
+#: templates/backoffice/content/team/list.html:52
 msgid "членов"
 msgstr "мүше"
 
-#, fuzzy, python-format
-#| msgid "Программа"
+#: templates/backoffice/content/team/region.html:11
+#, python-format
 msgid "Команда · %(region)s"
-msgstr "Бағдарлама"
+msgstr "Команда · %(region)s"
 
+#: templates/backoffice/content/team/region.html:12
 msgid ""
 "Перетаскивай за «≡» чтобы поменять порядок. Избранные всегда сверху и "
 "попадают на лендинг «Программа»."
@@ -1764,21 +2540,25 @@ msgstr ""
 "Ретін өзгерту үшін «≡» белгісінен сүйреңіз. Таңдаулылар әрқашан жоғарыда "
 "тұрады және «Бағдарлама» лендингіне түседі."
 
+#: templates/backoffice/content/team/region.html:36
 msgid ""
 "Выводятся в блоке «Команда профессионалов» на лендинге «Программа» этого "
 "региона."
 msgstr ""
-"Осы аймақтың «Бағдарлама» лендингіндегі «Кәсіби мамандар командасы» блогында"
-" көрсетіледі."
+"Осы аймақтың «Бағдарлама» лендингіндегі «Кәсіби мамандар командасы» блогында "
+"көрсетіледі."
 
+#: templates/backoffice/content/team/region.html:51
 msgid ""
 "Никто пока не избран. Открой члена команды и поставь галочку «Избранный»."
 msgstr ""
 "Әзірге ешкім таңдалмады. Команда мүшесін ашып, «Таңдаулы» белгісін қойыңыз."
 
+#: templates/backoffice/content/team/region.html:60
 msgid "Остальные"
 msgstr "Басқалар"
 
+#: templates/backoffice/content/team/region.html:64
 msgid ""
 "Видны на /team/, но НЕ на «Программе». Перетаскивай чтобы поменять порядок "
 "внутри списка."
@@ -1786,138 +2566,168 @@ msgstr ""
 "/team/ бетінде көрінеді, бірақ «Бағдарламада» КӨРІНБЕЙДІ. Тізім ішіндегі "
 "ретті өзгерту үшін сүйреңіз."
 
+#: templates/backoffice/content/team/region.html:78
 msgid "Пусто."
 msgstr "Бос."
 
+#: templates/backoffice/dashboard.html:4
 msgid "Дашборд"
 msgstr "Бақылау тақтасы"
 
+#: templates/backoffice/dashboard.html:8
 msgid "Добро пожаловать"
 msgstr "Қош келдіңіз"
 
+#: templates/backoffice/dashboard.html:9
 msgid ""
 "Раздел будет наполнен в следующих шагах: контент, заявки, навигация, медиа."
 msgstr ""
 "Бөлім келесі қадамдарда толтырылады: контент, өтінімдер, навигация, медиа."
 
+#: templates/backoffice/dashboard.html:13
 msgid "Здесь появятся разделы CMS."
 msgstr "Мұнда CMS бөлімдері пайда болады."
 
+#: templates/backoffice/leads/detail.html:5
 msgid "К списку заявок"
 msgstr "Өтінімдер тізіміне"
 
+#: templates/backoffice/leads/detail.html:13
 #, python-format
 msgid "Заявка #%(id)s · %(region)s · %(date)s"
 msgstr "Өтінім #%(id)s · %(region)s · %(date)s"
 
+#: templates/backoffice/leads/detail.html:26
 msgid "В работу"
 msgstr "Жұмысқа алу"
 
-#, fuzzy
-#| msgid "Закрыть"
+#: templates/backoffice/leads/detail.html:34
 msgid "Закрыть успешно"
-msgstr "Жабу"
+msgstr "Сәтті деп жабу"
 
+#: templates/backoffice/leads/detail.html:42
 msgid "Отказ"
 msgstr "Бас тарту"
 
-#, fuzzy
-#| msgid "Контакты"
+#: templates/backoffice/leads/detail.html:50
+#: templates/backoffice/leads/list.html:62
 msgid "Контакт"
 msgstr "Байланыс"
 
+#: templates/backoffice/leads/detail.html:52
+#: templates/backoffice/settings/users/list.html:21
+#: templates/partials/modals/feedback.html:80
 msgid "Имя"
-msgstr "Есімі"
+msgstr "Аты"
 
+#: templates/backoffice/leads/detail.html:54
 msgid "Город (из формы)"
 msgstr "Қала (формадан)"
 
+#: templates/backoffice/leads/detail.html:56
 msgid "Заголовок модалки"
 msgstr "Модальді терезе тақырыбы"
 
+#: templates/backoffice/leads/detail.html:57
 msgid "Источник (origin)"
 msgstr "Дереккөз (origin)"
 
+#: templates/backoffice/leads/detail.html:61
 msgid "Аудит"
 msgstr "Аудит"
 
+#: templates/backoffice/leads/detail.html:67
+#: templates/backoffice/leads/list.html:65
 msgid "Создана"
 msgstr "Құрылды"
 
+#: templates/backoffice/leads/detail.html:68
 msgid "Обновлена"
 msgstr "Жаңартылды"
 
+#: templates/backoffice/leads/detail.html:69
 msgid "Согласие"
 msgstr "Келісім"
 
+#: templates/backoffice/leads/detail.html:78
 msgid "Обработка"
 msgstr "Өңдеу"
 
+#: templates/backoffice/leads/detail.html:100
 msgid "Заметка менеджера"
 msgstr "Менеджер жазбасы"
 
+#: templates/backoffice/leads/detail.html:101
 msgid "Что по звонку, договорённости, причина отказа."
 msgstr "Қоңырау нәтижесі, келісімдер, бас тарту себебі."
 
-#, fuzzy
-#| msgid "Любой статус"
+#: templates/backoffice/leads/list.html:8
 msgid "Фильтр по статусу"
-msgstr "Кез келген мәртебе"
+msgstr "Мәртебе бойынша сүзгі"
 
+#: templates/backoffice/leads/list.html:31
 msgid "Имя, телефон, источник, заметка…"
 msgstr "Есімі, телефон, дереккөз, жазба…"
 
-#, fuzzy
-#| msgid "Сбросить фильтры"
+#: templates/backoffice/leads/list.html:52
 msgid "Сброс"
-msgstr "Сүзгілерді тастау"
+msgstr "Тастау"
 
+#: templates/backoffice/leads/list.html:63
 msgid "Регион · Город"
 msgstr "Аймақ · Қала"
 
+#: templates/backoffice/leads/list.html:64
 msgid "Источник"
 msgstr "Дереккөз"
 
-#, fuzzy
-#| msgid "Локация"
+#: templates/backoffice/leads/list.html:114
 msgid "Пагинация"
-msgstr "Орын"
+msgstr "Беттеу"
 
+#: templates/backoffice/leads/list.html:116
 #, python-format
 msgid "Стр. %(cur)s из %(total)s · всего %(count)s"
 msgstr "%(total)s ішінен %(cur)s-бет · барлығы %(count)s"
 
+#: templates/backoffice/leads/list.html:134
 msgid "По выбранным фильтрам заявок не найдено."
 msgstr "Таңдалған сүзгілер бойынша өтінімдер табылмады."
 
+#: templates/backoffice/leads/list.html:137
 msgid "Заявок пока нет."
 msgstr "Өтінімдер әзірге жоқ."
 
+#: templates/backoffice/login.html:4
 msgid "Вход"
 msgstr "Кіру"
 
-#, fuzzy
-#| msgid "Главная"
+#: templates/backoffice/login.html:32
 msgid "На главную"
-msgstr "Басты"
+msgstr "Басты бетке"
 
+#: templates/backoffice/login.html:54
 msgid "Вход в панель"
 msgstr "Панельге кіру"
 
+#: templates/backoffice/login.html:55
 msgid "Введите данные учётной записи, чтобы продолжить."
 msgstr "Жалғастыру үшін есептік жазба деректерін енгізіңіз."
 
+#: templates/backoffice/login.html:100
 msgid "Войти"
 msgstr "Кіру"
 
+#: templates/backoffice/login.html:109
 msgid "На сайт"
 msgstr "Сайтқа"
 
-#, fuzzy
-#| msgid "Все классы"
+#: templates/backoffice/settings/regions/create.html:10
+#: templates/backoffice/settings/regions/list.html:11
 msgid "Новый регион"
-msgstr "Барлық сыныптар"
+msgstr "Жаңа аймақ"
 
+#: templates/backoffice/settings/regions/create.html:11
 msgid ""
 "Slug станет частью URL: `/<lang>/<slug>/...`. После создания перейдёте на "
 "редактирование — там зададите переводы (KK/EN) и флаг is_default."
@@ -1926,17 +2736,25 @@ msgstr ""
 "редакциялауға өтесіз — сол жерде аудармаларды (KK/EN) және is_default "
 "жалаушасын белгілейсіз."
 
+#: templates/backoffice/settings/regions/create.html:31
+#: templates/backoffice/settings/regions/edit.html:65
+#: templates/backoffice/settings/regions/list.html:41
+#: templates/backoffice/settings/regions/list.html:67
+#: templates/backoffice/settings/users/create.html:68
+#: templates/backoffice/settings/users/edit.html:88
 msgid "Активен"
 msgstr "Белсенді"
 
+#: templates/backoffice/settings/regions/create.html:31
 msgid "URL `/<lang>/<slug>/` доступен публично"
 msgstr "`/<lang>/<slug>/` URL мекенжайы көпшілікке қолжетімді"
 
-#, fuzzy, python-format
-#| msgid "Запись на «%(name)s»"
+#: templates/backoffice/settings/regions/edit.html:12
+#, python-format
 msgid "Регион «%(name)s» (%(slug)s)"
-msgstr "«%(name)s» бойынша жазылу"
+msgstr "«%(name)s» аймағы (%(slug)s)"
 
+#: templates/backoffice/settings/regions/edit.html:13
 msgid ""
 "Изменение slug ломает существующие URL. Деактивация скрывает регион в "
 "переключателе и `/<lang>/<slug>/` → 404."
@@ -1944,6 +2762,7 @@ msgstr ""
 "Slug-ты өзгерту бұрыннан бар URL-дерді бұзады. Белсенділігін өшіру аймақты "
 "ауыстырып-қосқышта жасырады және `/<lang>/<slug>/` → 404 қатесіне әкеледі."
 
+#: templates/backoffice/settings/regions/edit.html:17
 #, python-format
 msgid ""
 "Удалить регион «%(name)s»? Каскадно удалится весь его контент (HomePage, "
@@ -1953,17 +2772,21 @@ msgstr ""
 "Контактілер, т.б.) каскадты түрде жойылады. Бұл әрекетті болдырмау мүмкін "
 "емес!"
 
-#, fuzzy
-#| msgid "Записаться"
+#: templates/backoffice/settings/regions/edit.html:22
 msgid "Удалить регион"
-msgstr "Жазылу"
+msgstr "Аймақты жою"
 
+#: templates/backoffice/settings/regions/edit.html:28
 msgid "Язык названия"
 msgstr "Атаудың тілі"
 
+#: templates/backoffice/settings/regions/edit.html:61
+#: templates/backoffice/settings/regions/list.html:38
+#: templates/backoffice/settings/regions/list.html:66
 msgid "По умолчанию"
 msgstr "Әдепкі"
 
+#: templates/backoffice/settings/regions/edit.html:61
 msgid ""
 "корневой URL ведёт сюда; пользователи без выбора региона попадают сюда. "
 "Можно поставить только одному."
@@ -1971,45 +2794,52 @@ msgstr ""
 "Түпкі URL осы жерге бағыттайды; аймақты таңдамаған пайдаланушылар осы жерге "
 "кіреді. Тек біреуіне ғана қоюға болады."
 
+#: templates/backoffice/settings/regions/edit.html:65
 msgid "URL `/<lang>/<slug>/` доступен публично; в переключателе показывается."
 msgstr ""
 "`/<lang>/<slug>/` URL мекенжайы көпшілікке қолжетімді; ауыстырып-қосқышта "
 "көрсетіледі."
 
-#, fuzzy
-#| msgid "Все классы"
+#: templates/backoffice/settings/regions/list.html:8
 msgid "Регионы"
-msgstr "Барлық сыныптар"
+msgstr "Аймақтар"
 
+#: templates/backoffice/settings/regions/list.html:9
 msgid ""
-"Справочник филиалов школы. Slug — сегмент URL `/<lang>/<slug>/`. Один регион"
-" по умолчанию (используется при корневом URL и для пользователей без "
-"выбора)."
+"Справочник филиалов школы. Slug — сегмент URL `/<lang>/<slug>/`. Один регион "
+"по умолчанию (используется при корневом URL и для пользователей без выбора)."
 msgstr ""
 "Мектеп филиалдарының анықтамалығы. Slug — `/<lang>/<slug>/` URL сегменті. "
 "Бір аймақ әдепкі болып саналады (түпкі URL үшін және аймақты таңдамаған "
 "пайдаланушылар үшін қолданылады)."
 
+#: templates/backoffice/settings/regions/list.html:22
 msgid "Состояние"
 msgstr "Күйі"
 
+#: templates/backoffice/settings/regions/list.html:23
 msgid "Менеджеров"
 msgstr "Менеджерлер"
 
-#, fuzzy
-#| msgid "Закрыть"
+#: templates/backoffice/settings/regions/list.html:43
+#: templates/backoffice/settings/regions/list.html:67
 msgid "Скрыт"
-msgstr "Жабу"
+msgstr "Жасырылған"
 
+#: templates/backoffice/settings/regions/list.html:70
 msgid "менедж."
 msgstr "менедж."
 
+#: templates/backoffice/settings/regions/list.html:78
 msgid "Регионов пока нет. Создай первый — astana, almaty и т.п."
 msgstr "Аймақтар әзірге жоқ. Біріншісін жасаңыз — astana, almaty, т.б."
 
+#: templates/backoffice/settings/users/create.html:10
+#: templates/backoffice/settings/users/list.html:11
 msgid "Новый пользователь"
 msgstr "Жаңа пайдаланушы"
 
+#: templates/backoffice/settings/users/create.html:11
 msgid ""
 "Менеджеру укажи manager_region — он будет видеть только свой регион. "
 "Суперадмин видит всё, регион не нужен."
@@ -2017,28 +2847,38 @@ msgstr ""
 "Менеджерге manager_region көрсетіңіз — ол тек өз аймағын ғана көреді. "
 "Суперәкімші бәрін көреді, оған аймақ қажет емес."
 
+#: templates/backoffice/settings/users/create.html:24
+#: templates/backoffice/settings/users/edit.html:53
 msgid "Учётная запись"
 msgstr "Есептік жазба"
 
+#: templates/backoffice/settings/users/create.html:47
+#: templates/backoffice/settings/users/edit.html:67
 msgid "Роль и доступ"
 msgstr "Рөлі мен рұқсаты"
 
+#: templates/backoffice/settings/users/create.html:68
+#: templates/backoffice/settings/users/edit.html:88
 msgid "если снять, пользователь не сможет войти даже с правильным паролем"
 msgstr ""
 "белгіні алып тастасаңыз, пайдаланушы дұрыс құпия сөзбен де кіре алмайды"
 
+#: templates/backoffice/settings/users/edit.html:15
 #, python-format
 msgid "Последний вход: %(date)s."
 msgstr "Соңғы кірген уақыты: %(date)s."
 
+#: templates/backoffice/settings/users/edit.html:17
 msgid "Ни разу не входил."
 msgstr "Ешқашан кірмеген."
 
+#: templates/backoffice/settings/users/edit.html:24
 #, python-format
 msgid "Удалить пользователя «%(name)s»? Действие нельзя отменить."
 msgstr ""
 "«%(name)s» пайдаланушысын жою керек пе? Бұл әрекетті болдырмау мүмкін емес."
 
+#: templates/backoffice/settings/users/edit.html:38
 msgid ""
 "Это ваш собственный аккаунт. Роль и флаг «Активен» нельзя изменить — защита "
 "от самоблокировки. Чтобы понизить себя, попросите другого суперадмина."
@@ -2047,58 +2887,77 @@ msgstr ""
 "емес — бұл өзін-өзі бұғаттаудан қорғаныс. Өз рөліңізді төмендету үшін басқа "
 "суперадминнен сұраңыз."
 
+#: templates/backoffice/settings/users/edit.html:102
 msgid "Смена пароля"
 msgstr "Құпия сөзді өзгерту"
 
-#, fuzzy
-#| msgid "Нет фото"
+#: templates/backoffice/settings/users/edit.html:124
 msgid "Сменить пароль"
-msgstr "Фото жоқ"
+msgstr "Құпиясөзді ауыстыру"
 
+#: templates/backoffice/settings/users/list.html:8
 msgid "Пользователи"
 msgstr "Пайдаланушылар"
 
+#: templates/backoffice/settings/users/list.html:9
 msgid ""
 "Аккаунты backoffice: суперадмины (видят всё) и менеджеры (manager_region → "
 "видят только свой регион). Обычные посетители сайта здесь не показываются."
 msgstr ""
 "Backoffice аккаунттары: суперадминдер (бәрін көреді) және менеджерлер "
-"(manager_region → тек өз аймағын көреді). Сайттың қарапайым келушілері мұнда"
-" көрсетілмейді."
+"(manager_region → тек өз аймағын көреді). Сайттың қарапайым келушілері мұнда "
+"көрсетілмейді."
 
+#: templates/backoffice/settings/users/list.html:22
 msgid "Email"
 msgstr "Email"
 
+#: templates/backoffice/settings/users/list.html:23
 msgid "Роль"
 msgstr "Рөлі"
 
+#: templates/backoffice/settings/users/list.html:34
+#: templates/backoffice/settings/users/list.html:83
 msgid "Отключён"
 msgstr "Өшірілген"
 
+#: templates/backoffice/settings/users/list.html:45
+#: templates/backoffice/settings/users/list.html:77
 msgid "Суперадмин"
 msgstr "Суперадмин"
 
+#: templates/backoffice/settings/users/list.html:47
+#: templates/backoffice/settings/users/list.html:79
 msgid "Менеджер"
 msgstr "Менеджер"
 
+#: templates/backoffice/settings/users/list.html:49
+#: templates/backoffice/settings/users/list.html:81
 msgid "Без доступа"
 msgstr "Рұқсат жоқ"
 
+#: templates/backoffice/settings/users/list.html:95
 msgid "Пользователей нет."
 msgstr "Пайдаланушылар жоқ."
 
+#: templates/backoffice/site/menu/_item_card.html:11
 msgid "Новый пункт"
 msgstr "Жаңа тармақ"
 
+#: templates/backoffice/site/menu/_item_card.html:57
 msgid "Показывать в шапке (top nav)"
 msgstr "Тақырыптамада көрсету (top nav)"
 
+#: templates/backoffice/site/menu/create.html:5
+#: templates/backoffice/site/menu/edit.html:5
 msgid "К списку секций"
 msgstr "Бөлімдер тізіміне оралу"
 
+#: templates/backoffice/site/menu/create.html:10
 msgid "Новая секция меню"
 msgstr "Мәзірдің жаңа бөлімі"
 
+#: templates/backoffice/site/menu/create.html:11
 msgid ""
 "Создайте секцию с slug (латиница, технический id) и заголовком на русском. "
 "Переводы и порядок зададите на странице редактирования."
@@ -2106,133 +2965,160 @@ msgstr ""
 "Slug (латын әріптері, техникалық id) және орыс тіліндегі тақырыбы бар бөлім "
 "жасаңыз. Аудармалар мен реттілікті өңдеу бетінде белгілейсіз."
 
+#: templates/backoffice/site/menu/edit.html:12
 #, python-format
 msgid "Секция «%(label)s» (%(slug)s)"
 msgstr "«%(label)s» бөлімі (%(slug)s)"
 
+#: templates/backoffice/site/menu/edit.html:13
 msgid "Заголовок секции, порядок отображения и список пунктов."
 msgstr "Бөлім тақырыбы, көрсетілу реті және тармақтар тізімі."
 
+#: templates/backoffice/site/menu/edit.html:17
 #, python-format
 msgid "Удалить секцию «%(label)s»? Каскадно удалятся все %(count)s пункт(ов)."
 msgstr ""
 "«%(label)s» бөлімін жою керек пе? Барлық %(count)s тармақ каскадты түрде "
 "жойылады."
 
-#, fuzzy
-#| msgid "Записаться"
+#: templates/backoffice/site/menu/edit.html:21
 msgid "Удалить секцию"
-msgstr "Жазылу"
+msgstr "Бөлімді жою"
 
+#: templates/backoffice/site/menu/edit.html:27
 msgid "Язык содержания"
 msgstr "Мазмұн тілі"
 
-#, fuzzy
-#| msgid "Идёт набор"
+#: templates/backoffice/site/menu/edit.html:61
 msgid "Пункты навигации"
-msgstr "Қабылдау жүргізілуде"
+msgstr "Навигация тармақтары"
 
+#: templates/backoffice/site/menu/edit.html:63
 msgid ""
 "Каждый пункт — звено навигации. Перетаскивай за ≡ слева, чтобы изменить "
-"порядок (сохранится при «Сохранить» внизу). Клик по строке — "
-"раскрыть/свернуть детали."
+"порядок (сохранится при «Сохранить» внизу). Клик по строке — раскрыть/"
+"свернуть детали."
 msgstr ""
 "Әрбір тармақ — навигация буыны. Ретін өзгерту үшін сол жақтағы ≡ белгісінен "
 "сүйреңіз (төмендегі «Сақтау» батырмасын басқанда сақталады). Жолды басу — "
 "мәліметтерді ашу/жабу."
 
-#, fuzzy
-#| msgid "Нет фото"
+#: templates/backoffice/site/menu/edit.html:88
 msgid "Добавить пункт"
-msgstr "Фото жоқ"
+msgstr "Тармақ қосу"
 
+#: templates/backoffice/site/menu/list.html:8 templates/partials/header.html:27
 msgid "Меню"
 msgstr "Мәзір"
 
+#: templates/backoffice/site/menu/list.html:9
 msgid "Секции мегаменю и пункты навигации. Структура общая для всех регионов."
 msgstr ""
 "Мегамәзір бөлімдері мен навигация тармақтары. Құрылым барлық аймақтар үшін "
 "ортақ."
 
+#: templates/backoffice/site/menu/list.html:11
 msgid "Новая секция"
 msgstr "Жаңа бөлім"
 
+#: templates/backoffice/site/menu/list.html:22
 msgid "Порядок"
 msgstr "Реті"
 
+#: templates/backoffice/site/menu/list.html:23
 msgid "Пунктов"
 msgstr "Тармақ"
 
+#: templates/backoffice/site/menu/list.html:59
 msgid "пункт."
 msgstr "тармақ."
 
+#: templates/backoffice/site/menu/list.html:67
 msgid "Пока нет секций. Создайте первую — например «main» для главного меню."
 msgstr ""
 "Әзірге бөлімдер жоқ. Біріншісін жасаңыз — мысалы, негізгі мәзір үшін «main»."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Tamos Space School — международная школа Cambridge Assessment International "
-#| "Education. %(cities)s."
-msgid ""
-"Space School — международная школа Cambridge Assessment International "
-"Education. %(cities)s."
-msgstr ""
-"Tamos Space School — Cambridge Assessment International Education "
-"халықаралық мектебі. %(cities)s."
+#: templates/base.html:10
+#, python-format
+msgid "Space School — международная школа Cambridge Assessment International Education. %(cities)s."
+msgstr "Space School — Cambridge Assessment International Education халықаралық мектебі. %(cities)s."
 
-#, fuzzy
-#| msgid "Tamos Space School"
+#: templates/base.html:46 templates/base.html:54
 msgid "Space School"
-msgstr "Tamos Space School"
+msgstr "Space School"
 
+#: templates/blog/_gallery.html:39 templates/gallery/list.html:110
 msgid "Предыдущее"
 msgstr "Алдыңғы"
 
+#: templates/blog/_gallery.html:44 templates/gallery/list.html:119
 msgid "Следующее"
 msgstr "Келесі"
 
+#: templates/blog/detail.html:57 templates/events/detail.html:53
+msgid "Поделиться"
+msgstr "Бөлісу"
+
+#: templates/blog/detail.html:58 templates/events/detail.html:54
 msgid "Копировать"
 msgstr "Көшіру"
 
+#: templates/blog/detail.html:59 templates/events/detail.html:55
+msgid "Скопировано"
+msgstr "Көшірілді"
+
+#: templates/blog/detail.html:166
+msgid "Похожие публикации"
+msgstr "Ұқсас жарияланымдар"
+
+#: templates/blog/list.html:5
 msgid ""
 "Новости и статьи Space School: школьная жизнь, спорт, достижения и события."
 msgstr ""
 "Space School жаңалықтары мен мақалалары: мектеп өмірі, спорт, жетістіктер "
 "мен оқиғалар."
 
+#: templates/blog/list.html:34
 #, python-format
 msgid "Записи по тегу <strong>#%(tag)s</strong>"
 msgstr "<strong>#%(tag)s</strong> тегі бойынша жазбалар"
 
-#, fuzzy
-#| msgid "Сбросить фильтры"
+#: templates/blog/list.html:35
 msgid "Сбросить"
-msgstr "Сүзгілерді тастау"
+msgstr "Тазалау"
 
-#, fuzzy
-#| msgid "Вс"
+#: templates/blog/list.html:43 templates/gallery/list.html:50
+#: templates/team/list.html:43
 msgid "Все"
-msgstr "Жк"
+msgstr "Барлығы"
 
+#: templates/blog/list.html:77 templates/events/list.html:53
+#: templates/gallery/list.html:78
 msgid "Загрузить еще"
 msgstr "Тағы жүктеу"
 
+#: templates/blog/list.html:83
 msgid "Пока нет публикаций в этой категории."
 msgstr "Бұл санатта әзірге жарияланымдар жоқ."
 
+#: templates/events/detail.html:24 templates/events/list.html:4
+#: templates/events/list.html:21 templates/events/list.html:29
 msgid "Мероприятия"
 msgstr "Іс-шаралар"
 
+#: templates/events/detail.html:142
 msgid "Другие мероприятия"
 msgstr "Басқа іс-шаралар"
 
+#: templates/events/list.html:5
 msgid "Анонсы и отчёты о мероприятиях Space School."
 msgstr "Space School іс-шараларының хабарландырулары мен есептері."
 
+#: templates/events/list.html:58
 msgid "Пока нет анонсов мероприятий."
 msgstr "Әзірге іс-шаралар туралы хабарландырулар жоқ."
 
+#: templates/gallery/list.html:5
 msgid ""
 "Фотохроника жизни школы: учебные будни, достижения, мероприятия и "
 "робототехника."
@@ -2240,119 +3126,177 @@ msgstr ""
 "Мектеп өмірінің фотохроникасы: оқу күндері, жетістіктер, іс-шаралар мен "
 "робототехника."
 
+#: templates/gallery/list.html:83
 msgid "Пока нет фото в этой категории."
 msgstr "Бұл санатта әзірге фотосуреттер жоқ."
 
+#: templates/pages/home.html:140
 msgid "Знакомство со Space School"
 msgstr "Space School-мен танысу"
 
+#: templates/pages/home.html:144
 msgid "Ваш браузер не поддерживает воспроизведение видео."
 msgstr "Сіздің браузеріңіз видеоны ойнатуды қолдамайды."
 
+#: templates/pages/home.html:152
 msgid "Запустить видео"
 msgstr "Видеоны іске қосу"
 
+#: templates/pages/home.html:161
 msgid "Медленное соединение — видео не запущено автоматически."
 msgstr "Интернет байланысы баяу — видео автоматты түрде іске қосылмады."
 
+#: templates/pages/home.html:164
 msgid "Загрузить всё равно"
 msgstr "Бәрібір жүктеу"
 
+#: templates/pages/home.html:174
 msgid "Включить звук"
 msgstr "Дыбысты қосу"
 
+#: templates/pages/home.html:174
 msgid "Выключить звук"
 msgstr "Дыбысты өшіру"
 
+#: templates/partials/_youtube_embed.html:5
+msgid "Видео YouTube"
+msgstr "YouTube бейнесі"
+
+#: templates/partials/cover_image.html:32
+#: templates/partials/cover_image.html:40 templates/programs/detail.html:338
+#: templates/programs/detail.html:343 templates/team/detail.html:44
+#: templates/team/detail.html:49 templates/team/list.html:69
+#: templates/team/list.html:74
 msgid "Нет фото"
 msgstr "Фото жоқ"
 
+#: templates/partials/feedback_section.html:25
 msgid "Готовы запустить"
 msgstr "Сіз дайынсыз ба"
 
+#: templates/partials/feedback_section.html:26
 msgid "будущее вашего ребёнка?"
 msgstr "балаңыздың болашағын бастауға?"
 
+#: templates/partials/feedback_section.html:29
 msgid "Запишитесь на бесплатную консультацию —"
 msgstr "Тегін кеңес алуға жазылыңыз —"
 
+#: templates/partials/feedback_section.html:30
 msgid "расскажем о программе, покажем школу и ответим"
 msgstr "бағдарлама туралы айтып, мектепті көрсетеміз және жауап береміз"
 
+#: templates/partials/feedback_section.html:31
 msgid "на все вопросы"
 msgstr "барлық сұрақтарға"
 
+#: templates/partials/feedback_section.html:37
 msgid "Запишитесь на бесплатную консультацию"
 msgstr "Тегін кеңес алуға жазылыңыз"
 
+#: templates/partials/feedback_section.html:38
+#: templates/partials/modals/feedback.html:19
+#: templates/partials/modals/feedback.html:71
 msgid "Получить консультацию"
 msgstr "Кеңес алу"
 
+#: templates/partials/feedback_section.html:42
 msgid "Выберите свой город"
 msgstr "Өз қалаңызды таңдаңыз"
 
+#: templates/partials/feedback_section.html:43
 msgid "Записаться в кампус"
 msgstr "Кампусқа жазылу"
 
-msgid ""
-"Space School — международная школа нового поколения, где дети учатся думать "
-"глобально, готовятся к поступлению в ведущие университеты мира и получают "
-"двойной сертификат с правом сдачи SAT."
-msgstr ""
-"Space School — балалар жаһандық ойлауға үйренетін, әлемнің жетекші "
-"университеттеріне түсуге дайындалатын және SAT тапсыру құқығымен қос "
-"сертификат алатын жаңа буын халықаралық мектебі."
-
+#: templates/partials/footer.html:91
 msgid "Документы"
 msgstr "Құжаттар"
 
+#: templates/partials/footer.html:101
 msgid "Политика конфиденциальности"
 msgstr "Құпиялылық саясаты"
 
-#, fuzzy
-#| msgid "Школьная форма"
+#: templates/partials/footer.html:106
 msgid "Публичная оферта"
-msgstr "Мектеп формасы"
+msgstr "Жария оферта"
 
+#: templates/partials/header.html:44
+msgid "Язык"
+msgstr "Тіл"
+
+#: templates/partials/modals/feedback.html:72
+msgid "Перезвоним в течение 2 часов и ответим на все вопросы о поступлении"
+msgstr "2 сағат ішінде қоңырау шалып, қабылдау туралы барлық сұрағыңызға жауап береміз"
+
+#: templates/partials/modals/feedback.html:85
+msgid "Ваше имя"
+msgstr "Атыңыз"
+
+#: templates/partials/modals/feedback.html:107
 msgid "Город"
 msgstr "Қала"
 
+#: templates/partials/modals/feedback.html:114
 msgid "Выберите город"
 msgstr "Қаланы таңдаңыз"
 
+#: templates/partials/modals/feedback.html:148
 msgid "Отправляем…"
 msgstr "Жіберілуде…"
 
+#: templates/partials/modals/feedback.html:148
 msgid "Отправить"
 msgstr "Жіберу"
 
+#: templates/partials/modals/feedback.html:152
 msgid "Не удалось отправить. Попробуйте ещё раз или позвоните нам."
 msgstr "Жіберілмеді. Қайталап көріңіз немесе бізге хабарласыңыз."
 
+#: templates/partials/modals/feedback.html:157
 msgid "Нажимая кнопку, вы соглашаетесь на обработку"
 msgstr "Түймені басу арқылы сіз өңдеуге келісесіз"
 
+#: templates/partials/modals/feedback.html:160
 msgid "персональных данных"
 msgstr "дербес деректерді"
 
+#: templates/partials/modals/feedback.html:166
 msgid "Заявка принята!"
 msgstr "Өтініш қабылданды!"
 
+#: templates/partials/modals/feedback.html:167
 msgid "Перезвоним вам в течение 2 часов"
 msgstr "2 сағат ішінде сізге хабарласамыз"
 
+#: templates/programs/detail.html:287
+msgid "Оставить заявку"
+msgstr "Өтінім қалдыру"
+
+#: templates/programs/detail.html:368
 msgid "Предыдущий"
 msgstr "Алдыңғы"
 
+#: templates/programs/detail.html:371
 msgid "Следующий"
 msgstr "Келесі"
 
+#: templates/programs/detail.html:432
+msgid "Алихан Сейткали"
+msgstr "Алихан Сейткали"
+
+#: templates/programs/detail.html:434
+msgid "Настоящий сертификат подтверждает успешное завершение обучения по программе Space School · Cambridge International Education с международной языковой подготовкой."
+msgstr "Осы сертификат Space School · Cambridge International Education бағдарламасы бойынша оқуды халықаралық тілдік дайындықпен сәтті аяқтағаныңызды растайды."
+
+#: templates/programs/detail.html:530
 msgid "Стоимость"
 msgstr "Бағасы"
 
+#: templates/team/detail.html:83
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
+#: templates/team/list.html:5
 msgid ""
 "Команда профессионалов Space School: основатели, академический штаб и "
 "наставники, которые ведут наших учеников."
@@ -2360,27 +3304,81 @@ msgstr ""
 "Space School кәсіби командасы: негізін қалаушылар, академиялық штаб және "
 "оқушыларымызды жетекшілікке алатын ұстаздар."
 
+#: templates/team/list.html:31
 msgid "Подход и забота"
 msgstr "Көзқарас пен қамқорлық"
 
+#: templates/team/list.html:33
 msgid "Команда профессионалов, которая заботится о вашем ребёнке"
 msgstr "Балаңыздың дамуына қамқорлық жасайтын кәсіби команда"
 
+#: templates/team/list.html:35
 msgid ""
-"Каждый педагог — практик с опытом в международных школах и университетах. Мы"
-" отвечаем за развитие каждого ученика."
+"Каждый педагог — практик с опытом в международных школах и университетах. Мы "
+"отвечаем за развитие каждого ученика."
 msgstr ""
 "Әрбір ұстаз — халықаралық мектептер мен университеттерде тәжірибесі бар "
 "маман. Біз әр оқушының дамуы үшін жауаптымыз."
 
+#: templates/team/list.html:60
+#, python-format
+msgid "Подробнее о %(name)s"
+msgstr "%(name)s туралы толығырақ"
+
+#: templates/team/list.html:89
 msgid "Подробнее"
 msgstr "Толығырақ"
 
+#: templates/team/list.html:98
 msgid "Никого по этому фильтру не нашлось."
 msgstr "Бұл сүзгі бойынша ешкім табылмады."
 
+#: templates/team/list.html:100
 msgid "Информация о команде скоро появится."
 msgstr "Команда туралы ақпарат жақын арада пайда болады."
+
+#~ msgid "Копировать ссылку"
+#~ msgstr "Сілтемені көшіру"
+
+#~ msgid "OG-картинка (для шеринга)"
+#~ msgstr "OG-сурет (бөлісу үшін)"
+
+#~ msgid "Не загружена"
+#~ msgstr "Жүктелмеген"
+
+#~ msgid "Изменить OG-картинку"
+#~ msgstr "OG-суретті өзгерту"
+
+#~ msgid "Не загружена — на шеринге сработает fallback на обложку поста."
+#~ msgstr ""
+#~ "Жүктелмеген — бөлісу кезінде жазба мұқабасы резервтік нұсқа ретінде "
+#~ "қолданылады."
+
+#~ msgid "Не загружена — на сайте OG-картинки не будет"
+#~ msgstr "Жүктелмеген — сайтта OG-сурет болмайды"
+
+#~ msgid "Не загружена — на шеринге сработает fallback на обложку события."
+#~ msgstr ""
+#~ "Жүктелмеген — бөліскен кезде іс-шараның мұқабасына fallback іске қосылады."
+
+#~ msgid "Не загружена — на шеринге сработает fallback на обложку страницы."
+#~ msgstr ""
+#~ "Жүктелмеген — бөлісу кезінде беттің мұқабасы fallback ретінде қолданылады."
+
+#~ msgid "Не загружена — fallback на hero_image"
+#~ msgstr "Жүктелмеген — hero_image-ге ауысады"
+
+#~ msgid "Не загружена — на шеринге fallback на фото члена команды."
+#~ msgstr "Жүктелмеген — бөлісу кезінде команда мүшесінің фотосына ауысады."
+
+#~ msgid ""
+#~ "Space School — международная школа нового поколения, где дети учатся "
+#~ "думать глобально, готовятся к поступлению в ведущие университеты мира и "
+#~ "получают двойной сертификат с правом сдачи SAT."
+#~ msgstr ""
+#~ "Space School — балалар жаһандық ойлауға үйренетін, әлемнің жетекші "
+#~ "университеттеріне түсуге дайындалатын және SAT тапсыру құқығымен қос "
+#~ "сертификат алатын жаңа буын халықаралық мектебі."
 
 #, fuzzy
 #~ msgid "Доступные теги"

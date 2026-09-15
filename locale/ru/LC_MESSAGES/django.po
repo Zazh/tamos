@@ -1,0 +1,2942 @@
+# Russian translations for tamos.
+# Copyright (C) 2026 Space School
+# This file is distributed under the same license as the tamos project.
+#
+# ВНИМАНИЕ: русский — исходный язык всех msgid, поэтому здесь msgstr == msgid.
+# Каталог нужен не «для перевода», а чтобы у ru вообще БЫЛ каталог: settings
+# LANGUAGE_CODE = 'kk', а Django для языка без каталога подмешивает каталог
+# LANGUAGE_CODE как fallback — без этого файла русские страницы отдавали
+# казахский текст на каждой {% trans %}-строке.
+# После makemessages -l ru прогнать msgstr := msgid (см. memory/i18n-multiregion.md).
+#
+msgid ""
+msgstr "Project-Id-Version: tamos\nReport-Msgid-Bugs-To: \nPOT-Creation-Date: 2026-09-15 20:06+0500\nPO-Revision-Date: 2026-09-15 20:06+0500\nLast-Translator: \nLanguage-Team: Russian\nLanguage: ru\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+#: activities/models.py:157 templates/activities/list.html:63
+#: templates/activities/list.html:221
+msgid "Есть свободные места"
+msgstr "Есть свободные места"
+
+#: activities/models.py:158 templates/activities/list.html:64
+#: templates/activities/list.html:222
+msgid "Заполнено"
+msgstr "Заполнено"
+
+#: activities/models.py:275 activities/models.py:282
+#, python-format
+msgid "До %(n)d учеников"
+msgstr "До %(n)d учеников"
+
+#: activities/models.py:278
+#, python-format
+msgid "%(lo)d–%(hi)d учеников"
+msgstr "%(lo)d–%(hi)d учеников"
+
+#: activities/models.py:284
+#, python-format
+msgid "От %(n)d учеников"
+msgstr "От %(n)d учеников"
+
+#: activities/models.py:350 templates/activities/list.html:213
+msgid "Понедельник"
+msgstr "Понедельник"
+
+#: activities/models.py:351 templates/activities/list.html:214
+msgid "Вторник"
+msgstr "Вторник"
+
+#: activities/models.py:352 templates/activities/list.html:215
+msgid "Среда"
+msgstr "Среда"
+
+#: activities/models.py:353 templates/activities/list.html:216
+msgid "Четверг"
+msgstr "Четверг"
+
+#: activities/models.py:354 templates/activities/list.html:217
+msgid "Пятница"
+msgstr "Пятница"
+
+#: activities/models.py:355
+msgid "Суббота"
+msgstr "Суббота"
+
+#: activities/models.py:356
+msgid "Воскресенье"
+msgstr "Воскресенье"
+
+#: activities/models.py:359
+msgid "Пн"
+msgstr "Пн"
+
+#: activities/models.py:360
+msgid "Вт"
+msgstr "Вт"
+
+#: activities/models.py:361
+msgid "Ср"
+msgstr "Ср"
+
+#: activities/models.py:362
+msgid "Чт"
+msgstr "Чт"
+
+#: activities/models.py:363
+msgid "Пт"
+msgstr "Пт"
+
+#: activities/models.py:364
+msgid "Сб"
+msgstr "Сб"
+
+#: activities/models.py:365
+msgid "Вс"
+msgstr "Вс"
+
+#: backoffice/forms/auth.py:13 templates/backoffice/settings/users/list.html:20
+msgid "Логин"
+msgstr "Логин"
+
+#: backoffice/forms/auth.py:24
+#: templates/backoffice/settings/users/create.html:38
+msgid "Пароль"
+msgstr "Пароль"
+
+#: backoffice/forms/auth.py:30
+msgid "Неверный логин или пароль."
+msgstr "Неверный логин или пароль."
+
+#: backoffice/forms/auth.py:31
+msgid "У этой учётной записи нет доступа в backoffice."
+msgstr "У этой учётной записи нет доступа в backoffice."
+
+#: backoffice/forms/auth.py:32
+msgid "Учётная запись отключена."
+msgstr "Учётная запись отключена."
+
+#: team/views.py:47 templates/backoffice/content/team/_row.html:26
+#: templates/backoffice/content/team/edit.html:207
+msgid "Администрация"
+msgstr "Администрация"
+
+#: team/views.py:48 templates/backoffice/content/team/edit.html:190
+msgid "Младшие (1–4)"
+msgstr "Младшие (1–4)"
+
+#: team/views.py:49 templates/backoffice/content/team/edit.html:194
+msgid "Средние (5–8)"
+msgstr "Средние (5–8)"
+
+#: team/views.py:50 templates/backoffice/content/team/edit.html:198
+msgid "Старшие (9–11)"
+msgstr "Старшие (9–11)"
+
+#: templates/activities/list.html:4
+msgid "Внеклассные занятия"
+msgstr "Внеклассные занятия"
+
+#: templates/activities/list.html:12
+msgid "Space Courses"
+msgstr "Space Courses"
+
+#: templates/activities/list.html:14
+msgid "Центр дополнительного образования"
+msgstr "Центр дополнительного образования"
+
+#: templates/activities/list.html:29 templates/activities/list.html:37
+#: templates/activities/list.html:209
+msgid "Любой день"
+msgstr "Любой день"
+
+#: templates/activities/list.html:53 templates/activities/list.html:61
+#: templates/activities/list.html:219
+msgid "Любой статус"
+msgstr "Любой статус"
+
+#: templates/activities/list.html:77 templates/activities/list.html:85
+#: templates/activities/list.html:223
+msgid "Все классы"
+msgstr "Все классы"
+
+#: templates/activities/list.html:87 templates/activities/list.html:224
+#, python-format
+msgid "%(n)s класс"
+msgstr "%(n)s класс"
+
+#: templates/activities/list.html:143
+#: templates/backoffice/content/activities/group_edit.html:108
+#: templates/programs/detail.html:536
+msgid "Тренер"
+msgstr "Тренер"
+
+#: templates/activities/list.html:151 templates/programs/detail.html:515
+msgid "Учащихся"
+msgstr "Учащихся"
+
+#: templates/activities/list.html:161 templates/programs/detail.html:524
+msgid "Локация"
+msgstr "Локация"
+
+#: templates/activities/list.html:172
+#, python-format
+msgid "Запись на «%(name)s»"
+msgstr "Запись на «%(name)s»"
+
+#: templates/activities/list.html:173
+msgid "Записаться"
+msgstr "Записаться"
+
+#: templates/activities/list.html:173 templates/programs/detail.html:531
+msgid "/мес"
+msgstr "/мес"
+
+#: templates/activities/list.html:187
+msgid "В этом филиале пока нет активных кружков. Скоро добавим!"
+msgstr "В этом филиале пока нет активных кружков. Скоро добавим!"
+
+#: templates/activities/list.html:193
+msgid "Нет кружков, подходящих под выбранные фильтры."
+msgstr "Нет кружков, подходящих под выбранные фильтры."
+
+#: templates/activities/list.html:195 templates/backoffice/leads/list.html:135
+msgid "Сбросить фильтры"
+msgstr "Сбросить фильтры"
+
+#: templates/admission/detail.html:16 templates/blog/detail.html:18
+#: templates/blog/list.html:15 templates/events/detail.html:18
+#: templates/events/list.html:15 templates/gallery/list.html:29
+#: templates/pages/contacts.html:18 templates/team/detail.html:20
+#: templates/team/list.html:15
+msgid "Хлебные крошки"
+msgstr "Хлебные крошки"
+
+#: templates/admission/detail.html:19 templates/admission/detail.html:42
+#: templates/backoffice/content/home/list.html:8 templates/blog/detail.html:21
+#: templates/blog/list.html:18 templates/events/detail.html:21
+#: templates/events/list.html:18 templates/gallery/list.html:32
+#: templates/pages/contacts.html:21 templates/team/detail.html:23
+#: templates/team/list.html:18
+msgid "Главная"
+msgstr "Главная"
+
+#: templates/backoffice/base.html:28
+msgid "Открыть меню"
+msgstr "Открыть меню"
+
+#: templates/backoffice/base.html:38
+msgid "Выйти"
+msgstr "Выйти"
+
+#: templates/backoffice/content/_block_translate.html:25
+msgid "Принудительно перевести блок на KK/EN (перезапишет существующие)"
+msgstr "Принудительно перевести блок на KK/EN (перезапишет существующие)"
+
+#: templates/backoffice/content/_block_translate.html:30
+msgid "Перевести блок"
+msgstr "Перевести блок"
+
+#: templates/backoffice/content/_block_translate.html:31
+#: templates/backoffice/content/activities/group_edit.html:45
+#: templates/backoffice/content/activities/region.html:132
+#: templates/backoffice/content/admission/page_edit.html:59
+#: templates/backoffice/content/admission/variant_edit.html:59
+#: templates/backoffice/content/blog/edit.html:89
+#: templates/backoffice/content/contacts/edit.html:61
+#: templates/backoffice/content/events/edit.html:89
+#: templates/backoffice/content/flatpages/edit.html:84
+#: templates/backoffice/content/footer/edit.html:61
+#: templates/backoffice/content/home/edit.html:59
+#: templates/backoffice/content/program/edit.html:61
+#: templates/backoffice/content/team/edit.html:78
+msgid "Переводим…"
+msgstr "Переводим…"
+
+#: templates/backoffice/content/activities/group_edit.html:5
+#, python-format
+msgid "К кружку «%(name)s»"
+msgstr "К кружку «%(name)s»"
+
+#: templates/backoffice/content/activities/group_edit.html:12
+#, python-format
+msgid "%(name)s"
+msgstr "%(name)s"
+
+#: templates/backoffice/content/activities/group_edit.html:17
+#: templates/backoffice/content/activities/region.html:28
+#: templates/backoffice/content/admission/page_edit.html:31
+#: templates/backoffice/content/admission/variant_edit.html:31
+#: templates/backoffice/content/blog/edit.html:62
+#: templates/backoffice/content/contacts/edit.html:33
+#: templates/backoffice/content/events/edit.html:62
+#: templates/backoffice/content/flatpages/create.html:25
+#: templates/backoffice/content/flatpages/edit.html:57
+#: templates/backoffice/content/footer/edit.html:33
+#: templates/backoffice/content/gallery/create.html:17
+#: templates/backoffice/content/gallery/edit.html:30
+#: templates/backoffice/content/home/edit.html:31
+#: templates/backoffice/content/program/edit.html:33
+#: templates/backoffice/content/team/create.html:17
+#: templates/backoffice/content/team/edit.html:51
+msgid "Язык контента"
+msgstr "Язык контента"
+
+#: templates/backoffice/content/activities/group_edit.html:19
+#: templates/backoffice/content/activities/region.html:30
+#: templates/backoffice/content/admission/page_edit.html:33
+#: templates/backoffice/content/admission/variant_edit.html:33
+#: templates/backoffice/content/blog/edit.html:64
+#: templates/backoffice/content/contacts/edit.html:35
+#: templates/backoffice/content/events/edit.html:64
+#: templates/backoffice/content/flatpages/create.html:27
+#: templates/backoffice/content/flatpages/edit.html:59
+#: templates/backoffice/content/footer/edit.html:35
+#: templates/backoffice/content/gallery/create.html:19
+#: templates/backoffice/content/gallery/edit.html:32
+#: templates/backoffice/content/home/edit.html:33
+#: templates/backoffice/content/program/edit.html:35
+#: templates/backoffice/content/team/create.html:19
+#: templates/backoffice/content/team/edit.html:53
+#: templates/backoffice/settings/regions/edit.html:30
+#: templates/backoffice/site/menu/edit.html:29
+msgid "Русский"
+msgstr "Русский"
+
+#: templates/backoffice/content/activities/group_edit.html:19
+#: templates/backoffice/content/activities/region.html:30
+#: templates/backoffice/content/admission/page_edit.html:33
+#: templates/backoffice/content/admission/variant_edit.html:33
+#: templates/backoffice/content/blog/edit.html:64
+#: templates/backoffice/content/contacts/edit.html:35
+#: templates/backoffice/content/events/edit.html:64
+#: templates/backoffice/content/flatpages/create.html:27
+#: templates/backoffice/content/flatpages/edit.html:59
+#: templates/backoffice/content/footer/edit.html:35
+#: templates/backoffice/content/gallery/create.html:19
+#: templates/backoffice/content/gallery/edit.html:32
+#: templates/backoffice/content/home/edit.html:33
+#: templates/backoffice/content/program/edit.html:35
+#: templates/backoffice/content/team/create.html:19
+#: templates/backoffice/content/team/edit.html:53
+#: templates/backoffice/settings/regions/edit.html:30
+#: templates/backoffice/site/menu/edit.html:29
+msgid "основной"
+msgstr "основной"
+
+#: templates/backoffice/content/activities/group_edit.html:39
+#: templates/backoffice/content/admission/page_edit.html:53
+#: templates/backoffice/content/admission/variant_edit.html:53
+#: templates/backoffice/content/blog/edit.html:83
+#: templates/backoffice/content/contacts/edit.html:55
+#: templates/backoffice/content/events/edit.html:83
+#: templates/backoffice/content/flatpages/edit.html:78
+#: templates/backoffice/content/footer/edit.html:55
+#: templates/backoffice/content/home/edit.html:53
+#: templates/backoffice/content/program/edit.html:55
+#: templates/backoffice/content/team/edit.html:72
+msgid "Перевести пустые KK/EN из RU через Gemini"
+msgstr "Перевести пустые KK/EN из RU через Gemini"
+
+#: templates/backoffice/content/activities/group_edit.html:44
+#: templates/backoffice/content/admission/page_edit.html:58
+#: templates/backoffice/content/admission/variant_edit.html:58
+#: templates/backoffice/content/blog/edit.html:88
+#: templates/backoffice/content/contacts/edit.html:60
+#: templates/backoffice/content/events/edit.html:88
+#: templates/backoffice/content/flatpages/edit.html:83
+#: templates/backoffice/content/footer/edit.html:60
+#: templates/backoffice/content/home/edit.html:58
+#: templates/backoffice/content/program/edit.html:60
+#: templates/backoffice/content/team/edit.html:77
+msgid "Авто-перевод"
+msgstr "Авто-перевод"
+
+#: templates/backoffice/content/activities/group_edit.html:64
+msgid "Параметры группы"
+msgstr "Параметры группы"
+
+#: templates/backoffice/content/activities/group_edit.html:68
+msgid "Если пусто — на сайте будет авто-подпись типа «1–4 класс». Заполни если нужно «Младшие», «Продвинутые» и т.п."
+msgstr "Если пусто — на сайте будет авто-подпись типа «1–4 класс». Заполни если нужно «Младшие», «Продвинутые» и т.п."
+
+#: templates/backoffice/content/activities/group_edit.html:71
+msgid "Классы"
+msgstr "Классы"
+
+#: templates/backoffice/content/activities/group_edit.html:81
+msgid "Выбери классы, в которых занимаются. Если ничего не выбрано — на сайте «1–11 класс»."
+msgstr "Выбери классы, в которых занимаются. Если ничего не выбрано — на сайте «1–11 класс»."
+
+#: templates/backoffice/content/activities/group_edit.html:86
+msgid "Стоимость, ₸/мес"
+msgstr "Стоимость, ₸/мес"
+
+#: templates/backoffice/content/activities/group_edit.html:89
+msgid "Целое число. Пусто — цена не указана."
+msgstr "Целое число. Пусто — цена не указана."
+
+#: templates/backoffice/content/activities/group_edit.html:92
+msgid "Статус набора"
+msgstr "Статус набора"
+
+#: templates/backoffice/content/activities/group_edit.html:96
+msgid "Лимит учеников"
+msgstr "Лимит учеников"
+
+#: templates/backoffice/content/activities/group_edit.html:110
+msgid "Имя/телефон/био тренера этой группы. У разных групп одного кружка могут быть разные тренера."
+msgstr "Имя/телефон/био тренера этой группы. У разных групп одного кружка могут быть разные тренера."
+
+#: templates/backoffice/content/activities/group_edit.html:115
+#: templates/backoffice/leads/detail.html:53
+#: templates/partials/modals/feedback.html:137
+msgid "Телефон"
+msgstr "Телефон"
+
+#: templates/backoffice/content/activities/group_edit.html:118
+msgid "+77051234567. На сайте сейчас не выводится — хранится для будущего."
+msgstr "+77051234567. На сайте сейчас не выводится — хранится для будущего."
+
+#: templates/backoffice/content/activities/group_edit.html:127
+msgid "Расписание"
+msgstr "Расписание"
+
+#: templates/backoffice/content/activities/group_edit.html:129
+msgid "Каждый слот — день недели + время начала/окончания. Используется фильтром «День недели» на публичной странице."
+msgstr "Каждый слот — день недели + время начала/окончания. Используется фильтром «День недели» на публичной странице."
+
+#: templates/backoffice/content/activities/group_edit.html:151
+#: templates/backoffice/content/activities/group_edit.html:190
+#: templates/backoffice/content/activities/region.html:187
+#: templates/backoffice/content/admission/_pricing_card.html:34
+#: templates/backoffice/content/admission/_simple_list_item.html:26
+#: templates/backoffice/content/blog/edit.html:56
+#: templates/backoffice/content/blog/edit.html:227
+#: templates/backoffice/content/blog/taxonomy.html:36
+#: templates/backoffice/content/blog/taxonomy.html:76
+#: templates/backoffice/content/contacts/edit.html:158
+#: templates/backoffice/content/events/edit.html:56
+#: templates/backoffice/content/events/edit.html:205
+#: templates/backoffice/content/flatpages/edit.html:51
+#: templates/backoffice/content/flatpages/edit.html:217
+#: templates/backoffice/content/gallery/edit.html:132
+#: templates/backoffice/content/gallery/taxonomy.html:39
+#: templates/backoffice/content/home/edit.html:244
+#: templates/backoffice/content/program/_faq_card.html:31
+#: templates/backoffice/content/program/_inline_formset.html:44
+#: templates/backoffice/content/program/_variant_formset.html:34
+#: templates/backoffice/content/team/edit.html:46
+#: templates/backoffice/settings/users/edit.html:28
+#: templates/backoffice/site/menu/_item_card.html:35
+msgid "Удалить"
+msgstr "Удалить"
+
+#: templates/backoffice/content/activities/group_edit.html:154
+#: templates/backoffice/content/activities/group_edit.html:171
+msgid "Убрать слот"
+msgstr "Убрать слот"
+
+#: templates/backoffice/content/activities/group_edit.html:180
+msgid "Добавить слот"
+msgstr "Добавить слот"
+
+#: templates/backoffice/content/activities/group_edit.html:188
+msgid "Удалить группу со всеми слотами расписания?"
+msgstr "Удалить группу со всеми слотами расписания?"
+
+#: templates/backoffice/content/activities/group_edit.html:192
+#: templates/backoffice/content/admission/page_edit.html:266
+#: templates/backoffice/content/admission/variant_edit.html:194
+#: templates/backoffice/content/blog/edit.html:351
+#: templates/backoffice/content/contacts/edit.html:242
+#: templates/backoffice/content/events/edit.html:315
+#: templates/backoffice/content/flatpages/create.html:100
+#: templates/backoffice/content/flatpages/edit.html:318
+#: templates/backoffice/content/footer/edit.html:120
+#: templates/backoffice/content/gallery/create.html:72
+#: templates/backoffice/content/home/edit.html:321
+#: templates/backoffice/content/program/edit.html:281
+#: templates/backoffice/content/team/create.html:61
+#: templates/backoffice/content/team/edit.html:268
+#: templates/backoffice/settings/regions/create.html:37
+#: templates/backoffice/settings/regions/edit.html:72
+#: templates/backoffice/settings/users/create.html:74
+#: templates/backoffice/settings/users/edit.html:94
+#: templates/backoffice/site/menu/create.html:34
+#: templates/backoffice/site/menu/edit.html:96
+msgid "Отмена"
+msgstr "Отмена"
+
+#: templates/backoffice/content/activities/group_edit.html:193
+#: templates/backoffice/content/activities/region.html:189
+#: templates/backoffice/content/admission/page_edit.html:271
+#: templates/backoffice/content/admission/variant_edit.html:199
+#: templates/backoffice/content/blog/edit.html:356
+#: templates/backoffice/content/blog/taxonomy.html:31
+#: templates/backoffice/content/blog/taxonomy.html:71
+#: templates/backoffice/content/contacts/edit.html:247
+#: templates/backoffice/content/events/edit.html:320
+#: templates/backoffice/content/flatpages/edit.html:323
+#: templates/backoffice/content/footer/edit.html:125
+#: templates/backoffice/content/gallery/taxonomy.html:34
+#: templates/backoffice/content/home/edit.html:326
+#: templates/backoffice/content/program/edit.html:286
+#: templates/backoffice/content/team/edit.html:273
+#: templates/backoffice/leads/detail.html:105
+#: templates/backoffice/settings/regions/edit.html:73
+#: templates/backoffice/settings/users/edit.html:95
+#: templates/backoffice/site/menu/edit.html:97
+msgid "Сохранить"
+msgstr "Сохранить"
+
+#: templates/backoffice/content/activities/list.html:8
+msgid "Активности"
+msgstr "Активности"
+
+#: templates/backoffice/content/activities/list.html:9
+msgid "Внеклассные кружки — свой набор на каждый регион. Выбери регион."
+msgstr "Внеклассные кружки — свой набор на каждый регион. Выбери регион."
+
+#: templates/backoffice/content/activities/list.html:17
+#: templates/backoffice/content/admission/list.html:17
+#: templates/backoffice/content/blog/list.html:76
+#: templates/backoffice/content/contacts/list.html:17
+#: templates/backoffice/content/events/list.html:66
+#: templates/backoffice/content/flatpages/create.html:57
+#: templates/backoffice/content/flatpages/list.html:63
+#: templates/backoffice/content/footer/list.html:17
+#: templates/backoffice/content/gallery/create.html:50
+#: templates/backoffice/content/gallery/list.html:72
+#: templates/backoffice/content/home/list.html:17
+#: templates/backoffice/content/program/list.html:17
+#: templates/backoffice/content/team/create.html:47
+#: templates/backoffice/content/team/list.html:17
+#: templates/backoffice/leads/detail.html:55
+#: templates/backoffice/settings/regions/edit.html:50
+#: templates/backoffice/settings/regions/list.html:20
+#: templates/backoffice/settings/users/list.html:24
+msgid "Регион"
+msgstr "Регион"
+
+#: templates/backoffice/content/activities/list.html:18
+msgid "Кружков"
+msgstr "Кружков"
+
+#: templates/backoffice/content/activities/list.html:33
+#: templates/backoffice/content/activities/list.html:52
+#: templates/backoffice/content/team/_row.html:37
+#: templates/backoffice/content/team/list.html:37
+#: templates/backoffice/content/team/list.html:57
+msgid "Открыть →"
+msgstr "Открыть →"
+
+#: templates/backoffice/content/activities/list.html:48
+msgid "кружков"
+msgstr "кружков"
+
+#: templates/backoffice/content/activities/list.html:59
+#: templates/backoffice/content/team/list.html:64
+msgid "Нет доступных регионов."
+msgstr "Нет доступных регионов."
+
+#: templates/backoffice/content/activities/region.html:5
+#: templates/backoffice/content/team/region.html:7
+msgid "К списку регионов"
+msgstr "К списку регионов"
+
+#: templates/backoffice/content/activities/region.html:12
+#, python-format
+msgid "Активности — %(region)s"
+msgstr "Активности — %(region)s"
+
+#: templates/backoffice/content/activities/region.html:13
+#, python-format
+msgid "%(a)s кружков. Клик по карточке — разворачивает форму, сохранение на каждом аккордеоне отдельной кнопкой."
+msgstr "%(a)s кружков. Клик по карточке — разворачивает форму, сохранение на каждом аккордеоне отдельной кнопкой."
+
+#: templates/backoffice/content/activities/region.html:22
+#: templates/backoffice/content/admission/page_edit.html:26
+#: templates/backoffice/content/admission/variant_edit.html:26
+#: templates/backoffice/content/blog/edit.html:48
+#: templates/backoffice/content/contacts/edit.html:28
+#: templates/backoffice/content/events/edit.html:48
+#: templates/backoffice/content/flatpages/edit.html:43
+#: templates/backoffice/content/footer/edit.html:28
+#: templates/backoffice/content/home/edit.html:26
+#: templates/backoffice/content/program/edit.html:28
+#: templates/backoffice/content/team/edit.html:39
+msgid "Просмотреть на сайте"
+msgstr "Просмотреть на сайте"
+
+#: templates/backoffice/content/activities/region.html:52
+msgid "Добавить кружок"
+msgstr "Добавить кружок"
+
+#: templates/backoffice/content/activities/region.html:70
+#: templates/backoffice/content/admission/_pricing_card.html:13
+#: templates/backoffice/content/admission/_simple_list_item.html:11
+#: templates/backoffice/content/blog/edit.html:221
+#: templates/backoffice/content/events/edit.html:199
+#: templates/backoffice/content/flatpages/edit.html:211
+#: templates/backoffice/content/home/edit.html:241
+#: templates/backoffice/content/program/_faq_card.html:13
+#: templates/backoffice/content/program/_inline_formset.html:29
+#: templates/backoffice/content/program/_stat_formset.html:19
+#: templates/backoffice/content/program/_variant_formset.html:23
+#: templates/backoffice/content/team/_row.html:3
+#: templates/backoffice/site/menu/_item_card.html:15
+msgid "Перетащить"
+msgstr "Перетащить"
+
+#: templates/backoffice/content/activities/region.html:78
+msgid "групп"
+msgstr "групп"
+
+#: templates/backoffice/content/activities/region.html:82
+msgid "Показывается на лендинге Программы"
+msgstr "Показывается на лендинге Программы"
+
+#: templates/backoffice/content/activities/region.html:83
+#: templates/backoffice/content/team/_row.html:33
+msgid "Скрыт с сайта"
+msgstr "Скрыт с сайта"
+
+#: templates/backoffice/content/activities/region.html:105
+#: templates/backoffice/site/menu/edit.html:49
+msgid "Секция"
+msgstr "Секция"
+
+#: templates/backoffice/content/activities/region.html:107
+msgid "При смене кружок переместится в выбранную секцию каталога после сохранения."
+msgstr "При смене кружок переместится в выбранную секцию каталога после сохранения."
+
+#: templates/backoffice/content/activities/region.html:110
+msgid "Флаги"
+msgstr "Флаги"
+
+#: templates/backoffice/content/activities/region.html:111
+#: templates/backoffice/content/team/edit.html:171
+#: templates/backoffice/site/menu/_item_card.html:61
+msgid "Опубликован"
+msgstr "Опубликован"
+
+#: templates/backoffice/content/activities/region.html:112
+msgid "Избранный (на Программа)"
+msgstr "Избранный (на Программа)"
+
+#: templates/backoffice/content/activities/region.html:115
+msgid "Автоперевод"
+msgstr "Автоперевод"
+
+#: templates/backoffice/content/activities/region.html:126
+msgid "Перевести пустые KK/EN из RU"
+msgstr "Перевести пустые KK/EN из RU"
+
+#: templates/backoffice/content/activities/region.html:131
+msgid "RU → KK/EN"
+msgstr "RU → KK/EN"
+
+#: templates/backoffice/content/activities/region.html:149
+msgid "Тренер задаётся отдельно для каждой группы — открой страницу группы ниже."
+msgstr "Тренер задаётся отдельно для каждой группы — открой страницу группы ниже."
+
+#: templates/backoffice/content/activities/region.html:156
+msgid "Группы"
+msgstr "Группы"
+
+#: templates/backoffice/content/activities/region.html:159
+msgid "Каждая группа — свой набор классов, цена, расписание и лимит. Расписание (дни и время) редактируется на странице группы."
+msgstr "Каждая группа — свой набор классов, цена, расписание и лимит. Расписание (дни и время) редактируется на странице группы."
+
+#: templates/backoffice/content/activities/region.html:167
+msgid "мес"
+msgstr "мес"
+
+#: templates/backoffice/content/activities/region.html:167
+msgid "слотов"
+msgstr "слотов"
+
+#: templates/backoffice/content/activities/region.html:167
+msgid "без расписания"
+msgstr "без расписания"
+
+#: templates/backoffice/content/activities/region.html:169
+#: templates/backoffice/content/admission/list.html:41
+#: templates/backoffice/content/admission/list.html:61
+#: templates/backoffice/content/admission/page_edit.html:239
+#: templates/backoffice/content/home/list.html:41
+#: templates/backoffice/content/home/list.html:61
+#: templates/backoffice/content/program/list.html:42
+#: templates/backoffice/content/program/list.html:62
+#: templates/backoffice/settings/regions/list.html:50
+#: templates/backoffice/settings/regions/list.html:71
+#: templates/backoffice/settings/users/list.html:60
+#: templates/backoffice/settings/users/list.html:88
+#: templates/backoffice/site/menu/list.html:43
+#: templates/backoffice/site/menu/list.html:60
+msgid "Редактировать →"
+msgstr "Редактировать →"
+
+#: templates/backoffice/content/activities/region.html:179
+msgid "Добавить группу"
+msgstr "Добавить группу"
+
+#: templates/backoffice/content/activities/region.html:185
+msgid "Удалить кружок? Группы и слоты удалятся вместе с ним."
+msgstr "Удалить кружок? Группы и слоты удалятся вместе с ним."
+
+#: templates/backoffice/content/activities/region.html:197
+msgid "Нет кружков в этой секции. Нажми «Добавить кружок» чтобы создать."
+msgstr "Нет кружков в этой секции. Нажми «Добавить кружок» чтобы создать."
+
+#: templates/backoffice/content/admission/_pricing_card.html:8
+msgid "Новый план"
+msgstr "Новый план"
+
+#: templates/backoffice/content/admission/_pricing_card.html:13
+#: templates/backoffice/content/admission/_simple_list_item.html:11
+#: templates/backoffice/content/program/_faq_card.html:13
+#: templates/backoffice/content/program/_inline_formset.html:29
+#: templates/backoffice/site/menu/_item_card.html:15
+msgid "Перетащить для сортировки"
+msgstr "Перетащить для сортировки"
+
+#: templates/backoffice/content/admission/_pricing_card.html:34
+#: templates/backoffice/content/program/_faq_card.html:31
+#: templates/backoffice/site/menu/_item_card.html:35
+msgid "Отменить"
+msgstr "Отменить"
+
+#: templates/backoffice/content/admission/_pricing_card.html:37
+#: templates/backoffice/content/program/_faq_card.html:34
+#: templates/backoffice/site/menu/_item_card.html:38
+msgid "Убрать карточку"
+msgstr "Убрать карточку"
+
+#: templates/backoffice/content/admission/_pricing_card.html:37
+#: templates/backoffice/content/program/_faq_card.html:34
+#: templates/backoffice/site/menu/_item_card.html:38
+msgid "Убрать карточку (до сохранения)"
+msgstr "Убрать карточку (до сохранения)"
+
+#: templates/backoffice/content/admission/_pricing_card.html:67
+msgid "Редактировать SVG-иконку"
+msgstr "Редактировать SVG-иконку"
+
+#: templates/backoffice/content/admission/_pricing_card.html:73
+msgid "SVG-иконка прайс-карты"
+msgstr "SVG-иконка прайс-карты"
+
+#: templates/backoffice/content/admission/_pricing_card.html:74
+#: templates/backoffice/content/program/_inline_formset.html:67
+#: templates/partials/header.html:27 templates/partials/modals/feedback.html:62
+#: templates/partials/modals/feedback.html:172
+msgid "Закрыть"
+msgstr "Закрыть"
+
+#: templates/backoffice/content/admission/_pricing_card.html:79
+#: templates/backoffice/content/program/_inline_formset.html:72
+msgid "Полная разметка <svg>…</svg>"
+msgstr "Полная разметка <svg>…</svg>"
+
+#: templates/backoffice/content/admission/_pricing_card.html:82
+msgid "Иконка слева сверху карточки на сайте. Превью обновится после сохранения формы."
+msgstr "Иконка слева сверху карточки на сайте. Превью обновится после сохранения формы."
+
+#: templates/backoffice/content/admission/_pricing_card.html:85
+#: templates/backoffice/content/program/_inline_formset.html:78
+msgid "Готово"
+msgstr "Готово"
+
+#: templates/backoffice/content/admission/_pricing_formset.html:2
+msgid "Прайс-карты этапа «Договор и взнос»"
+msgstr "Прайс-карты этапа «Договор и взнос»"
+
+#: templates/backoffice/content/admission/_pricing_formset.html:28
+msgid "Добавить план оплаты"
+msgstr "Добавить план оплаты"
+
+#: templates/backoffice/content/admission/_pricing_formset.html:30
+msgid "Обычно 3 плана (best/quarterly/yearly). Перетаскивай за ≡ для сортировки."
+msgstr "Обычно 3 плана (best/quarterly/yearly). Перетаскивай за ≡ для сортировки."
+
+#: templates/backoffice/content/admission/_simple_list.html:41
+#: templates/backoffice/content/blog/_tag_picker.html:54
+msgid "Добавить"
+msgstr "Добавить"
+
+#: templates/backoffice/content/admission/_simple_list.html:43
+msgid "Перетаскивай за ≡ слева, чтобы изменить порядок."
+msgstr "Перетаскивай за ≡ слева, чтобы изменить порядок."
+
+#: templates/backoffice/content/admission/_simple_list_item.html:29
+msgid "Убрать строку"
+msgstr "Убрать строку"
+
+#: templates/backoffice/content/admission/_simple_list_item.html:29
+msgid "Убрать строку (до сохранения)"
+msgstr "Убрать строку (до сохранения)"
+
+#: templates/backoffice/content/admission/_simple_list_item.html:39
+msgid "Это НЕ входит в стоимость (✕ вместо ✓ на сайте)"
+msgstr "Это НЕ входит в стоимость (✕ вместо ✓ на сайте)"
+
+#: templates/backoffice/content/admission/list.html:8
+msgid "Поступление"
+msgstr "Поступление"
+
+#: templates/backoffice/content/admission/list.html:9
+msgid "Лендинг «Поступление» для каждого региона. Общие тексты страницы + 6 вариантов (русское × {1, 2-7, 8-11} + казахское × {1, 2-6, 7-11}). Выберите регион."
+msgstr "Лендинг «Поступление» для каждого региона. Общие тексты страницы + 6 вариантов (русское × {1, 2-7, 8-11} + казахское × {1, 2-6, 7-11}). Выберите регион."
+
+#: templates/backoffice/content/admission/list.html:18
+msgid "Вариантов"
+msgstr "Вариантов"
+
+#: templates/backoffice/content/admission/list.html:19
+msgid "Списки"
+msgstr "Списки"
+
+#: templates/backoffice/content/admission/list.html:20
+#: templates/backoffice/content/contacts/list.html:20
+#: templates/backoffice/content/flatpages/list.html:64
+#: templates/backoffice/content/footer/list.html:19
+#: templates/backoffice/content/home/list.html:20
+#: templates/backoffice/content/program/list.html:20
+msgid "Обновлено"
+msgstr "Обновлено"
+
+#: templates/backoffice/content/admission/list.html:32
+msgid "из 6"
+msgstr "из 6"
+
+#: templates/backoffice/content/admission/list.html:35
+msgid "пунктов"
+msgstr "пунктов"
+
+#: templates/backoffice/content/admission/list.html:35
+msgid "документов"
+msgstr "документов"
+
+#: templates/backoffice/content/admission/list.html:57
+msgid "вариантов из 6"
+msgstr "вариантов из 6"
+
+#: templates/backoffice/content/admission/list.html:68
+msgid "Лендинги «Поступление» создаются миграцией. Если регион новый — обратись к разработчику."
+msgstr "Лендинги «Поступление» создаются миграцией. Если регион новый — обратись к разработчику."
+
+#: templates/backoffice/content/admission/page_edit.html:5
+#: templates/backoffice/content/blog/edit.html:21
+#: templates/backoffice/content/contacts/edit.html:7
+#: templates/backoffice/content/events/edit.html:21
+#: templates/backoffice/content/flatpages/create.html:13
+#: templates/backoffice/content/flatpages/edit.html:19
+#: templates/backoffice/content/footer/edit.html:7
+#: templates/backoffice/content/home/edit.html:5
+#: templates/backoffice/content/program/edit.html:7
+#: templates/backoffice/content/team/create.html:5
+#: templates/backoffice/content/team/edit.html:15
+#: templates/backoffice/settings/regions/create.html:5
+#: templates/backoffice/settings/regions/edit.html:5
+#: templates/backoffice/settings/users/create.html:5
+#: templates/backoffice/settings/users/edit.html:5
+msgid "К списку"
+msgstr "К списку"
+
+#: templates/backoffice/content/admission/page_edit.html:12
+#, python-format
+msgid "Поступление — %(region)s"
+msgstr "Поступление — %(region)s"
+
+#: templates/backoffice/content/admission/page_edit.html:13
+#, python-format
+msgid "Общие тексты страницы и 6 вариантов (отделение × класс). Обновлено %(date)s."
+msgstr "Общие тексты страницы и 6 вариантов (отделение × класс). Обновлено %(date)s."
+
+#: templates/backoffice/content/admission/page_edit.html:20
+#: templates/backoffice/content/contacts/edit.html:22
+#: templates/backoffice/content/home/edit.html:20
+#: templates/backoffice/content/program/edit.html:22
+msgid "Открыть страницу в новой вкладке на текущем языке"
+msgstr "Открыть страницу в новой вкладке на текущем языке"
+
+#: templates/backoffice/content/admission/page_edit.html:78
+msgid "Этапы (stepper)"
+msgstr "Этапы (stepper)"
+
+#: templates/backoffice/content/admission/page_edit.html:81
+msgid "5 этапов в боковой колонке. Подписи (meta) опциональны."
+msgstr "5 этапов в боковой колонке. Подписи (meta) опциональны."
+
+#: templates/backoffice/content/admission/page_edit.html:109
+msgid "Заголовки секций (h3)"
+msgstr "Заголовки секций (h3)"
+
+#: templates/backoffice/content/admission/page_edit.html:112
+msgid "Заголовки в правой колонке. Префикс «01 — », «02 — » добавляется автоматически."
+msgstr "Заголовки в правой колонке. Префикс «01 — », «02 — » добавляется автоматически."
+
+#: templates/backoffice/content/admission/page_edit.html:125
+msgid "UI-лейблы"
+msgstr "UI-лейблы"
+
+#: templates/backoffice/content/admission/page_edit.html:140
+msgid "Этап «Тестирование» — общая часть"
+msgstr "Этап «Тестирование» — общая часть"
+
+#: templates/backoffice/content/admission/page_edit.html:143
+msgid "Параграф с правилами под 4 карточками и плашка с ценой. 4 карточки тестирования — на странице каждого варианта."
+msgstr "Параграф с правилами под 4 карточками и плашка с ценой. 4 карточки тестирования — на странице каждого варианта."
+
+#: templates/backoffice/content/admission/page_edit.html:158
+msgid "Этап «Договор» — общая часть"
+msgstr "Этап «Договор» — общая часть"
+
+#: templates/backoffice/content/admission/page_edit.html:161
+msgid "Текст про вступительный взнос + заголовки подсписков. Сам прайс — на каждой странице варианта."
+msgstr "Текст про вступительный взнос + заголовки подсписков. Сам прайс — на каждой странице варианта."
+
+#: templates/backoffice/content/admission/page_edit.html:180
+msgid "Этап «Зачисление»"
+msgstr "Этап «Зачисление»"
+
+#: templates/backoffice/content/admission/page_edit.html:198
+msgid "Этап «Консультация»"
+msgstr "Этап «Консультация»"
+
+#: templates/backoffice/content/admission/page_edit.html:213
+msgid "Варианты страницы (отделение × класс)"
+msgstr "Варианты страницы (отделение × класс)"
+
+#: templates/backoffice/content/admission/page_edit.html:215
+msgid "6 уникальных страниц региона: 3 RU (1, 2-7, 8-11) + 3 KZ (1, 2-6, 7-11). У каждого варианта свои h1, lead'ы этапов, 4 testing-карточки, прайс-карты и SEO."
+msgstr "6 уникальных страниц региона: 3 RU (1, 2-7, 8-11) + 3 KZ (1, 2-6, 7-11). У каждого варианта свои h1, lead'ы этапов, 4 testing-карточки, прайс-карты и SEO."
+
+#: templates/backoffice/content/admission/page_edit.html:227
+msgid "Без H1 — placeholder"
+msgstr "Без H1 — placeholder"
+
+#: templates/backoffice/content/admission/page_edit.html:230
+msgid "карточек"
+msgstr "карточек"
+
+#: templates/backoffice/content/admission/page_edit.html:232
+msgid "плана"
+msgstr "плана"
+
+#: templates/backoffice/content/admission/page_edit.html:234
+msgid "Все три lead-параграфа заполнены"
+msgstr "Все три lead-параграфа заполнены"
+
+#: templates/backoffice/content/admission/page_edit.html:236
+msgid "Не все lead-параграфы заполнены"
+msgstr "Не все lead-параграфы заполнены"
+
+#: templates/backoffice/content/admission/page_edit.html:245
+msgid "Варианты создаются миграцией. Обратись к разработчику если регион новый."
+msgstr "Варианты создаются миграцией. Обратись к разработчику если регион новый."
+
+#: templates/backoffice/content/admission/page_edit.html:260
+#: templates/backoffice/content/admission/variant_edit.html:188
+#: templates/backoffice/content/blog/edit.html:345
+#: templates/backoffice/content/contacts/edit.html:236
+#: templates/backoffice/content/events/edit.html:309
+#: templates/backoffice/content/flatpages/edit.html:312
+#: templates/backoffice/content/footer/edit.html:114
+#: templates/backoffice/content/home/edit.html:315
+#: templates/backoffice/content/program/edit.html:275
+#: templates/backoffice/content/team/edit.html:262
+msgid "Обязательный шаг"
+msgstr "Обязательный шаг"
+
+#: templates/backoffice/content/admission/variant_edit.html:5
+#, python-format
+msgid "К общим текстам (%(region)s)"
+msgstr "К общим текстам (%(region)s)"
+
+#: templates/backoffice/content/admission/variant_edit.html:13
+#, python-format
+msgid "Регион %(region)s. Вариант страницы поступления: hero, lead'ы 3 этапов (Тестирование / Результат / Договор), 4 testing-карточки + прайс-карты + SEO."
+msgstr "Регион %(region)s. Вариант страницы поступления: hero, lead'ы 3 этапов (Тестирование / Результат / Договор), 4 testing-карточки + прайс-карты + SEO."
+
+#: templates/backoffice/content/admission/variant_edit.html:20
+msgid "Открыть страницу в новой вкладке"
+msgstr "Открыть страницу в новой вкладке"
+
+#: templates/backoffice/content/admission/variant_edit.html:92
+msgid "Тестирование"
+msgstr "Тестирование"
+
+#: templates/backoffice/content/admission/variant_edit.html:95
+#, python-format
+msgid "Заголовок секции редактируется в общих текстах региона «%(region)s». Правила и цена тестирования — тоже общие. Здесь — lead этого варианта и 4 карточки тестирования."
+msgstr "Заголовок секции редактируется в общих текстах региона «%(region)s». Правила и цена тестирования — тоже общие. Здесь — lead этого варианта и 4 карточки тестирования."
+
+#: templates/backoffice/content/admission/variant_edit.html:108
+msgid "Результат"
+msgstr "Результат"
+
+#: templates/backoffice/content/admission/variant_edit.html:111
+#, python-format
+msgid "Заголовок секции редактируется в общих текстах региона «%(region)s»."
+msgstr "Заголовок секции редактируется в общих текстах региона «%(region)s»."
+
+#: templates/backoffice/content/admission/variant_edit.html:123
+msgid "Договор и взнос"
+msgstr "Договор и взнос"
+
+#: templates/backoffice/content/admission/variant_edit.html:126
+#, python-format
+msgid "Заголовок секции, текст про взнос и Стоимость включает/Не включено — в общих текстах региона «%(region)s». Здесь — lead и сами прайс-карты этого варианта."
+msgstr "Заголовок секции, текст про взнос и Стоимость включает/Не включено — в общих текстах региона «%(region)s». Здесь — lead и сами прайс-карты этого варианта."
+
+#: templates/backoffice/content/admission/variant_edit.html:151
+msgid "Сгенерировать SEO/OG для всех 3 языков из RU контента"
+msgstr "Сгенерировать SEO/OG для всех 3 языков из RU контента"
+
+#: templates/backoffice/content/admission/variant_edit.html:156
+#: templates/backoffice/content/blog/edit.html:313
+#: templates/backoffice/content/contacts/edit.html:205
+#: templates/backoffice/content/events/edit.html:277
+#: templates/backoffice/content/flatpages/edit.html:280
+#: templates/backoffice/content/home/edit.html:284
+#: templates/backoffice/content/program/edit.html:243
+#: templates/backoffice/content/team/edit.html:231
+msgid "Авто-генерация SEO"
+msgstr "Авто-генерация SEO"
+
+#: templates/backoffice/content/admission/variant_edit.html:157
+#: templates/backoffice/content/blog/edit.html:314
+#: templates/backoffice/content/contacts/edit.html:206
+#: templates/backoffice/content/events/edit.html:278
+#: templates/backoffice/content/flatpages/edit.html:281
+#: templates/backoffice/content/home/edit.html:285
+#: templates/backoffice/content/program/edit.html:244
+#: templates/backoffice/content/team/edit.html:232
+msgid "Генерируем…"
+msgstr "Генерируем…"
+
+#: templates/backoffice/content/blog/_content_editor.html:28
+#: templates/backoffice/content/events/_content_editor.html:28
+#: templates/backoffice/content/flatpages/_content_editor.html:22
+#: templates/backoffice/content/team/_content_editor.html:34
+msgid "(пусто — берётся из RU)"
+msgstr "(пусто — берётся из RU)"
+
+#: templates/backoffice/content/blog/_content_editor.html:28
+#: templates/backoffice/content/events/_content_editor.html:28
+msgid "Пишите HTML-контент: заголовки, абзацы, списки, цитаты, ссылки. Картинки добавляются через галерею."
+msgstr "Пишите HTML-контент: заголовки, абзацы, списки, цитаты, ссылки. Картинки добавляются через галерею."
+
+#: templates/backoffice/content/blog/_content_editor.html:34
+#: templates/backoffice/content/events/_content_editor.html:34
+#: templates/backoffice/content/flatpages/_content_editor.html:28
+msgid "новый абзац"
+msgstr "новый абзац"
+
+#: templates/backoffice/content/blog/_content_editor.html:35
+#: templates/backoffice/content/events/_content_editor.html:35
+#: templates/backoffice/content/flatpages/_content_editor.html:29
+msgid "мягкий перенос строки (без отступа)"
+msgstr "мягкий перенос строки (без отступа)"
+
+#: templates/backoffice/content/blog/_tag_picker.html:24
+msgid "Выбранные теги"
+msgstr "Выбранные теги"
+
+#: templates/backoffice/content/blog/_tag_picker.html:31
+msgid "Убрать"
+msgstr "Убрать"
+
+#: templates/backoffice/content/blog/_tag_picker.html:41
+msgid "Пока ничего не выбрано — кликни на тег ниже или используй «Подобрать через AI»."
+msgstr "Пока ничего не выбрано — кликни на тег ниже или используй «Подобрать через AI»."
+
+#: templates/backoffice/content/blog/_tag_picker.html:47
+msgid "Доступные в этом регионе"
+msgstr "Доступные в этом регионе"
+
+#: templates/backoffice/content/blog/_tag_picker.html:61
+msgid "Все теги уже выбраны. Создай новый ниже."
+msgstr "Все теги уже выбраны. Создай новый ниже."
+
+#: templates/backoffice/content/blog/_tag_picker.html:69
+msgid "Предложено AI"
+msgstr "Предложено AI"
+
+#: templates/backoffice/content/blog/_tag_picker.html:71
+#: templates/backoffice/settings/users/edit.html:104
+msgid "Скрыть"
+msgstr "Скрыть"
+
+#: templates/backoffice/content/blog/_tag_picker.html:80
+msgid "Создать новый тег"
+msgstr "Создать новый тег"
+
+#: templates/backoffice/content/blog/_tag_picker.html:80
+msgid "Тег уже существует — переиспользуем"
+msgstr "Тег уже существует — переиспользуем"
+
+#: templates/backoffice/content/blog/_tag_picker.html:88
+msgid "Кликни тег чтобы принять — он переедет в «Выбранные». Новые (✦) создадутся при сохранении."
+msgstr "Кликни тег чтобы принять — он переедет в «Выбранные». Новые (✦) создадутся при сохранении."
+
+#: templates/backoffice/content/blog/_tag_picker.html:97
+msgid "Свой тег (например: Cambridge)"
+msgstr "Свой тег (например: Cambridge)"
+
+#: templates/backoffice/content/blog/_tag_picker.html:104
+msgid "+ Добавить"
+msgstr "+ Добавить"
+
+#: templates/backoffice/content/blog/_tag_picker.html:111
+msgid "Gemini подберёт SEO-friendly теги по контенту RU"
+msgstr "Gemini подберёт SEO-friendly теги по контенту RU"
+
+#: templates/backoffice/content/blog/_tag_picker.html:116
+msgid "Подобрать через AI"
+msgstr "Подобрать через AI"
+
+#: templates/backoffice/content/blog/_tag_picker.html:117
+msgid "Думаем…"
+msgstr "Думаем…"
+
+#: templates/backoffice/content/blog/edit.html:28
+#: templates/backoffice/content/blog/list.html:19
+msgid "Новый пост"
+msgstr "Новый пост"
+
+#: templates/backoffice/content/blog/edit.html:31
+#: templates/backoffice/content/events/edit.html:31
+msgid "Черновик · заполни заголовок и нажми «Сохранить»."
+msgstr "Черновик · заполни заголовок и нажми «Сохранить»."
+
+#: templates/backoffice/content/blog/edit.html:33
+#: templates/backoffice/content/events/edit.html:33
+#: templates/backoffice/content/team/edit.html:25
+#, python-format
+msgid "Обновлено %(date)s"
+msgstr "Обновлено %(date)s"
+
+#: templates/backoffice/content/blog/edit.html:42
+msgid "Открыть пост на сайте на текущем языке"
+msgstr "Открыть пост на сайте на текущем языке"
+
+#: templates/backoffice/content/blog/edit.html:53
+msgid "Точно удалить этот пост? Действие необратимо."
+msgstr "Точно удалить этот пост? Действие необратимо."
+
+#: templates/backoffice/content/blog/edit.html:112
+#: templates/backoffice/content/events/edit.html:112
+#: templates/backoffice/content/flatpages/create.html:52
+#: templates/backoffice/content/flatpages/edit.html:124
+#: templates/backoffice/content/gallery/create.html:45
+#: templates/backoffice/content/team/create.html:43
+#: templates/backoffice/content/team/edit.html:100
+msgid "Основное"
+msgstr "Основное"
+
+#: templates/backoffice/content/blog/edit.html:118
+#: templates/backoffice/leads/detail.html:91
+msgid "Категория"
+msgstr "Категория"
+
+#: templates/backoffice/content/blog/edit.html:122
+msgid "Управлять категориями →"
+msgstr "Управлять категориями →"
+
+#: templates/backoffice/content/blog/edit.html:128
+#: templates/blog/_author_card.html:3
+msgid "Автор"
+msgstr "Автор"
+
+#: templates/backoffice/content/blog/edit.html:132
+msgid "Член команды того же региона. На сайте появится подпись с фото и ссылкой на профиль."
+msgstr "Член команды того же региона. На сайте появится подпись с фото и ссылкой на профиль."
+
+#: templates/backoffice/content/blog/edit.html:133
+msgid "Открыть команду региона →"
+msgstr "Открыть команду региона →"
+
+#: templates/backoffice/content/blog/edit.html:148
+#: templates/backoffice/content/events/edit.html:126
+#: templates/backoffice/content/flatpages/edit.html:138
+msgid "Обложка"
+msgstr "Обложка"
+
+#: templates/backoffice/content/blog/edit.html:164
+msgid "Содержимое статьи"
+msgstr "Содержимое статьи"
+
+#: templates/backoffice/content/blog/edit.html:176
+#: templates/backoffice/content/events/edit.html:154
+#: templates/backoffice/content/flatpages/edit.html:166
+msgid "Галерея"
+msgstr "Галерея"
+
+#: templates/backoffice/content/blog/edit.html:179
+msgid "Дополнительные изображения под статьёй. Перетащи карточки для смены порядка. Alt-текст и подпись редактируются на 3 языках — переключай через табы сверху."
+msgstr "Дополнительные изображения под статьёй. Перетащи карточки для смены порядка. Alt-текст и подпись редактируются на 3 языках — переключай через табы сверху."
+
+#: templates/backoffice/content/blog/edit.html:204
+#: templates/backoffice/content/events/edit.html:182
+#: templates/backoffice/content/flatpages/edit.html:194
+msgid "Перетащи картинки сюда или"
+msgstr "Перетащи картинки сюда или"
+
+#: templates/backoffice/content/blog/edit.html:206
+#: templates/backoffice/content/events/edit.html:184
+#: templates/backoffice/content/flatpages/edit.html:196
+#: templates/backoffice/content/gallery/edit.html:118
+msgid "выбери файлы"
+msgstr "выбери файлы"
+
+#: templates/backoffice/content/blog/edit.html:211
+#: templates/backoffice/content/events/edit.html:189
+#: templates/backoffice/content/flatpages/edit.html:201
+#: templates/backoffice/content/gallery/edit.html:122
+msgid "Загружаем…"
+msgstr "Загружаем…"
+
+#: templates/backoffice/content/blog/edit.html:221
+#: templates/backoffice/content/events/edit.html:199
+#: templates/backoffice/content/flatpages/edit.html:211
+#: templates/backoffice/content/home/edit.html:241
+msgid "Перетащить для смены порядка"
+msgstr "Перетащить для смены порядка"
+
+#: templates/backoffice/content/blog/edit.html:227
+#: templates/backoffice/content/events/edit.html:205
+#: templates/backoffice/content/flatpages/edit.html:217
+#: templates/backoffice/content/home/edit.html:244
+msgid "Удалить картинку"
+msgstr "Удалить картинку"
+
+#: templates/backoffice/content/blog/edit.html:250
+#: templates/backoffice/content/events/edit.html:228
+#: templates/backoffice/content/flatpages/edit.html:240
+msgid "Пока ни одной картинки в галерее. Загрузи первую через зону выше."
+msgstr "Пока ни одной картинки в галерее. Загрузи первую через зону выше."
+
+#: templates/backoffice/content/blog/edit.html:258
+#: templates/backoffice/content/blog/list.html:75
+#: templates/backoffice/content/blog/taxonomy.html:58
+msgid "Теги"
+msgstr "Теги"
+
+#: templates/backoffice/content/blog/edit.html:261
+msgid "Используй существующие теги где возможно — это повышает связность блога. Подбирай 3-7 SEO-friendly тегов."
+msgstr "Используй существующие теги где возможно — это повышает связность блога. Подбирай 3-7 SEO-friendly тегов."
+
+#: templates/backoffice/content/blog/edit.html:270
+#: templates/backoffice/content/events/edit.html:236
+#: templates/backoffice/content/flatpages/edit.html:248
+#: templates/backoffice/content/team/edit.html:164
+msgid "Публикация"
+msgstr "Публикация"
+
+#: templates/backoffice/content/blog/edit.html:277
+#: templates/backoffice/content/events/edit.html:243
+#: templates/backoffice/content/flatpages/edit.html:254
+msgid "Опубликовано на сайте"
+msgstr "Опубликовано на сайте"
+
+#: templates/backoffice/content/blog/edit.html:279
+msgid "Снять галку — пост уйдёт в черновики."
+msgstr "Снять галку — пост уйдёт в черновики."
+
+#: templates/backoffice/content/blog/edit.html:284
+#: templates/backoffice/content/events/edit.html:250
+msgid "Дата публикации"
+msgstr "Дата публикации"
+
+#: templates/backoffice/content/blog/edit.html:308
+#: templates/backoffice/content/events/edit.html:272
+#: templates/backoffice/content/flatpages/edit.html:275
+msgid "Сгенерировать SEO/OG для всех 3 языков из title+lead. Заполняет только пустые."
+msgstr "Сгенерировать SEO/OG для всех 3 языков из title+lead. Заполняет только пустые."
+
+#: templates/backoffice/content/blog/list.html:9 templates/blog/detail.html:24
+#: templates/blog/list.html:4 templates/blog/list.html:21
+#: templates/blog/list.html:29
+msgid "Блог"
+msgstr "Блог"
+
+#: templates/backoffice/content/blog/list.html:10
+msgid "Статьи на /blog/ в каждом регионе. Создавай посты, привязывай теги и категории, публикуй."
+msgstr "Статьи на /blog/ в каждом регионе. Создавай посты, привязывай теги и категории, публикуй."
+
+#: templates/backoffice/content/blog/list.html:14
+msgid "Категории и теги"
+msgstr "Категории и теги"
+
+#: templates/backoffice/content/blog/list.html:26
+#: templates/backoffice/content/events/list.html:23
+#: templates/backoffice/content/flatpages/list.html:19
+#: templates/backoffice/content/gallery/list.html:22
+msgid "Статус публикации"
+msgstr "Статус публикации"
+
+#: templates/backoffice/content/blog/list.html:48
+#: templates/backoffice/content/events/list.html:45
+msgid "Поиск по заголовку"
+msgstr "Поиск по заголовку"
+
+#: templates/backoffice/content/blog/list.html:53
+#: templates/backoffice/leads/list.html:36
+msgid "Все категории"
+msgstr "Все категории"
+
+#: templates/backoffice/content/blog/list.html:60
+#: templates/backoffice/content/events/list.html:51
+#: templates/backoffice/content/flatpages/list.html:47
+#: templates/backoffice/content/gallery/list.html:56
+#: templates/backoffice/leads/list.html:44
+msgid "Все регионы"
+msgstr "Все регионы"
+
+#: templates/backoffice/content/blog/list.html:66
+#: templates/backoffice/content/events/list.html:57
+#: templates/backoffice/content/flatpages/list.html:53
+#: templates/backoffice/content/gallery/list.html:62
+#: templates/backoffice/leads/list.html:51
+msgid "Применить"
+msgstr "Применить"
+
+#: templates/backoffice/content/blog/list.html:74
+#: templates/backoffice/content/events/list.html:65
+#: templates/backoffice/content/flatpages/list.html:61
+#: templates/backoffice/site/menu/list.html:20
+msgid "Заголовок"
+msgstr "Заголовок"
+
+#: templates/backoffice/content/blog/list.html:77
+#: templates/backoffice/content/events/list.html:67
+msgid "Дата"
+msgstr "Дата"
+
+#: templates/backoffice/content/blog/list.html:78
+#: templates/backoffice/content/events/list.html:68
+#: templates/backoffice/content/flatpages/list.html:65
+#: templates/backoffice/content/gallery/list.html:75
+#: templates/backoffice/leads/detail.html:81
+#: templates/backoffice/leads/list.html:61
+msgid "Статус"
+msgstr "Статус"
+
+#: templates/backoffice/content/blog/list.html:106
+#: templates/backoffice/content/blog/list.html:130
+#: templates/backoffice/content/events/list.html:86
+#: templates/backoffice/content/events/list.html:109
+#: templates/backoffice/content/flatpages/list.html:86
+#: templates/backoffice/content/flatpages/list.html:110
+#: templates/backoffice/content/gallery/list.html:99
+msgid "Опубликовано"
+msgstr "Опубликовано"
+
+#: templates/backoffice/content/blog/list.html:108
+#: templates/backoffice/content/blog/list.html:132
+#: templates/backoffice/content/events/list.html:88
+#: templates/backoffice/content/events/list.html:111
+#: templates/backoffice/content/flatpages/list.html:88
+#: templates/backoffice/content/flatpages/list.html:112
+#: templates/backoffice/content/gallery/list.html:101
+msgid "Черновик"
+msgstr "Черновик"
+
+#: templates/backoffice/content/blog/list.html:140
+#: templates/backoffice/content/events/list.html:119
+#: templates/backoffice/content/flatpages/list.html:120
+#: templates/backoffice/content/gallery/list.html:127
+msgid "Постраничная навигация"
+msgstr "Постраничная навигация"
+
+#: templates/backoffice/content/blog/list.html:142
+#: templates/backoffice/content/events/list.html:121
+#: templates/backoffice/content/flatpages/list.html:122
+#: templates/backoffice/content/gallery/list.html:129
+#: templates/backoffice/leads/list.html:120
+#: templates/backoffice/leads/list.html:122
+msgid "Назад"
+msgstr "Назад"
+
+#: templates/backoffice/content/blog/list.html:145
+#: templates/backoffice/content/events/list.html:124
+#: templates/backoffice/content/flatpages/list.html:125
+#: templates/backoffice/content/gallery/list.html:132
+#, python-format
+msgid "Стр. %(current)s из %(total)s"
+msgstr "Стр. %(current)s из %(total)s"
+
+#: templates/backoffice/content/blog/list.html:148
+#: templates/backoffice/content/events/list.html:127
+#: templates/backoffice/content/flatpages/list.html:128
+#: templates/backoffice/content/gallery/list.html:135
+#: templates/backoffice/leads/list.html:125
+#: templates/backoffice/leads/list.html:127
+msgid "Вперёд"
+msgstr "Вперёд"
+
+#: templates/backoffice/content/blog/list.html:155
+msgid "По текущим фильтрам постов не нашлось. Сбросьте часть условий."
+msgstr "По текущим фильтрам постов не нашлось. Сбросьте часть условий."
+
+#: templates/backoffice/content/blog/list.html:157
+msgid "Ещё ни одного поста. Нажмите «Новый пост» в правом верхнем углу."
+msgstr "Ещё ни одного поста. Нажмите «Новый пост» в правом верхнем углу."
+
+#: templates/backoffice/content/blog/taxonomy.html:5
+msgid "К списку постов"
+msgstr "К списку постов"
+
+#: templates/backoffice/content/blog/taxonomy.html:10
+msgid "Категории и теги блога"
+msgstr "Категории и теги блога"
+
+#: templates/backoffice/content/blog/taxonomy.html:11
+msgid "Категории — chip-фильтр на ленте, у каждого поста одна. Теги — облако, у поста может быть несколько. Общие для всех регионов."
+msgstr "Категории — chip-фильтр на ленте, у каждого поста одна. Теги — облако, у поста может быть несколько. Общие для всех регионов."
+
+#: templates/backoffice/content/blog/taxonomy.html:18
+msgid "Категории"
+msgstr "Категории"
+
+#: templates/backoffice/content/blog/taxonomy.html:27
+#: templates/backoffice/content/blog/taxonomy.html:67
+#: templates/backoffice/content/gallery/taxonomy.html:26
+msgid "Название (RU)"
+msgstr "Название (RU)"
+
+#: templates/backoffice/content/blog/taxonomy.html:30
+#: templates/backoffice/content/blog/taxonomy.html:70
+msgid "пост."
+msgstr "пост."
+
+#: templates/backoffice/content/blog/taxonomy.html:34
+#, python-format
+msgid "Удалить категорию «%(name)s»?"
+msgstr "Удалить категорию «%(name)s»?"
+
+#: templates/backoffice/content/blog/taxonomy.html:44
+msgid "Пока нет категорий"
+msgstr "Пока нет категорий"
+
+#: templates/backoffice/content/blog/taxonomy.html:50
+msgid "Новая категория (RU)"
+msgstr "Новая категория (RU)"
+
+#: templates/backoffice/content/blog/taxonomy.html:51
+#: templates/backoffice/content/blog/taxonomy.html:89
+#: templates/backoffice/content/gallery/taxonomy.html:53
+#: templates/backoffice/settings/regions/create.html:38
+#: templates/backoffice/settings/users/create.html:75
+#: templates/backoffice/site/menu/create.html:35
+msgid "Создать"
+msgstr "Создать"
+
+#: templates/backoffice/content/blog/taxonomy.html:74
+#, python-format
+msgid "Удалить тег «%(name)s»? Он отвяжется ото всех статей."
+msgstr "Удалить тег «%(name)s»? Он отвяжется ото всех статей."
+
+#: templates/backoffice/content/blog/taxonomy.html:82
+msgid "Пока нет тегов"
+msgstr "Пока нет тегов"
+
+#: templates/backoffice/content/blog/taxonomy.html:88
+msgid "Новый тег (RU)"
+msgstr "Новый тег (RU)"
+
+#: templates/backoffice/content/blog/taxonomy.html:95
+msgid "Slug, порядок и переводы (KK/EN) генерируются автоматически из RU-названия. Slug у популярных категорий лучше не менять — сломаются URL."
+msgstr "Slug, порядок и переводы (KK/EN) генерируются автоматически из RU-названия. Slug у популярных категорий лучше не менять — сломаются URL."
+
+#: templates/backoffice/content/contacts/edit.html:14
+#, python-format
+msgid "Контакты — %(region)s"
+msgstr "Контакты — %(region)s"
+
+#: templates/backoffice/content/contacts/edit.html:15
+#, python-format
+msgid "Singleton-контент страницы «Контакты». Обновлено %(date)s."
+msgstr "Singleton-контент страницы «Контакты». Обновлено %(date)s."
+
+#: templates/backoffice/content/contacts/edit.html:79
+msgid "Вводный блок"
+msgstr "Вводный блок"
+
+#: templates/backoffice/content/contacts/edit.html:92
+msgid "Офис (overlay над картой)"
+msgstr "Офис (overlay над картой)"
+
+#: templates/backoffice/content/contacts/edit.html:107
+msgid "Карта (Leaflet · CartoDB light_nolabels)"
+msgstr "Карта (Leaflet · CartoDB light_nolabels)"
+
+#: templates/backoffice/content/contacts/edit.html:117
+msgid "Введи широту и долготу, чтобы увидеть точку на карте."
+msgstr "Введи широту и долготу, чтобы увидеть точку на карте."
+
+#: templates/backoffice/content/contacts/edit.html:120
+msgid "Кликни по карте, чтобы поставить точку. Перетащи маркер, чтобы уточнить положение. Кнопки +/- слева сверху меняют zoom (сохранится автоматически)."
+msgstr "Кликни по карте, чтобы поставить точку. Перетащи маркер, чтобы уточнить положение. Кнопки +/- слева сверху меняют zoom (сохранится автоматически)."
+
+#: templates/backoffice/content/contacts/edit.html:133
+msgid "Отделы"
+msgstr "Отделы"
+
+#: templates/backoffice/content/contacts/edit.html:135
+msgid "Поступление, Партнёрство, Вакансии и т.д. Порядок задаётся числом. Контактные поля (телефон/email) — language-neutral, переводятся только title/description/hours."
+msgstr "Поступление, Партнёрство, Вакансии и т.д. Порядок задаётся числом. Контактные поля (телефон/email) — language-neutral, переводятся только title/description/hours."
+
+#: templates/backoffice/content/contacts/edit.html:151
+msgid "Новый отдел"
+msgstr "Новый отдел"
+
+#: templates/backoffice/content/contacts/edit.html:182
+msgid "Чтобы добавить ещё один отдел — заполни блок «Новый отдел» внизу и сохрани форму, появится новый пустой блок."
+msgstr "Чтобы добавить ещё один отдел — заполни блок «Новый отдел» внизу и сохрани форму, появится новый пустой блок."
+
+#: templates/backoffice/content/contacts/edit.html:200
+#: templates/backoffice/content/home/edit.html:279
+#: templates/backoffice/content/program/edit.html:238
+#: templates/backoffice/content/team/edit.html:226
+msgid "Сгенерировать SEO/OG для всех 3 языков из RU контента. Заполняет только пустые."
+msgstr "Сгенерировать SEO/OG для всех 3 языков из RU контента. Заполняет только пустые."
+
+#: templates/backoffice/content/contacts/list.html:8
+msgid "Контакты"
+msgstr "Контакты"
+
+#: templates/backoffice/content/contacts/list.html:9
+#: templates/backoffice/content/home/list.html:9
+msgid "Singleton-страница для каждого региона. Выберите регион для редактирования."
+msgstr "Singleton-страница для каждого региона. Выберите регион для редактирования."
+
+#: templates/backoffice/content/contacts/list.html:18
+msgid "Офис"
+msgstr "Офис"
+
+#: templates/backoffice/content/contacts/list.html:19
+msgid "Отделов"
+msgstr "Отделов"
+
+#: templates/backoffice/content/contacts/list.html:57
+msgid "отделов"
+msgstr "отделов"
+
+#: templates/backoffice/content/contacts/list.html:64
+msgid "Страницы «Контакты» создаются миграцией. Если регион новый — обратись к разработчику."
+msgstr "Страницы «Контакты» создаются миграцией. Если регион новый — обратись к разработчику."
+
+#: templates/backoffice/content/events/edit.html:28
+#: templates/backoffice/content/events/list.html:16
+msgid "Новое событие"
+msgstr "Новое событие"
+
+#: templates/backoffice/content/events/edit.html:42
+msgid "Открыть событие на сайте на текущем языке"
+msgstr "Открыть событие на сайте на текущем языке"
+
+#: templates/backoffice/content/events/edit.html:53
+msgid "Точно удалить это событие? Действие необратимо."
+msgstr "Точно удалить это событие? Действие необратимо."
+
+#: templates/backoffice/content/events/edit.html:142
+msgid "Содержимое события"
+msgstr "Содержимое события"
+
+#: templates/backoffice/content/events/edit.html:157
+msgid "Дополнительные изображения под событием. Перетащи карточки для смены порядка. Alt-текст и подпись редактируются на 3 языках — переключай через табы сверху."
+msgstr "Дополнительные изображения под событием. Перетащи карточки для смены порядка. Alt-текст и подпись редактируются на 3 языках — переключай через табы сверху."
+
+#: templates/backoffice/content/events/edit.html:245
+msgid "Снять галку — событие уйдёт в черновики."
+msgstr "Снять галку — событие уйдёт в черновики."
+
+#: templates/backoffice/content/events/list.html:9
+msgid "События"
+msgstr "События"
+
+#: templates/backoffice/content/events/list.html:10
+msgid "Лента анонсов и отчётов в каждом регионе. Без категорий и тегов — плоский список по дате."
+msgstr "Лента анонсов и отчётов в каждом регионе. Без категорий и тегов — плоский список по дате."
+
+#: templates/backoffice/content/events/list.html:134
+#: templates/backoffice/content/flatpages/list.html:135
+msgid "По текущим фильтрам ничего не нашлось. Сбросьте часть условий."
+msgstr "По текущим фильтрам ничего не нашлось. Сбросьте часть условий."
+
+#: templates/backoffice/content/events/list.html:136
+msgid "Ещё ни одного события. Нажмите «Новое событие» в правом верхнем углу."
+msgstr "Ещё ни одного события. Нажмите «Новое событие» в правом верхнем углу."
+
+#: templates/backoffice/content/flatpages/_content_editor.html:22
+msgid "Пишите HTML-контент: заголовки, абзацы, списки, цитаты, ссылки."
+msgstr "Пишите HTML-контент: заголовки, абзацы, списки, цитаты, ссылки."
+
+#: templates/backoffice/content/flatpages/create.html:20
+msgid "Новая доп. страница"
+msgstr "Новая доп. страница"
+
+#: templates/backoffice/content/flatpages/create.html:21
+msgid "Slug — короткое латинское имя (about, uniform, privacy). Будет частью URL: /info/<slug>/."
+msgstr "Slug — короткое латинское имя (about, uniform, privacy). Будет частью URL: /info/<slug>/."
+
+#: templates/backoffice/content/flatpages/create.html:80
+#: templates/backoffice/content/flatpages/edit.html:154
+msgid "Содержимое страницы"
+msgstr "Содержимое страницы"
+
+#: templates/backoffice/content/flatpages/create.html:89
+msgid "Обложка и SEO"
+msgstr "Обложка и SEO"
+
+#: templates/backoffice/content/flatpages/create.html:92
+msgid "Эти секции будут доступны после первого сохранения — сохрани черновик или опубликуй страницу."
+msgstr "Эти секции будут доступны после первого сохранения — сохрани черновик или опубликуй страницу."
+
+#: templates/backoffice/content/flatpages/create.html:101
+#: templates/backoffice/content/gallery/create.html:73
+#: templates/backoffice/content/team/create.html:62
+msgid "Сохранить как черновик"
+msgstr "Сохранить как черновик"
+
+#: templates/backoffice/content/flatpages/create.html:102
+#: templates/backoffice/content/gallery/create.html:74
+#: templates/backoffice/content/team/create.html:63
+msgid "Опубликовать"
+msgstr "Опубликовать"
+
+#: templates/backoffice/content/flatpages/edit.html:29
+#, python-format
+msgid "обновлено %(date)s"
+msgstr "обновлено %(date)s"
+
+#: templates/backoffice/content/flatpages/edit.html:37
+msgid "Открыть страницу на сайте на текущем языке"
+msgstr "Открыть страницу на сайте на текущем языке"
+
+#: templates/backoffice/content/flatpages/edit.html:48
+msgid "Точно удалить эту страницу? Если на неё ссылается меню — ссылка станет битой."
+msgstr "Точно удалить эту страницу? Если на неё ссылается меню — ссылка станет битой."
+
+#: templates/backoffice/content/flatpages/edit.html:107
+msgid "Идентификатор страницы"
+msgstr "Идентификатор страницы"
+
+#: templates/backoffice/content/flatpages/edit.html:113
+msgid "часть URL"
+msgstr "часть URL"
+
+#: templates/backoffice/content/flatpages/edit.html:116
+msgid "Slug изменить нельзя — если переименовать, на сайте сломаются ссылки из меню и поиска (NavItem линкуется по этой странице). Если нужен другой slug — создай новую страницу и удали эту."
+msgstr "Slug изменить нельзя — если переименовать, на сайте сломаются ссылки из меню и поиска (NavItem линкуется по этой странице). Если нужен другой slug — создай новую страницу и удали эту."
+
+#: templates/backoffice/content/flatpages/edit.html:169
+msgid "Дополнительные изображения под содержимым страницы. Перетащи карточки для смены порядка. Alt-текст и подпись редактируются на 3 языках — переключай через табы сверху."
+msgstr "Дополнительные изображения под содержимым страницы. Перетащи карточки для смены порядка. Alt-текст и подпись редактируются на 3 языках — переключай через табы сверху."
+
+#: templates/backoffice/content/flatpages/edit.html:256
+msgid "Снять галку — страница уйдёт в черновики (404 на сайте). Ссылки из меню/футера, если есть, останутся, но открываться не будут."
+msgstr "Снять галку — страница уйдёт в черновики (404 на сайте). Ссылки из меню/футера, если есть, останутся, но открываться не будут."
+
+#: templates/backoffice/content/flatpages/list.html:9
+msgid "Доп. страницы"
+msgstr "Доп. страницы"
+
+#: templates/backoffice/content/flatpages/list.html:10
+msgid "Статичные страницы: «О нас», «Форма», «Питание», privacy, oferta и т.п. Создаются per-region и линкуются в меню или футере."
+msgstr "Статичные страницы: «О нас», «Форма», «Питание», privacy, oferta и т.п. Создаются per-region и линкуются в меню или футере."
+
+#: templates/backoffice/content/flatpages/list.html:14
+msgid "Новая страница"
+msgstr "Новая страница"
+
+#: templates/backoffice/content/flatpages/list.html:41
+msgid "Поиск по заголовку или slug"
+msgstr "Поиск по заголовку или slug"
+
+#: templates/backoffice/content/flatpages/list.html:137
+msgid "Ещё ни одной доп. страницы. Нажмите «Новая страница» в правом верхнем углу."
+msgstr "Ещё ни одной доп. страницы. Нажмите «Новая страница» в правом верхнем углу."
+
+#: templates/backoffice/content/footer/edit.html:14
+#, python-format
+msgid "Футер — %(region)s"
+msgstr "Футер — %(region)s"
+
+#: templates/backoffice/content/footer/edit.html:15
+#, python-format
+msgid "Текст под лого + URL соцсетей. Видно на всех страницах региона. Обновлено %(date)s."
+msgstr "Текст под лого + URL соцсетей. Видно на всех страницах региона. Обновлено %(date)s."
+
+#: templates/backoffice/content/footer/edit.html:22
+msgid "Открыть главную в новой вкладке на текущем языке"
+msgstr "Открыть главную в новой вкладке на текущем языке"
+
+#: templates/backoffice/content/footer/edit.html:79
+msgid "Текст под лого"
+msgstr "Текст под лого"
+
+#: templates/backoffice/content/footer/edit.html:82
+msgid "Короткий параграф под логотипом школы. Перенос строки → <br>. Если пусто — параграф на сайте скрыт."
+msgstr "Короткий параграф под логотипом школы. Перенос строки → <br>. Если пусто — параграф на сайте скрыт."
+
+#: templates/backoffice/content/footer/edit.html:89
+#: templates/backoffice/content/footer/list.html:18
+msgid "Соцсети"
+msgstr "Соцсети"
+
+#: templates/backoffice/content/footer/edit.html:91
+msgid "Ссылки на профили в соцсетях. Отображаются иконками в футере сайта. Пустое поле — иконка скрыта."
+msgstr "Ссылки на профили в соцсетях. Отображаются иконками в футере сайта. Пустое поле — иконка скрыта."
+
+#: templates/backoffice/content/footer/list.html:8
+msgid "Футер"
+msgstr "Футер"
+
+#: templates/backoffice/content/footer/list.html:9
+msgid "Текст под лого + ссылки на соцсети. Singleton-страница для каждого региона."
+msgstr "Текст под лого + ссылки на соцсети. Singleton-страница для каждого региона."
+
+#: templates/backoffice/content/footer/list.html:62
+msgid "Страницы «Футер» создаются миграцией. Если регион новый — обратись к разработчику."
+msgstr "Страницы «Футер» создаются миграцией. Если регион новый — обратись к разработчику."
+
+#: templates/backoffice/content/gallery/create.html:5
+#: templates/backoffice/content/gallery/edit.html:5
+#: templates/backoffice/content/gallery/taxonomy.html:5
+msgid "К альбомам"
+msgstr "К альбомам"
+
+#: templates/backoffice/content/gallery/create.html:12
+#: templates/backoffice/content/gallery/list.html:17
+msgid "Новый альбом"
+msgstr "Новый альбом"
+
+#: templates/backoffice/content/gallery/create.html:13
+msgid "Заполни название и выбери тему. Фото добавишь после сохранения."
+msgstr "Заполни название и выбери тему. Фото добавишь после сохранения."
+
+#: templates/backoffice/content/gallery/create.html:56
+#: templates/backoffice/content/gallery/edit.html:65
+#: templates/backoffice/content/gallery/list.html:71
+msgid "Тема"
+msgstr "Тема"
+
+#: templates/backoffice/content/gallery/create.html:60
+msgid "Управлять темами →"
+msgstr "Управлять темами →"
+
+#: templates/backoffice/content/gallery/edit.html:15
+#, python-format
+msgid "обновлён %(date)s"
+msgstr "обновлён %(date)s"
+
+#: templates/backoffice/content/gallery/edit.html:21
+msgid "Точно удалить альбом со всеми фотографиями? Действие необратимо."
+msgstr "Точно удалить альбом со всеми фотографиями? Действие необратимо."
+
+#: templates/backoffice/content/gallery/edit.html:24
+msgid "Удалить альбом"
+msgstr "Удалить альбом"
+
+#: templates/backoffice/content/gallery/edit.html:60
+msgid "Параметры альбома"
+msgstr "Параметры альбома"
+
+#: templates/backoffice/content/gallery/edit.html:72
+msgid "Опубликован на сайте"
+msgstr "Опубликован на сайте"
+
+#: templates/backoffice/content/gallery/edit.html:74
+msgid "Снять — все фото альбома пропадут с публичной страницы галереи."
+msgstr "Снять — все фото альбома пропадут с публичной страницы галереи."
+
+#: templates/backoffice/content/gallery/edit.html:83
+msgid "Сохранить параметры альбома"
+msgstr "Сохранить параметры альбома"
+
+#: templates/backoffice/content/gallery/edit.html:99
+msgid "Фото в альбоме"
+msgstr "Фото в альбоме"
+
+#: templates/backoffice/content/gallery/edit.html:102
+msgid "Свежие сверху. Ориентация — авто."
+msgstr "Свежие сверху. Ориентация — авто."
+
+#: templates/backoffice/content/gallery/edit.html:116
+msgid "Перетащи пачку фото сюда или"
+msgstr "Перетащи пачку фото сюда или"
+
+#: templates/backoffice/content/gallery/edit.html:154
+msgid "Опубликовано — кликни чтобы скрыть"
+msgstr "Опубликовано — кликни чтобы скрыть"
+
+#: templates/backoffice/content/gallery/edit.html:154
+msgid "Черновик — кликни чтобы опубликовать"
+msgstr "Черновик — кликни чтобы опубликовать"
+
+#: templates/backoffice/content/gallery/edit.html:161
+msgid "Переключить широкую/обычную"
+msgstr "Переключить широкую/обычную"
+
+#: templates/backoffice/content/gallery/edit.html:175
+msgid "Альбом пуст — перетащи первые фото в зону выше."
+msgstr "Альбом пуст — перетащи первые фото в зону выше."
+
+#: templates/backoffice/content/gallery/list.html:9
+#: templates/gallery/list.html:4 templates/gallery/list.html:35
+#: templates/gallery/list.html:43
+msgid "Фотогалерея"
+msgstr "Фотогалерея"
+
+#: templates/backoffice/content/gallery/list.html:10
+msgid "Альбомы фотографий региона. Создай альбом, выбери тему — потом грузи в него пачку фото. Ориентация (широкое/обычное) определяется автоматически, чередование в мозаике на сайте — тоже."
+msgstr "Альбомы фотографий региона. Создай альбом, выбери тему — потом грузи в него пачку фото. Ориентация (широкое/обычное) определяется автоматически, чередование в мозаике на сайте — тоже."
+
+#: templates/backoffice/content/gallery/list.html:14
+#: templates/backoffice/content/gallery/taxonomy.html:17
+msgid "Темы"
+msgstr "Темы"
+
+#: templates/backoffice/content/gallery/list.html:44
+msgid "Поиск по названию"
+msgstr "Поиск по названию"
+
+#: templates/backoffice/content/gallery/list.html:49
+msgid "Все темы"
+msgstr "Все темы"
+
+#: templates/backoffice/content/gallery/list.html:70
+msgid "Альбом"
+msgstr "Альбом"
+
+#: templates/backoffice/content/gallery/list.html:73
+#: templates/backoffice/content/team/edit.html:118
+msgid "Фото"
+msgstr "Фото"
+
+#: templates/backoffice/content/gallery/list.html:74
+msgid "Создан"
+msgstr "Создан"
+
+#: templates/backoffice/content/gallery/list.html:142
+msgid "По текущим фильтрам альбомов не нашлось."
+msgstr "По текущим фильтрам альбомов не нашлось."
+
+#: templates/backoffice/content/gallery/list.html:144
+msgid "Ещё ни одного альбома. Нажмите «Новый альбом» в правом верхнем углу."
+msgstr "Ещё ни одного альбома. Нажмите «Новый альбом» в правом верхнем углу."
+
+#: templates/backoffice/content/gallery/taxonomy.html:10
+msgid "Темы фотогалереи"
+msgstr "Темы фотогалереи"
+
+#: templates/backoffice/content/gallery/taxonomy.html:11
+msgid "Темы группируют альбомы. Chip-фильтр на странице галереи на сайте. Одинаковые для всех регионов."
+msgstr "Темы группируют альбомы. Chip-фильтр на странице галереи на сайте. Одинаковые для всех регионов."
+
+#: templates/backoffice/content/gallery/taxonomy.html:31
+msgid "Видна"
+msgstr "Видна"
+
+#: templates/backoffice/content/gallery/taxonomy.html:33
+msgid "альб."
+msgstr "альб."
+
+#: templates/backoffice/content/gallery/taxonomy.html:37
+#, python-format
+msgid "Удалить тему «%(name)s»?"
+msgstr "Удалить тему «%(name)s»?"
+
+#: templates/backoffice/content/gallery/taxonomy.html:46
+msgid "Пока нет тем"
+msgstr "Пока нет тем"
+
+#: templates/backoffice/content/gallery/taxonomy.html:52
+msgid "Новая тема (RU)"
+msgstr "Новая тема (RU)"
+
+#: templates/backoffice/content/gallery/taxonomy.html:59
+msgid "Удалить тему можно только если в ней нет альбомов — перенеси альбомы в другую тему сначала."
+msgstr "Удалить тему можно только если в ней нет альбомов — перенеси альбомы в другую тему сначала."
+
+#: templates/backoffice/content/home/edit.html:12
+#, python-format
+msgid "Главная — %(region)s"
+msgstr "Главная — %(region)s"
+
+#: templates/backoffice/content/home/edit.html:13
+#, python-format
+msgid "Singleton-контент главной страницы региона. Обновлено %(date)s."
+msgstr "Singleton-контент главной страницы региона. Обновлено %(date)s."
+
+#: templates/backoffice/content/home/edit.html:87
+msgid "Изменить картинку"
+msgstr "Изменить картинку"
+
+#: templates/backoffice/content/home/edit.html:139
+msgid "О нас"
+msgstr "О нас"
+
+#: templates/backoffice/content/home/edit.html:154
+msgid "Шоурил"
+msgstr "Шоурил"
+
+#: templates/backoffice/content/home/edit.html:164
+msgid "Размер"
+msgstr "Размер"
+
+#: templates/backoffice/content/home/edit.html:165
+msgid "Разрешение"
+msgstr "Разрешение"
+
+#: templates/backoffice/content/home/edit.html:166
+msgid "Длительность"
+msgstr "Длительность"
+
+#: templates/backoffice/content/home/edit.html:175
+msgid "Видео не загружено"
+msgstr "Видео не загружено"
+
+#: templates/backoffice/content/home/edit.html:182
+msgid "Изменить видео"
+msgstr "Изменить видео"
+
+#: templates/backoffice/content/home/edit.html:189
+msgid "Poster (cover) автоматически генерируется из 1-й секунды видео при сохранении через ffmpeg. Отображается до старта воспроизведения."
+msgstr "Poster (cover) автоматически генерируется из 1-й секунды видео при сохранении через ffmpeg. Отображается до старта воспроизведения."
+
+#: templates/backoffice/content/home/edit.html:205
+msgid "Галерея на главной"
+msgstr "Галерея на главной"
+
+#: templates/backoffice/content/home/edit.html:206
+msgid "Карусель под hero-блоком. Перетащи файлы сюда — ориентация определится автоматически, картинки расставятся чередованием «широкая → высокая». Порядок можно менять перетаскиванием карточек."
+msgstr "Карусель под hero-блоком. Перетащи файлы сюда — ориентация определится автоматически, картинки расставятся чередованием «широкая → высокая». Порядок можно менять перетаскиванием карточек."
+
+#: templates/backoffice/content/home/edit.html:218
+msgid "Перетащи файлы сюда"
+msgstr "Перетащи файлы сюда"
+
+#: templates/backoffice/content/home/edit.html:219
+msgid "или нажми — выберешь несколько за раз"
+msgstr "или нажми — выберешь несколько за раз"
+
+#: templates/backoffice/content/home/edit.html:221
+msgid "Загрузка…"
+msgstr "Загрузка…"
+
+#: templates/backoffice/content/home/edit.html:262
+msgid "Картинок пока нет. Перетащи файлы в зону выше."
+msgstr "Картинок пока нет. Перетащи файлы в зону выше."
+
+#: templates/backoffice/content/home/list.html:18
+msgid "Заголовок hero"
+msgstr "Заголовок hero"
+
+#: templates/backoffice/content/home/list.html:19
+msgid "Картинок в галерее"
+msgstr "Картинок в галерее"
+
+#: templates/backoffice/content/home/list.html:60
+msgid "картинок"
+msgstr "картинок"
+
+#: templates/backoffice/content/home/list.html:68
+msgid "Главные страницы создаются миграцией. Если регион новый — обратись к разработчику."
+msgstr "Главные страницы создаются миграцией. Если регион новый — обратись к разработчику."
+
+#: templates/backoffice/content/program/_faq_card.html:8
+msgid "Новый вопрос"
+msgstr "Новый вопрос"
+
+#: templates/backoffice/content/program/_faq_formset.html:2
+msgid "Вопросы и ответы"
+msgstr "Вопросы и ответы"
+
+#: templates/backoffice/content/program/_faq_formset.html:27
+msgid "Добавить вопрос"
+msgstr "Добавить вопрос"
+
+#: templates/backoffice/content/program/_faq_formset.html:29
+msgid "Перетаскивай за ≡ слева, чтобы изменить порядок. Свёрнутые карточки кликни по строке — раскроется."
+msgstr "Перетаскивай за ≡ слева, чтобы изменить порядок. Свёрнутые карточки кликни по строке — раскроется."
+
+#: templates/backoffice/content/program/_inline_formset.html:32
+msgid "Карточка"
+msgstr "Карточка"
+
+#: templates/backoffice/content/program/_inline_formset.html:34
+#, python-format
+msgid "Карточка %(n)s"
+msgstr "Карточка %(n)s"
+
+#: templates/backoffice/content/program/_inline_formset.html:36
+msgid "Новая карточка"
+msgstr "Новая карточка"
+
+#: templates/backoffice/content/program/_inline_formset.html:59
+msgid "Редактировать SVG"
+msgstr "Редактировать SVG"
+
+#: templates/backoffice/content/program/_inline_formset.html:66
+msgid "SVG-иконка"
+msgstr "SVG-иконка"
+
+#: templates/backoffice/content/program/_inline_formset.html:75
+msgid "Превью обновится после сохранения формы."
+msgstr "Превью обновится после сохранения формы."
+
+#: templates/backoffice/content/program/_inline_formset.html:97
+msgid "Перетащи карточки за иконку слева, чтобы изменить порядок. Чтобы добавить ещё — заполни блок «Новая карточка» внизу и сохрани форму."
+msgstr "Перетащи карточки за иконку слева, чтобы изменить порядок. Чтобы добавить ещё — заполни блок «Новая карточка» внизу и сохрани форму."
+
+#: templates/backoffice/content/program/_inline_formset.html:99
+msgid "Ровно 4 карточки. Перетащи за иконку слева, чтобы изменить порядок. Чтобы скрыть слот на сайте — оставь заголовок пустым."
+msgstr "Ровно 4 карточки. Перетащи за иконку слева, чтобы изменить порядок. Чтобы скрыть слот на сайте — оставь заголовок пустым."
+
+#: templates/backoffice/content/program/_photo_field.html:17
+msgid "Не загружено"
+msgstr "Не загружено"
+
+#: templates/backoffice/content/program/_photo_field.html:24
+#: templates/backoffice/settings/users/edit.html:104
+msgid "Изменить"
+msgstr "Изменить"
+
+#: templates/backoffice/content/program/_stat_formset.html:3
+msgid "Цифры (ровно 4 карточки)"
+msgstr "Цифры (ровно 4 карточки)"
+
+#: templates/backoffice/content/program/_stat_formset.html:24
+#, python-format
+msgid "Цифра %(n)s"
+msgstr "Цифра %(n)s"
+
+#: templates/backoffice/content/program/_stat_formset.html:25
+msgid "Новая цифра"
+msgstr "Новая цифра"
+
+#: templates/backoffice/content/program/_stat_formset.html:38
+msgid "Ровно 4 цифры, сетка 2×2. Перетащи за иконку слева, чтобы изменить порядок. Чтобы скрыть слот на сайте — оставь оба поля пустыми."
+msgstr "Ровно 4 цифры, сетка 2×2. Перетащи за иконку слева, чтобы изменить порядок. Чтобы скрыть слот на сайте — оставь оба поля пустыми."
+
+#: templates/backoffice/content/program/_variant_formset.html:7
+msgid "Карточки программ (Начальная / Старшая)"
+msgstr "Карточки программ (Начальная / Старшая)"
+
+#: templates/backoffice/content/program/_variant_formset.html:27
+msgid "Новая карточка программы"
+msgstr "Новая карточка программы"
+
+#: templates/backoffice/content/program/edit.html:14
+#, python-format
+msgid "Программа — %(region)s"
+msgstr "Программа — %(region)s"
+
+#: templates/backoffice/content/program/edit.html:15
+#, python-format
+msgid "Лендинг «Программа» региона. 7 inline-секций + Hero + SEO. Обновлено %(date)s."
+msgstr "Лендинг «Программа» региона. 7 inline-секций + Hero + SEO. Обновлено %(date)s."
+
+#: templates/backoffice/content/program/edit.html:104
+msgid "Фото и карточки «Кому подходит»"
+msgstr "Фото и карточки «Кому подходит»"
+
+#: templates/backoffice/content/program/edit.html:119
+msgid "Фото и карточки «Что получает»"
+msgstr "Фото и карточки «Что получает»"
+
+#: templates/backoffice/content/program/edit.html:130
+msgid "Секция «Программы»"
+msgstr "Секция «Программы»"
+
+#: templates/backoffice/content/program/edit.html:153
+msgid "Секция «Аттестат»"
+msgstr "Секция «Аттестат»"
+
+#: templates/backoffice/content/program/edit.html:174
+msgid "Секция «Внеклассные»"
+msgstr "Секция «Внеклассные»"
+
+#: templates/backoffice/content/program/edit.html:177
+msgid "Сами карточки активностей берутся из приложения «Активности» (галочка «В подборке на главной/программы»). Здесь — только тексты обрамляющей секции."
+msgstr "Сами карточки активностей берутся из приложения «Активности» (галочка «В подборке на главной/программы»). Здесь — только тексты обрамляющей секции."
+
+#: templates/backoffice/content/program/edit.html:190
+msgid "Секция «В цифрах»"
+msgstr "Секция «В цифрах»"
+
+#: templates/backoffice/content/program/edit.html:209
+msgid "Секция «FAQ»"
+msgstr "Секция «FAQ»"
+
+#: templates/backoffice/content/program/list.html:8
+msgid "Программа"
+msgstr "Программа"
+
+#: templates/backoffice/content/program/list.html:9
+msgid "Лендинг «Программа» для каждого региона. Hero и 7 секций (кому подходит, что получает, программы, команда, аттестат, цифры, FAQ). Выберите регион."
+msgstr "Лендинг «Программа» для каждого региона. Hero и 7 секций (кому подходит, что получает, программы, команда, аттестат, цифры, FAQ). Выберите регион."
+
+#: templates/backoffice/content/program/list.html:18
+msgid "Hero"
+msgstr "Hero"
+
+#: templates/backoffice/content/program/list.html:19
+msgid "Секции"
+msgstr "Секции"
+
+#: templates/backoffice/content/program/list.html:69
+msgid "Лендинги «Программа» создаются миграцией. Если регион новый — обратись к разработчику."
+msgstr "Лендинги «Программа» создаются миграцией. Если регион новый — обратись к разработчику."
+
+#: templates/backoffice/content/team/_content_editor.html:34
+msgid "Биография: заголовки, абзацы, списки, цитаты, ссылки. Что человек делает в школе и его трек до неё."
+msgstr "Биография: заголовки, абзацы, списки, цитаты, ссылки. Что человек делает в школе и его трек до неё."
+
+#: templates/backoffice/content/team/_row.html:23
+msgid "Младшие"
+msgstr "Младшие"
+
+#: templates/backoffice/content/team/_row.html:24
+msgid "Средние"
+msgstr "Средние"
+
+#: templates/backoffice/content/team/_row.html:25
+msgid "Старшие"
+msgstr "Старшие"
+
+#: templates/backoffice/content/team/create.html:12
+#: templates/backoffice/content/team/region.html:23
+msgid "Новый член команды"
+msgstr "Новый член команды"
+
+#: templates/backoffice/content/team/create.html:13
+msgid "Заполни RU-имя и должность — остальные поля можно дозаполнить после сохранения."
+msgstr "Заполни RU-имя и должность — остальные поля можно дозаполнить после сохранения."
+
+#: templates/backoffice/content/team/create.html:50
+msgid "Порядок настраивается перетаскиванием на странице региона."
+msgstr "Порядок настраивается перетаскиванием на странице региона."
+
+#: templates/backoffice/content/team/edit.html:33
+msgid "Открыть на сайте"
+msgstr "Открыть на сайте"
+
+#: templates/backoffice/content/team/edit.html:44
+msgid "Точно удалить этого члена команды? Действие необратимо."
+msgstr "Точно удалить этого члена команды? Действие необратимо."
+
+#: templates/backoffice/content/team/edit.html:108
+msgid "Опционально. Если задано — на детальной появится кнопка."
+msgstr "Опционально. Если задано — на детальной появится кнопка."
+
+#: templates/backoffice/content/team/edit.html:122
+msgid "Изображение"
+msgstr "Изображение"
+
+#: templates/backoffice/content/team/edit.html:130
+msgid "Не загружено — на сайте покажется плейсхолдер «Нет фото»."
+msgstr "Не загружено — на сайте покажется плейсхолдер «Нет фото»."
+
+#: templates/backoffice/content/team/edit.html:137
+msgid "Выбрать фото"
+msgstr "Выбрать фото"
+
+#: templates/backoffice/content/team/edit.html:142
+#, python-format
+msgid "Минимум %(min)s×%(min)spx. JPG/PNG/WebP. Прозрачность у PNG автоматически кладётся на белый фон, фото ужимается до %(min)spx по большей стороне."
+msgstr "Минимум %(min)s×%(min)spx. JPG/PNG/WebP. Прозрачность у PNG автоматически кладётся на белый фон, фото ужимается до %(min)spx по большей стороне."
+
+#: templates/backoffice/content/team/edit.html:150
+msgid "Анкета"
+msgstr "Анкета"
+
+#: templates/backoffice/content/team/edit.html:155
+msgid "На списке не выводится — только на детальной странице."
+msgstr "На списке не выводится — только на детальной странице."
+
+#: templates/backoffice/content/team/edit.html:173
+msgid "Снять — временно скрыть из публичного списка, не удаляя."
+msgstr "Снять — временно скрыть из публичного списка, не удаляя."
+
+#: templates/backoffice/content/team/edit.html:179
+msgid "Избранный (на «Программе»)"
+msgstr "Избранный (на «Программе»)"
+
+#: templates/backoffice/content/team/edit.html:181
+msgid "Попадает в блок «Команда профессионалов» на лендинге программы текущего региона."
+msgstr "Попадает в блок «Команда профессионалов» на лендинге программы текущего региона."
+
+#: templates/backoffice/content/team/edit.html:186
+msgid "Преподаёт в классах"
+msgstr "Преподаёт в классах"
+
+#: templates/backoffice/content/team/edit.html:201
+msgid "Можно отметить несколько уровней (если преподаёт и младшим, и средним)."
+msgstr "Можно отметить несколько уровней (если преподаёт и младшим, и средним)."
+
+#: templates/backoffice/content/team/edit.html:209
+msgid "Директор, координатор, куратор. Не зависит от уровней — учитель-завуч может быть одновременно преподавателем и администрацией."
+msgstr "Директор, координатор, куратор. Не зависит от уровней — учитель-завуч может быть одновременно преподавателем и администрацией."
+
+#: templates/backoffice/content/team/edit.html:240
+msgid "Если пусто — fallback на «ФИО — Должность»."
+msgstr "Если пусто — fallback на «ФИО — Должность»."
+
+#: templates/backoffice/content/team/edit.html:243
+msgid "Если пусто — fallback на начало биографии."
+msgstr "Если пусто — fallback на начало биографии."
+
+#: templates/backoffice/content/team/list.html:8 templates/team/detail.html:26
+#: templates/team/list.html:4 templates/team/list.html:21
+msgid "Команда"
+msgstr "Команда"
+
+#: templates/backoffice/content/team/list.html:9
+msgid "Состав команды — свой на каждый регион. Выбери город, чтобы открыть список и настроить порядок."
+msgstr "Состав команды — свой на каждый регион. Выбери город, чтобы открыть список и настроить порядок."
+
+#: templates/backoffice/content/team/list.html:18
+msgid "Всего"
+msgstr "Всего"
+
+#: templates/backoffice/content/team/list.html:19
+#: templates/backoffice/content/team/region.html:32
+msgid "Избранные"
+msgstr "Избранные"
+
+#: templates/backoffice/content/team/list.html:34
+msgid "на «Программе»"
+msgstr "на «Программе»"
+
+#: templates/backoffice/content/team/list.html:52
+msgid "членов"
+msgstr "членов"
+
+#: templates/backoffice/content/team/region.html:11
+#, python-format
+msgid "Команда · %(region)s"
+msgstr "Команда · %(region)s"
+
+#: templates/backoffice/content/team/region.html:12
+msgid "Перетаскивай за «≡» чтобы поменять порядок. Избранные всегда сверху и попадают на лендинг «Программа»."
+msgstr "Перетаскивай за «≡» чтобы поменять порядок. Избранные всегда сверху и попадают на лендинг «Программа»."
+
+#: templates/backoffice/content/team/region.html:36
+msgid "Выводятся в блоке «Команда профессионалов» на лендинге «Программа» этого региона."
+msgstr "Выводятся в блоке «Команда профессионалов» на лендинге «Программа» этого региона."
+
+#: templates/backoffice/content/team/region.html:51
+msgid "Никто пока не избран. Открой члена команды и поставь галочку «Избранный»."
+msgstr "Никто пока не избран. Открой члена команды и поставь галочку «Избранный»."
+
+#: templates/backoffice/content/team/region.html:60
+msgid "Остальные"
+msgstr "Остальные"
+
+#: templates/backoffice/content/team/region.html:64
+msgid "Видны на /team/, но НЕ на «Программе». Перетаскивай чтобы поменять порядок внутри списка."
+msgstr "Видны на /team/, но НЕ на «Программе». Перетаскивай чтобы поменять порядок внутри списка."
+
+#: templates/backoffice/content/team/region.html:78
+msgid "Пусто."
+msgstr "Пусто."
+
+#: templates/backoffice/dashboard.html:4
+msgid "Дашборд"
+msgstr "Дашборд"
+
+#: templates/backoffice/dashboard.html:8
+msgid "Добро пожаловать"
+msgstr "Добро пожаловать"
+
+#: templates/backoffice/dashboard.html:9
+msgid "Раздел будет наполнен в следующих шагах: контент, заявки, навигация, медиа."
+msgstr "Раздел будет наполнен в следующих шагах: контент, заявки, навигация, медиа."
+
+#: templates/backoffice/dashboard.html:13
+msgid "Здесь появятся разделы CMS."
+msgstr "Здесь появятся разделы CMS."
+
+#: templates/backoffice/leads/detail.html:5
+msgid "К списку заявок"
+msgstr "К списку заявок"
+
+#: templates/backoffice/leads/detail.html:13
+#, python-format
+msgid "Заявка #%(id)s · %(region)s · %(date)s"
+msgstr "Заявка #%(id)s · %(region)s · %(date)s"
+
+#: templates/backoffice/leads/detail.html:26
+msgid "В работу"
+msgstr "В работу"
+
+#: templates/backoffice/leads/detail.html:34
+msgid "Закрыть успешно"
+msgstr "Закрыть успешно"
+
+#: templates/backoffice/leads/detail.html:42
+msgid "Отказ"
+msgstr "Отказ"
+
+#: templates/backoffice/leads/detail.html:50
+#: templates/backoffice/leads/list.html:62
+msgid "Контакт"
+msgstr "Контакт"
+
+#: templates/backoffice/leads/detail.html:52
+#: templates/backoffice/settings/users/list.html:21
+#: templates/partials/modals/feedback.html:80
+msgid "Имя"
+msgstr "Имя"
+
+#: templates/backoffice/leads/detail.html:54
+msgid "Город (из формы)"
+msgstr "Город (из формы)"
+
+#: templates/backoffice/leads/detail.html:56
+msgid "Заголовок модалки"
+msgstr "Заголовок модалки"
+
+#: templates/backoffice/leads/detail.html:57
+msgid "Источник (origin)"
+msgstr "Источник (origin)"
+
+#: templates/backoffice/leads/detail.html:61
+msgid "Аудит"
+msgstr "Аудит"
+
+#: templates/backoffice/leads/detail.html:67
+#: templates/backoffice/leads/list.html:65
+msgid "Создана"
+msgstr "Создана"
+
+#: templates/backoffice/leads/detail.html:68
+msgid "Обновлена"
+msgstr "Обновлена"
+
+#: templates/backoffice/leads/detail.html:69
+msgid "Согласие"
+msgstr "Согласие"
+
+#: templates/backoffice/leads/detail.html:78
+msgid "Обработка"
+msgstr "Обработка"
+
+#: templates/backoffice/leads/detail.html:100
+msgid "Заметка менеджера"
+msgstr "Заметка менеджера"
+
+#: templates/backoffice/leads/detail.html:101
+msgid "Что по звонку, договорённости, причина отказа."
+msgstr "Что по звонку, договорённости, причина отказа."
+
+#: templates/backoffice/leads/list.html:8
+msgid "Фильтр по статусу"
+msgstr "Фильтр по статусу"
+
+#: templates/backoffice/leads/list.html:31
+msgid "Имя, телефон, источник, заметка…"
+msgstr "Имя, телефон, источник, заметка…"
+
+#: templates/backoffice/leads/list.html:52
+msgid "Сброс"
+msgstr "Сброс"
+
+#: templates/backoffice/leads/list.html:63
+msgid "Регион · Город"
+msgstr "Регион · Город"
+
+#: templates/backoffice/leads/list.html:64
+msgid "Источник"
+msgstr "Источник"
+
+#: templates/backoffice/leads/list.html:114
+msgid "Пагинация"
+msgstr "Пагинация"
+
+#: templates/backoffice/leads/list.html:116
+#, python-format
+msgid "Стр. %(cur)s из %(total)s · всего %(count)s"
+msgstr "Стр. %(cur)s из %(total)s · всего %(count)s"
+
+#: templates/backoffice/leads/list.html:134
+msgid "По выбранным фильтрам заявок не найдено."
+msgstr "По выбранным фильтрам заявок не найдено."
+
+#: templates/backoffice/leads/list.html:137
+msgid "Заявок пока нет."
+msgstr "Заявок пока нет."
+
+#: templates/backoffice/login.html:4
+msgid "Вход"
+msgstr "Вход"
+
+#: templates/backoffice/login.html:32
+msgid "На главную"
+msgstr "На главную"
+
+#: templates/backoffice/login.html:54
+msgid "Вход в панель"
+msgstr "Вход в панель"
+
+#: templates/backoffice/login.html:55
+msgid "Введите данные учётной записи, чтобы продолжить."
+msgstr "Введите данные учётной записи, чтобы продолжить."
+
+#: templates/backoffice/login.html:100
+msgid "Войти"
+msgstr "Войти"
+
+#: templates/backoffice/login.html:109
+msgid "На сайт"
+msgstr "На сайт"
+
+#: templates/backoffice/settings/regions/create.html:10
+#: templates/backoffice/settings/regions/list.html:11
+msgid "Новый регион"
+msgstr "Новый регион"
+
+#: templates/backoffice/settings/regions/create.html:11
+msgid "Slug станет частью URL: `/<lang>/<slug>/...`. После создания перейдёте на редактирование — там зададите переводы (KK/EN) и флаг is_default."
+msgstr "Slug станет частью URL: `/<lang>/<slug>/...`. После создания перейдёте на редактирование — там зададите переводы (KK/EN) и флаг is_default."
+
+#: templates/backoffice/settings/regions/create.html:31
+#: templates/backoffice/settings/regions/edit.html:65
+#: templates/backoffice/settings/regions/list.html:41
+#: templates/backoffice/settings/regions/list.html:67
+#: templates/backoffice/settings/users/create.html:68
+#: templates/backoffice/settings/users/edit.html:88
+msgid "Активен"
+msgstr "Активен"
+
+#: templates/backoffice/settings/regions/create.html:31
+msgid "URL `/<lang>/<slug>/` доступен публично"
+msgstr "URL `/<lang>/<slug>/` доступен публично"
+
+#: templates/backoffice/settings/regions/edit.html:12
+#, python-format
+msgid "Регион «%(name)s» (%(slug)s)"
+msgstr "Регион «%(name)s» (%(slug)s)"
+
+#: templates/backoffice/settings/regions/edit.html:13
+msgid "Изменение slug ломает существующие URL. Деактивация скрывает регион в переключателе и `/<lang>/<slug>/` → 404."
+msgstr "Изменение slug ломает существующие URL. Деактивация скрывает регион в переключателе и `/<lang>/<slug>/` → 404."
+
+#: templates/backoffice/settings/regions/edit.html:17
+#, python-format
+msgid "Удалить регион «%(name)s»? Каскадно удалится весь его контент (HomePage, BlogPost, Контакты и т.п.). Это нельзя отменить!"
+msgstr "Удалить регион «%(name)s»? Каскадно удалится весь его контент (HomePage, BlogPost, Контакты и т.п.). Это нельзя отменить!"
+
+#: templates/backoffice/settings/regions/edit.html:22
+msgid "Удалить регион"
+msgstr "Удалить регион"
+
+#: templates/backoffice/settings/regions/edit.html:28
+msgid "Язык названия"
+msgstr "Язык названия"
+
+#: templates/backoffice/settings/regions/edit.html:61
+#: templates/backoffice/settings/regions/list.html:38
+#: templates/backoffice/settings/regions/list.html:66
+msgid "По умолчанию"
+msgstr "По умолчанию"
+
+#: templates/backoffice/settings/regions/edit.html:61
+msgid "корневой URL ведёт сюда; пользователи без выбора региона попадают сюда. Можно поставить только одному."
+msgstr "корневой URL ведёт сюда; пользователи без выбора региона попадают сюда. Можно поставить только одному."
+
+#: templates/backoffice/settings/regions/edit.html:65
+msgid "URL `/<lang>/<slug>/` доступен публично; в переключателе показывается."
+msgstr "URL `/<lang>/<slug>/` доступен публично; в переключателе показывается."
+
+#: templates/backoffice/settings/regions/list.html:8
+msgid "Регионы"
+msgstr "Регионы"
+
+#: templates/backoffice/settings/regions/list.html:9
+msgid "Справочник филиалов школы. Slug — сегмент URL `/<lang>/<slug>/`. Один регион по умолчанию (используется при корневом URL и для пользователей без выбора)."
+msgstr "Справочник филиалов школы. Slug — сегмент URL `/<lang>/<slug>/`. Один регион по умолчанию (используется при корневом URL и для пользователей без выбора)."
+
+#: templates/backoffice/settings/regions/list.html:22
+msgid "Состояние"
+msgstr "Состояние"
+
+#: templates/backoffice/settings/regions/list.html:23
+msgid "Менеджеров"
+msgstr "Менеджеров"
+
+#: templates/backoffice/settings/regions/list.html:43
+#: templates/backoffice/settings/regions/list.html:67
+msgid "Скрыт"
+msgstr "Скрыт"
+
+#: templates/backoffice/settings/regions/list.html:70
+msgid "менедж."
+msgstr "менедж."
+
+#: templates/backoffice/settings/regions/list.html:78
+msgid "Регионов пока нет. Создай первый — astana, almaty и т.п."
+msgstr "Регионов пока нет. Создай первый — astana, almaty и т.п."
+
+#: templates/backoffice/settings/users/create.html:10
+#: templates/backoffice/settings/users/list.html:11
+msgid "Новый пользователь"
+msgstr "Новый пользователь"
+
+#: templates/backoffice/settings/users/create.html:11
+msgid "Менеджеру укажи manager_region — он будет видеть только свой регион. Суперадмин видит всё, регион не нужен."
+msgstr "Менеджеру укажи manager_region — он будет видеть только свой регион. Суперадмин видит всё, регион не нужен."
+
+#: templates/backoffice/settings/users/create.html:24
+#: templates/backoffice/settings/users/edit.html:53
+msgid "Учётная запись"
+msgstr "Учётная запись"
+
+#: templates/backoffice/settings/users/create.html:47
+#: templates/backoffice/settings/users/edit.html:67
+msgid "Роль и доступ"
+msgstr "Роль и доступ"
+
+#: templates/backoffice/settings/users/create.html:68
+#: templates/backoffice/settings/users/edit.html:88
+msgid "если снять, пользователь не сможет войти даже с правильным паролем"
+msgstr "если снять, пользователь не сможет войти даже с правильным паролем"
+
+#: templates/backoffice/settings/users/edit.html:15
+#, python-format
+msgid "Последний вход: %(date)s."
+msgstr "Последний вход: %(date)s."
+
+#: templates/backoffice/settings/users/edit.html:17
+msgid "Ни разу не входил."
+msgstr "Ни разу не входил."
+
+#: templates/backoffice/settings/users/edit.html:24
+#, python-format
+msgid "Удалить пользователя «%(name)s»? Действие нельзя отменить."
+msgstr "Удалить пользователя «%(name)s»? Действие нельзя отменить."
+
+#: templates/backoffice/settings/users/edit.html:38
+msgid "Это ваш собственный аккаунт. Роль и флаг «Активен» нельзя изменить — защита от самоблокировки. Чтобы понизить себя, попросите другого суперадмина."
+msgstr "Это ваш собственный аккаунт. Роль и флаг «Активен» нельзя изменить — защита от самоблокировки. Чтобы понизить себя, попросите другого суперадмина."
+
+#: templates/backoffice/settings/users/edit.html:102
+msgid "Смена пароля"
+msgstr "Смена пароля"
+
+#: templates/backoffice/settings/users/edit.html:124
+msgid "Сменить пароль"
+msgstr "Сменить пароль"
+
+#: templates/backoffice/settings/users/list.html:8
+msgid "Пользователи"
+msgstr "Пользователи"
+
+#: templates/backoffice/settings/users/list.html:9
+msgid "Аккаунты backoffice: суперадмины (видят всё) и менеджеры (manager_region → видят только свой регион). Обычные посетители сайта здесь не показываются."
+msgstr "Аккаунты backoffice: суперадмины (видят всё) и менеджеры (manager_region → видят только свой регион). Обычные посетители сайта здесь не показываются."
+
+#: templates/backoffice/settings/users/list.html:22
+msgid "Email"
+msgstr "Email"
+
+#: templates/backoffice/settings/users/list.html:23
+msgid "Роль"
+msgstr "Роль"
+
+#: templates/backoffice/settings/users/list.html:34
+#: templates/backoffice/settings/users/list.html:83
+msgid "Отключён"
+msgstr "Отключён"
+
+#: templates/backoffice/settings/users/list.html:45
+#: templates/backoffice/settings/users/list.html:77
+msgid "Суперадмин"
+msgstr "Суперадмин"
+
+#: templates/backoffice/settings/users/list.html:47
+#: templates/backoffice/settings/users/list.html:79
+msgid "Менеджер"
+msgstr "Менеджер"
+
+#: templates/backoffice/settings/users/list.html:49
+#: templates/backoffice/settings/users/list.html:81
+msgid "Без доступа"
+msgstr "Без доступа"
+
+#: templates/backoffice/settings/users/list.html:95
+msgid "Пользователей нет."
+msgstr "Пользователей нет."
+
+#: templates/backoffice/site/menu/_item_card.html:11
+msgid "Новый пункт"
+msgstr "Новый пункт"
+
+#: templates/backoffice/site/menu/_item_card.html:57
+msgid "Показывать в шапке (top nav)"
+msgstr "Показывать в шапке (top nav)"
+
+#: templates/backoffice/site/menu/create.html:5
+#: templates/backoffice/site/menu/edit.html:5
+msgid "К списку секций"
+msgstr "К списку секций"
+
+#: templates/backoffice/site/menu/create.html:10
+msgid "Новая секция меню"
+msgstr "Новая секция меню"
+
+#: templates/backoffice/site/menu/create.html:11
+msgid "Создайте секцию с slug (латиница, технический id) и заголовком на русском. Переводы и порядок зададите на странице редактирования."
+msgstr "Создайте секцию с slug (латиница, технический id) и заголовком на русском. Переводы и порядок зададите на странице редактирования."
+
+#: templates/backoffice/site/menu/edit.html:12
+#, python-format
+msgid "Секция «%(label)s» (%(slug)s)"
+msgstr "Секция «%(label)s» (%(slug)s)"
+
+#: templates/backoffice/site/menu/edit.html:13
+msgid "Заголовок секции, порядок отображения и список пунктов."
+msgstr "Заголовок секции, порядок отображения и список пунктов."
+
+#: templates/backoffice/site/menu/edit.html:17
+#, python-format
+msgid "Удалить секцию «%(label)s»? Каскадно удалятся все %(count)s пункт(ов)."
+msgstr "Удалить секцию «%(label)s»? Каскадно удалятся все %(count)s пункт(ов)."
+
+#: templates/backoffice/site/menu/edit.html:21
+msgid "Удалить секцию"
+msgstr "Удалить секцию"
+
+#: templates/backoffice/site/menu/edit.html:27
+msgid "Язык содержания"
+msgstr "Язык содержания"
+
+#: templates/backoffice/site/menu/edit.html:61
+msgid "Пункты навигации"
+msgstr "Пункты навигации"
+
+#: templates/backoffice/site/menu/edit.html:63
+msgid "Каждый пункт — звено навигации. Перетаскивай за ≡ слева, чтобы изменить порядок (сохранится при «Сохранить» внизу). Клик по строке — раскрыть/свернуть детали."
+msgstr "Каждый пункт — звено навигации. Перетаскивай за ≡ слева, чтобы изменить порядок (сохранится при «Сохранить» внизу). Клик по строке — раскрыть/свернуть детали."
+
+#: templates/backoffice/site/menu/edit.html:88
+msgid "Добавить пункт"
+msgstr "Добавить пункт"
+
+#: templates/backoffice/site/menu/list.html:8 templates/partials/header.html:27
+msgid "Меню"
+msgstr "Меню"
+
+#: templates/backoffice/site/menu/list.html:9
+msgid "Секции мегаменю и пункты навигации. Структура общая для всех регионов."
+msgstr "Секции мегаменю и пункты навигации. Структура общая для всех регионов."
+
+#: templates/backoffice/site/menu/list.html:11
+msgid "Новая секция"
+msgstr "Новая секция"
+
+#: templates/backoffice/site/menu/list.html:22
+msgid "Порядок"
+msgstr "Порядок"
+
+#: templates/backoffice/site/menu/list.html:23
+msgid "Пунктов"
+msgstr "Пунктов"
+
+#: templates/backoffice/site/menu/list.html:59
+msgid "пункт."
+msgstr "пункт."
+
+#: templates/backoffice/site/menu/list.html:67
+msgid "Пока нет секций. Создайте первую — например «main» для главного меню."
+msgstr "Пока нет секций. Создайте первую — например «main» для главного меню."
+
+#: templates/base.html:10
+#, python-format
+msgid "Space School — международная школа Cambridge Assessment International Education. %(cities)s."
+msgstr "Space School — международная школа Cambridge Assessment International Education. %(cities)s."
+
+#: templates/base.html:46 templates/base.html:54
+msgid "Space School"
+msgstr "Space School"
+
+#: templates/blog/_gallery.html:39 templates/gallery/list.html:110
+msgid "Предыдущее"
+msgstr "Предыдущее"
+
+#: templates/blog/_gallery.html:44 templates/gallery/list.html:119
+msgid "Следующее"
+msgstr "Следующее"
+
+#: templates/blog/detail.html:57 templates/events/detail.html:53
+msgid "Поделиться"
+msgstr "Поделиться"
+
+#: templates/blog/detail.html:58 templates/events/detail.html:54
+msgid "Копировать"
+msgstr "Копировать"
+
+#: templates/blog/detail.html:59 templates/events/detail.html:55
+msgid "Скопировано"
+msgstr "Скопировано"
+
+#: templates/blog/detail.html:166
+msgid "Похожие публикации"
+msgstr "Похожие публикации"
+
+#: templates/blog/list.html:5
+msgid "Новости и статьи Space School: школьная жизнь, спорт, достижения и события."
+msgstr "Новости и статьи Space School: школьная жизнь, спорт, достижения и события."
+
+#: templates/blog/list.html:34
+#, python-format
+msgid "Записи по тегу <strong>#%(tag)s</strong>"
+msgstr "Записи по тегу <strong>#%(tag)s</strong>"
+
+#: templates/blog/list.html:35
+msgid "Сбросить"
+msgstr "Сбросить"
+
+#: templates/blog/list.html:43 templates/gallery/list.html:50
+#: templates/team/list.html:43
+msgid "Все"
+msgstr "Все"
+
+#: templates/blog/list.html:77 templates/events/list.html:53
+#: templates/gallery/list.html:78
+msgid "Загрузить еще"
+msgstr "Загрузить еще"
+
+#: templates/blog/list.html:83
+msgid "Пока нет публикаций в этой категории."
+msgstr "Пока нет публикаций в этой категории."
+
+#: templates/events/detail.html:24 templates/events/list.html:4
+#: templates/events/list.html:21 templates/events/list.html:29
+msgid "Мероприятия"
+msgstr "Мероприятия"
+
+#: templates/events/detail.html:142
+msgid "Другие мероприятия"
+msgstr "Другие мероприятия"
+
+#: templates/events/list.html:5
+msgid "Анонсы и отчёты о мероприятиях Space School."
+msgstr "Анонсы и отчёты о мероприятиях Space School."
+
+#: templates/events/list.html:58
+msgid "Пока нет анонсов мероприятий."
+msgstr "Пока нет анонсов мероприятий."
+
+#: templates/gallery/list.html:5
+msgid "Фотохроника жизни школы: учебные будни, достижения, мероприятия и робототехника."
+msgstr "Фотохроника жизни школы: учебные будни, достижения, мероприятия и робототехника."
+
+#: templates/gallery/list.html:83
+msgid "Пока нет фото в этой категории."
+msgstr "Пока нет фото в этой категории."
+
+#: templates/pages/home.html:140
+msgid "Знакомство со Space School"
+msgstr "Знакомство со Space School"
+
+#: templates/pages/home.html:144
+msgid "Ваш браузер не поддерживает воспроизведение видео."
+msgstr "Ваш браузер не поддерживает воспроизведение видео."
+
+#: templates/pages/home.html:152
+msgid "Запустить видео"
+msgstr "Запустить видео"
+
+#: templates/pages/home.html:161
+msgid "Медленное соединение — видео не запущено автоматически."
+msgstr "Медленное соединение — видео не запущено автоматически."
+
+#: templates/pages/home.html:164
+msgid "Загрузить всё равно"
+msgstr "Загрузить всё равно"
+
+#: templates/pages/home.html:174
+msgid "Включить звук"
+msgstr "Включить звук"
+
+#: templates/pages/home.html:174
+msgid "Выключить звук"
+msgstr "Выключить звук"
+
+#: templates/partials/_youtube_embed.html:5
+msgid "Видео YouTube"
+msgstr "Видео YouTube"
+
+#: templates/partials/cover_image.html:32
+#: templates/partials/cover_image.html:40 templates/programs/detail.html:338
+#: templates/programs/detail.html:343 templates/team/detail.html:44
+#: templates/team/detail.html:49 templates/team/list.html:69
+#: templates/team/list.html:74
+msgid "Нет фото"
+msgstr "Нет фото"
+
+#: templates/partials/feedback_section.html:25
+msgid "Готовы запустить"
+msgstr "Готовы запустить"
+
+#: templates/partials/feedback_section.html:26
+msgid "будущее вашего ребёнка?"
+msgstr "будущее вашего ребёнка?"
+
+#: templates/partials/feedback_section.html:29
+msgid "Запишитесь на бесплатную консультацию —"
+msgstr "Запишитесь на бесплатную консультацию —"
+
+#: templates/partials/feedback_section.html:30
+msgid "расскажем о программе, покажем школу и ответим"
+msgstr "расскажем о программе, покажем школу и ответим"
+
+#: templates/partials/feedback_section.html:31
+msgid "на все вопросы"
+msgstr "на все вопросы"
+
+#: templates/partials/feedback_section.html:37
+msgid "Запишитесь на бесплатную консультацию"
+msgstr "Запишитесь на бесплатную консультацию"
+
+#: templates/partials/feedback_section.html:38
+#: templates/partials/modals/feedback.html:19
+#: templates/partials/modals/feedback.html:71
+msgid "Получить консультацию"
+msgstr "Получить консультацию"
+
+#: templates/partials/feedback_section.html:42
+msgid "Выберите свой город"
+msgstr "Выберите свой город"
+
+#: templates/partials/feedback_section.html:43
+msgid "Записаться в кампус"
+msgstr "Записаться в кампус"
+
+#: templates/partials/footer.html:91
+msgid "Документы"
+msgstr "Документы"
+
+#: templates/partials/footer.html:101
+msgid "Политика конфиденциальности"
+msgstr "Политика конфиденциальности"
+
+#: templates/partials/footer.html:106
+msgid "Публичная оферта"
+msgstr "Публичная оферта"
+
+#: templates/partials/header.html:44
+msgid "Язык"
+msgstr "Язык"
+
+#: templates/partials/modals/feedback.html:72
+msgid "Перезвоним в течение 2 часов и ответим на все вопросы о поступлении"
+msgstr "Перезвоним в течение 2 часов и ответим на все вопросы о поступлении"
+
+#: templates/partials/modals/feedback.html:85
+msgid "Ваше имя"
+msgstr "Ваше имя"
+
+#: templates/partials/modals/feedback.html:107
+msgid "Город"
+msgstr "Город"
+
+#: templates/partials/modals/feedback.html:114
+msgid "Выберите город"
+msgstr "Выберите город"
+
+#: templates/partials/modals/feedback.html:148
+msgid "Отправляем…"
+msgstr "Отправляем…"
+
+#: templates/partials/modals/feedback.html:148
+msgid "Отправить"
+msgstr "Отправить"
+
+#: templates/partials/modals/feedback.html:152
+msgid "Не удалось отправить. Попробуйте ещё раз или позвоните нам."
+msgstr "Не удалось отправить. Попробуйте ещё раз или позвоните нам."
+
+#: templates/partials/modals/feedback.html:157
+msgid "Нажимая кнопку, вы соглашаетесь на обработку"
+msgstr "Нажимая кнопку, вы соглашаетесь на обработку"
+
+#: templates/partials/modals/feedback.html:160
+msgid "персональных данных"
+msgstr "персональных данных"
+
+#: templates/partials/modals/feedback.html:166
+msgid "Заявка принята!"
+msgstr "Заявка принята!"
+
+#: templates/partials/modals/feedback.html:167
+msgid "Перезвоним вам в течение 2 часов"
+msgstr "Перезвоним вам в течение 2 часов"
+
+#: templates/programs/detail.html:287
+msgid "Оставить заявку"
+msgstr "Оставить заявку"
+
+#: templates/programs/detail.html:368
+msgid "Предыдущий"
+msgstr "Предыдущий"
+
+#: templates/programs/detail.html:371
+msgid "Следующий"
+msgstr "Следующий"
+
+#: templates/programs/detail.html:432
+msgid "Алихан Сейткали"
+msgstr "Алихан Сейткали"
+
+#: templates/programs/detail.html:434
+msgid "Настоящий сертификат подтверждает успешное завершение обучения по программе Space School · Cambridge International Education с международной языковой подготовкой."
+msgstr "Настоящий сертификат подтверждает успешное завершение обучения по программе Space School · Cambridge International Education с международной языковой подготовкой."
+
+#: templates/programs/detail.html:530
+msgid "Стоимость"
+msgstr "Стоимость"
+
+#: templates/team/detail.html:83
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: templates/team/list.html:5
+msgid "Команда профессионалов Space School: основатели, академический штаб и наставники, которые ведут наших учеников."
+msgstr "Команда профессионалов Space School: основатели, академический штаб и наставники, которые ведут наших учеников."
+
+#: templates/team/list.html:31
+msgid "Подход и забота"
+msgstr "Подход и забота"
+
+#: templates/team/list.html:33
+msgid "Команда профессионалов, которая заботится о вашем ребёнке"
+msgstr "Команда профессионалов, которая заботится о вашем ребёнке"
+
+#: templates/team/list.html:35
+msgid "Каждый педагог — практик с опытом в международных школах и университетах. Мы отвечаем за развитие каждого ученика."
+msgstr "Каждый педагог — практик с опытом в международных школах и университетах. Мы отвечаем за развитие каждого ученика."
+
+#: templates/team/list.html:60
+#, python-format
+msgid "Подробнее о %(name)s"
+msgstr "Подробнее о %(name)s"
+
+#: templates/team/list.html:89
+msgid "Подробнее"
+msgstr "Подробнее"
+
+#: templates/team/list.html:98
+msgid "Никого по этому фильтру не нашлось."
+msgstr "Никого по этому фильтру не нашлось."
+
+#: templates/team/list.html:100
+msgid "Информация о команде скоро появится."
+msgstr "Информация о команде скоро появится."
