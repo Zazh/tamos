@@ -73,6 +73,9 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    # Сразу после LocaleMiddleware: перебивает язык, выбранный по cookie,
+    # на русский для /backoffice/ и /admin/ (см. core/middleware.py).
+    'core.middleware.StaffLanguageMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

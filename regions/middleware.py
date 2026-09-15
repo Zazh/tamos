@@ -13,6 +13,10 @@ class LanguageCookieMiddleware:
 
     LocaleMiddleware ставит `request.LANGUAGE_CODE` из URL — берём его как
     источник истины и пишем cookie на 1 год (как `region`-cookie у соседа).
+
+    Запросы к staff-интерфейсам пропускаем: там `StaffLanguageMiddleware`
+    принудительно ставит `LANGUAGE_CODE='ru'`, и без этой проверки визит в
+    бэкофис молча переключал бы публичный сайт менеджера на русский.
     """
 
     COOKIE_MAX_AGE = 60 * 60 * 24 * 365
@@ -23,6 +27,8 @@ class LanguageCookieMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
+        if getattr(request, 'is_staff_ui', False):
+            return response
         lang = getattr(request, 'LANGUAGE_CODE', None)
         if lang in self._allowed and request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME) != lang:
             response.set_cookie(
