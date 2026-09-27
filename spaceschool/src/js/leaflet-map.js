@@ -1,9 +1,16 @@
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// CartoDB Positron Light (no labels) — нейтральная подложка под наш дизайн.
-// https://github.com/CartoDB/basemap-styles
-const TILE_URL = "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png";
+// Esri World Light Gray Base — нейтральная светлая подложка без топонимов
+// (только названия улиц), бесплатно и без API-ключа.
+// Ранее был CartoDB light_nolabels: с 2026-09 basemaps.cartocdn.com отдаёт
+// заглушку «API KEY REQUIRED» вместо тайлов без ключа.
+// Нативные тайлы Esri есть только до zoom 16 — выше Leaflet апскейлит их
+// (maxNativeZoom), поэтому zoom 17–19 в форме контактов остаётся валидным.
+// Порядок в URL у Esri — {z}/{y}/{x}, retina-суффикса {r} нет.
+const TILE_URL =
+  "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}";
+const TILE_OPTIONS = { maxZoom: 19, maxNativeZoom: 16 };
 
 // Файл лежит в `spaceschool/public/images/icons/` → Vite кладёт его в
 // `static/images/icons/` (см. memory/directory-layout.md). Стабильный URL.
@@ -37,9 +44,7 @@ function initMap(el) {
     attributionControl: false,
   });
 
-  L.tileLayer(TILE_URL, {
-    maxZoom: 19,
-  }).addTo(map);
+  L.tileLayer(TILE_URL, TILE_OPTIONS).addTo(map);
 
   L.marker(center, { icon: MARKER_ICON }).addTo(map);
 }
@@ -186,7 +191,7 @@ export function boMapPreview() {
         zoomControl: true,
         attributionControl: false,
       });
-      L.tileLayer(TILE_URL, { maxZoom: 19 }).addTo(this.map);
+      L.tileLayer(TILE_URL, TILE_OPTIONS).addTo(this.map);
       this.marker = L.marker([lat, lng], { icon: MARKER_ICON, draggable: true }).addTo(this.map);
 
       // Клик по карте → переставить маркер и записать координаты в форму.
