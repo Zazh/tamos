@@ -86,6 +86,7 @@ class AdmissionView(TemplateView):
             'available_grades': available_grades,
             'testing_features': list(variant.testing_features.all()),
             'pricing_plans': list(variant.pricing_plans.all()),
+            'payment_methods': list(page.payment_methods.all()),
             'included_items': [i for i in page.included_items.all() if not i.is_excluded],
             'excluded_items': [i for i in page.included_items.all() if i.is_excluded],
             'documents': list(page.documents.all()),

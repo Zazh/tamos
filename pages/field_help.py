@@ -855,9 +855,21 @@ ADMISSIONPAGE_ENROLLMENT_FEE_TEXT = """
 """
 
 
+ADMISSIONPAGE_PAYMENT_METHODS_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Фраза над нумерованным списком способов оплаты (под прайс-картой и текстом про вступительный взнос). Сами пункты — списком ниже.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Оплату можно совершать тремя удобными для вас способами:</blockquote>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1 предложение, до 200 символов, без HTML</li><li>Пусто — список покажется без заголовка</li></ul>
+"""
+
+
 ADMISSIONPAGE_PRICING_TITLES = """
 <h4>📝 Назначение</h4>
-<p>Заголовки h4 для двух подсписков под прайс-картами: «Стоимость включает» (✓) и «Не включено» (✕).</p>
+<p>Заголовки h4 для двух подсписков под прайс-картой: «Стоимость включает» (✓) и «Не включено» (✕).</p>
 
 <h4>📐 Ограничения</h4>
 <ul><li>До 80 символов каждый, без HTML</li><li>Заголовок «Не включено» можно оставить пустым — тогда подзаголовок не покажется</li></ul>
@@ -1110,9 +1122,25 @@ ADMISSIONTESTINGFEATURE_DESCRIPTION = """
 """
 
 
+ADMISSIONPAYMENTMETHOD_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Пункт нумерованного списка «Способы оплаты» в этапе №03. Номер 1/2/3/… рендерится автоматически. Список общий для всех вариантов региона.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов, 1 строка</li><li>Сроки и даты платежей — здесь, а не в прайс-карте</li></ul>
+
+<h4>✨ Референс</h4>
+<ul>
+  <li>«100% оплата за год»</li>
+  <li>«В 3 транша (20 августа, 20 ноября, 20 февраля)»</li>
+  <li>«Ежемесячно (сумма делится на 9 месяцев)»</li>
+</ul>
+"""
+
+
 ADMISSIONPRICINGPLAN_LABEL = """
 <h4>📝 Назначение</h4>
-<p>Подпись плана оплаты («100% до 1 июня», «Ежеквартально», «Годовая оплата»). Видна над ценой.</p>
+<p>Подпись над ценой («Стоимость обучения»). Сейчас на варианте одна карта — цена за учебный год; способы оплаты вынесены в отдельный список в общих текстах региона.</p>
 
 <h4>📐 Ограничения</h4>
 <ul><li>До 120 символов, 1 строка</li></ul>
@@ -1126,7 +1154,7 @@ ADMISSIONPRICINGPLAN_PRICE_VALUE = """
 <h4>📐 Ограничения</h4>
 <ul>
   <li>До 40 символов</li>
-  <li>Формат: «4 086 000» (с разделителями-неразрывными пробелами)</li>
+  <li>Формат: «4 284 000» (с разделителями-неразрывными пробелами)</li>
 </ul>
 """
 
@@ -1140,8 +1168,7 @@ ADMISSIONPRICINGPLAN_NOTE = """
 
 <h4>✨ Референс</h4>
 <ul>
-  <li>«Полная оплата до 1 июня»</li>
-  <li>«Первый транш 1 395 000 ₸ до 1 июня»</li>
+  <li>«За 2026–2027 учебный год»</li>
 </ul>
 """
 
@@ -1877,6 +1904,7 @@ FIELD_HELP = {
     'admissionpage.testing_rules_text': _h(ADMISSIONPAGE_TESTING_RULES_TEXT),
     'admissionpage.testing_price': _h(ADMISSIONPAGE_TESTING_PRICE),
     'admissionpage.enrollment_fee_text': _h(ADMISSIONPAGE_ENROLLMENT_FEE_TEXT),
+    'admissionpage.payment_methods_title': _h(ADMISSIONPAGE_PAYMENT_METHODS_TITLE),
     'admissionpage.pricing_titles': _h(ADMISSIONPAGE_PRICING_TITLES),
     'admissionpage.enrollment_lead': _h(ADMISSIONPAGE_ENROLLMENT_LEAD),
     'admissionpage.documents_title': _h(ADMISSIONPAGE_DOCUMENTS_TITLE),
@@ -1898,6 +1926,7 @@ FIELD_HELP = {
     # Admission inline-models
     'admissionincludeditem.text': _h(ADMISSIONINCLUDEDITEM_TEXT),
     'admissiondocument.text': _h(ADMISSIONDOCUMENT_TEXT),
+    'admissionpaymentmethod.text': _h(ADMISSIONPAYMENTMETHOD_TEXT),
     'admissiontestingfeature.title': _h(ADMISSIONTESTINGFEATURE_TITLE),
     'admissiontestingfeature.description': _h(ADMISSIONTESTINGFEATURE_DESCRIPTION),
     'admissionpricingplan.label': _h(ADMISSIONPRICINGPLAN_LABEL),

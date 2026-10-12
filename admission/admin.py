@@ -8,6 +8,7 @@ from .models import (
     AdmissionDocument,
     AdmissionIncludedItem,
     AdmissionPage,
+    AdmissionPaymentMethod,
     AdmissionPricingPlan,
     AdmissionTestingFeature,
     AdmissionVariant,
@@ -78,11 +79,17 @@ class AdmissionDocumentInline(TranslationStackedInline):
     fields = ('order', 'text')
 
 
+class AdmissionPaymentMethodInline(TranslationStackedInline):
+    model = AdmissionPaymentMethod
+    extra = 0
+    fields = ('order', 'text')
+
+
 @admin.register(AdmissionPage)
 class AdmissionPageAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
     list_display = ('region', 'updated_at')
     readonly_fields = ('updated_at',)
-    inlines = [AdmissionIncludedItemInline, AdmissionDocumentInline]
+    inlines = [AdmissionPaymentMethodInline, AdmissionIncludedItemInline, AdmissionDocumentInline]
     fieldsets = (
         (None, {'fields': ('region', 'updated_at')}),
         ('UI-лейблы', {
@@ -121,6 +128,7 @@ class AdmissionPageAdmin(RegionScopedAdminMixin, TabbedTranslationAdmin):
         ('Этап «Договор и взнос» — общая часть', {
             'fields': (
                 'enrollment_fee_text',
+                'payment_methods_title',
                 'pricing_included_title',
                 'pricing_excluded_title',
             ),

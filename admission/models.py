@@ -20,8 +20,9 @@ class Department(models.Model):
 
 
 class GradeGroup(models.Model):
-    """Группа классов: «1 класс», «2–7 класс», «2–6 класс», «8–11 класс»,
-    «7–11 класс». Slug участвует в URL (часть после префикса `grade-`)."""
+    """Группа классов: «1 класс», «2–4 класс», «2–7 класс», «2–6 класс»,
+    «8–11 класс». Slug участвует в URL (часть после префикса `grade-`).
+    Набор групп у отделения определяется наличием AdmissionVariant."""
 
     slug = models.SlugField('Slug (для URL, без префикса grade-)', max_length=20, unique=True)
     name = models.CharField(
@@ -137,6 +138,14 @@ class AdmissionPage(models.Model):
         help_text='Под прайс-картами. HTML рендерится через |safe (поддержи '
                   '<span class="font-bold text-black">+ Вступительный взнос — N ₸</span> разово…).',
     )
+    payment_methods_title = models.CharField(
+        'Заголовок списка «Способы оплаты»',
+        max_length=200,
+        blank=True,
+        help_text='Фраза над нумерованным списком способов оплаты (под прайс-картой '
+                  'и текстом про взнос). Напр. «Оплату можно совершать тремя удобными '
+                  'для вас способами:». Пусто — список рендерится без заголовка.',
+    )
     pricing_included_title = models.CharField(
         'Заголовок «Стоимость включает»',
         max_length=80,
@@ -204,6 +213,29 @@ class AdmissionIncludedItem(models.Model):
         return f'{prefix} {self.text}'
 
 
+class AdmissionPaymentMethod(models.Model):
+    """Пункт нумерованного списка «Способы оплаты» в этапе «Договор и взнос».
+    Inline на Page — способы оплаты общие для всех вариантов региона.
+    Рендерится под прайс-картой и текстом про вступительный взнос."""
+
+    page = models.ForeignKey(
+        AdmissionPage,
+        verbose_name='Лендинг',
+        on_delete=models.CASCADE,
+        related_name='payment_methods',
+    )
+    text = models.CharField('Способ оплаты', max_length=300)
+    order = models.PositiveSmallIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Способ оплаты'
+        verbose_name_plural = 'Способы оплаты'
+        ordering = ['order', 'pk']
+
+    def __str__(self):
+        return self.text
+
+
 class AdmissionDocument(models.Model):
     """Пункт списка «Документы для зачисления». Inline на Page."""
 
@@ -229,8 +261,9 @@ class AdmissionDocument(models.Model):
 
 class AdmissionVariant(models.Model):
     """Конкретный вариант страницы: AdmissionPage × Department × GradeGroup.
-    Например (Astana, Казахское, 1 класс). На регион ожидаем 6 вариантов:
-    3 RU (1 / 2-7 / 8-11) + 3 KZ (1 / 2-6 / 7-11)."""
+    Например (Astana, Казахское, 1 класс). Астана: 5 вариантов —
+    3 RU (1 / 2-7 / 8-11) + 2 KZ (1 / 2-6; казахских 7–11 классов нет).
+    Актау: 4 — RU/KZ × (1 / 2-4)."""
 
     page = models.ForeignKey(
         AdmissionPage,
@@ -375,8 +408,10 @@ class AdmissionTestingFeature(models.Model):
 
 
 class AdmissionPricingPlan(models.Model):
-    """Прайс-карта в этапе «Договор и взнос». 3 в прототипе (1 кл, ru, 2026–2027).
-    Inline на Variant — цены меняются между классами и учебными годами."""
+    """Прайс-карта в этапе «Договор и взнос». С 2026-10 — одна карта на вариант
+    («Стоимость обучения» за учебный год); способы оплаты — отдельным списком
+    `AdmissionPaymentMethod` на Page. Inline на Variant — цены могут отличаться
+    между классами и учебными годами."""
 
     class Highlight(models.TextChoices):
         BEST = 'best', 'Лучшая цена (gold-фон)'
@@ -408,19 +443,19 @@ class AdmissionPricingPlan(models.Model):
     label = models.CharField(
         'Подпись плана',
         max_length=120,
-        help_text='Напр. «100% до 1 июня», «Ежеквартально», «Годовая оплата».',
+        help_text='Напр. «Стоимость обучения». Видна над ценой.',
     )
     price_value = models.CharField(
         'Цена (без валюты)',
         max_length=40,
-        help_text='Напр. «4 086 000». Валюта — отдельным полем.',
+        help_text='Напр. «4 284 000». Валюта — отдельным полем.',
     )
     price_currency = models.CharField('Валюта', max_length=10, default='₸')
     note = models.CharField(
         'Сноска под ценой',
         max_length=200,
         blank=True,
-        help_text='Напр. «Полная оплата суммы до 1 июня», «Первый транш 1 395 000 ₸ до 1 июня».',
+        help_text='Напр. «За 2026–2027 учебный год». Условия/сроки — лучше в список способов оплаты.',
     )
     order = models.PositiveSmallIntegerField('Порядок', default=0)
 

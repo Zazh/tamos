@@ -10,7 +10,7 @@
     <header class="bo-detail-head">
       <div>
         <h1 class="bo-page-title">{% blocktrans with region=page.region.name %}Поступление — {{ region }}{% endblocktrans %}</h1>
-        <p class="bo-page-subtitle">{% blocktrans with date=page.updated_at|date:"j E, H:i" %}Общие тексты страницы и 6 вариантов (отделение × класс). Обновлено {{ date }}.{% endblocktrans %}</p>
+        <p class="bo-page-subtitle">{% blocktrans with date=page.updated_at|date:"j E, H:i" %}Общие тексты страницы и варианты (отделение × класс). Обновлено {{ date }}.{% endblocktrans %}</p>
       </div>
       <div class="bo-detail-head-actions">
         <a :href="'/' + lang + '/{{ page.region.slug }}/admission/'"
@@ -156,12 +156,19 @@
       <section class="bo-panel">
         <header class="bo-panel-head">
           <h2 class="bo-panel-title">{% trans "Этап «Договор» — общая часть" %}</h2>
-          {% include 'backoffice/content/_block_translate.html' with bases='["enrollment_fee_text","pricing_included_title","pricing_excluded_title"]' translate_url=admission_translate_url form_id='admission-page-edit-form' %}
+          {% include 'backoffice/content/_block_translate.html' with bases='["enrollment_fee_text","payment_methods_title","pricing_included_title","pricing_excluded_title"]' translate_url=admission_translate_url form_id='admission-page-edit-form' %}
         </header>
-        <p class="bo-help">{% trans "Текст про вступительный взнос + заголовки подсписков. Сам прайс — на каждой странице варианта." %}</p>
+        <p class="bo-help">{% trans "Текст про вступительный взнос, способы оплаты и заголовки подсписков. Сама цена — на каждой странице варианта." %}</p>
 
         {% include 'backoffice/content/_field_translatable.html' with form=form base='enrollment_fee_text' label='Текст про вступительный взнос (HTML)' %}
         {% field_help 'admissionpage.enrollment_fee_text' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='payment_methods_title' label='Фраза над списком способов оплаты' %}
+        {% field_help 'admissionpage.payment_methods_title' %}
+
+        {% with fs_data=formsets|getbyindex:2 %}
+          {% include 'backoffice/content/admission/_simple_list.html' with formset=fs_data.1 translate_url=admission_translate_url form_id='admission-page-edit-form' add_label='Добавить способ оплаты' placeholder='Новый способ оплаты' help_key='admissionpaymentmethod.text' show_excluded=False %}
+        {% endwith %}
 
         <div class="bo-row-2">
           {% include 'backoffice/content/_field_translatable.html' with form=form base='pricing_included_title' label='Заголовок «Стоимость включает»' %}
@@ -212,7 +219,7 @@
       <header class="bo-panel-head">
         <h2 class="bo-panel-title">{% trans "Варианты страницы (отделение × класс)" %}</h2>
       </header>
-      <p class="bo-help">{% trans "6 уникальных страниц региона: 3 RU (1, 2-7, 8-11) + 3 KZ (1, 2-6, 7-11). У каждого варианта свои h1, lead'ы этапов, 4 testing-карточки, прайс-карты и SEO." %}</p>
+      <p class="bo-help">{% trans "Уникальные страницы региона: Астана — 3 RU (1, 2-7, 8-11) + 2 KZ (1, 2-6; казахских 7–11 классов нет), Актау — RU/KZ × (1, 2-4). У каждого варианта свои h1, lead'ы этапов, 4 testing-карточки, прайс-карта и SEO." %}</p>
 
       {% if variants %}
         <ul class="bo-variant-grid">

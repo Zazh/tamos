@@ -15,6 +15,7 @@ from admission.models import (
     AdmissionDocument,
     AdmissionIncludedItem,
     AdmissionPage,
+    AdmissionPaymentMethod,
     AdmissionPricingPlan,
     AdmissionTestingFeature,
     AdmissionVariant,
@@ -55,6 +56,7 @@ ADMISSION_PAGE_TRANSLATABLE = (
     'testing_price_value',
     # Этап «Договор» — общая часть
     'enrollment_fee_text',
+    'payment_methods_title',
     'pricing_included_title',
     'pricing_excluded_title',
     # Этап «Зачисление»
@@ -88,6 +90,7 @@ class AdmissionPageEditForm(forms.ModelForm):
         'grade_dropdown_label',
         'testing_price_label',
         'testing_price_value',
+        'payment_methods_title',
         'pricing_included_title',
         'pricing_excluded_title',
         'documents_title',
@@ -111,6 +114,7 @@ class AdmissionPageEditForm(forms.ModelForm):
 
 _ADMISSION_INCLUDED_TRANSLATABLE = ('text',)
 _ADMISSION_DOCUMENT_TRANSLATABLE = ('text',)
+_ADMISSION_PAYMENT_METHOD_TRANSLATABLE = ('text',)
 
 
 class AdmissionIncludedItemForm(forms.ModelForm):
@@ -127,6 +131,16 @@ class AdmissionDocumentForm(forms.ModelForm):
     class Meta:
         model = AdmissionDocument
         fields = ('order',) + _localized(*_ADMISSION_DOCUMENT_TRANSLATABLE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+
+
+class AdmissionPaymentMethodForm(forms.ModelForm):
+    class Meta:
+        model = AdmissionPaymentMethod
+        fields = ('order',) + _localized(*_ADMISSION_PAYMENT_METHOD_TRANSLATABLE)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -151,13 +165,25 @@ AdmissionDocumentFormSet = inlineformset_factory(
     fk_name='page',
 )
 
+AdmissionPaymentMethodFormSet = inlineformset_factory(
+    parent_model=AdmissionPage,
+    model=AdmissionPaymentMethod,
+    form=AdmissionPaymentMethodForm,
+    extra=0,
+    can_delete=True,
+    fk_name='page',
+)
+
 
 # Конфигурация формсетов AdmissionPage — единое место правды для view/template.
+# Порядок важен: page_edit.html берёт formset'ы через `formsets|getbyindex:N`.
 ADMISSION_PAGE_INLINE_FORMSETS = (
     ('included_items', AdmissionIncludedItemFormSet, 'included_items',
      'Стоимость включает / Не включено', list(_ADMISSION_INCLUDED_TRANSLATABLE)),
     ('documents', AdmissionDocumentFormSet, 'documents',
      'Документы для зачисления', list(_ADMISSION_DOCUMENT_TRANSLATABLE)),
+    ('payment_methods', AdmissionPaymentMethodFormSet, 'payment_methods',
+     'Способы оплаты', list(_ADMISSION_PAYMENT_METHOD_TRANSLATABLE)),
 )
 
 
@@ -256,8 +282,8 @@ AdmissionTestingFeatureFormSet = _admission_variant_formset(
     extra=0, can_delete=False, max_num=4,
 )
 
-# Pricing-plans — гибкое количество (3 в seed grade-1; для остальных variant'ов
-# может быть 1 = «Полная оплата»). Collapsible accordion в UI.
+# Pricing-plans — гибкое количество (с 2026-10 в seed 1 карта = «Стоимость
+# обучения»; способы оплаты — отдельный список на Page). Collapsible accordion в UI.
 AdmissionPricingPlanFormSet = _admission_variant_formset(
     AdmissionPricingPlan, AdmissionPricingPlanForm,
     extra=0, can_delete=True,

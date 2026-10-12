@@ -1,4 +1,4 @@
-"""AdmissionPage edit (общие тексты + 2 inline + grid 6 вариантов) +
+"""AdmissionPage edit (общие тексты + 3 inline + grid вариантов) +
 AdmissionVariant edit (per dept × grade) + AI-translate/SEO для обоих."""
 
 import json
@@ -46,6 +46,7 @@ def content_admission_list(request):
             variant_count=Count('variants', distinct=True),
             included_count=Count('included_items', distinct=True),
             document_count=Count('documents', distinct=True),
+            payment_method_count=Count('payment_methods', distinct=True),
         )
         .order_by('region__name')
     )
@@ -79,12 +80,17 @@ def _admissionpage_steps(page):
         'testing_section_title_ru', 'result_section_title_ru',
         'contract_section_title_ru', 'enrollment_section_title_ru', 'consultation_section_title_ru',
         'testing_rules_text_ru', 'testing_price_value_ru',
+        'payment_methods_title_ru',
         'enrollment_lead_ru', 'consultation_lead_ru',
     ]
     kk_fields = [f.removesuffix('_ru') + '_kk' for f in ru_fields]
     en_fields = [f.removesuffix('_ru') + '_en' for f in ru_fields]
 
-    inline_total = page.included_items.count() + page.documents.count()
+    inline_total = (
+        page.included_items.count()
+        + page.documents.count()
+        + page.payment_methods.count()
+    )
     return [
         make_step(page, id='ru', label='Основа (RU)', fields=ru_fields, required=True),
         make_step(page, id='kk', label='Перевод KZ', fields=kk_fields),
@@ -118,7 +124,7 @@ def content_admission_edit(request, pk):
             for prefix, fs_cls, related_name, label, bases in ADMISSION_PAGE_INLINE_FORMSETS
         ]
 
-    # Превью 6 вариантов с счётчиком заполненности.
+    # Превью вариантов (Астана 5, Актау 4) с счётчиком заполненности.
     variants = list(
         page.variants
         .select_related('department', 'grade')

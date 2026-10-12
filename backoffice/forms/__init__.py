@@ -58,6 +58,8 @@ from .content.admission import (  # noqa: F401
     AdmissionDocumentFormSet,
     AdmissionIncludedItemForm,
     AdmissionIncludedItemFormSet,
+    AdmissionPaymentMethodForm,
+    AdmissionPaymentMethodFormSet,
     AdmissionPageEditForm,
     AdmissionPricingPlanForm,
     AdmissionPricingPlanFormSet,

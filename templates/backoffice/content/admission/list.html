@@ -6,7 +6,7 @@
 
   <div class="bo-page-head">
     <h1 class="bo-page-title">{% trans "Поступление" %}</h1>
-    <p class="bo-page-subtitle">{% trans "Лендинг «Поступление» для каждого региона. Общие тексты страницы + 6 вариантов (русское × {1, 2-7, 8-11} + казахское × {1, 2-6, 7-11}). Выберите регион." %}</p>
+    <p class="bo-page-subtitle">{% trans "Лендинг «Поступление» для каждого региона. Общие тексты страницы + варианты (отделение × класс; казахское отделение — только до 6 класса). Выберите регион." %}</p>
   </div>
 
   {% if rows %}
@@ -29,10 +29,10 @@
                 <div class="bo-cell-muted">{{ page.region.slug }}</div>
               </td>
               <td class="bo-td">
-                <div class="bo-cell-muted">{{ page.variant_count }} {% trans "из 6" %}</div>
+                <div class="bo-cell-muted">{{ page.variant_count }}</div>
               </td>
               <td class="bo-td">
-                <div class="bo-cell-muted">{{ page.included_count }} {% trans "пунктов" %} · {{ page.document_count }} {% trans "документов" %}</div>
+                <div class="bo-cell-muted">{{ page.included_count }} {% trans "пунктов" %} · {{ page.document_count }} {% trans "документов" %} · {{ page.payment_method_count }} {% trans "способов оплаты" %}</div>
               </td>
               <td class="bo-td bo-td-right">
                 <div class="bo-cell-muted">{{ page.updated_at|date:"j E, H:i" }}</div>

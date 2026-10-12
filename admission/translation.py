@@ -4,6 +4,7 @@ from .models import (
     AdmissionDocument,
     AdmissionIncludedItem,
     AdmissionPage,
+    AdmissionPaymentMethod,
     AdmissionPricingPlan,
     AdmissionTestingFeature,
     AdmissionVariant,
@@ -47,6 +48,7 @@ class AdmissionPageTranslationOptions(TranslationOptions):
         'testing_price_label',
         'testing_price_value',
         'enrollment_fee_text',
+        'payment_methods_title',
         'pricing_included_title',
         'pricing_excluded_title',
         'enrollment_lead',
@@ -63,6 +65,11 @@ class AdmissionIncludedItemTranslationOptions(TranslationOptions):
 
 @register(AdmissionDocument)
 class AdmissionDocumentTranslationOptions(TranslationOptions):
+    fields = ('text',)
+
+
+@register(AdmissionPaymentMethod)
+class AdmissionPaymentMethodTranslationOptions(TranslationOptions):
     fields = ('text',)
 
 
