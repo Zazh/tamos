@@ -163,7 +163,7 @@
         {% include 'backoffice/content/_field_translatable.html' with form=form base='enrollment_fee_text' label='Текст про вступительный взнос (HTML)' %}
         {% field_help 'admissionpage.enrollment_fee_text' %}
 
-        {% include 'backoffice/content/_field_translatable.html' with form=form base='payment_methods_title' label='Фраза над списком способов оплаты' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='payment_methods_title' label='Заголовок списка способов оплаты' %}
         {% field_help 'admissionpage.payment_methods_title' %}
 
         {% with fs_data=formsets|getbyindex:2 %}

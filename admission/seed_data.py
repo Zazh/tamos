@@ -263,7 +263,7 @@ PRICING_PLANS = [
 
 # Фраза + нумерованный список под прайс-картой (AdmissionPage.payment_methods_title
 # + inline AdmissionPaymentMethod). RU-источник; kk/en — в миграции 0017.
-PAYMENT_METHODS_TITLE = 'Оплату можно совершать тремя удобными для вас способами:'
+PAYMENT_METHODS_TITLE = 'Три удобных способа оплаты'
 PAYMENT_METHODS = [
     '100% оплата за год',
     'В 3 транша (20 августа, 20 ноября, 20 февраля)',
