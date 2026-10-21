@@ -122,7 +122,7 @@
                   </button>
                   <div x-show="open === {{ activity.pk }}" x-collapse>
                     <div class="accordion-body">
-                      {% if activity.description %}<p>{{ activity.description }}</p>{% endif %}
+                      {% if activity.description %}<p>{{ activity.description|linebreaksbr }}</p>{% endif %}
 
                       {% if activity.groups.all %}
                         <div class="mt-6 grid gap-4">

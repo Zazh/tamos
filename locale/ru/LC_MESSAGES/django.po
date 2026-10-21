@@ -12,6 +12,11 @@
 msgid ""
 msgstr "Project-Id-Version: tamos\nReport-Msgid-Bugs-To: \nPOT-Creation-Date: 2026-09-15 20:06+0500\nPO-Revision-Date: 2026-09-15 20:06+0500\nLast-Translator: \nLanguage-Team: Russian\nLanguage: ru\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
+#: activities/models.py:156 templates/activities/list.html:62
+#: templates/activities/list.html:220
+msgid "Идёт набор"
+msgstr "Идёт набор"
+
 #: activities/models.py:157 templates/activities/list.html:63
 #: templates/activities/list.html:221
 msgid "Есть свободные места"
