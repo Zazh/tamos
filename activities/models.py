@@ -20,6 +20,7 @@ def format_classes_range(classes, lang=None):
     Примеры:
         [1, 2, 3, 4]    → ru «1–4 класс» / kk «1–4 сынып» / en «Grades 1–4»
         [5]             → ru «5 класс» / kk «5 сынып» / en «Grade 5»
+        [5, 8]          → ru «5 и 8 класс» / kk «5 және 8 сынып» / en «Grades 5 and 8»
         []              → ''
     """
     if not classes:
@@ -30,13 +31,23 @@ def format_classes_range(classes, lang=None):
     if lang not in ('ru', 'kk', 'en'):
         lang = 'ru'
 
-    lo, hi = min(classes), max(classes)
+    uniq = sorted(set(classes))
+    lo, hi = uniq[0], uniq[-1]
+    contiguous = len(uniq) == hi - lo + 1
+
+    if contiguous:
+        nums = str(lo) if lo == hi else f'{lo}–{hi}'
+    else:
+        # Разрывный набор (напр. группы 5 и 8 кл.) — перечисляем, а не
+        # растягиваем в диапазон «5–8», которого на самом деле нет.
+        conj = {'ru': ' и ', 'kk': ' және ', 'en': ' and '}[lang]
+        nums = ', '.join(str(c) for c in uniq[:-1]) + conj + str(uniq[-1])
 
     if lang == 'en':
-        return f'Grade {lo}' if lo == hi else f'Grades {lo}–{hi}'
+        return f'Grade {nums}' if lo == hi else f'Grades {nums}'
 
     unit = 'сынып' if lang == 'kk' else 'класс'
-    return f'{lo} {unit}' if lo == hi else f'{lo}–{hi} {unit}'
+    return f'{nums} {unit}'
 
 
 class ActivitySection(models.Model):
