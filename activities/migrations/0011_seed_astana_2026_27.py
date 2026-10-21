@@ -8,9 +8,8 @@
 - кружок ищется в регионе по `name_ru` (текущее имя или старое из `match`);
   найден — обновляется на месте (сохраняем pk и `is_featured`), нет — создаётся;
 - группы и слоты кружка пересоздаются с нуля из файла;
-- переводы названий/локаций/подписей групп берутся из файла; описания —
-  только RU, kk/en обнуляются (старые переводы к новому тексту не относятся),
-  добиваются `manage.py translate_activities --region astana`;
+- переводы названий/локаций/подписей групп/описаний берутся из файла
+  (описания kk/en появились в файле позже — см. 0012);
 - опубликованные кружки Астаны, которых нет в файле, СНИМАЮТСЯ с публикации
   (не удаляются — менеджер может вернуть или удалить в бэкофисе);
   неопубликованные черновики не трогаем.
@@ -77,10 +76,7 @@ def seed(apps, schema_editor):
             activity.section = section
             _set_i18n(activity, 'name', club['name'])
             _set_i18n(activity, 'location', club.get('location', ''))
-            activity.description = club.get('description', '') or ''
-            activity.description_ru = activity.description
-            activity.description_kk = ''
-            activity.description_en = ''
+            _set_i18n(activity, 'description', club.get('description', ''))
             activity.is_published = True
             activity.order = order
             activity.save()
