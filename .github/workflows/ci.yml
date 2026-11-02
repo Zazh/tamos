@@ -47,6 +47,9 @@ jobs:
           'Pillow>=11.0,<12.0'
           'django-imagekit>=5.0,<6.0'
       - run: sudo apt-get update && sudo apt-get install -y gettext && python manage.py compilemessages
+      # Сид-миграция pages/0003 читает static/videos/intro.mp4 — видео в .gitignore
+      # (на прод — rsync), в чистом checkout его нет: пустая заглушка.
+      - run: mkdir -p static/videos && touch static/videos/intro.mp4
       - run: python manage.py check
       - run: python manage.py makemigrations --check --dry-run
       - run: python manage.py migrate --noinput
@@ -65,5 +68,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      # fitty объявлен в package.json корня репо (node_modules вёрстки), Vite резолвит его вверх по дереву.
+      - run: pnpm install --frozen-lockfile
+        working-directory: .
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
