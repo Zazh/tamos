@@ -1,14 +1,14 @@
 /* Заголовок по умолчанию НЕ хардкодим здесь: JS не знает активный язык.
  * Пустой title → шаблон `partials/modals/feedback.html` подставляет
  * `defaultTitle` из x-data, который отрендерен через {% trans %}.
- * То же для lead/success: пусто → defaultLead / defaultSuccess шаблона.
+ * То же для lead: пусто → defaultLead шаблона.
  *
  * Атрибуты триггера [data-feedback-trigger]:
  *   data-feedback-title / -origin — заголовок и источник заявки (Lead.title / origin);
  *   data-feedback-lead            — подзаголовок формы;
  *   data-feedback-price           — строка цены над кнопкой «Отправить»;
  *   data-feedback-parent-checkbox="1" — чекбокс «Я родитель ученика Space School» (→ Lead.extra);
- *   data-feedback-success         — текст под «Заявка принята!». */
+ *   data-feedback-success         — доп. строка успеха под «Перезвоним вам в течение 2 часов». */
 
 const EMPTY = { title: "", origin: "", lead: "", price: "", parentCheckbox: false, success: "" };
 

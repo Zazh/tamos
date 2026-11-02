@@ -9,7 +9,8 @@
     data-feedback-origin="…" — откуда вызвана (попадёт в скрытое поле)
     data-feedback-lead / -price / -parent-checkbox="1" / -success — подзаголовок,
                                 строка цены, чекбокс «родитель ученика» (→ Lead.extra)
-                                и текст успеха (лендинги событий; пусто — тексты по умолчанию)
+                                и доп. строка успеха под «Перезвоним…» (лендинги событий;
+                                пусто — подзаголовок по умолчанию, без доп. строки)
 
   Поле «Город» рендерится всегда, если активных регионов больше одного
   (см. ниже {% if all_regions|length > 1 %}); при единственном активном
@@ -18,9 +19,9 @@
   Состояние — Alpine.store('feedback') (см. spaceschool/src/js/modal.js).
   Сабмит → POST на `feedback:create` (см. feedback/views.py::LeadCreateView).
 {% endcomment %}
-{% trans 'Перезвоним в течение 2 часов и ответим на все вопросы о поступлении' as default_lead %}{% trans 'Перезвоним вам в течение 2 часов' as default_success %}
+{% trans 'Перезвоним в течение 2 часов и ответим на все вопросы о поступлении' as default_lead %}
 <div class="modal-overlay"
-     x-data="{ submitted: false, sending: false, error: '', defaultTitle: '{% trans 'Получить консультацию' %}', defaultLead: '{{ default_lead|escapejs }}', defaultSuccess: '{{ default_success|escapejs }}' }"
+     x-data="{ submitted: false, sending: false, error: '', defaultTitle: '{% trans 'Получить консультацию' %}', defaultLead: '{{ default_lead|escapejs }}' }"
      x-show="$store.feedback.open" x-cloak
      @click.self="!sending && ($store.feedback.hide(), submitted = false, error = '')"
      @keydown.escape.window="$store.feedback.open && !sending && ($store.feedback.hide(), submitted = false, error = '')"
@@ -172,7 +173,8 @@
     <div class="modal-feedback__success" x-show="submitted" x-cloak>
       <span class="modal-feedback__badge" aria-hidden="true">🎉</span>
       <h2 class="modal-feedback__title mt-4">{% trans 'Заявка принята!' %}</h2>
-      <p class="modal-feedback__subtitle mt-2" x-text="$store.feedback.success || defaultSuccess">{{ default_success }}</p>
+      <p class="modal-feedback__subtitle mt-2">{% trans 'Перезвоним вам в течение 2 часов' %}</p>
+      <p class="modal-feedback__subtitle mt-1" x-show="$store.feedback.success" x-cloak x-text="$store.feedback.success"></p>
     </div>
     <button type="button"
             class="btn btn-primary btn-block"

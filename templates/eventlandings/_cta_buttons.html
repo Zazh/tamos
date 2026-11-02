@@ -4,7 +4,7 @@
 strip — полоса CTA под «Школой» (origin …-reg, без второй кнопки); btn_class — доп. классы.
 origin = event-<slug>-<placement>; «Получить консультацию» (origin …-consult) — только в блоке
 регистрации (по Figma в hero, sticky и полосе — одна кнопка). data-feedback-lead/-price/
--parent-checkbox/-success читает modal.js (цена, чекбокс, текст «Заявка принята»).
+-parent-checkbox/-success читает modal.js (цена, чекбокс, доп. строка «Заявка принята»).
 {% endcomment %}
 <button type="button"
         class="btn btn-primary{% if btn_class %} {{ btn_class }}{% endif %}"
