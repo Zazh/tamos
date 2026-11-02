@@ -87,6 +87,7 @@ def build_nav(user=None):
             'items': [
                 {'id': 'blog', 'label': 'Блог', 'icon': 'newspaper', 'url': _own('content_blog_list')},
                 {'id': 'events', 'label': 'События', 'icon': 'sparkles', 'url': _own('content_events_list')},
+                {'id': 'eventlandings', 'label': 'Мероприятия', 'icon': 'calendar', 'url': _own('content_eventlandings_list')},
                 {'id': 'gallery', 'label': 'Галерея', 'icon': 'image', 'url': _own('content_gallery_list')},
                 {'id': 'flatpages', 'label': 'Доп. страницы', 'icon': 'file', 'url': _own('content_flatpages_list')},
             ],

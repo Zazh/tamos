@@ -70,6 +70,14 @@ urlpatterns = [
     path('content/events/<int:pk>/gallery/<int:gpk>/', views.content_events_gallery_update, name='content_events_gallery_update'),
     path('content/events/<int:pk>/gallery/<int:gpk>/delete/', views.content_events_gallery_delete, name='content_events_gallery_delete'),
 
+    # Мероприятия (лендинги событий)
+    path('content/eventlandings/', views.content_eventlandings_list, name='content_eventlandings_list'),
+    path('content/eventlandings/new/', views.content_eventlandings_create, name='content_eventlandings_create'),
+    path('content/eventlandings/<int:pk>/', views.content_eventlandings_edit, name='content_eventlandings_edit'),
+    path('content/eventlandings/<int:pk>/delete/', views.content_eventlandings_delete, name='content_eventlandings_delete'),
+    path('content/eventlandings/<int:pk>/translate/', views.content_eventlandings_translate, name='content_eventlandings_translate'),
+    path('content/eventlandings/<int:pk>/seo/', views.content_eventlandings_seo, name='content_eventlandings_seo'),
+
     # Gallery (фотогалерея — album-based)
     path('content/gallery/', views.content_gallery_list, name='content_gallery_list'),
     path('content/gallery/new/', views.content_gallery_create, name='content_gallery_create'),

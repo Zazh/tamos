@@ -249,7 +249,9 @@
     }
   }
 
-  .bo-role-card-active {
+  /* :has — карточки-чекбоксы (ведущие мероприятия) без Alpine-состояния. */
+  .bo-role-card-active,
+  .bo-role-card:has(> .bo-role-card-input:checked) {
     border-color: var(--color-brand);
     background: color-mix(in srgb, var(--color-brand) 6%, white);
   }

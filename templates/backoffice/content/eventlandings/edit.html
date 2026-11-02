@@ -1,0 +1,325 @@
+{% extends 'backoffice/base.html' %}
+{% load i18n backoffice_tags %}
+
+{% block content %}
+  <a href="{% url 'backoffice:content_eventlandings_list' %}" class="bo-back">← {% trans "К списку" %}</a>
+
+  {% include 'backoffice/_messages.html' %}
+
+  <div class="bo-content-stack" x-data="{ lang: 'ru' }">
+    <header class="bo-detail-head">
+      <div>
+        <h1 class="bo-page-title">{% if landing.title %}{{ landing.title }}{% else %}{% trans "Новое мероприятие" %}{% endif %}</h1>
+        <p class="bo-page-subtitle">
+          {% if not landing.title %}
+            {% trans "Черновик · заполни основу на русском и нажми «Сохранить»." %}
+          {% else %}
+            {% blocktrans with date=landing.updated_at|date:"j E, H:i" %}Обновлено {{ date }}{% endblocktrans %}
+            {% if landing.date_display %} · {{ landing.date_display }}{% endif %}
+          {% endif %}
+        </p>
+      </div>
+      <div class="bo-detail-head-actions">
+        <form method="post" action="{% url 'backoffice:content_eventlandings_delete' pk=landing.pk %}"
+              class="bo-inline-form"
+              onsubmit="return confirm('{% trans "Точно удалить это мероприятие вместе с днями, программой и фото? Действие необратимо." %}');">
+          {% csrf_token %}
+          <button type="submit" class="bo-action-btn bo-action-rejected">
+            {% trans "Удалить" %}
+          </button>
+        </form>
+      </div>
+    </header>
+
+    <div class="bo-tabs" role="tablist" aria-label="{% trans 'Язык контента' %}">
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'ru' && 'bo-tab-active'" :aria-selected="lang === 'ru'" @click="lang = 'ru'">
+        {% trans "Русский" %}<span class="bo-tab-meta">{% trans "основной" %}</span>
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'kk' && 'bo-tab-active'" :aria-selected="lang === 'kk'" @click="lang = 'kk'">
+        Қазақша
+      </button>
+      <button type="button" role="tab" class="bo-tab" :class="lang === 'en' && 'bo-tab-active'" :aria-selected="lang === 'en'" @click="lang = 'en'">
+        English
+      </button>
+
+      <div class="bo-tab-action-wrap"
+           x-data="boAutoTranslate"
+           data-url="{{ translate_url }}"
+           data-form-id="eventlanding-edit-form"
+           data-bases-json='{{ translatable_bases_json|safe }}'
+           data-scan-form="1">
+        <button type="button" class="bo-tab bo-tab-action"
+                :class="loading && 'bo-btn-disabled'"
+                :disabled="loading"
+                @click="run()"
+                :title="error || status || '{% trans "Перевести пустые KK/EN из RU через Gemini" %}'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+            <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+          </svg>
+          <span x-show="!loading">{% trans "Авто-перевод" %}</span>
+          <span x-show="loading" x-cloak>{% trans "Переводим…" %}</span>
+        </button>
+        <small class="bo-tab-action-status" x-show="status && !error" x-cloak x-text="status"></small>
+        <small class="bo-tab-action-error" x-show="error" x-cloak x-text="error"></small>
+      </div>
+    </div>
+
+    <form id="eventlanding-edit-form" method="post" action="" class="bo-form">
+      {% csrf_token %}
+
+      {% if form.errors %}
+        <div class="bo-messages">
+          {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
+          {% for fld, errs in form.errors.items %}{% if fld != '__all__' %}{% for err in errs %}
+            <div class="bo-message bo-message-error">{{ fld }}: {{ err }}</div>
+          {% endfor %}{% endif %}{% endfor %}
+        </div>
+      {% endif %}
+
+      {# Регион/slug — hidden (регион фиксирован при создании, slug auto-gen) #}
+      {{ form.region }}
+      {{ form.slug }}
+
+      {# ===== Hero ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Hero" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["badge_text","title","lead","cta_text","price_note"]' translate_url=translate_url form_id='eventlanding-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='badge_text' label='Бейдж' %}
+        {% field_help 'eventlanding.badge_text' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='title' label='Заголовок (h1)' %}
+        {% field_help 'eventlanding.title' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='lead' label='Лид' %}
+        {% field_help 'eventlanding.lead' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='cta_text' label='Текст кнопки регистрации' %}
+        {% field_help 'eventlanding.cta_text' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='price_note' label='Примечание к цене / дате' %}
+        {% field_help 'eventlanding.price_note' %}
+      </section>
+
+      {# ===== Стоимость ===== #}
+      <section class="bo-panel" x-data="{ paid: {{ form.is_paid.value|yesno:'true,false' }} }">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Стоимость" %}</h2>
+        </header>
+
+        <div class="bo-field" @change="paid = $event.target.checked">
+          <label class="bo-label-checkbox">
+            {{ form.is_paid }}
+            <span>{% trans "Платное мероприятие" %}</span>
+          </label>
+          {% field_help 'eventlanding.is_paid' %}
+        </div>
+
+        <div class="bo-row-2" x-show="paid" x-cloak>
+          <div class="bo-field">
+            <label class="bo-label" for="{{ form.price.id_for_label }}">{% trans "Цена" %}</label>
+            {{ form.price }}
+            <p class="bo-help">{% trans "Цена в ₸, целое число без пробелов: 18990." %}</p>
+            {% for err in form.price.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+            {% field_help 'eventlanding.price' %}
+          </div>
+
+          <div class="bo-field">
+            <label class="bo-label-checkbox">
+              {{ form.show_parent_checkbox }}
+              <span>{% trans "Чекбокс «Я родитель ученика Space School» в форме" %}</span>
+            </label>
+            {% field_help 'eventlanding.show_parent_checkbox' %}
+          </div>
+        </div>
+      </section>
+
+      {# ===== Для кого ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Для кого" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["audience_title","audience_text","goal"]' translate_url=translate_url form_id='eventlanding-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='audience_title' label='Заголовок «Для кого»' %}
+        {% field_help 'eventlanding.audience_title' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='audience_text' label='Текст «Для кого»' %}
+        {% field_help 'eventlanding.audience_text' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='goal' label='Цель' %}
+        {% field_help 'eventlanding.goal' %}
+      </section>
+
+      {# ===== Программа ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Программа" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["program_title","materials_title"]' translate_url=translate_url form_id='eventlanding-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='program_title' label='Заголовок программы' %}
+        {% field_help 'eventlanding.program_title' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='materials_title' label='Заголовок «Материалы участника»' %}
+        {% field_help 'eventlanding.materials_title' %}
+
+        <p class="bo-help">{% trans "Дни и программа — ниже." %}</p>
+      </section>
+
+      {# ===== Ведущие ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Ведущие" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["leaders_title","leaders_lead"]' translate_url=translate_url form_id='eventlanding-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='leaders_title' label='Заголовок блока' %}
+        {% field_help 'eventlanding.leaders_title' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='leaders_lead' label='Текст блока' %}
+        {% field_help 'eventlanding.leaders_lead' %}
+
+        <div class="bo-field">
+          <label class="bo-label">{% trans "Кто ведёт" %}</label>
+          {% if form.leaders.field.queryset.exists %}
+            <fieldset class="bo-role-fieldset">
+              {% for cb in form.leaders %}{% with m=cb.data.value.instance %}
+                <label class="bo-role-card">
+                  {{ cb.tag }}
+                  <span class="bo-team-row-photo">
+                    {% if m.photo %}
+                      <img src="{{ m.photo_thumb_webp.url }}" alt="{{ m.name }}">
+                    {% else %}
+                      <span class="bo-team-row-photo-empty" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.5"/><path d="M6 20v-1a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v1"/></svg>
+                      </span>
+                    {% endif %}
+                  </span>
+                  <span class="bo-role-card-body">
+                    <span class="bo-role-card-title">{{ m.name }}</span>
+                    <span class="bo-role-card-desc">{{ m.role|default:'—' }}</span>
+                    {% if m.is_admin %}<span><span class="bo-badge bo-badge-featured">{% trans "Администрация" %}</span></span>{% endif %}
+                  </span>
+                </label>
+              {% endwith %}{% endfor %}
+            </fieldset>
+          {% else %}
+            <p class="bo-help">{% trans "В «Команде» этого региона нет опубликованных участников." %}</p>
+          {% endif %}
+          {% for err in form.leaders.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+          {% field_help 'eventlanding.leaders' %}
+        </div>
+      </section>
+
+      {# ===== Регистрация ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Регистрация" %}</h2>
+          {% include 'backoffice/content/_block_translate.html' with bases='["reg_title","reg_text","form_title","form_lead","form_note"]' translate_url=translate_url form_id='eventlanding-edit-form' %}
+        </header>
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='reg_title' label='Заголовок блока регистрации' %}
+        {% field_help 'eventlanding.reg_title' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='reg_text' label='Текст блока регистрации' %}
+        {% field_help 'eventlanding.reg_text' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='form_title' label='Заголовок окна формы' %}
+        {% field_help 'eventlanding.form_title' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='form_lead' label='Подзаголовок окна формы' %}
+        {% field_help 'eventlanding.form_lead' %}
+
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='form_note' label='Текст после отправки' %}
+        {% field_help 'eventlanding.form_note' %}
+      </section>
+    </form>
+
+    {# ===== SEO & Social (вне form, привязка через HTML5 form=) ===== #}
+    <section class="bo-panel">
+      <header class="bo-panel-head">
+        <h2 class="bo-panel-title">SEO &amp; Social</h2>
+        <div class="bo-block-translate"
+             x-data="boAutoSEO"
+             data-url="{{ seo_url }}"
+             data-form-id="eventlanding-edit-form"
+             data-source-fields="title,lead">
+          <button type="button"
+                  class="bo-block-translate-btn"
+                  :class="loading && 'bo-btn-disabled'"
+                  :disabled="loading"
+                  @click="run()"
+                  :title="error || status || '{% trans "Сгенерировать SEO/OG для всех 3 языков из заголовка и лида. Заполняет только пустые." %}'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M12 3l1.6 4.3L18 9l-4.4 1.7L12 15l-1.6-4.3L6 9l4.4-1.7L12 3z"/>
+              <path d="M19 14l.8 2.1L22 17l-2.2.9L19 20l-.8-2.1L16 17l2.2-.9L19 14z"/>
+            </svg>
+            <span x-show="!loading">{% trans "Авто-генерация SEO" %}</span>
+            <span x-show="loading" x-cloak>{% trans "Генерируем…" %}</span>
+          </button>
+          <small class="bo-block-translate-status" x-show="status && !error" x-cloak x-text="status"></small>
+          <small class="bo-block-translate-error" x-show="error" x-cloak x-text="error"></small>
+        </div>
+      </header>
+
+      {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_title' label='SEO title' %}
+      {% field_help 'eventlanding.seo_title' %}
+
+      {% include 'backoffice/content/_field_translatable.html' with form=form base='seo_description' label='SEO description' %}
+      {% field_help 'eventlanding.seo_description' %}
+
+      <div class="bo-row-2">
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='og_title' label='OG title (соцсети)' %}
+        {% include 'backoffice/content/_field_translatable.html' with form=form base='og_description' label='OG description (соцсети)' %}
+      </div>
+      {% field_help 'eventlanding.og_title' %}
+      {% field_help 'eventlanding.og_description' %}
+    </section>
+
+    {# ===== Sticky footer: stepper + сайт + публикация + сохранить ===== #}
+    <div class="bo-form-foot bo-form-foot-sticky"
+         x-data="boFormSteps"
+         data-form-id="eventlanding-edit-form"
+         data-steps-json='{{ steps_json|safe }}'>
+      <ul class="bo-steps">
+        <template x-for="step in steps" :key="step.id">
+          <li class="bo-step" :class="stepClass(step)" :title="step.label + ' — ' + step.filled + '/' + step.total + (step.required ? ' (обязательно)' : '')">
+            <span class="bo-step-dot"></span>
+            <span class="bo-step-label" x-text="step.label"></span>
+            <span class="bo-step-count" x-text="step.filled + '/' + step.total"></span>
+            <span class="bo-step-req" x-show="step.required" x-cloak title="{% trans 'Обязательный шаг' %}">*</span>
+          </li>
+        </template>
+      </ul>
+
+      <div class="bo-form-foot-actions">
+        <label class="bo-label-checkbox" title="{% trans 'Снять галку — мероприятие уйдёт в черновики (на сайте 404)' %}">
+          {{ form.is_published }}
+          <span>{% trans "Опубликовано" %}</span>
+        </label>
+        {% if landing.is_published %}
+          <a :href='({{ site_urls_json|safe }})[lang]'
+             target="_blank" rel="noopener"
+             class="bo-action-btn bo-action-preview"
+             :title="'{% trans "Открыть мероприятие на сайте на текущем языке" %} (' + lang.toUpperCase() + ')'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            <span>{% trans "Открыть на сайте" %}</span>
+          </a>
+        {% endif %}
+        <button type="submit" form="eventlanding-edit-form"
+                class="btn btn-primary"
+                :disabled="!canSave"
+                :class="!canSave && 'bo-btn-disabled'"
+                :title="canSave ? '' : blockedReason">{% trans "Сохранить" %}</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -90,6 +90,11 @@ from .content.events import (  # noqa: F401
     EVENT_TRANSLATABLE,
     EventEditForm,
 )
+from .content.eventlandings import (  # noqa: F401
+    EVENTLANDING_OUT_OF_FORM_BASES,
+    EVENTLANDING_TRANSLATABLE,
+    EventLandingEditForm,
+)
 from .content.flatpages import (  # noqa: F401
     FLATPAGE_OUT_OF_FORM_BASES,
     FLATPAGE_TRANSLATABLE,

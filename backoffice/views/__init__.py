@@ -100,6 +100,14 @@ from .content.events import (  # noqa: F401
     content_events_translate,
     content_events_seo,
 )
+from .content.eventlandings import (  # noqa: F401
+    content_eventlandings_list,
+    content_eventlandings_create,
+    content_eventlandings_edit,
+    content_eventlandings_delete,
+    content_eventlandings_translate,
+    content_eventlandings_seo,
+)
 from .content.flatpages import (  # noqa: F401
     content_flatpages_list,
     content_flatpages_create,

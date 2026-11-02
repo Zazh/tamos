@@ -143,6 +143,8 @@ function boFormSteps() {
           .flatMap(s => Object.entries(s.initial || {}))
           .find(([n, v]) => n === el.name && v);
         this.fieldFilled[el.name] = el.files.length > 0 || !!wasOnServer;
+      } else if (el.type === "checkbox") {
+        this.fieldFilled[el.name] = el.checked;
       } else {
         this.fieldFilled[el.name] = (el.value || "").trim() !== "";
       }

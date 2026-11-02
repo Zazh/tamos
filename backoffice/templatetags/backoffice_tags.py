@@ -57,6 +57,10 @@ ICONS = {
         '<path d="M19 14l.7 2 2 .7-2 .7L19 19.5l-.7-2.1-2-.7 2-.7z"/>'
         '<path d="M5 4l.5 1.5L7 6l-1.5.5L5 8l-.5-1.5L3 6l1.5-.5z"/>'
     ),
+    'calendar': (
+        '<rect x="3" y="4" width="18" height="18" rx="2"/>'
+        '<path d="M16 2v4M8 2v4M3 10h18"/>'
+    ),
     'image': (
         '<rect x="3" y="3" width="18" height="18" rx="2"/>'
         '<circle cx="9" cy="9" r="2"/>'

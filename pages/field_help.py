@@ -1621,6 +1621,263 @@ EVENT_OG_TITLE = """
 """
 
 
+# ===== EventLanding (раздел «Мероприятия» — лендинги событий) ===============
+
+EVENTLANDING_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Название мероприятия — h1 лендинга, карточка в ленте «Мероприятия», заголовок вкладки (если SEO title пуст). С первого сохранения черновика из него строится адрес страницы <code>/event/&lt;slug&gt;/</code> — потом адрес не меняется.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов, оптимум — <strong>2–5 слов</strong></li><li>Без даты и цены — они в карточке даты</li><li>Обязателен для публикации</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Cambridge Day</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Придумай короткое название (2–5 слов) для мероприятия школы Space School: [ФОРМАТ], [ТЕМА]. Без даты, без кавычек. На языке [LANG].</blockquote>
+"""
+
+EVENTLANDING_BADGE_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Бейдж над заголовком в hero и в карточке ленты — для кого или формат.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 80 символов, оптимум — 1–3 слова</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Для родителей</blockquote>
+"""
+
+EVENTLANDING_LEAD = """
+<h4>📝 Назначение</h4>
+<p>Лид под заголовком hero: что за мероприятие и что получит гость. Также meta description, если SEO description пуст.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>2–3 предложения, ~200–300 символов</li><li>Без HTML</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Cambridge Day — день открытых дверей Space School, посвящённый международной программе Cambridge в среднем образовании. Родители и дети познакомятся со школой, узнают, как устроено обучение по программе, и попробуют её формат на практике.</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши лид (2–3 предложения, до 300 символов) для лендинга мероприятия «[TITLE]» школы Space School: что это, для кого, что получит участник. На языке [LANG].</blockquote>
+"""
+
+EVENTLANDING_CTA_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Текст кнопки регистрации — в hero, sticky-кнопке на мобильном и в блоке регистрации.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 80 символов, глагол в начале</li><li>У платных — можно с ценой</li><li>Пусто — «Зарегистрироваться»</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Зарегистрироваться бесплатно</blockquote>
+"""
+
+EVENTLANDING_PRICE_NOTE = """
+<h4>📝 Назначение</h4>
+<p>Мелкая строка под ценой в карточке даты (у платных — и в полосе CTA после цены).</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов, оптимум — 3–6 слов, со строчной буквы</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>по предварительной регистрации</blockquote>
+"""
+
+EVENTLANDING_IS_PAID = """
+<h4>📝 Назначение</h4>
+<p>Платное мероприятие: в карточке даты и в окне регистрации показывается цена и «оплата после подтверждения». Снято — везде «Бесплатно», цена не показывается.</p>
+"""
+
+EVENTLANDING_PRICE = """
+<h4>📝 Назначение</h4>
+<p>Цена участия в тенге — целое число без пробелов и знака ₸ (на сайте выводится как «18 990 ₸»). Обязательна у платных.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>18990</blockquote>
+"""
+
+EVENTLANDING_SHOW_PARENT_CHECKBOX = """
+<h4>📝 Назначение</h4>
+<p>Чекбокс «Я родитель ученика Space School» в окне регистрации платного мероприятия (например, когда родителям учеников участие бесплатно). Отметка попадает в заявку — поле «Доп. от пользователя» в «Заявках».</p>
+"""
+
+EVENTLANDING_AUDIENCE_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок блока «Для кого» под hero.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов, одна строка</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Для родителей, которые выбирают школу</blockquote>
+"""
+
+EVENTLANDING_AUDIENCE_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Абзац под заголовком «Для кого»: кто аудитория мероприятия. Можно оставить пустым, если хватает плиток.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Родители школьников Астаны, которые рассматривают частное образование и международные программы.</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Опиши одним предложением аудиторию мероприятия «[TITLE]» школы Space School. На языке [LANG].</blockquote>
+"""
+
+EVENTLANDING_GOAL = """
+<h4>📝 Назначение</h4>
+<p>Цель мероприятия — крупный текст в блоке «Для кого».</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>1–2 предложения, до ~250 символов</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Познакомить родителей с образовательным подходом, академической командой и школьной средой Space School, ответить на вопросы об обучении и поступлении.</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Сформулируй цель мероприятия «[TITLE]» школы Space School одним предложением, начиная с глагола. На языке [LANG].</blockquote>
+"""
+
+EVENTLANDING_PROGRAM_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок блока программы. Пусто — «Программа».</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Программа дня</blockquote>
+"""
+
+EVENTLANDING_MATERIALS_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Подпись над списком материалов участника (блок виден, только если материалы добавлены). Пусто — «Материалы участника».</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Материалы участника</blockquote>
+"""
+
+EVENTLANDING_LEADERS_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок блока ведущих. Пусто — «Ведущие».</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Кто встретит вас на Cambridge Day</blockquote>
+"""
+
+EVENTLANDING_LEADERS_LEAD = """
+<h4>📝 Назначение</h4>
+<p>Абзац под заголовком блока ведущих. Если ведущие ещё не выбраны — напишите здесь, когда их объявят.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Руководство школы, академическая команда и отдел приёма расскажут о Space School и ответят на вопросы родителей.</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши одно предложение о том, кто проведёт мероприятие «[TITLE]» школы Space School и чем они помогут участникам. На языке [LANG].</blockquote>
+"""
+
+EVENTLANDING_LEADERS = """
+<h4>📝 Назначение</h4>
+<p>Ведущие — участники раздела «Команда» этого региона (показаны только опубликованные). На сайте — карточки с фото в порядке «Команды».</p>
+
+<h4>⚠️ Если никого не выбрать</h4>
+<p>На сайте вместо карточек — плейсхолдер «Ведущий будет объявлен». Нужного человека нет — сначала добавьте его в «Команду».</p>
+"""
+
+EVENTLANDING_REG_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок блока регистрации внизу лендинга. Перенос строки (Enter) = новая строка заголовка на сайте.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов, 1–2 строки</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Регистрация<br>на Cambridge Day</blockquote>
+"""
+
+EVENTLANDING_REG_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Текст под заголовком блока регистрации: условия участия и что будет после заявки.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Участие бесплатное. Оставьте имя и телефон — мы перезвоним и подтвердим участие</blockquote>
+"""
+
+EVENTLANDING_FORM_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок окна регистрации. Он же — заголовок заявки в «Заявках»: по нему менеджер видит, на какое мероприятие записались. Пусто — название мероприятия.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Регистрация на Cambridge Day</blockquote>
+"""
+
+EVENTLANDING_FORM_LEAD = """
+<h4>📝 Назначение</h4>
+<p>Подзаголовок окна регистрации над полями «Имя» и «Телефон».</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Участие бесплатное. Оставьте имя и телефон: мы перезвоним и подтвердим участие.</blockquote>
+"""
+
+EVENTLANDING_FORM_NOTE = """
+<h4>📝 Назначение</h4>
+<p>Доп. строка в окне «Заявка принята» после отправки. У бесплатных — ещё и строка полосы CTA вместо цены.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов, одно предложение</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Участие бесплатное, по предварительной регистрации.</blockquote>
+"""
+
+EVENTLANDING_SEO_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;title&gt;</code> — вкладка браузера и заголовок в выдаче Google.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li><strong>50–60 символов</strong> (максимум 80)</li><li>Название + дата/город; в конце «— Space School»</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — название мероприятия.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Cambridge Day 14 ноября — день открытых дверей · Space School</blockquote>
+"""
+
+EVENTLANDING_SEO_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Тег <code>&lt;meta name="description"&gt;</code> — описание в выдаче под заголовком.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li><strong>150–160 символов</strong> (максимум 200)</li><li>Что/когда/для кого + мягкий призыв</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — лид.</p>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Напиши SEO meta description для мероприятия Space School «[TITLE]». 150–160 символов. Что/когда/для кого + призыв зарегистрироваться.</blockquote>
+"""
+
+EVENTLANDING_OG_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Заголовок превью ссылки в Telegram/WhatsApp/Facebook. Может звучать «человечнее», чем SEO title.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 80 символов, без эмодзи</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — SEO title → название.</p>
+"""
+
+EVENTLANDING_OG_DESCRIPTION = """
+<h4>📝 Назначение</h4>
+<p>Текст превью ссылки в мессенджерах и соцсетях.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 300 символов, 1–2 предложения</li></ul>
+
+<h4>🔄 Fallback</h4>
+<p>Если пусто — SEO description → лид.</p>
+"""
+
+
 # ===== FlatPage (раздел «Доп. страницы») ===================================
 
 FLATPAGE_SLUG = """
@@ -1958,6 +2215,33 @@ FIELD_HELP = {
     'event.seo_title': _h(EVENT_SEO_TITLE),
     'event.seo_description': _h(EVENT_SEO_DESCRIPTION),
     'event.og_title': _h(EVENT_OG_TITLE),
+
+    # EventLanding
+    'eventlanding.title': _h(EVENTLANDING_TITLE),
+    'eventlanding.badge_text': _h(EVENTLANDING_BADGE_TEXT),
+    'eventlanding.lead': _h(EVENTLANDING_LEAD),
+    'eventlanding.cta_text': _h(EVENTLANDING_CTA_TEXT),
+    'eventlanding.price_note': _h(EVENTLANDING_PRICE_NOTE),
+    'eventlanding.is_paid': _h(EVENTLANDING_IS_PAID, ai_processable=False),
+    'eventlanding.price': _h(EVENTLANDING_PRICE, ai_processable=False),
+    'eventlanding.show_parent_checkbox': _h(EVENTLANDING_SHOW_PARENT_CHECKBOX, ai_processable=False),
+    'eventlanding.audience_title': _h(EVENTLANDING_AUDIENCE_TITLE),
+    'eventlanding.audience_text': _h(EVENTLANDING_AUDIENCE_TEXT),
+    'eventlanding.goal': _h(EVENTLANDING_GOAL),
+    'eventlanding.program_title': _h(EVENTLANDING_PROGRAM_TITLE),
+    'eventlanding.materials_title': _h(EVENTLANDING_MATERIALS_TITLE),
+    'eventlanding.leaders_title': _h(EVENTLANDING_LEADERS_TITLE),
+    'eventlanding.leaders_lead': _h(EVENTLANDING_LEADERS_LEAD),
+    'eventlanding.leaders': _h(EVENTLANDING_LEADERS, ai_processable=False),
+    'eventlanding.reg_title': _h(EVENTLANDING_REG_TITLE),
+    'eventlanding.reg_text': _h(EVENTLANDING_REG_TEXT),
+    'eventlanding.form_title': _h(EVENTLANDING_FORM_TITLE),
+    'eventlanding.form_lead': _h(EVENTLANDING_FORM_LEAD),
+    'eventlanding.form_note': _h(EVENTLANDING_FORM_NOTE),
+    'eventlanding.seo_title': _h(EVENTLANDING_SEO_TITLE),
+    'eventlanding.seo_description': _h(EVENTLANDING_SEO_DESCRIPTION),
+    'eventlanding.og_title': _h(EVENTLANDING_OG_TITLE),
+    'eventlanding.og_description': _h(EVENTLANDING_OG_DESCRIPTION),
 
     # FlatPage
     'flatpage.slug': _h(FLATPAGE_SLUG, ai_processable=False),
