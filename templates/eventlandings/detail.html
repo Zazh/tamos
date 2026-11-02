@@ -271,7 +271,7 @@
       <div class="cta-strip">
         <div>
           <p class="cta-strip__kicker">{% if not landing.is_multiday %}{{ days.0.date|date:'D' }}, {% endif %}{{ landing.date_display }} · {{ landing.time_display }}</p>
-          <p class="cta-strip__line">{% if landing.is_paid and landing.price_display %}{{ landing.price_display }}{% if landing.price_note %} {{ landing.price_note }}{% endif %}{% else %}{{ landing.form_note|default:_('Участие бесплатное') }}{% endif %}</p>
+          <p class="cta-strip__line">{% if landing.is_paid and landing.price_display %}{{ landing.price_display }}{% if landing.price_note %} · {{ landing.price_note }}{% endif %}{% else %}{{ landing.form_note|default:_('Участие бесплатное') }}{% endif %}</p>
         </div>
         {% include 'eventlandings/_cta_buttons.html' with placement='reg' strip=True %}
       </div>

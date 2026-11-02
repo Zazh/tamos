@@ -1,5 +1,5 @@
 {% load i18n %}
-{# Program row (Figma 6:31): параметр row; is_break — приглушённая строка Kind=Quiet. #}
+{# Program row (Figma 6:31): параметр row; is_break — приглушённая строка Kind=Quiet (текст — если задан). #}
 <li class="program-row{% if row.is_break %} program-row--break{% endif %}">
   <div class="program-row__time">
     <span class="program-row__start">{{ row.start|time:'H:i' }}</span>
@@ -8,6 +8,6 @@
   <span class="program-row__dot" aria-hidden="true"></span>
   <div class="program-row__card{% if not row.is_break %} glass-secondary{% endif %}">
     <h3 class="program-row__title">{{ row.title }}</h3>
-    {% if row.text and not row.is_break %}<p class="program-row__text">{{ row.text }}</p>{% endif %}
+    {% if row.text %}<p class="program-row__text">{{ row.text }}</p>{% endif %}
   </div>
 </li>
