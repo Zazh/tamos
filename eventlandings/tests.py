@@ -14,7 +14,13 @@ from core.gallery import strict_zip_arrange
 from pages.models import HomeGalleryImage, HomePage
 from regions.models import Region
 
-from .models import EventLanding, EventLandingDay
+from .models import (
+    EventLanding,
+    EventLandingDay,
+    EventLandingMaterial,
+    EventLandingProgramRow,
+    EventLandingTile,
+)
 
 ALMATY = ZoneInfo('Asia/Almaty')
 
@@ -109,3 +115,60 @@ class HomeGalleryOrientationTests(TestCase):
         self.assertEqual(tall.orientation, 'tall')
         for img in (wide, tall):
             img.image.delete(save=False)
+
+
+class SeedNovember2026Tests(TestCase):
+    """Data-миграция 0002 выполняется и в тестовой БД — проверяем результат."""
+
+    def _get(self, slug):
+        return EventLanding.objects.get(region__slug='astana', slug=slug)
+
+    def test_three_landings_publish_flags(self):
+        slugs = set(EventLanding.objects.filter(region__slug='astana').values_list('slug', flat=True))
+        self.assertEqual(slugs, {'cambridge-day', 'skills-xxi', 'cambridge-programme-leader'})
+        self.assertTrue(self._get('cambridge-day').is_published)
+        self.assertTrue(self._get('cambridge-programme-leader').is_published)
+        self.assertFalse(self._get('skills-xxi').is_published)
+
+    def test_day_content(self):
+        day = self._get('cambridge-day')
+        days = list(day.days.all())
+        self.assertEqual(len(days), 1)
+        self.assertEqual((days[0].date, days[0].start, days[0].end),
+                         (date(2026, 11, 14), time(11), time(14)))
+        rows = list(days[0].rows.all())
+        self.assertEqual(len(rows), 8)
+        self.assertTrue(day.lead.startswith('Cambridge Day — день открытых дверей'))
+        self.assertEqual(rows[0].start, time(11))
+        self.assertEqual(rows[0].duration_min, 20)
+
+    def test_skills_and_leader_content(self):
+        skills = self._get('skills-xxi')
+        rows = EventLandingProgramRow.objects.filter(day__landing=skills)
+        self.assertEqual(rows.count(), 9)
+        self.assertEqual(rows.filter(is_break=True).count(), 1)
+
+        leader = self._get('cambridge-programme-leader')
+        self.assertEqual(leader.days.count(), 2)
+        self.assertEqual(EventLandingProgramRow.objects.filter(day__landing=leader).count(), 20)
+        self.assertEqual(leader.materials.count(), 7)
+        self.assertEqual(leader.tiles.count(), 2)
+        self.assertEqual(leader.price_display, '50\xa0000\xa0₸')
+        module1 = EventLandingProgramRow.objects.get(
+            day__landing=leader, start=time(9, 50))
+        self.assertEqual(module1.duration_min, 80)
+
+    def test_forward_idempotent(self):
+        import importlib
+
+        from django.apps import apps as global_apps
+        mod = importlib.import_module('eventlandings.migrations.0002_seed_november_2026')
+        before = (EventLanding.objects.count(), EventLandingProgramRow.objects.count(),
+                  EventLandingMaterial.objects.count(), EventLandingTile.objects.count())
+        mod.forward(global_apps, None)
+        after = (EventLanding.objects.count(), EventLandingProgramRow.objects.count(),
+                 EventLandingMaterial.objects.count(), EventLandingTile.objects.count())
+        self.assertEqual(before, after)
+
+    def test_aktau_has_no_landings(self):
+        self.assertEqual(EventLanding.objects.filter(region__slug='aktau').count(), 0)
