@@ -7,7 +7,7 @@ from django.utils.translation import override
 from regions.models import Region
 
 # Pages exposed in sitemap.xml. Add new public pages here.
-SEO_PAGES = ['pages:home', 'pages:contacts', 'gallery:list']
+SEO_PAGES = ['pages:home', 'pages:contacts', 'gallery:list', 'events:list']
 
 
 def root_redirect(request):
@@ -71,5 +71,21 @@ def sitemap_xml(request):
                 with override(lang):
                     path = reverse(view_name, kwargs={'region_slug': region.slug})
                 urls.append(request.build_absolute_uri(path))
+
+    # Лендинги событий: опубликованные, активных регионов (черновики не попадают).
+    from eventlandings.models import EventLanding
+    landings = (
+        EventLanding.objects
+        .filter(is_published=True, region__is_active=True)
+        .select_related('region')
+        .order_by('region__slug', 'slug')
+    )
+    for landing in landings:
+        for lang in langs:
+            with override(lang):
+                path = reverse('eventlandings:detail', kwargs={
+                    'region_slug': landing.region.slug, 'slug': landing.slug,
+                })
+            urls.append(request.build_absolute_uri(path))
 
     return render(request, 'sitemap.xml', {'urls': urls}, content_type='application/xml; charset=utf-8')

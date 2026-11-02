@@ -307,3 +307,15 @@ class FeedbackModalTemplateTests(TestCase):
         self.assertIn('name="extra"', html)
         self.assertIn('modal-feedback__price', html)
         self.assertIn('defaultLead', html)
+
+
+class KkUiStringsTests(TestCase):
+    """EF-08: на /kk/ UI-строки лендинга переведены (контент — RU fallback, это норма)."""
+
+    def test_no_russian_ui_strings_on_kk(self):
+        HomePage.objects.get_or_create(region=Region.objects.get(slug='astana'))
+        with mock.patch('django.utils.timezone.now',
+                        return_value=datetime(2026, 11, 1, 12, 0, tzinfo=ALMATY)):
+            html = self.client.get('/kk/astana/event/cambridge-day/').content.decode()
+        for ru in ('Получить консультацию', 'Ближайшие события', '>Бесплатно<'):
+            self.assertNotIn(ru, html)

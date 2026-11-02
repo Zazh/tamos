@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tamos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-15 20:04+0500\n"
+"POT-Creation-Date: 2026-11-02 13:23+0500\n"
 "PO-Revision-Date: 2026-05-10 18:47+0500\n"
 "Last-Translator: \n"
 "Language-Team: Kazakh\n"
@@ -16,89 +16,89 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: activities/models.py:156 templates/activities/list.html:62
+#: activities/models.py:167 templates/activities/list.html:62
 #: templates/activities/list.html:220
 msgid "Идёт набор"
 msgstr "Қабылдау жүргізілуде"
 
-#: activities/models.py:157 templates/activities/list.html:63
+#: activities/models.py:168 templates/activities/list.html:63
 #: templates/activities/list.html:221
 msgid "Есть свободные места"
 msgstr "Бос орындар бар"
 
-#: activities/models.py:158 templates/activities/list.html:64
+#: activities/models.py:169 templates/activities/list.html:64
 #: templates/activities/list.html:222
 msgid "Заполнено"
 msgstr "Толды"
 
-#: activities/models.py:275 activities/models.py:282
+#: activities/models.py:286 activities/models.py:293
 #, python-format
 msgid "До %(n)d учеников"
 msgstr "%(n)d оқушыға дейін"
 
-#: activities/models.py:278
+#: activities/models.py:289
 #, python-format
 msgid "%(lo)d–%(hi)d учеников"
 msgstr "%(lo)d–%(hi)d оқушы"
 
-#: activities/models.py:284
+#: activities/models.py:295
 #, python-format
 msgid "От %(n)d учеников"
 msgstr "%(n)d оқушыдан бастап"
 
-#: activities/models.py:350 templates/activities/list.html:213
+#: activities/models.py:361 templates/activities/list.html:213
 msgid "Понедельник"
 msgstr "Дүйсенбі"
 
-#: activities/models.py:351 templates/activities/list.html:214
+#: activities/models.py:362 templates/activities/list.html:214
 msgid "Вторник"
 msgstr "Сейсенбі"
 
-#: activities/models.py:352 templates/activities/list.html:215
+#: activities/models.py:363 templates/activities/list.html:215
 msgid "Среда"
 msgstr "Сәрсенбі"
 
-#: activities/models.py:353 templates/activities/list.html:216
+#: activities/models.py:364 templates/activities/list.html:216
 msgid "Четверг"
 msgstr "Бейсенбі"
 
-#: activities/models.py:354 templates/activities/list.html:217
+#: activities/models.py:365 templates/activities/list.html:217
 msgid "Пятница"
 msgstr "Жұма"
 
-#: activities/models.py:355
+#: activities/models.py:366
 msgid "Суббота"
 msgstr "Сенбі"
 
-#: activities/models.py:356
+#: activities/models.py:367
 msgid "Воскресенье"
 msgstr "Жексенбі"
 
-#: activities/models.py:359
+#: activities/models.py:370
 msgid "Пн"
 msgstr "Дс"
 
-#: activities/models.py:360
+#: activities/models.py:371
 msgid "Вт"
 msgstr "Сс"
 
-#: activities/models.py:361
+#: activities/models.py:372
 msgid "Ср"
 msgstr "Ср"
 
-#: activities/models.py:362
+#: activities/models.py:373
 msgid "Чт"
 msgstr "Бс"
 
-#: activities/models.py:363
+#: activities/models.py:374
 msgid "Пт"
 msgstr "Жм"
 
-#: activities/models.py:364
+#: activities/models.py:375
 msgid "Сб"
 msgstr "Сб"
 
-#: activities/models.py:365
+#: activities/models.py:376
 msgid "Вс"
 msgstr "Жк"
 
@@ -410,7 +410,7 @@ msgstr ""
 
 #: templates/backoffice/content/activities/group_edit.html:115
 #: templates/backoffice/leads/detail.html:53
-#: templates/partials/modals/feedback.html:137
+#: templates/partials/modals/feedback.html:141
 msgid "Телефон"
 msgstr "Телефон"
 
@@ -470,7 +470,7 @@ msgid "Удалить группу со всеми слотами расписа
 msgstr "Топты кестенің барлық слоттарымен бірге жою керек пе?"
 
 #: templates/backoffice/content/activities/group_edit.html:192
-#: templates/backoffice/content/admission/page_edit.html:266
+#: templates/backoffice/content/admission/page_edit.html:273
 #: templates/backoffice/content/admission/variant_edit.html:194
 #: templates/backoffice/content/blog/edit.html:351
 #: templates/backoffice/content/contacts/edit.html:242
@@ -494,7 +494,7 @@ msgstr "Болдырмау"
 
 #: templates/backoffice/content/activities/group_edit.html:193
 #: templates/backoffice/content/activities/region.html:189
-#: templates/backoffice/content/admission/page_edit.html:271
+#: templates/backoffice/content/admission/page_edit.html:278
 #: templates/backoffice/content/admission/variant_edit.html:199
 #: templates/backoffice/content/blog/edit.html:356
 #: templates/backoffice/content/blog/taxonomy.html:31
@@ -701,7 +701,7 @@ msgstr "кестесіз"
 #: templates/backoffice/content/activities/region.html:169
 #: templates/backoffice/content/admission/list.html:41
 #: templates/backoffice/content/admission/list.html:61
-#: templates/backoffice/content/admission/page_edit.html:239
+#: templates/backoffice/content/admission/page_edit.html:246
 #: templates/backoffice/content/home/list.html:41
 #: templates/backoffice/content/home/list.html:61
 #: templates/backoffice/content/program/list.html:42
@@ -768,8 +768,8 @@ msgstr "Баға картасының SVG-белгішесі"
 
 #: templates/backoffice/content/admission/_pricing_card.html:74
 #: templates/backoffice/content/program/_inline_formset.html:67
-#: templates/partials/header.html:27 templates/partials/modals/feedback.html:62
-#: templates/partials/modals/feedback.html:172
+#: templates/partials/header.html:27 templates/partials/modals/feedback.html:66
+#: templates/partials/modals/feedback.html:182
 msgid "Закрыть"
 msgstr "Жабу"
 
@@ -832,12 +832,10 @@ msgstr "Қабылдау"
 
 #: templates/backoffice/content/admission/list.html:9
 msgid ""
-"Лендинг «Поступление» для каждого региона. Общие тексты страницы + 6 "
-"вариантов (русское × {1, 2-7, 8-11} + казахское × {1, 2-6, 7-11}). Выберите "
+"Лендинг «Поступление» для каждого региона. Общие тексты страницы + варианты "
+"(отделение × класс; казахское отделение — только до 6 класса). Выберите "
 "регион."
-msgstr ""
-"Әр аймаққа арналған «Оқуға түсу» лендингі. Беттің жалпы мәтіндері + 6 нұсқа "
-"(орысша × {1, 2-7, 8-11} + қазақша × {1, 2-6, 7-11}). Аймақты таңдаңыз."
+msgstr "Әр аймаққа арналған «Оқуға түсу» лендингі. Беттің жалпы мәтіндері + нұсқалар (бөлімше × сынып; қазақ бөлімшесі — тек 6-сыныпқа дейін). Аймақты таңдаңыз."
 
 #: templates/backoffice/content/admission/list.html:18
 msgid "Вариантов"
@@ -856,10 +854,6 @@ msgstr "Тізімдер"
 msgid "Обновлено"
 msgstr "Жаңартылды"
 
-#: templates/backoffice/content/admission/list.html:32
-msgid "из 6"
-msgstr "6-дан"
-
 #: templates/backoffice/content/admission/list.html:35
 msgid "пунктов"
 msgstr "тармақ"
@@ -867,6 +861,10 @@ msgstr "тармақ"
 #: templates/backoffice/content/admission/list.html:35
 msgid "документов"
 msgstr "құжат"
+
+#: templates/backoffice/content/admission/list.html:35
+msgid "способов оплаты"
+msgstr "төлем тәсілі"
 
 #: templates/backoffice/content/admission/list.html:57
 msgid "вариантов из 6"
@@ -906,9 +904,8 @@ msgstr "Қабылдау — %(region)s"
 #: templates/backoffice/content/admission/page_edit.html:13
 #, python-format
 msgid ""
-"Общие тексты страницы и 6 вариантов (отделение × класс). Обновлено %(date)s."
-msgstr ""
-"Беттің жалпы мәтіндері және 6 нұсқа (бөлімше × сынып). Жаңартылды: %(date)s."
+"Общие тексты страницы и варианты (отделение × класс). Обновлено %(date)s."
+msgstr "Беттің жалпы мәтіндері және нұсқалар (бөлімше × сынып). Жаңартылды: %(date)s."
 
 #: templates/backoffice/content/admission/page_edit.html:20
 #: templates/backoffice/content/contacts/edit.html:22
@@ -959,62 +956,57 @@ msgstr "«Шарт» кезеңі — жалпы бөлім"
 
 #: templates/backoffice/content/admission/page_edit.html:161
 msgid ""
-"Текст про вступительный взнос + заголовки подсписков. Сам прайс — на каждой "
-"странице варианта."
-msgstr ""
-"Алғашқы жарна туралы мәтін + ішкі тізімдердің тақырыптары. Бағалар тізімі — "
-"әр нұсқаның бетінде."
+"Текст про вступительный взнос, способы оплаты и заголовки подсписков. Сама "
+"цена — на каждой странице варианта."
+msgstr "Алғашқы жарна, төлем тәсілдері туралы мәтін және ішкі тізімдердің тақырыптары. Бағаның өзі — әр нұсқаның бетінде."
 
-#: templates/backoffice/content/admission/page_edit.html:180
+#: templates/backoffice/content/admission/page_edit.html:187
 msgid "Этап «Зачисление»"
 msgstr "«Оқуға қабылдау» кезеңі"
 
-#: templates/backoffice/content/admission/page_edit.html:198
+#: templates/backoffice/content/admission/page_edit.html:205
 msgid "Этап «Консультация»"
 msgstr "«Кеңес беру» кезеңі"
 
-#: templates/backoffice/content/admission/page_edit.html:213
+#: templates/backoffice/content/admission/page_edit.html:220
 msgid "Варианты страницы (отделение × класс)"
 msgstr "Бет нұсқалары (бөлімше × сынып)"
 
-#: templates/backoffice/content/admission/page_edit.html:215
+#: templates/backoffice/content/admission/page_edit.html:222
 msgid ""
-"6 уникальных страниц региона: 3 RU (1, 2-7, 8-11) + 3 KZ (1, 2-6, 7-11). У "
-"каждого варианта свои h1, lead'ы этапов, 4 testing-карточки, прайс-карты и "
-"SEO."
-msgstr ""
-"Аймақтың 6 бірегей беті: 3 RU (1, 2-7, 8-11) + 3 KZ (1, 2-6, 7-11). Әр "
-"нұсқаның өз h1, кезеңдердің lead-тары, 4 testing-карточкасы, баға карталары "
-"және SEO бар."
+"Уникальные страницы региона: Астана — 3 RU (1, 2-7, 8-11) + 2 KZ (1, 2-6; "
+"казахских 7–11 классов нет), Актау — RU/KZ × (1, 2-4). У каждого варианта "
+"свои h1, lead'ы этапов, 4 testing-карточки, прайс-карта и SEO."
+msgstr "Аймақтың бірегей беттері: Астана — 3 RU (1, 2-7, 8-11) + 2 KZ (1, 2-6; қазақ бөлімшесінде 7–11 сыныптар жоқ), Ақтау — RU/KZ × (1, 2-4). Әр нұсқаның өз h1, кезеңдердің lead-тары, 4 testing-карточкасы, баға картасы және SEO бар."
 
-#: templates/backoffice/content/admission/page_edit.html:227
+#: templates/backoffice/content/admission/page_edit.html:234
 msgid "Без H1 — placeholder"
 msgstr "H1 жоқ — толтырғыш"
 
-#: templates/backoffice/content/admission/page_edit.html:230
+#: templates/backoffice/content/admission/page_edit.html:237
 msgid "карточек"
 msgstr "карточкалар"
 
-#: templates/backoffice/content/admission/page_edit.html:232
+#: templates/backoffice/content/admission/page_edit.html:239
 msgid "плана"
 msgstr "жоспар"
 
-#: templates/backoffice/content/admission/page_edit.html:234
+#: templates/backoffice/content/admission/page_edit.html:241
 msgid "Все три lead-параграфа заполнены"
 msgstr "Барлық үш lead-параграф толтырылған"
 
-#: templates/backoffice/content/admission/page_edit.html:236
+#: templates/backoffice/content/admission/page_edit.html:243
 msgid "Не все lead-параграфы заполнены"
 msgstr "Барлық lead-параграф толтырылмаған"
 
-#: templates/backoffice/content/admission/page_edit.html:245
+#: templates/backoffice/content/admission/page_edit.html:252
 msgid ""
 "Варианты создаются миграцией. Обратись к разработчику если регион новый."
 msgstr ""
 "Нұсқалар миграция арқылы жасалады. Егер аймақ жаңа болса, әзірлеушіге "
 "хабарласыңыз."
 
-#: templates/backoffice/content/admission/page_edit.html:260
+#: templates/backoffice/content/admission/page_edit.html:267
 #: templates/backoffice/content/admission/variant_edit.html:188
 #: templates/backoffice/content/blog/edit.html:345
 #: templates/backoffice/content/contacts/edit.html:236
@@ -1832,8 +1824,14 @@ msgstr ""
 "slug қажет болса — жаңа бет ашып, осы бетті жойыңыз."
 
 #: templates/backoffice/content/flatpages/edit.html:169
-msgid "Дополнительные изображения под содержимым страницы. Перетащи карточки для смены порядка. Alt-текст и подпись редактируются на 3 языках — переключай через табы сверху."
-msgstr "Бет мазмұнының астындағы қосымша суреттер. Ретін өзгерту үшін карточкаларды сүйреңіз. Alt-мәтін мен сипаттама 3 тілде өңделеді — жоғарыдағы қойындылар арқылы ауысыңыз."
+msgid ""
+"Дополнительные изображения под содержимым страницы. Перетащи карточки для "
+"смены порядка. Alt-текст и подпись редактируются на 3 языках — переключай "
+"через табы сверху."
+msgstr ""
+"Бет мазмұнының астындағы қосымша суреттер. Ретін өзгерту үшін карточкаларды "
+"сүйреңіз. Alt-мәтін мен сипаттама 3 тілде өңделеді — жоғарыдағы қойындылар "
+"арқылы ауысыңыз."
 
 #: templates/backoffice/content/flatpages/edit.html:256
 msgid ""
@@ -1878,8 +1876,12 @@ msgstr "Футер — %(region)s"
 
 #: templates/backoffice/content/footer/edit.html:15
 #, python-format
-msgid "Текст под лого + URL соцсетей. Видно на всех страницах региона. Обновлено %(date)s."
-msgstr "Логотип астындағы мәтін + әлеуметтік желі сілтемелері. Аймақтың барлық беттерінде көрінеді. %(date)s жаңартылды."
+msgid ""
+"Текст под лого + URL соцсетей. Видно на всех страницах региона. Обновлено "
+"%(date)s."
+msgstr ""
+"Логотип астындағы мәтін + әлеуметтік желі сілтемелері. Аймақтың барлық "
+"беттерінде көрінеді. %(date)s жаңартылды."
 
 #: templates/backoffice/content/footer/edit.html:22
 msgid "Открыть главную в новой вкладке на текущем языке"
@@ -1890,8 +1892,12 @@ msgid "Текст под лого"
 msgstr "Логотип астындағы мәтін"
 
 #: templates/backoffice/content/footer/edit.html:82
-msgid "Короткий параграф под логотипом школы. Перенос строки → <br>. Если пусто — параграф на сайте скрыт."
-msgstr "Мектеп логотипінің астындағы қысқа абзац. Жол тасымалы → <br>. Бос болса, абзац сайтта көрсетілмейді."
+msgid ""
+"Короткий параграф под логотипом школы. Перенос строки → <br>. Если пусто — "
+"параграф на сайте скрыт."
+msgstr ""
+"Мектеп логотипінің астындағы қысқа абзац. Жол тасымалы → <br>. Бос болса, "
+"абзац сайтта көрсетілмейді."
 
 #: templates/backoffice/content/footer/edit.html:89
 #: templates/backoffice/content/footer/list.html:18
@@ -1911,12 +1917,19 @@ msgid "Футер"
 msgstr "Футер"
 
 #: templates/backoffice/content/footer/list.html:9
-msgid "Текст под лого + ссылки на соцсети. Singleton-страница для каждого региона."
-msgstr "Логотип астындағы мәтін + әлеуметтік желі сілтемелері. Әр аймаққа арналған singleton-бет."
+msgid ""
+"Текст под лого + ссылки на соцсети. Singleton-страница для каждого региона."
+msgstr ""
+"Логотип астындағы мәтін + әлеуметтік желі сілтемелері. Әр аймаққа арналған "
+"singleton-бет."
 
 #: templates/backoffice/content/footer/list.html:62
-msgid "Страницы «Футер» создаются миграцией. Если регион новый — обратись к разработчику."
-msgstr "«Футер» беттері миграция арқылы жасалады. Аймақ жаңа болса, әзірлеушіге хабарласыңыз."
+msgid ""
+"Страницы «Футер» создаются миграцией. Если регион новый — обратись к "
+"разработчику."
+msgstr ""
+"«Футер» беттері миграция арқылы жасалады. Аймақ жаңа болса, әзірлеушіге "
+"хабарласыңыз."
 
 #: templates/backoffice/content/gallery/create.html:5
 #: templates/backoffice/content/gallery/edit.html:5
@@ -2350,6 +2363,8 @@ msgid "Секция «FAQ»"
 msgstr "«FAQ» секциясы"
 
 #: templates/backoffice/content/program/list.html:8
+#: templates/eventlandings/detail.html:136
+#: templates/eventlandings/detail.html:138
 msgid "Программа"
 msgstr "Бағдарлама"
 
@@ -2444,8 +2459,12 @@ msgstr "Фото таңдау"
 
 #: templates/backoffice/content/team/edit.html:142
 #, python-format
-msgid "Минимум %(min)s×%(min)spx. JPG/PNG/WebP. Прозрачность у PNG автоматически кладётся на белый фон, фото ужимается до %(min)spx по большей стороне."
-msgstr "Кемінде %(min)s×%(min)spx. JPG/PNG/WebP. PNG мөлдірлігі автоматты түрде ақ фонға қойылады, сурет үлкен қабырғасы бойынша %(min)spx дейін кішірейтіледі."
+msgid ""
+"Минимум %(min)s×%(min)spx. JPG/PNG/WebP. Прозрачность у PNG автоматически "
+"кладётся на белый фон, фото ужимается до %(min)spx по большей стороне."
+msgstr ""
+"Кемінде %(min)s×%(min)spx. JPG/PNG/WebP. PNG мөлдірлігі автоматты түрде ақ "
+"фонға қойылады, сурет үлкен қабырғасы бойынша %(min)spx дейін кішірейтіледі."
 
 #: templates/backoffice/content/team/edit.html:150
 msgid "Анкета"
@@ -2616,7 +2635,7 @@ msgstr "Байланыс"
 
 #: templates/backoffice/leads/detail.html:52
 #: templates/backoffice/settings/users/list.html:21
-#: templates/partials/modals/feedback.html:80
+#: templates/partials/modals/feedback.html:84
 msgid "Имя"
 msgstr "Аты"
 
@@ -3040,8 +3059,12 @@ msgstr ""
 
 #: templates/base.html:10
 #, python-format
-msgid "Space School — международная школа Cambridge Assessment International Education. %(cities)s."
-msgstr "Space School — Cambridge Assessment International Education халықаралық мектебі. %(cities)s."
+msgid ""
+"Space School — международная школа Cambridge Assessment International "
+"Education. %(cities)s."
+msgstr ""
+"Space School — Cambridge Assessment International Education халықаралық "
+"мектебі. %(cities)s."
 
 #: templates/base.html:46 templates/base.html:54
 msgid "Space School"
@@ -3092,7 +3115,7 @@ msgstr "Тазалау"
 msgid "Все"
 msgstr "Барлығы"
 
-#: templates/blog/list.html:77 templates/events/list.html:53
+#: templates/blog/list.html:77 templates/events/list.html:59
 #: templates/gallery/list.html:78
 msgid "Загрузить еще"
 msgstr "Тағы жүктеу"
@@ -3100,6 +3123,123 @@ msgstr "Тағы жүктеу"
 #: templates/blog/list.html:83
 msgid "Пока нет публикаций в этой категории."
 msgstr "Бұл санатта әзірге жарияланымдар жоқ."
+
+#: templates/eventlandings/_cta_buttons.html:15
+msgid "оплата после подтверждения"
+msgstr "қатысуды растағаннан кейін төлем"
+
+#: templates/eventlandings/_cta_buttons.html:17
+msgid "Зарегистрироваться"
+msgstr "Тіркелу"
+
+#: templates/eventlandings/_cta_buttons.html:22
+#: templates/eventlandings/_cta_buttons.html:23
+#: templates/partials/feedback_section.html:52
+#: templates/partials/modals/feedback.html:23
+#: templates/partials/modals/feedback.html:75
+msgid "Получить консультацию"
+msgstr "Кеңес алу"
+
+#: templates/eventlandings/_date_card.html:13
+#: templates/programs/detail.html:530
+msgid "Стоимость"
+msgstr "Бағасы"
+
+#: templates/eventlandings/_date_card.html:14
+#: templates/eventlandings/_event_card.html:16
+msgid "Бесплатно"
+msgstr "Тегін"
+
+#: templates/eventlandings/_event_card.html:9
+msgid "Состоялось"
+msgstr "Өтті"
+
+#: templates/eventlandings/_photo_placeholder.html:2
+#: templates/eventlandings/_photo_placeholder.html:7
+#: templates/partials/cover_image.html:32
+#: templates/partials/cover_image.html:40 templates/programs/detail.html:338
+#: templates/programs/detail.html:343 templates/team/detail.html:44
+#: templates/team/detail.html:49 templates/team/list.html:69
+#: templates/team/list.html:74
+msgid "Нет фото"
+msgstr "Фото жоқ"
+
+#: templates/eventlandings/_program_row.html:6
+#, python-format
+msgid "%(n)s мин"
+msgstr "%(n)s мин"
+
+#: templates/eventlandings/_upcoming.html:7
+msgid "Ближайшие события"
+msgstr "Алдағы іс-шаралар"
+
+#: templates/eventlandings/detail.html:33
+#, python-format
+msgid "Событие состоялось %(date)s"
+msgstr "Іс-шара %(date)s өтті"
+
+#: templates/eventlandings/detail.html:34
+msgid "Спасибо всем, кто пришёл."
+msgstr "Келген барлық адамға рахмет."
+
+#: templates/eventlandings/detail.html:34
+msgid "Ближайшие события школы ниже."
+msgstr "Мектептің алдағы іс-шаралары төменде."
+
+#: templates/eventlandings/detail.html:97
+msgid "Для кого"
+msgstr "Кімге арналған"
+
+#: templates/eventlandings/detail.html:118
+msgid "Цель"
+msgstr "Мақсаты"
+
+#: templates/eventlandings/detail.html:140
+#, python-format
+msgid "%(n)s день"
+msgid_plural "%(n)s дня"
+msgstr[0] "%(n)s күн"
+msgstr[1] "%(n)s күн"
+
+#: templates/eventlandings/detail.html:140
+#, python-format
+msgid "%(n)s блок"
+msgid_plural "%(n)s блоков"
+msgstr[0] "%(n)s блок"
+msgstr[1] "%(n)s блок"
+
+#: templates/eventlandings/detail.html:156
+msgid "Материалы участника"
+msgstr "Қатысушы материалдары"
+
+#: templates/eventlandings/detail.html:182
+#: templates/eventlandings/detail.html:184
+msgid "Ведущие"
+msgstr "Жүргізушілер"
+
+#: templates/eventlandings/detail.html:217
+msgid "Ведущий будет объявлен"
+msgstr "Жүргізуші кейін жарияланады"
+
+#: templates/eventlandings/detail.html:218
+msgid "Имя и регалии объявим ближе к событию"
+msgstr "Аты-жөні мен жетістіктерін іс-шараға жақын жариялаймыз"
+
+#: templates/eventlandings/detail.html:236 templates/programs/detail.html:368
+msgid "Предыдущий"
+msgstr "Алдыңғы"
+
+#: templates/eventlandings/detail.html:239 templates/programs/detail.html:371
+msgid "Следующий"
+msgstr "Келесі"
+
+#: templates/eventlandings/detail.html:255
+msgid "Школа"
+msgstr "Мектеп"
+
+#: templates/eventlandings/detail.html:274
+msgid "Участие бесплатное"
+msgstr "Қатысу тегін"
 
 #: templates/events/detail.html:24 templates/events/list.html:4
 #: templates/events/list.html:21 templates/events/list.html:29
@@ -3114,7 +3254,7 @@ msgstr "Басқа іс-шаралар"
 msgid "Анонсы и отчёты о мероприятиях Space School."
 msgstr "Space School іс-шараларының хабарландырулары мен есептері."
 
-#: templates/events/list.html:58
+#: templates/events/list.html:64
 msgid "Пока нет анонсов мероприятий."
 msgstr "Әзірге іс-шаралар туралы хабарландырулар жоқ."
 
@@ -3130,31 +3270,31 @@ msgstr ""
 msgid "Пока нет фото в этой категории."
 msgstr "Бұл санатта әзірге фотосуреттер жоқ."
 
-#: templates/pages/home.html:140
+#: templates/pages/home.html:119
 msgid "Знакомство со Space School"
 msgstr "Space School-мен танысу"
 
-#: templates/pages/home.html:144
+#: templates/pages/home.html:123
 msgid "Ваш браузер не поддерживает воспроизведение видео."
 msgstr "Сіздің браузеріңіз видеоны ойнатуды қолдамайды."
 
-#: templates/pages/home.html:152
+#: templates/pages/home.html:131
 msgid "Запустить видео"
 msgstr "Видеоны іске қосу"
 
-#: templates/pages/home.html:161
+#: templates/pages/home.html:140
 msgid "Медленное соединение — видео не запущено автоматически."
 msgstr "Интернет байланысы баяу — видео автоматты түрде іске қосылмады."
 
-#: templates/pages/home.html:164
+#: templates/pages/home.html:143
 msgid "Загрузить всё равно"
 msgstr "Бәрібір жүктеу"
 
-#: templates/pages/home.html:174
+#: templates/pages/home.html:153
 msgid "Включить звук"
 msgstr "Дыбысты қосу"
 
-#: templates/pages/home.html:174
+#: templates/pages/home.html:153
 msgid "Выключить звук"
 msgstr "Дыбысты өшіру"
 
@@ -3162,49 +3302,35 @@ msgstr "Дыбысты өшіру"
 msgid "Видео YouTube"
 msgstr "YouTube бейнесі"
 
-#: templates/partials/cover_image.html:32
-#: templates/partials/cover_image.html:40 templates/programs/detail.html:338
-#: templates/programs/detail.html:343 templates/team/detail.html:44
-#: templates/team/detail.html:49 templates/team/list.html:69
-#: templates/team/list.html:74
-msgid "Нет фото"
-msgstr "Фото жоқ"
-
-#: templates/partials/feedback_section.html:25
+#: templates/partials/feedback_section.html:31
 msgid "Готовы запустить"
 msgstr "Сіз дайынсыз ба"
 
-#: templates/partials/feedback_section.html:26
+#: templates/partials/feedback_section.html:32
 msgid "будущее вашего ребёнка?"
 msgstr "балаңыздың болашағын бастауға?"
 
-#: templates/partials/feedback_section.html:29
+#: templates/partials/feedback_section.html:39
 msgid "Запишитесь на бесплатную консультацию —"
 msgstr "Тегін кеңес алуға жазылыңыз —"
 
-#: templates/partials/feedback_section.html:30
+#: templates/partials/feedback_section.html:40
 msgid "расскажем о программе, покажем школу и ответим"
 msgstr "бағдарлама туралы айтып, мектепті көрсетеміз және жауап береміз"
 
-#: templates/partials/feedback_section.html:31
+#: templates/partials/feedback_section.html:41
 msgid "на все вопросы"
 msgstr "барлық сұрақтарға"
 
-#: templates/partials/feedback_section.html:37
+#: templates/partials/feedback_section.html:51
 msgid "Запишитесь на бесплатную консультацию"
 msgstr "Тегін кеңес алуға жазылыңыз"
 
-#: templates/partials/feedback_section.html:38
-#: templates/partials/modals/feedback.html:19
-#: templates/partials/modals/feedback.html:71
-msgid "Получить консультацию"
-msgstr "Кеңес алу"
-
-#: templates/partials/feedback_section.html:42
+#: templates/partials/feedback_section.html:56
 msgid "Выберите свой город"
 msgstr "Өз қалаңызды таңдаңыз"
 
-#: templates/partials/feedback_section.html:43
+#: templates/partials/feedback_section.html:57
 msgid "Записаться в кампус"
 msgstr "Кампусқа жазылу"
 
@@ -3224,73 +3350,72 @@ msgstr "Жария оферта"
 msgid "Язык"
 msgstr "Тіл"
 
-#: templates/partials/modals/feedback.html:72
+#: templates/partials/modals/feedback.html:21
 msgid "Перезвоним в течение 2 часов и ответим на все вопросы о поступлении"
-msgstr "2 сағат ішінде қоңырау шалып, қабылдау туралы барлық сұрағыңызға жауап береміз"
+msgstr ""
+"2 сағат ішінде қоңырау шалып, қабылдау туралы барлық сұрағыңызға жауап "
+"береміз"
 
-#: templates/partials/modals/feedback.html:85
+#: templates/partials/modals/feedback.html:21
+msgid "Перезвоним вам в течение 2 часов"
+msgstr "2 сағат ішінде сізге хабарласамыз"
+
+#: templates/partials/modals/feedback.html:89
 msgid "Ваше имя"
 msgstr "Атыңыз"
 
-#: templates/partials/modals/feedback.html:107
+#: templates/partials/modals/feedback.html:111
 msgid "Город"
 msgstr "Қала"
 
-#: templates/partials/modals/feedback.html:114
+#: templates/partials/modals/feedback.html:118
 msgid "Выберите город"
 msgstr "Қаланы таңдаңыз"
 
-#: templates/partials/modals/feedback.html:148
+#: templates/partials/modals/feedback.html:152
+msgid "Я родитель ученика Space School"
+msgstr "Мен Space School оқушысының ата-анасымын"
+
+#: templates/partials/modals/feedback.html:158
 msgid "Отправляем…"
 msgstr "Жіберілуде…"
 
-#: templates/partials/modals/feedback.html:148
+#: templates/partials/modals/feedback.html:158
 msgid "Отправить"
 msgstr "Жіберу"
 
-#: templates/partials/modals/feedback.html:152
+#: templates/partials/modals/feedback.html:162
 msgid "Не удалось отправить. Попробуйте ещё раз или позвоните нам."
 msgstr "Жіберілмеді. Қайталап көріңіз немесе бізге хабарласыңыз."
 
-#: templates/partials/modals/feedback.html:157
+#: templates/partials/modals/feedback.html:167
 msgid "Нажимая кнопку, вы соглашаетесь на обработку"
 msgstr "Түймені басу арқылы сіз өңдеуге келісесіз"
 
-#: templates/partials/modals/feedback.html:160
+#: templates/partials/modals/feedback.html:170
 msgid "персональных данных"
 msgstr "дербес деректерді"
 
-#: templates/partials/modals/feedback.html:166
+#: templates/partials/modals/feedback.html:176
 msgid "Заявка принята!"
 msgstr "Өтініш қабылданды!"
-
-#: templates/partials/modals/feedback.html:167
-msgid "Перезвоним вам в течение 2 часов"
-msgstr "2 сағат ішінде сізге хабарласамыз"
 
 #: templates/programs/detail.html:287
 msgid "Оставить заявку"
 msgstr "Өтінім қалдыру"
-
-#: templates/programs/detail.html:368
-msgid "Предыдущий"
-msgstr "Алдыңғы"
-
-#: templates/programs/detail.html:371
-msgid "Следующий"
-msgstr "Келесі"
 
 #: templates/programs/detail.html:432
 msgid "Алихан Сейткали"
 msgstr "Алихан Сейткали"
 
 #: templates/programs/detail.html:434
-msgid "Настоящий сертификат подтверждает успешное завершение обучения по программе Space School · Cambridge International Education с международной языковой подготовкой."
-msgstr "Осы сертификат Space School · Cambridge International Education бағдарламасы бойынша оқуды халықаралық тілдік дайындықпен сәтті аяқтағаныңызды растайды."
-
-#: templates/programs/detail.html:530
-msgid "Стоимость"
-msgstr "Бағасы"
+msgid ""
+"Настоящий сертификат подтверждает успешное завершение обучения по программе "
+"Space School · Cambridge International Education с международной языковой "
+"подготовкой."
+msgstr ""
+"Осы сертификат Space School · Cambridge International Education бағдарламасы "
+"бойынша оқуды халықаралық тілдік дайындықпен сәтті аяқтағаныңызды растайды."
 
 #: templates/team/detail.html:83
 msgid "LinkedIn"
@@ -3337,6 +3462,9 @@ msgstr "Бұл сүзгі бойынша ешкім табылмады."
 msgid "Информация о команде скоро появится."
 msgstr "Команда туралы ақпарат жақын арада пайда болады."
 
+#~ msgid "из 6"
+#~ msgstr "6-дан"
+
 #~ msgid "Копировать ссылку"
 #~ msgstr "Сілтемені көшіру"
 
@@ -3380,7 +3508,6 @@ msgstr "Команда туралы ақпарат жақын арада пай�
 #~ "университеттеріне түсуге дайындалатын және SAT тапсыру құқығымен қос "
 #~ "сертификат алатын жаңа буын халықаралық мектебі."
 
-#, fuzzy
 #~ msgid "Доступные теги"
 #~ msgstr "Қабылдау"
 
