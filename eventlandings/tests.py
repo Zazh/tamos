@@ -7,7 +7,7 @@ from zoneinfo import ZoneInfo
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import IntegrityError, transaction
 from django.test import TestCase
-from django.utils import timezone
+from django.utils import timezone, translation
 from PIL import Image
 
 from core.gallery import strict_zip_arrange
@@ -307,6 +307,9 @@ class FeedbackModalTemplateTests(TestCase):
         self.assertIn('name="extra"', html)
         self.assertIn('modal-feedback__price', html)
         self.assertIn('defaultLead', html)
+        # Р-5: «Перезвоним…» всегда, текст события — доп. строкой под ним.
+        self.assertIn('Перезвоним вам в течение 2 часов', html)
+        self.assertIn('x-show="$store.feedback.success"', html)
 
 
 class KkUiStringsTests(TestCase):
@@ -319,3 +322,110 @@ class KkUiStringsTests(TestCase):
             html = self.client.get('/kk/astana/event/cambridge-day/').content.decode()
         for ru in ('Получить консультацию', 'Ближайшие события', '>Бесплатно<'):
             self.assertNotIn(ru, html)
+
+
+class LandingDisplayPropsTests(TestCase):
+    """Критик блока 1: форматы дат/времени карточки и программы (свойства модели)."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.astana = Region.objects.get(slug='astana')
+
+    def _landing(self, *days):
+        landing = EventLanding.objects.create(region=self.astana, slug=f'fmt-{len(days)}-{days[0][0]:%m%d}',
+                                              title='Fmt')
+        for d, start, end in days:
+            EventLandingDay.objects.create(landing=landing, date=d, start=start, end=end)
+        return landing
+
+    def test_one_day(self):
+        landing = self._landing((date(2026, 11, 14), time(11), time(14)))
+        with translation.override('ru'):
+            self.assertEqual(landing.date_display, '14 ноября')
+            self.assertEqual(landing.date_card_month, 'ноября')
+        self.assertEqual(landing.date_card_day, '14')
+        self.assertEqual(landing.time_display, '11:00–14:00')
+        self.assertFalse(landing.is_multiday)
+
+    def test_two_days_same_month(self):
+        landing = self._landing((date(2026, 11, 21), time(9, 30), time(17)),
+                                (date(2026, 11, 22), time(9, 30), time(17)))
+        with translation.override('ru'):
+            self.assertEqual(landing.date_display, '21–22 ноября')
+            self.assertEqual(landing.date_card_month, 'ноября')
+        self.assertEqual(landing.date_card_day, '21–22')
+        self.assertTrue(landing.is_multiday)
+
+    def test_two_days_across_months(self):
+        landing = self._landing((date(2026, 11, 30), time(10), time(12)),
+                                (date(2026, 12, 1), time(10), time(12)))
+        with translation.override('ru'):
+            self.assertEqual(landing.date_display, '30 ноября – 1 декабря')
+            self.assertEqual(landing.date_card_month, 'ноября – декабря')
+
+    def test_no_days_empty(self):
+        landing = EventLanding.objects.create(region=self.astana, slug='fmt-empty', title='Fmt')
+        self.assertEqual((landing.date_display, landing.date_card_day, landing.time_display), ('', '', ''))
+
+
+class ProgramColumnsAndUpcomingTests(TestCase):
+    """Критик блока 1: раскладка программы по колонкам и «Ближайшие события»."""
+
+    NOW = datetime(2026, 11, 1, 12, 0, tzinfo=ALMATY)
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.astana = Region.objects.get(slug='astana')
+
+    def test_program_columns(self):
+        from .views import program_columns
+        skills = EventLanding.objects.get(region=self.astana, slug='skills-xxi')
+        leader = EventLanding.objects.get(region=self.astana, slug='cambridge-programme-leader')
+        one_day = program_columns(list(skills.days.all()))  # 9 строк → 5 + 4, как в Figma 127:1940
+        self.assertEqual([len(c['rows']) for c in one_day], [5, 4])
+        self.assertEqual([c['day'] for c in one_day], [None, None])
+        two_days = program_columns(list(leader.days.all()))  # колонка на день, с подписью
+        self.assertEqual([len(c['rows']) for c in two_days], [10, 10])
+        self.assertTrue(all(c['day'] is not None for c in two_days))
+        self.assertEqual(program_columns([]), [])
+
+    def test_upcoming_sorted_limited(self):
+        from .views import upcoming_landings
+        for n in range(4):  # +4 будущих лендинга (по 1 дню) поверх сида
+            landing = EventLanding.objects.create(region=self.astana, slug=f'up-{n}', title=f'Up {n}',
+                                                  is_published=True)
+            EventLandingDay.objects.create(landing=landing, date=date(2026, 12, 10 - n),
+                                           start=time(10), end=time(12))
+        EventLanding.objects.create(region=self.astana, slug='up-no-days', title='Без дней',
+                                    is_published=True)
+        with mock.patch('django.utils.timezone.now', return_value=self.NOW):
+            items = upcoming_landings(self.astana)
+        self.assertEqual(len(items), 3)  # UPCOMING_COUNT
+        self.assertEqual([lnd.slug for lnd in items],
+                         ['cambridge-day', 'cambridge-programme-leader', 'up-3'])
+
+
+class FigmaSyncTests(TestCase):
+    """Критик блока 1: правки по сверке с Figma (Quiet-строка с текстом, полоса «цена · примечание»)."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.astana = Region.objects.get(slug='astana')
+        HomePage.objects.get_or_create(region=cls.astana)
+        EventLanding.objects.filter(region=cls.astana, slug='skills-xxi').update(is_published=True)
+
+    def _html(self, slug):
+        with mock.patch('django.utils.timezone.now',
+                        return_value=datetime(2026, 11, 1, 12, 0, tzinfo=ALMATY)):
+            return self.client.get(f'/ru/astana/event/{slug}/').content.decode()
+
+    def test_break_row_text_and_strip_separator(self):
+        html = self._html('skills-xxi')
+        self.assertIn('Короткий отдых.', html)  # текст перерыва — как Kind=Quiet в 127:2106
+        self.assertIn('18\xa0990\xa0₸ · родителям Space School бесплатно', html)
+
+    def test_leader_breaks_without_placeholder_text(self):
+        breaks = EventLandingProgramRow.objects.filter(
+            day__landing__slug='cambridge-programme-leader', is_break=True)
+        self.assertEqual(breaks.count(), 6)
+        self.assertEqual(set(breaks.values_list('text', flat=True)), {''})
