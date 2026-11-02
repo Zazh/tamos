@@ -1,11 +1,14 @@
 {% load i18n static %}
 {% comment %}
   Общий feedback-блок: заголовок + 2 CTA + декоративная планета.
-  Подключается на разных страницах. Тексты одинаковые везде (через trans),
-  параметризуется только `origin` — для аналитики (откуда нажали кнопку).
+  По умолчанию тексты сайта (через trans), параметр `origin` — для аналитики.
+  Необязательные параметры (лендинг события — блок регистрации):
+    title — заголовок (перенос строки = новая строка), text — подзаголовок,
+    cta_template — partial с кнопками вместо стандартных двух (получает контекст include).
 
   Использование:
     {% include 'partials/feedback_section.html' with origin='home' %}
+    {% include 'partials/feedback_section.html' with title=landing.reg_title text=landing.reg_text cta_template='eventlandings/_cta_buttons.html' placement='reg' landing=landing %}
 {% endcomment %}
 <section class="feedback-section glow-react-scope"
          x-data
@@ -21,16 +24,27 @@
               </svg>
             </span>
           </div>
+          {% if title %}
+          <h2 class="h1 font-bold">{{ title|linebreaksbr }}</h2>
+          {% else %}
           <h1 class="h1 font-bold">
             <span class="block">{% trans 'Готовы запустить' %}</span>
             <span class="block">{% trans 'будущее вашего ребёнка?' %}</span>
           </h1>
+          {% endif %}
+          {% if text %}
+          <p class="text-base md:text-lg mt-4 leading-tight text-white/70">{{ text }}</p>
+          {% elif not title %}
           <p class="text-base md:text-lg mt-4 leading-tight text-white/70">
             <span class="inline md:block">{% trans 'Запишитесь на бесплатную консультацию —' %} </span>
             <span class="inline md:block">{% trans 'расскажем о программе, покажем школу и ответим' %}</span>
             <span class="inline md:block">{% trans 'на все вопросы' %}</span>
           </p>
+          {% endif %}
           <div class="mt-8 flex flex-col md:flex-row gap-2 justify-center">
+            {% if cta_template %}
+            {% include cta_template %}
+            {% else %}
             <button type="button"
                     class="btn btn-primary"
                     data-feedback-trigger
@@ -41,6 +55,7 @@
                     data-feedback-trigger
                     data-feedback-title="{% trans 'Выберите свой город' %}"
                     data-feedback-origin="{{ origin|default:'feedback' }}-city">{% trans 'Записаться в кампус' %}</button>
+            {% endif %}
           </div>
         </div>
       </div>

@@ -1,9 +1,12 @@
 /* ========== Шрифты ========== */
 
-/* Gotham */
+/* Gotham
+   В файлах Gotham глиф неразрывного пробела U+00A0 шириной 25em («50 000 ₸» → 1000px+):
+   U+00A0 исключён из unicode-range — его рисует следующий шрифт стека. */
 
 @font-face {
   font-family: "Gotham";
+  unicode-range: U+0000-009F, U+00A1-10FFFF;
   src: url("../../fonts/gotham_book.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
@@ -12,6 +15,7 @@
 
 @font-face {
   font-family: "Gotham";
+  unicode-range: U+0000-009F, U+00A1-10FFFF;
   src: url("../../fonts/gotham_bookitalic.otf") format("opentype");
   font-weight: 400;
   font-style: italic;
@@ -20,6 +24,7 @@
 
 @font-face {
   font-family: "Gotham";
+  unicode-range: U+0000-009F, U+00A1-10FFFF;
   src: url("../../fonts/gotham_medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
@@ -28,6 +33,7 @@
 
 @font-face {
   font-family: "Gotham";
+  unicode-range: U+0000-009F, U+00A1-10FFFF;
   src: url("../../fonts/gotham_bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;

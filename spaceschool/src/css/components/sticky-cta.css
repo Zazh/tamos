@@ -1,0 +1,79 @@
+/* Sticky CTA лендинга события — фиксированная панель внизу экрана, только mobile
+   (md:hidden в разметке). Появляется после hero (Alpine + IntersectionObserver). */
+@layer components {
+  .sticky-cta {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(0, 15, 33, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .sticky-cta.is-hidden {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .sticky-cta .btn {
+    width: 100%;
+  }
+
+  .sticky-cta__info {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* CTA-полоса лендинга (Figma «CTA block», под каруселью «Школы», desktop):
+   дата · время акцентом + строка условий + кнопка регистрации. */
+@layer components {
+  .cta-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 2rem 3rem;
+    border-radius: var(--radius-3xl);
+    color: var(--color-white);
+    background:
+      linear-gradient(90deg, rgba(0, 84, 161, 0.45) 0%, rgba(0, 15, 33, 0) 70%),
+      var(--color-black);
+  }
+
+  .cta-strip__kicker {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  .cta-strip__line {
+    margin-top: 0.375rem;
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+  }
+}
+
+/* Футер не прячется под sticky-панелью на mobile. */
+@layer components {
+  body:has(.sticky-cta) footer {
+    @variant max-md {
+      padding-bottom: 6.5rem;
+    }
+  }
+}

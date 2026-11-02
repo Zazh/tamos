@@ -1,0 +1,17 @@
+{% load i18n %}
+{% comment %}
+Date card (Figma 66:50, Style=Frost) — билет в hero: «месяц / день / время» | «Стоимость».
+Параметр: landing. Kind Free (зелёная подпись) / Paid (золотая).
+{% endcomment %}
+<div class="date-card{% if landing.is_paid %} date-card--paid{% endif %}">
+  <div class="date-card__date">
+    <span class="date-card__month">{{ landing.date_card_month }}</span>
+    <span class="date-card__day">{{ landing.date_card_day }}</span>
+    <span class="date-card__time">{{ landing.time_display }}</span>
+  </div>
+  <div class="date-card__price">
+    <span class="date-card__label">{% trans 'Стоимость' %}</span>
+    <span class="date-card__value">{% if landing.is_paid and landing.price_display %}{{ landing.price_display }}{% else %}{% trans 'Бесплатно' %}{% endif %}</span>
+    {% if landing.price_note %}<span class="date-card__note">{{ landing.price_note|capfirst }}</span>{% endif %}
+  </div>
+</div>

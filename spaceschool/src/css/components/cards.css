@@ -102,6 +102,70 @@
     color: #0080c0;
   }
 
+  /* Event card (Figma 7:57) — карточка события в «Ближайших» и в ленте:
+     светлый вариант карточки группы (gray-50, рамка gray-200, радиус 12).
+     Акцент — бейдж bg-gold/bg-secondary + .program-card__arrow[data-accent]. */
+  .program-card--event {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+    padding: 1.25rem 1.25rem 1.5rem;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-gray-200);
+    background: var(--color-gray-50);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    color: var(--color-black);
+
+    @variant md {
+      padding: 1.25rem 1.25rem 1.5rem;
+    }
+  }
+
+  .program-card--event .program-card__badge {
+    border-radius: var(--radius-lg);
+  }
+
+  .program-card--event .program-card__meta {
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.4;
+    color: rgba(0, 15, 33, 0.6);
+  }
+
+  .program-card--event .program-card__title {
+    font-size: var(--text-xl);
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+  }
+
+  .program-card--event .program-card__footer {
+    align-items: flex-end;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top-color: var(--color-gray-200);
+  }
+
+  .program-card--event .program-card__footer-value {
+    margin-top: 0;
+    font-size: var(--text-xl);
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+  }
+
+  .program-card--event .program-card__footer-label {
+    font-size: var(--text-sm);
+    line-height: 1.429;
+    color: rgba(0, 15, 33, 0.6);
+  }
+
+  /* Прошедшее событие (лента): приглушено */
+  .program-card--past .program-card__title,
+  .program-card--past .program-card__footer-value {
+    color: rgba(0, 15, 33, 0.6);
+  }
+
   .feature-card {
     display: flex;
     flex-direction: column;

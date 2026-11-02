@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.utils.formats import date_format
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
 
@@ -170,6 +171,49 @@ class EventLanding(models.Model):
     def is_past(self) -> bool:
         ends = self.ends_at
         return ends is not None and timezone.now() > ends
+
+    @property
+    def is_multiday(self) -> bool:
+        return len(self._ordered_days()) > 1
+
+    @property
+    def time_display(self) -> str:
+        """«11:00–14:00»: начало первого дня – конец последнего."""
+        first, last = self.first_day, self.last_day
+        if first is None:
+            return ''
+        return f'{first.start:%H:%M}–{last.end:%H:%M}'
+
+    @property
+    def date_card_day(self) -> str:
+        """Крупное число в карточке даты: «14» или «21–22»."""
+        first, last = self.first_day, self.last_day
+        if first is None:
+            return ''
+        if first.date == last.date:
+            return str(first.date.day)
+        return f'{first.date.day}–{last.date.day}'
+
+    @property
+    def date_card_month(self) -> str:
+        """Месяц (род. падеж, язык активный): «ноября» или «ноября – декабря»."""
+        first, last = self.first_day, self.last_day
+        if first is None:
+            return ''
+        a, b = date_format(first.date, 'E'), date_format(last.date, 'E')
+        return a if a == b else f'{a} – {b}'
+
+    @property
+    def date_display(self) -> str:
+        """«14 ноября» · «21–22 ноября» · «30 ноября – 1 декабря»."""
+        first, last = self.first_day, self.last_day
+        if first is None:
+            return ''
+        if first.date == last.date:
+            return date_format(first.date, 'j E')
+        if (first.date.year, first.date.month) == (last.date.year, last.date.month):
+            return f'{first.date.day}–{date_format(last.date, "j E")}'
+        return f'{date_format(first.date, "j E")} – {date_format(last.date, "j E")}'
 
     # ── Цена ─────────────────────────────────────────────────────────────
     @property

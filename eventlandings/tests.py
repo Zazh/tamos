@@ -13,10 +13,12 @@ from PIL import Image
 from core.gallery import strict_zip_arrange
 from pages.models import HomeGalleryImage, HomePage
 from regions.models import Region
+from team.models import TeamMember
 
 from .models import (
     EventLanding,
     EventLandingDay,
+    EventLandingGalleryImage,
     EventLandingMaterial,
     EventLandingProgramRow,
     EventLandingTile,
@@ -172,3 +174,103 @@ class SeedNovember2026Tests(TestCase):
 
     def test_aktau_has_no_landings(self):
         self.assertEqual(EventLanding.objects.filter(region__slug='aktau').count(), 0)
+
+
+class LandingDetailViewTests(TestCase):
+    """EF-05: лендинг события (данные — миграция 0002)."""
+
+    DAY = '/ru/astana/event/cambridge-day/'
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.astana = Region.objects.get(slug='astana')
+        HomePage.objects.get_or_create(region=cls.astana)
+        cls.day = EventLanding.objects.get(region=cls.astana, slug='cambridge-day')
+        cls.skills = EventLanding.objects.get(region=cls.astana, slug='skills-xxi')
+        cls.leader = EventLanding.objects.get(region=cls.astana, slug='cambridge-programme-leader')
+
+    def _now(self):
+        # До всех событий — чтобы «прошло» не зависело от даты прогона тестов.
+        return mock.patch('django.utils.timezone.now',
+                          return_value=datetime(2026, 11, 1, 12, 0, tzinfo=ALMATY))
+
+    def test_day_renders_ctas(self):
+        with self._now():
+            resp = self.client.get(self.DAY)
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode()
+        self.assertRegex(html, r'<h1[^>]*>Cambridge Day</h1>')
+        for place in ('hero', 'reg', 'sticky', 'consult'):
+            self.assertIn(f'data-feedback-origin="event-cambridge-day-{place}"', html)
+        self.assertNotIn('data-feedback-price', html)
+
+    def test_draft_404_then_published(self):
+        url = '/ru/astana/event/skills-xxi/'
+        with self._now():
+            self.assertEqual(self.client.get(url).status_code, 404)
+            EventLanding.objects.filter(pk=self.skills.pk).update(is_published=True)
+            resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode()
+        self.assertIn('data-feedback-parent-checkbox="1"', html)
+        self.assertRegex(html, 'data-feedback-price="18\xa0990')
+
+    def test_other_region_404_and_kk_fallback(self):
+        with self._now():
+            self.assertEqual(self.client.get('/ru/aktau/event/cambridge-day/').status_code, 404)
+            resp = self.client.get('/kk/astana/event/cambridge-day/')
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode()
+        self.assertIn('<html lang="kk">', html)
+        self.assertRegex(html, r'<h1[^>]*>Cambridge Day</h1>')
+
+    def test_upcoming(self):
+        with self._now():
+            day_ctx = self.client.get(self.DAY).context
+            leader_ctx = self.client.get('/ru/astana/event/cambridge-programme-leader/').context
+        self.assertEqual([lnd.slug for lnd in day_ctx['upcoming']], ['cambridge-programme-leader'])
+        self.assertEqual([lnd.slug for lnd in leader_ctx['upcoming']], ['cambridge-day'])
+
+    def test_gallery_fallback_to_home(self):
+        home = HomePage.objects.get(region=self.astana)
+        imgs = [HomeGalleryImage.objects.create(home_page=home, image=_png(400, 200)),
+                HomeGalleryImage.objects.create(home_page=home, image=_png(200, 400))]
+        try:
+            with self._now():
+                ctx = self.client.get(self.DAY).context
+            self.assertEqual(ctx['gallery'], strict_zip_arrange(home.gallery.all()))
+            own = EventLandingGalleryImage.objects.create(landing=self.day, image=_png(300, 300))
+            imgs.append(own)
+            with self._now():
+                ctx = self.client.get(self.DAY).context
+            self.assertEqual(ctx['gallery'], [own])
+        finally:
+            for img in imgs:
+                img.image.delete(save=False)
+
+    def test_leaders_placeholder_and_published_only(self):
+        self.day.leaders.clear()
+        with self._now():
+            html = self.client.get(self.DAY).content.decode()
+        self.assertIn('Ведущий будет объявлен', html)
+        shown = TeamMember.objects.create(region=self.astana, slug='ef-shown', name='Тест Показан',
+                                          is_published=True)
+        hidden = TeamMember.objects.create(region=self.astana, slug='ef-hidden', name='Тест Скрыт',
+                                           is_published=False)
+        self.day.leaders.set([shown, hidden])
+        with self._now():
+            html = self.client.get(self.DAY).content.decode()
+        self.assertIn('Тест Показан', html)
+        self.assertNotIn('Тест Скрыт', html)
+        self.assertNotIn('Ведущий будет объявлен', html)
+
+
+class FeedbackSectionRegressionTests(TestCase):
+    def test_default_texts_and_origin(self):
+        from django.template.loader import render_to_string
+        from django.utils.translation import override
+        with override('ru'):
+            html = render_to_string('partials/feedback_section.html', {'origin': 'home'})
+        self.assertIn('Готовы запустить', html)
+        self.assertIn('data-feedback-origin="home-primary"', html)
+        self.assertIn('data-feedback-origin="home-city"', html)

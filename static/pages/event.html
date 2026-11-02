@@ -1,0 +1,2036 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event — Space School</title>
+    <script type="module" crossorigin src="/static/assets/js/main-CuHdG5Yu.js"></script>
+    <script type="module" crossorigin src="/static/assets/js/modulepreload-polyfill-yoYPbu25.js"></script>
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-vh-t_kPv.css">
+    <link rel="stylesheet" crossorigin href="/static/assets/css/main-oWjSNfAg.css">
+  </head>
+  <!-- Прототип лендинга события (eventlandings/detail.html): Cambridge Day + варианты
+       (Leader: 2 дня, плитки, материалы; лента /events/). Сгенерирован из рендера Django
+       на деве — классы те же, что в шаблонах (источник Tailwind). -->
+  <body>
+  
+  
+  <!-- Hero -->
+  <section class="hero hero-buildings glow-react-scope"
+           x-data
+           x-starfield="{ density: 'medium', twinkle: 'high', shooting: 'high' }"
+           data-event-hero>
+    
+
+<header x-data="{ menu: false }">
+  <nav class="nav nav-dark" :class="{ 'nav-megamenu': menu }">
+    <div class="flex items-center gap-4">
+      <div>
+        <button class="btn btn-burger my-auto" :class="menu && 'btn-burger-close'" @click="menu = !menu" :aria-label="menu ? 'Закрыть' : 'Меню'">
+          <!-- Бургер -->
+          <svg x-show="!menu" viewBox="0 0 32 24" fill="none">
+            <line x1="4" y1="6" x2="28" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="4" y1="18" x2="28" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <!-- Крестик -->
+          <svg x-show="menu" x-cloak viewBox="0 0 32 32" fill="none">
+            <line x1="8" y1="8" x2="24" y2="24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="24" y1="8" x2="8" y2="24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="md:hidden">
+        <div class="dropdown" x-data="{ open: false }">
+          <!-- Dropdown Language (mobile, рядом с гамбургером) -->
+          <button class="nav-link flex gap-1 items-center dropdown-toggle" @click="open = !open" :aria-label="'Язык'">
+            <span class="aspect-square w-4 flex items-center justify-center">
+              <svg class="h-full" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.125 0C6.51803 0 4.94714 0.476523 3.611 1.36931C2.27485 2.2621 1.23344 3.53105 0.618482 5.0157C0.00352044 6.50035 -0.157382 8.13401 0.156123 9.71011C0.469628 11.2862 1.24346 12.7339 2.37976 13.8702C3.51606 15.0065 4.9638 15.7804 6.53989 16.0939C8.11599 16.4074 9.74966 16.2465 11.2343 15.6315C12.719 15.0166 13.9879 13.9752 14.8807 12.639C15.7735 11.3029 16.25 9.73197 16.25 8.125C16.2477 5.97081 15.391 3.90551 13.8677 2.38227C12.3445 0.85903 10.2792 0.00227486 8.125 0ZM6.06485 11.25H10.1852C9.76563 12.6828 9.0625 13.9742 8.125 14.9914C7.1875 13.9742 6.48438 12.6828 6.06485 11.25ZM5.78125 10C5.57396 8.75859 5.57396 7.49141 5.78125 6.25H10.4688C10.676 7.49141 10.676 8.75859 10.4688 10H5.78125ZM1.25 8.125C1.24946 7.49097 1.33702 6.85993 1.51016 6.25H4.51485C4.32839 7.49305 4.32839 8.75695 4.51485 10H1.51016C1.33702 9.39007 1.24946 8.75903 1.25 8.125ZM10.1852 5H6.06485C6.48438 3.56719 7.1875 2.27578 8.125 1.25859C9.0625 2.27578 9.76563 3.56719 10.1852 5ZM11.7352 6.25H14.7398C15.0867 7.47593 15.0867 8.77407 14.7398 10H11.7352C11.9216 8.75695 11.9216 7.49305 11.7352 6.25ZM14.2477 5H11.4797C11.1607 3.74493 10.6251 2.55519 9.89688 1.48438C10.8272 1.73439 11.695 2.17635 12.4443 2.78182C13.1936 3.38729 13.8079 4.14288 14.2477 5ZM6.35313 1.48438C5.62492 2.55519 5.08927 3.74493 4.77032 5H2.00235C2.44213 4.14288 3.05643 3.38729 3.80574 2.78182C4.55505 2.17635 5.42278 1.73439 6.35313 1.48438ZM2.00235 11.25H4.77032C5.08927 12.5051 5.62492 13.6948 6.35313 14.7656C5.42278 14.5156 4.55505 14.0737 3.80574 13.4682C3.05643 12.8627 2.44213 12.1071 2.00235 11.25ZM9.89688 14.7656C10.6251 13.6948 11.1607 12.5051 11.4797 11.25H14.2477C13.8079 12.1071 13.1936 12.8627 12.4443 13.4682C11.695 14.0737 10.8272 14.5156 9.89688 14.7656Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span>RU</span>
+            <span class="h-3 aspect-square">
+              <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <ul class="dropdown-menu" x-show="open" @click.outside="open = false">
+            
+              <li>
+                <a href="#" class="dropdown-item px-6">Қазақша</a>
+              </li>
+            
+              <li>
+                <a href="#" class="dropdown-item px-6 active">Русский</a>
+              </li>
+            
+              <li>
+                <a href="#" class="dropdown-item px-6">English</a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+      <ul class="nav-list" x-show="!menu">
+        
+          <li>
+            <a href="#" class="nav-link">Главная</a>
+          </li>
+        
+          <li>
+            <a href="#" class="nav-link">Программа</a>
+          </li>
+        
+          <li>
+            <a href="#" class="nav-link">Поступление</a>
+          </li>
+        
+      </ul>
+    </div>
+    <div class="nav-logo py-2">
+      <a href="#">
+        <svg class="nav-logo-desktop" viewBox="0 0 116 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="accent-gold" d="M93.6911 32.8179V25.0964H91.1719V32.8179C91.1719 33.1143 91.2091 33.4016 91.2775 33.6759C91.5817 34.8821 92.5107 35.8313 93.6911 36.1421C93.9596 36.212 94.2407 36.25 94.5308 36.25H104.607V33.6759H94.5308C94.0674 33.6759 93.6911 33.2914 93.6911 32.8179Z" fill="currentColor"/>
+          <path class="accent-gold" d="M54.2283 29.3859H45.8317V25.0958H43.3125V36.2494H45.8317V31.96H54.2283V36.2494H56.7475V25.0958H54.2283V29.3859Z" fill="currentColor"/>
+          <path class="accent-gold" d="M38.2478 25.204C37.9793 25.1341 37.6982 25.0961 37.4081 25.0961H30.691C30.4009 25.0961 30.1197 25.1341 29.8512 25.204C28.6708 25.5149 27.7419 26.4641 27.4376 27.6702C27.3692 27.9438 27.332 28.2319 27.332 28.5283V32.8177C27.332 33.1141 27.3692 33.4013 27.4376 33.6757C27.7419 34.8818 28.6708 35.831 29.8512 36.1419C30.1197 36.2118 30.4009 36.2498 30.691 36.2498H37.4081C37.6982 36.2498 37.9793 36.2118 38.2478 36.1419C39.4282 35.831 40.3572 34.8818 40.6614 33.6757C40.7299 33.4013 40.767 33.1141 40.767 32.8177V31.9596H38.2478V32.8177C38.2478 33.2911 37.8715 33.6757 37.4081 33.6757H30.691C30.2276 33.6757 29.8512 33.2911 29.8512 32.8177V28.5283C29.8512 28.0548 30.2276 27.6702 30.691 27.6702H37.4081C37.8715 27.6702 38.2478 28.0548 38.2478 28.5283V29.3863H40.767V28.5283C40.767 28.2319 40.7299 27.9438 40.6614 27.6702C40.3572 26.4641 39.4282 25.5149 38.2478 25.204Z" fill="currentColor"/>
+          <path class="accent-gold" d="M14.7515 27.67H22.3084L24.8276 25.0959H14.7515C12.8965 25.0959 11.3926 26.6327 11.3926 28.5281C11.3926 30.4235 12.8965 31.9602 14.7515 31.9602H21.4686C21.9328 31.9602 22.3084 32.344 22.3084 32.8175C22.3084 33.2917 21.9328 33.6755 21.4686 33.6755H13.9118L11.3926 36.2496H21.4686C23.3237 36.2496 24.8276 34.7129 24.8276 32.8175C24.8276 30.9228 23.3237 29.3861 21.4686 29.3861H14.7515C14.2881 29.3861 13.9118 29.0023 13.9118 28.5281C13.9118 28.0546 14.2881 27.67 14.7515 27.67Z" fill="currentColor"/>
+          <path class="accent-gold" d="M70.1814 25.204C69.9129 25.1341 69.6318 25.0961 69.3417 25.0961H62.6246C62.3345 25.0961 62.0533 25.1341 61.7848 25.204C60.6044 25.5149 59.6755 26.4641 59.3712 27.6702C59.3028 27.9438 59.2656 28.2319 59.2656 28.5283V32.8177C59.2656 33.1141 59.3028 33.4013 59.3712 33.6757C59.6755 34.8818 60.6044 35.831 61.7848 36.1419C62.0533 36.2118 62.3345 36.2498 62.6246 36.2498H69.3417C69.6318 36.2498 69.9129 36.2118 70.1814 36.1419C71.3618 35.831 72.2908 34.8818 72.595 33.6757C72.6634 33.4013 72.7006 33.1141 72.7006 32.8177V28.5283C72.7006 28.2319 72.6634 27.9438 72.595 27.6702C72.2908 26.4641 71.3618 25.5149 70.1814 25.204ZM70.1814 32.8177C70.1814 33.2911 69.8051 33.6757 69.3417 33.6757H62.6246C62.1612 33.6757 61.7848 33.2911 61.7848 32.8177V28.5283C61.7848 28.0548 62.1612 27.6702 62.6246 27.6702H69.3417C69.8051 27.6702 70.1814 28.0548 70.1814 28.5283V32.8177Z" fill="currentColor"/>
+          <path class="accent-gold" d="M86.1346 25.204C85.866 25.1341 85.5849 25.0961 85.2948 25.0961H78.5777C78.2876 25.0961 78.0065 25.1341 77.738 25.204C76.5576 25.5149 75.6286 26.4641 75.3244 27.6702C75.2559 27.9438 75.2188 28.2319 75.2188 28.5283V32.8177C75.2188 33.1141 75.2559 33.4013 75.3244 33.6757C75.6286 34.8818 76.5576 35.831 77.738 36.1419C78.0065 36.2118 78.2876 36.2498 78.5777 36.2498H85.2948C85.5849 36.2498 85.866 36.2118 86.1346 36.1419C87.3149 35.831 88.2439 34.8818 88.5481 33.6757C88.6166 33.4013 88.6538 33.1141 88.6538 32.8177V28.5283C88.6538 28.2319 88.6166 27.9438 88.5481 27.6702C88.2439 26.4641 87.3149 25.5149 86.1346 25.204ZM86.1346 32.8177C86.1346 33.2911 85.7582 33.6757 85.2948 33.6757H78.5777C78.1143 33.6757 77.738 33.2911 77.738 32.8177V28.5283C77.738 28.0548 78.1143 27.6702 78.5777 27.6702H85.2948C85.7582 27.6702 86.1346 28.0548 86.1346 28.5283V32.8177Z" fill="currentColor"/>
+          <path class="accent-blue" d="M85.9807 0.175559C85.5449 0.0615601 85.0875 0 84.6159 0H73.7001C73.2293 0 72.7718 0.0615601 72.336 0.175559C70.4178 0.680954 68.9086 2.22298 68.414 4.183C68.3024 4.62836 68.2422 5.09575 68.2422 5.57683V12.5482C68.2422 13.0293 68.3024 13.4967 68.414 13.9428C68.9086 15.9021 70.4178 17.4449 72.336 17.9495C72.7718 18.0635 73.2293 18.1251 73.7001 18.1251H84.6159C85.0875 18.1251 85.5449 18.0635 85.9807 17.9495C87.899 17.4449 89.4081 15.9021 89.9027 13.9428C90.0143 13.4967 90.0738 13.0293 90.0738 12.5482V11.1537H85.9807V12.5482C85.9807 13.3181 85.3694 13.9428 84.6159 13.9428H73.7001C72.9474 13.9428 72.336 13.3181 72.336 12.5482V5.57683C72.336 4.80771 72.9474 4.183 73.7001 4.183H84.6159C85.3694 4.183 85.9807 4.80771 85.9807 5.57683V6.97142H90.0738V5.57683C90.0738 5.09575 90.0143 4.62836 89.9027 4.183C89.4081 2.22298 87.899 0.680954 85.9807 0.175559Z" fill="currentColor"/>
+          <path class="accent-blue" d="M99.6259 13.9426C98.8724 13.9426 98.2618 13.3178 98.2618 12.5487V11.1541H111.906V6.97114H94.168V12.5487C94.168 13.0298 94.2282 13.4972 94.3398 13.9426C94.946 16.3479 97.0821 18.1248 99.6259 18.1248H116L111.906 13.9426H99.6259Z" fill="currentColor"/>
+          <path class="accent-blue" d="M116 0.000370502H94.1684V4.18337H111.906L116 0.000370502Z" fill="currentColor"/>
+          <path class="accent-blue" d="M16.3737 13.9425H4.09306L0 18.1248H16.3737C19.3883 18.1248 21.8316 15.6282 21.8316 12.5487C21.8316 9.46846 19.3883 6.97112 16.3737 6.97112H5.4579C4.70445 6.97112 4.09306 6.34793 4.09306 5.57729C4.09306 4.80742 4.70445 4.18271 5.4579 4.18271H17.7378L21.8316 0.000465393H5.4579C2.44334 0.000465393 0 2.49704 0 5.57729C0 8.65755 2.44334 11.1541 5.4579 11.1541H16.3737C17.1279 11.1541 17.7378 11.7788 17.7378 12.5487C17.7378 13.3186 17.1279 13.9425 16.3737 13.9425Z" fill="currentColor"/>
+          <path class="accent-blue" d="M47.7769 5.5772C47.7769 2.49695 45.3336 0.000374794 42.319 0.000374794H25.9453V4.18338H42.319C43.0725 4.18338 43.6831 4.80733 43.6831 5.5772C43.6831 6.34784 43.0725 6.97103 42.319 6.97103H25.9453V18.1247H30.0384V11.154H42.319C45.3336 11.154 47.7769 8.65746 47.7769 5.5772Z" fill="currentColor"/>
+          <path class="accent-gold" d="M56.6448 21.8242C57.5054 20.7678 58.1346 19.5078 58.4537 18.1253H54.8359C55.155 19.5078 55.7843 20.7678 56.6448 21.8242Z" fill="currentColor"/>
+          <path class="accent-blue" d="M61.4206 16.7309V18.1247H68.2433L58.4001 1.0142C58.0423 0.406965 57.3893 0.000368595 56.6447 0.000368595C55.9002 0.000368595 55.2486 0.406965 54.8909 1.0142L45.0469 18.1247H51.8696V16.7309L54.5978 13.9424L54.5986 12.7607C54.5986 10.5597 55.3662 8.54193 56.6447 6.97102C57.924 8.54193 58.6916 10.5597 58.6916 12.7607V13.9424L61.4206 16.7309Z" fill="currentColor"/>
+        </svg>
+
+        <svg class="nav-logo-mobile" viewBox="0 0 37 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="accent-gold" d="M18.2552 34.3157C19.6096 32.6607 20.6 30.6866 21.1022 28.5208H15.4082C15.9104 30.6866 16.9008 32.6607 18.2552 34.3157Z" fill="currentColor"/>
+          <path class="accent-blue" d="M25.7704 26.3362V28.5198H36.5087L21.0165 1.71352C20.4534 0.762195 19.4256 0.125198 18.2538 0.125198C17.082 0.125198 16.0565 0.762195 15.4934 1.71352L0 28.5198H10.7383V26.3362L15.0322 21.9677L15.0333 20.1162C15.0333 16.6681 16.2414 13.5069 18.2538 11.0458C20.2673 13.5069 21.4754 16.6681 21.4754 20.1162V21.9677L25.7704 26.3362Z" fill="currentColor"/>
+        </svg>
+      </a>
+    </div>
+    <div class="flex justify-end items-center">
+      <ul class="flex gap-2">
+        <li class="hidden md:block">
+          <div class="dropdown" x-data="{ open: false }">
+            <!-- Dropdown Language -->
+            <button class="nav-link flex gap-1 items-center dropdown-toggle" @click="open = !open">
+              <span>
+                <span class="aspect-square w-4 flex items-center justify-center">
+                  <svg class="h-full" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.125 0C6.51803 0 4.94714 0.476523 3.611 1.36931C2.27485 2.2621 1.23344 3.53105 0.618482 5.0157C0.00352044 6.50035 -0.157382 8.13401 0.156123 9.71011C0.469628 11.2862 1.24346 12.7339 2.37976 13.8702C3.51606 15.0065 4.9638 15.7804 6.53989 16.0939C8.11599 16.4074 9.74966 16.2465 11.2343 15.6315C12.719 15.0166 13.9879 13.9752 14.8807 12.639C15.7735 11.3029 16.25 9.73197 16.25 8.125C16.2477 5.97081 15.391 3.90551 13.8677 2.38227C12.3445 0.85903 10.2792 0.00227486 8.125 0ZM6.06485 11.25H10.1852C9.76563 12.6828 9.0625 13.9742 8.125 14.9914C7.1875 13.9742 6.48438 12.6828 6.06485 11.25ZM5.78125 10C5.57396 8.75859 5.57396 7.49141 5.78125 6.25H10.4688C10.676 7.49141 10.676 8.75859 10.4688 10H5.78125ZM1.25 8.125C1.24946 7.49097 1.33702 6.85993 1.51016 6.25H4.51485C4.32839 7.49305 4.32839 8.75695 4.51485 10H1.51016C1.33702 9.39007 1.24946 8.75903 1.25 8.125ZM10.1852 5H6.06485C6.48438 3.56719 7.1875 2.27578 8.125 1.25859C9.0625 2.27578 9.76563 3.56719 10.1852 5ZM11.7352 6.25H14.7398C15.0867 7.47593 15.0867 8.77407 14.7398 10H11.7352C11.9216 8.75695 11.9216 7.49305 11.7352 6.25ZM14.2477 5H11.4797C11.1607 3.74493 10.6251 2.55519 9.89688 1.48438C10.8272 1.73439 11.695 2.17635 12.4443 2.78182C13.1936 3.38729 13.8079 4.14288 14.2477 5ZM6.35313 1.48438C5.62492 2.55519 5.08927 3.74493 4.77032 5H2.00235C2.44213 4.14288 3.05643 3.38729 3.80574 2.78182C4.55505 2.17635 5.42278 1.73439 6.35313 1.48438ZM2.00235 11.25H4.77032C5.08927 12.5051 5.62492 13.6948 6.35313 14.7656C5.42278 14.5156 4.55505 14.0737 3.80574 13.4682C3.05643 12.8627 2.44213 12.1071 2.00235 11.25ZM9.89688 14.7656C10.6251 13.6948 11.1607 12.5051 11.4797 11.25H14.2477C13.8079 12.1071 13.1936 12.8627 12.4443 13.4682C11.695 14.0737 10.8272 14.5156 9.89688 14.7656Z" fill="currentColor"/>
+                  </svg>
+                </span>
+              </span>
+              <span class="flex gap-1 items-center">
+                <span>RU</span>
+                <span class="h-3 aspect-square">
+                  <svg class="transition-transform" :class="open && 'rotate-180'" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </span>
+            </button>
+            <ul class="dropdown-menu" x-show="open" @click.outside="open = false">
+              
+                <li>
+                  <a href="#" class="dropdown-item px-6">Қазақша</a>
+                </li>
+              
+                <li>
+                  <a href="#" class="dropdown-item px-6 active">Русский</a>
+                </li>
+              
+                <li>
+                  <a href="#" class="dropdown-item px-6">English</a>
+                </li>
+              
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="dropdown" x-data="{ open: false }">
+            <!-- Dropdown City -->
+            <button class="nav-link flex gap-1 items-center dropdown-toggle" @click="open = !open">
+              <span>
+                <span class="aspect-square w-4 flex items-center justify-center">
+                  <svg class="h-full" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.875 3.75C6.25693 3.75 5.65275 3.93328 5.13884 4.27666C4.62494 4.62004 4.2244 5.1081 3.98788 5.67911C3.75135 6.25013 3.68947 6.87847 3.81005 7.48466C3.93062 8.09085 4.22825 8.64767 4.66529 9.08471C5.10233 9.52175 5.65915 9.81938 6.26534 9.93995C6.87153 10.0605 7.49987 9.99865 8.07089 9.76212C8.64191 9.5256 9.12996 9.12506 9.47334 8.61116C9.81672 8.09725 10 7.49307 10 6.875C10 6.0462 9.67076 5.25134 9.08471 4.66529C8.49866 4.07924 7.7038 3.75 6.875 3.75ZM6.875 8.75C6.50416 8.75 6.14165 8.64003 5.83331 8.43401C5.52496 8.22798 5.28464 7.93514 5.14273 7.59253C5.00081 7.24992 4.96368 6.87292 5.03603 6.50921C5.10837 6.14549 5.28695 5.8114 5.54917 5.54917C5.8114 5.28695 6.14549 5.10837 6.50921 5.03603C6.87292 4.96368 7.24992 5.00081 7.59253 5.14273C7.93514 5.28464 8.22798 5.52496 8.43401 5.83331C8.64003 6.14165 8.75 6.50416 8.75 6.875C8.75 7.37228 8.55246 7.84919 8.20083 8.20083C7.84919 8.55246 7.37228 8.75 6.875 8.75ZM6.875 0C5.05227 0.00206776 3.30479 0.72706 2.01592 2.01592C0.72706 3.30479 0.00206776 5.05227 0 6.875C0 9.32812 1.13359 11.9281 3.28125 14.3945C4.24627 15.509 5.33239 16.5126 6.51953 17.3867C6.62462 17.4603 6.74982 17.4998 6.87812 17.4998C7.00643 17.4998 7.13163 17.4603 7.23672 17.3867C8.42168 16.5123 9.50569 15.5087 10.4688 14.3945C12.6133 11.9281 13.75 9.32812 13.75 6.875C13.7479 5.05227 13.0229 3.30479 11.7341 2.01592C10.4452 0.72706 8.69773 0.00206776 6.875 0ZM6.875 16.0938C5.58359 15.0781 1.25 11.3477 1.25 6.875C1.25 5.38316 1.84263 3.95242 2.89752 2.89752C3.95242 1.84263 5.38316 1.25 6.875 1.25C8.36684 1.25 9.79758 1.84263 10.8525 2.89752C11.9074 3.95242 12.5 5.38316 12.5 6.875C12.5 11.3461 8.16641 15.0781 6.875 16.0938Z" fill="currentColor"/>
+                  </svg>
+                </span>
+              </span>
+              <span>Астана</span>
+            </button>
+            <ul class="dropdown-menu" x-show="open" @click.outside="open = false">
+              
+                <li>
+                  <a href="#" class="dropdown-item px-4 active">Астана</a>
+                </li>
+              
+                <li>
+                  <a href="#" class="dropdown-item px-4">Актау</a>
+                </li>
+              
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="megamenu-overlay"
+       x-show="menu" x-cloak
+       x-transition:enter="transition ease-out duration-200"
+       x-transition:enter-start="opacity-0"
+       x-transition:enter-end="opacity-100"
+       x-transition:leave="transition ease-in duration-150"
+       x-transition:leave-start="opacity-100"
+       x-transition:leave-end="opacity-0"
+       @click.self="menu = false">
+    <div class="megamenu"
+         x-show="menu"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="-translate-y-4 opacity-0"
+         x-transition:enter-end="translate-y-0 opacity-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="translate-y-0 opacity-100"
+         x-transition:leave-end="-translate-y-4 opacity-0">
+      <nav class="megamenu-content">
+        
+          <ul class="megamenu-list">
+            <li class="megamenu-label [ hidden md:block ]">Меню</li>
+            
+              <li><a href="#" class="megamenu-link">Главная</a></li>
+            
+              <li><a href="#" class="megamenu-link">О нас</a></li>
+            
+              <li><a href="#" class="megamenu-link">Программа</a></li>
+            
+              <li><a href="#" class="megamenu-link">Поступление</a></li>
+            
+              <li><a href="#" class="megamenu-link">Внеклассные занятия</a></li>
+            
+              <li><a href="#" class="megamenu-link">Команда</a></li>
+            
+              <li><a href="#" class="megamenu-link">Контакты</a></li>
+            
+          </ul>
+        
+          <ul class="megamenu-list">
+            <li class="megamenu-label [ pt-8 md:pt-0 ]">Жизнь школы</li>
+            
+              <li><a href="#" class="megamenu-link active">Мероприятия</a></li>
+            
+              <li><a href="#" class="megamenu-link">Безопасность</a></li>
+            
+              <li><a href="#" class="megamenu-link">Фотогалерея</a></li>
+            
+              <li><a href="#" class="megamenu-link">Школьная форма</a></li>
+            
+              <li><a href="#" class="megamenu-link">Питание</a></li>
+            
+              <li><a href="#" class="megamenu-link">Операторы развозки</a></li>
+            
+              <li><a href="#" class="megamenu-link">Блог</a></li>
+            
+          </ul>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+
+
+    <div class="hero-container z-10">
+      <div class="w-full max-w-screen-md relative">
+        <div class="relative z-10 flex flex-col items-center">
+          <span class="text-white font-medium text-sm badge bg-white/20">Для родителей</span>
+          <h1 class="display-1 text-white font-bold mt-6 mb-4">Cambridge Day</h1>
+          <p class="max-w-xl mx-auto text-base leading-tight font-medium text-white/70">Cambridge Day — день открытых дверей Space School, посвящённый международной программе Cambridge в среднем образовании. Родители и дети познакомятся со школой, узнают, как устроено обучение по программе, и попробуют её формат на практике.</p>
+        </div>
+      </div>
+      
+      <div class="w-full max-w-screen-md flex flex-col items-center gap-4">
+        
+
+<div class="date-card">
+  <div class="date-card__date">
+    <span class="date-card__month">ноября</span>
+    <span class="date-card__day">14</span>
+    <span class="date-card__time">11:00–14:00</span>
+  </div>
+  <div class="date-card__price">
+    <span class="date-card__label">Стоимость</span>
+    <span class="date-card__value">Бесплатно</span>
+    <span class="date-card__note">По предварительной регистрации</span>
+  </div>
+</div>
+
+        
+        
+
+<button type="button"
+        class="btn btn-primary w-full max-w-[22.5625rem] text-nowrap md:w-auto md:min-w-[17.5rem]"
+        data-feedback-trigger
+        data-feedback-title="Регистрация на Cambridge Day"
+        data-feedback-origin="event-cambridge-day-hero"
+        data-feedback-lead="Участие бесплатное. Оставьте имя и телефон: мы перезвоним и подтвердим участие."
+        
+        
+        data-feedback-success="Участие бесплатное, по предварительной регистрации.">Зарегистрироваться бесплатно</button>
+
+
+        
+      </div>
+      
+    </div>
+
+    <div class="flex justify-center relative">
+      <!-- Gradient circle -->
+      <div class="glow-react absolute flex justify-center z-0 w-full h-full -top-10 pointer-events-none">
+        <svg class="w-full mx-auto scale-[2]" viewBox="0 0 1440 928" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g opacity="0.8">
+            <g filter="url(#event-hero-gradient-purple)">
+              <circle cx="581.227" cy="766.624" r="446.511" transform="rotate(-120 581.227 766.624)" fill="#A02DF9"/>
+            </g>
+            <g filter="url(#event-hero-gradient-blue)">
+              <circle cx="980.553" cy="831.566" r="446.511" transform="rotate(-120 980.553 831.566)" fill="#108CFF"/>
+            </g>
+          </g>
+          <defs>
+            <filter id="event-hero-gradient-purple" x="-165.359" y="20.0373" width="1493.17" height="1493.17" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="150">
+                <animate attributeName="stdDeviation" values="150;80;150" dur="3s" repeatCount="indefinite"/>
+              </feGaussianBlur>
+            </filter>
+            <filter id="event-hero-gradient-blue" x="321.967" y="172.979" width="1317.17" height="1317.17" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="106">
+                <animate attributeName="stdDeviation" values="106;50;106" dur="3.5s" repeatCount="indefinite"/>
+              </feGaussianBlur>
+            </filter>
+          </defs>
+        </svg>
+      </div>
+      <!-- END Gradient circle -->
+
+      
+      <div class="mx-auto mt-2 z-0 w-full max-h-[560px] aspect-[1463/701]">
+        <div class="overflow-hidden w-full h-full relative">
+          <picture>
+            <source srcset="https://picsum.photos/seed/space-school-library/684/446" type="image/webp">
+            <img src="https://picsum.photos/seed/space-school-lab/650/704" class="w-full h-full object-cover" alt="">
+          </picture>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+  <!-- END Hero -->
+
+
+  <main>
+    
+  
+
+  <!-- Для кого -->
+  
+  <section class="bg-white py-16 md:py-24">
+    <div class="max-w-screen-xl mx-auto px-4">
+      <div class="section-label mb-8">
+        <span class="section-label__icon"></span>
+        <span>Для кого</span>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-[1fr_32.5rem]">
+        <div class="flex flex-col gap-6">
+          <div>
+            <h2 class="h1 font-bold">Для родителей, которые выбирают школу</h2>
+            <p class="mt-3 text-base text-black/60">Родители школьников Астаны, которые рассматривают частное образование и международные программы.</p>
+          </div>
+          
+        </div>
+        
+        <div class="flex flex-col gap-3 self-start rounded-3xl bg-slate-50 p-6 md:p-8">
+          <span class="font-display text-sm uppercase tracking-[0.02em] text-brand">Цель</span>
+          <p class="text-lg md:text-xl font-medium text-black">Познакомить родителей с образовательным подходом, академической командой и школьной средой Space School, ответить на вопросы об обучении и поступлении.</p>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  
+  <!-- END Для кого -->
+
+  <!-- Программа -->
+  
+  <section class="relative overflow-hidden bg-black text-white py-16 md:py-24"
+           x-data
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }">
+    <div class="relative z-10 max-w-screen-xl mx-auto px-4">
+      <div class="section-label mb-8 text-white border-white/20">
+        <span class="section-label__icon"></span>
+        <span>Программа</span>
+      </div>
+      <h2 class="h1 font-bold">Программа дня</h2>
+      <p class="mt-3 text-base text-white/60">
+        Сб, 14 ноября · 8 блоков · 11:00–14:00
+      </p>
+      <div class="mt-8 grid gap-x-6 lg:grid-cols-2 program-columns--split">
+        
+        <div>
+          
+          <ol>
+            
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">11:00</span>
+    <span class="program-row__duration">20 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Регистрация и встреча</h3>
+    <p class="program-row__text">Сбор вопросов, знакомство с программой дня</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">11:20</span>
+    <span class="program-row__duration">15 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Открытие Cambridge Day</h3>
+    <p class="program-row__text">Приветственное слово руководства, представление школы</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">11:35</span>
+    <span class="program-row__duration">30 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Международное образование</h3>
+    <p class="program-row__text">Образовательный путь, подходы к преподаванию и оцениванию</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">12:05</span>
+    <span class="program-row__duration">25 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Обучение в Space School</h3>
+    <p class="program-row__text">Академическая команда, поддержка учеников, обратная связь родителям</p>
+  </div>
+</li>
+
+          </ol>
+        </div>
+        
+        <div>
+          
+          <ol>
+            
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">12:30</span>
+    <span class="program-row__duration">30 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Мини-урок для родителей</h3>
+    <p class="program-row__text">Практическое знакомство с методами обучения</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">13:00</span>
+    <span class="program-row__duration">25 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Экскурсия по школе</h3>
+    <p class="program-row__text">Учебные пространства и инфраструктура</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">13:25</span>
+    <span class="program-row__duration">20 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Диалог с академической командой</h3>
+    <p class="program-row__text">Вопросы об адаптации, нагрузке, языке обучения и школьной жизни</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">13:45</span>
+    <span class="program-row__duration">15 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Поступление и дальнейшие шаги</h3>
+    <p class="program-row__text">Порядок поступления, запись на индивидуальные консультации</p>
+  </div>
+</li>
+
+          </ol>
+        </div>
+        
+      </div>
+      
+    </div>
+  </section>
+  
+  <!-- END Программа -->
+
+  <!-- Ведущие -->
+  <section class="py-16 md:py-24 bg-white">
+    <div class="container"
+         x-data="teamSlider"
+         @mousemove.window="dragMove($event)"
+         @mouseup.window="dragEnd()">
+      <div class="col-span-full flex flex-col gap-8 mb-10">
+        <div>
+          <div class="section-label mb-8">
+            <span class="section-label__icon"></span>
+            <span>Ведущие</span>
+          </div>
+          <h2 class="h1 font-bold mb-4">Кто встретит вас на Cambridge Day</h2>
+          <p class="mt-4 text-base leading-tight text-black/80 lg:max-w-xl">Руководство школы, академическая команда и отдел приёма расскажут о Space School и ответят на вопросы родителей.</p>
+        </div>
+      </div>
+
+      <div class="team-slider col-span-full"
+           @mouseenter="hovering = true"
+           @mouseleave="hovering = false">
+        <div class="team-slider__track"
+             x-ref="track"
+             @mousedown.prevent="dragStart($event)">
+          
+          <article class="team-card">
+            <div class="team-card__photo">
+              
+                <picture>
+                  <source srcset="https://picsum.photos/seed/space-school-classroom/684/446" type="image/webp">
+                  <img src="https://picsum.photos/seed/space-school-students/650/704" alt="Бисенгалиев Нурболат">
+                </picture>
+              
+            </div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">Бисенгалиев Нурболат</h3>
+              <p class="team-card__role">CEO at Space School</p>
+              <p class="team-card__meta">Руководитель школ · 15+ лет в международном образовании (Казахстан и Вьетнам)</p>
+            </div>
+          </article>
+          
+          <article class="team-card">
+            <div class="team-card__photo">
+              
+                <picture>
+                  <source srcset="https://picsum.photos/seed/space-school-sport/684/446" type="image/webp">
+                  <img src="https://picsum.photos/seed/space-school-art/650/704" alt="Валеева Марина">
+                </picture>
+              
+            </div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">Валеева Марина</h3>
+              <p class="team-card__role">Руководитель МО математики и информатики</p>
+              <p class="team-card__meta">Магистр педагогики (математика) · 28 лет в образовании · IELTS 6.0</p>
+            </div>
+          </article>
+          
+          <article class="team-card">
+            <div class="team-card__photo">
+              
+                <picture>
+                  <source srcset="https://picsum.photos/seed/space-school-science/684/446" type="image/webp">
+                  <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="Михно Сергей">
+                </picture>
+              
+            </div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">Михно Сергей</h3>
+              <p class="team-card__role">Учитель информатики, робототехники и STEM Educator</p>
+              <p class="team-card__meta">Магистр педагогики (информатика) · 15+ лет · Педагог-мастер · Автор заданий ЕНТ</p>
+            </div>
+          </article>
+          
+          <article class="team-card">
+            <div class="team-card__photo">
+              
+                <picture>
+                  <source srcset="https://picsum.photos/seed/space-school-library/684/446" type="image/webp">
+                  <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="Букенбаев Адильжан">
+                </picture>
+              
+            </div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">Букенбаев Адильжан</h3>
+              <p class="team-card__role">Учитель английского языка Cambridge IGCSE</p>
+              <p class="team-card__meta">Магистр образования · Педагог-исследователь · 15+ лет · Тренер НЦПК «Өрлеу»</p>
+            </div>
+          </article>
+          
+          <article class="team-card">
+            <div class="team-card__photo">
+              
+                <picture>
+                  <source srcset="https://picsum.photos/seed/space-school-classroom/684/446" type="image/webp">
+                  <img src="https://picsum.photos/seed/space-school-students/650/704" alt="Кабдушев Арман">
+                </picture>
+              
+            </div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">Кабдушев Арман</h3>
+              <p class="team-card__role">Заместитель директора по учебной работе</p>
+              <p class="team-card__meta">Магистр технических наук · 15 лет в образовании · Разработчик типовых программ по информатике</p>
+            </div>
+          </article>
+          
+        </div>
+
+        <div class="team-slider__cursor glass"
+             :class="{ 'is-active': hovering, 'is-pressed': dragging }"
+             :style="`transform: translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 8l-4 4 4 4M17 8l4 4-4 4M3 12h18"/>
+          </svg>
+        </div>
+      </div>
+
+      
+      <div class="col-span-full">
+        <div class="team-slider__controls shrink-0 mt-8">
+          <button type="button" class="btn-nav" @click="step(-1)" :disabled="!canPrev" aria-label="Предыдущий">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button type="button" class="btn-nav" @click="step(1)" :disabled="!canNext" aria-label="Следующий">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+  <!-- END Ведущие -->
+
+  <!-- Школа -->
+  
+  <section class="bg-white pb-16 md:pb-24">
+    <div class="max-w-screen-xl mx-auto px-4">
+      <div class="section-label mb-8">
+        <span class="section-label__icon"></span>
+        <span>О Space School</span>
+      </div>
+      <div class="flex flex-col gap-4 lg:flex-row">
+        <div class="w-full">
+          <h2 class="text-2xl md:text-4xl font-bold leading-[1.1] -tracking-wide mb-4">Создаём образовательную<br>среду мирового уровня<br>в Казахстане</h2>
+        </div>
+        <div class="w-full about-body leading-tight">Space School — международная Cambridge-школа с физико-математическим уклоном. Мы реализуем программу Cambridge International от Primary до A-Level и готовим выпускников к поступлению в ведущие университеты мира. <br><br>Астрофизика, робототехника и исследовательские проекты — часть основной программы, а не дополнительные кружки. Здесь дети учатся через науку</div>
+      </div>
+    </div>
+    
+    <div class="pt-8">
+      
+<div class="carousel-infinity">
+  <ul class="carousel-track">
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-sport/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-science/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-library/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-classroom/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-sport/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-science/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-library/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-classroom/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+  </ul>
+  <ul class="carousel-track" aria-hidden="true">
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-sport/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-science/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-library/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-classroom/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-sport/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-science/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-library/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-classroom/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+  </ul>
+</div>
+
+    </div>
+    
+    
+    <div class="max-w-screen-xl mx-auto px-4 mt-8 hidden md:block">
+      <div class="cta-strip">
+        <div>
+          <p class="cta-strip__kicker">Сб, 14 ноября · 11:00–14:00</p>
+          <p class="cta-strip__line">Участие бесплатное, по предварительной регистрации.</p>
+        </div>
+        
+
+<button type="button"
+        class="btn btn-primary"
+        data-feedback-trigger
+        data-feedback-title="Регистрация на Cambridge Day"
+        data-feedback-origin="event-cambridge-day-reg"
+        data-feedback-lead="Участие бесплатное. Оставьте имя и телефон: мы перезвоним и подтвердим участие."
+        
+        
+        data-feedback-success="Участие бесплатное, по предварительной регистрации.">Зарегистрироваться бесплатно</button>
+
+
+      </div>
+    </div>
+    
+  </section>
+  
+  <!-- END Школа -->
+
+  
+    
+
+<section class="feedback-section glow-react-scope"
+         x-data
+         x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }">
+  <div class="container">
+    <div class="col-span-full">
+      <div class="max-w-screen-sm mx-auto text-center z-20 relative">
+        <div>
+          <div class="flex justify-center mb-4">
+            <span class="">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M31.0738 7.33379C30.285 5.97504 28.1988 4.70129 22.8038 6.12004C21.0031 4.87749 18.8969 4.15117 16.7131 4.01972C14.5293 3.88827 12.3511 4.35669 10.4144 5.37428C8.47774 6.39187 6.8563 7.91985 5.72567 9.7928C4.59503 11.6657 3.99827 13.8123 4.00001 16C4.00001 16.3 4.01084 16.5975 4.03251 16.8925C0.0700061 20.8575 0.137507 23.3 0.930007 24.6663C1.67501 25.9513 3.16251 26.5 5.08501 26.5C6.30876 26.5 7.71001 26.2775 9.20376 25.8863C11.0048 27.1271 13.1108 27.8518 15.294 27.9819C17.4772 28.112 19.6544 27.6426 21.5901 26.6245C23.5257 25.6064 25.1461 24.0784 26.2759 22.2057C27.4057 20.3331 28.0019 18.1871 28 16C28 15.6988 27.9888 15.4013 27.9663 15.105C29.755 13.3075 30.9488 11.5788 31.3413 10.105C31.6938 8.80254 31.39 7.87504 31.0738 7.33379ZM16 7.00004C18.0385 7.0028 20.0159 7.69646 21.6094 8.96779C23.2028 10.2391 24.3183 12.0131 24.7738 14C23 15.5913 20.625 17.3238 17.74 18.9825C15.0225 20.5438 12.2963 21.7775 9.85376 22.5638C8.53844 21.3298 7.62418 19.7292 7.22954 17.9694C6.83491 16.2095 6.97809 14.3718 7.64053 12.6943C8.30298 11.0168 9.45412 9.5771 10.9447 8.56176C12.4353 7.54643 14.1965 7.00234 16 7.00004ZM3.52376 23.1613C3.44751 23.0275 3.50251 22.1338 4.85751 20.4475C5.27838 21.4982 5.84611 22.4838 6.54376 23.375C4.39001 23.7013 3.60626 23.3013 3.52376 23.1613ZM16 25C15.0417 25.0002 14.0896 24.8466 13.18 24.545C15.2627 23.6973 17.285 22.7079 19.2325 21.5838C21.1728 20.4773 23.0343 19.2381 24.8038 17.875C24.3717 19.89 23.2623 21.6962 21.6604 22.9926C20.0585 24.2891 18.0608 24.9976 16 25ZM28.4463 9.3313C28.2863 9.9288 27.845 10.69 27.1475 11.5563C26.7266 10.5042 26.1584 9.51731 25.46 8.62504C27.4388 8.32879 28.3563 8.62504 28.4788 8.83879C28.5 8.87504 28.5263 9.03505 28.4463 9.3313Z" fill="white"/>
+              </svg>
+            </span>
+          </div>
+          
+          <h2 class="h1 font-bold">Регистрация<br>на Cambridge Day</h2>
+          
+          
+          <p class="text-base md:text-lg mt-4 leading-tight text-white/70">Участие бесплатное. Оставьте имя и телефон — мы перезвоним и подтвердим участие</p>
+          
+          <div class="mt-8 flex flex-col md:flex-row gap-2 justify-center">
+            
+            
+
+<button type="button"
+        class="btn btn-primary"
+        data-feedback-trigger
+        data-feedback-title="Регистрация на Cambridge Day"
+        data-feedback-origin="event-cambridge-day-reg"
+        data-feedback-lead="Участие бесплатное. Оставьте имя и телефон: мы перезвоним и подтвердим участие."
+        
+        
+        data-feedback-success="Участие бесплатное, по предварительной регистрации.">Зарегистрироваться бесплатно</button>
+
+<button type="button"
+        class="btn btn-default"
+        data-feedback-trigger
+        data-feedback-title="Получить консультацию"
+        data-feedback-origin="event-cambridge-day-consult">Получить консультацию</button>
+
+
+            
+          </div>
+        </div>
+      </div>
+      <div class="planet-container">
+        <!-- Trajectory -->
+        <div class="aspect-square w-[945px] mx-auto absolute top-8 md:top-0 flex justify-center">
+          <div class="absolute top-0 animate-orbit-cw">
+            <svg class="w-[646px] md:w-[946px]" viewBox="0 0 947 946" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="641.5" cy="32.5" r="7.5" fill="white"/>
+              <circle cx="190.5" cy="851.5" r="7.5" fill="white"/>
+              <circle cx="474" cy="473" r="472.126" stroke="white" stroke-opacity="0.2" stroke-width="1.74861"/>
+              <circle cx="7.5" cy="397.5" r="7.5" fill="#309CFF"/>
+            </svg>
+          </div>
+          <div class="absolute top-0 animate-orbit-ccw">
+            <svg class="w-[646px] md:w-[946px]" viewBox="0 0 946 946" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="183.5" cy="199.5" r="9.5" fill="white"/>
+              <circle cx="473" cy="473" r="399.126" stroke="white" stroke-opacity="0.2" stroke-width="1.74861"/>
+              <circle cx="761.5" cy="746.5" r="9.5" transform="rotate(-180 761.5 746.5)" fill="white"/>
+            </svg>
+          </div>
+        </div>
+        <!-- END Trajectory -->
+
+        <!-- Planet -->
+        <div class="aspect-square w-[472px] md:w-[672px] absolute top-[134px] z-10">
+          <div class="rounded-full w-full overflow-hidden aspect-square">
+            <img src="/static/images/sections-images/Planet.jpg" alt="Planet" class="scale-[1.003]">
+          </div>
+        </div>
+        <!-- END Planet -->
+
+        <!-- Gradient -->
+        <div class="absolute top-[-280px] z-0 glow-react">
+          <svg class="w-[1119px]" viewBox="0 0 1819 1561" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#feedback-glow-red)">
+              <path d="M477.998 1055.41V404.196C619.368 734.759 903.904 975.806 1341.17 1073.2L477.998 1055.41Z" fill="#FF4427"/>
+            </g>
+            <g filter="url(#feedback-glow-blue)">
+              <path d="M1374.5 1040.46V404.196C1233.43 1015.48 813.257 952.51 404.5 952.51V1061.2L1374.5 1040.46Z" fill="#2765FF"/>
+            </g>
+            <defs>
+              <filter id="feedback-glow-red" x="73.4978" y="0" width="1671.78" height="1477.7" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="202">
+                  <animate attributeName="stdDeviation" values="202;170;202" dur="4s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+              <filter id="feedback-glow-blue" x="0" y="0.0839844" width="1779" height="1465.62" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="202">
+                  <animate attributeName="stdDeviation" values="202;170;202" dur="5s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+        <!-- END Gradient -->
+      </div>
+    </div>
+  </div>
+</section>
+
+    
+
+<section class="bg-white py-16 md:py-24" data-upcoming>
+  <div class="max-w-screen-xl mx-auto px-4">
+    <div class="section-label mb-8">
+      <span class="section-label__icon"></span>
+      <span>Ближайшие события</span>
+    </div>
+    <div class="grid gap-6 md:grid-cols-2">
+      
+        
+
+
+<article class="program-card program-card--event">
+  <div class="flex flex-wrap items-center gap-2">
+    
+    <span class="program-card__badge bg-gold text-black">Для педагогов · 2 дня</span>
+  </div>
+  <p class="program-card__meta">21–22 ноября · 09:30–17:00</p>
+  <h3 class="program-card__title"><a href="#">Cambridge Programme Leader</a></h3>
+  <div class="program-card__footer">
+    <div>
+      <p class="program-card__footer-value">50 000 ₸</p>
+      <span class="program-card__footer-label">за участника за два дня</span>
+    </div>
+    <a href="#" class="program-card__arrow" data-accent="gold" aria-label="Cambridge Programme Leader">
+      <svg class="w-12 h-12" viewBox="0 0 50 50" fill="none">
+        <rect width="50" height="50" rx="25" fill="currentColor"/>
+        <path d="M18.4694 31.5306C18.539 31.6004 18.6217 31.6557 18.7128 31.6934C18.8038 31.7312 18.9014 31.7506 19 31.7506C19.0986 31.7506 19.1962 31.7312 19.2872 31.6934C19.3783 31.6557 19.461 31.6004 19.5306 31.5306L30.25 20.8103V28.75C30.25 28.9489 30.329 29.1397 30.4697 29.2803C30.6103 29.421 30.8011 29.5 31 29.5C31.1989 29.5 31.3897 29.421 31.5303 29.2803C31.671 29.1397 31.75 28.9489 31.75 28.75V19C31.75 18.8011 31.671 18.6103 31.5303 18.4697C31.3897 18.329 31.1989 18.25 31 18.25H21.25C21.0511 18.25 20.8603 18.329 20.7197 18.4697C20.579 18.6103 20.5 18.8011 20.5 19C20.5 19.1989 20.579 19.3897 20.7197 19.5303C20.8603 19.671 21.0511 19.75 21.25 19.75H29.1897L18.4694 30.4694C18.3996 30.539 18.3443 30.6217 18.3066 30.7128C18.2688 30.8038 18.2494 30.9014 18.2494 31C18.2494 31.0986 18.2688 31.1962 18.3066 31.2872C18.3443 31.3783 18.3996 31.461 18.4694 31.5306Z" fill="#000F21"/>
+      </svg>
+    </a>
+  </div>
+</article>
+
+      
+    </div>
+  </div>
+</section>
+
+  
+
+  
+  <div class="sticky-cta md:hidden is-hidden"
+       x-data="{ shown: false }"
+       x-init="const hero = document.querySelector('[data-event-hero]'); if (hero) new IntersectionObserver(([e]) => { shown = !e.isIntersecting }).observe(hero)"
+       :class="{ 'is-hidden': !shown }">
+    
+
+<button type="button"
+        class="btn btn-primary"
+        data-feedback-trigger
+        data-feedback-title="Регистрация на Cambridge Day"
+        data-feedback-origin="event-cambridge-day-sticky"
+        data-feedback-lead="Участие бесплатное. Оставьте имя и телефон: мы перезвоним и подтвердим участие."
+        
+        
+        data-feedback-success="Участие бесплатное, по предварительной регистрации.">Зарегистрироваться бесплатно</button>
+
+
+    <span class="sticky-cta__info">Сб, 14 ноября · 11:00–14:00 · Space School</span>
+  </div>
+  
+
+  </main>
+<!-- ===== Вариант: /ru/astana/event/cambridge-programme-leader/ ===== -->
+<main>
+    
+  
+
+  <!-- Для кого -->
+  
+  <section class="bg-white py-16 md:py-24">
+    <div class="max-w-screen-xl mx-auto px-4">
+      <div class="section-label mb-8">
+        <span class="section-label__icon"></span>
+        <span>Для кого</span>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-[1fr_32.5rem]">
+        <div class="flex flex-col gap-6">
+          <div>
+            <h2 class="h1 font-bold">Для педагогов и руководителей школ</h2>
+            <p class="mt-3 text-base text-black/60">Педагоги, координаторы международных программ, заместители директоров и директора школ.</p>
+          </div>
+          
+          <ul class="grid gap-3 md:grid-cols-2">
+            
+            <li class="flex flex-col gap-1.5 rounded-[1.25rem] bg-slate-50 p-5">
+              <span class="font-display text-sm uppercase tracking-[0.02em] text-brand">Язык</span>
+              <span class="font-medium leading-tight text-black">Русский, термины Cambridge на английском</span>
+            </li>
+            
+            <li class="flex flex-col gap-1.5 rounded-[1.25rem] bg-slate-50 p-5">
+              <span class="font-display text-sm uppercase tracking-[0.02em] text-brand">Группа</span>
+              <span class="font-medium leading-tight text-black">20–30 человек</span>
+            </li>
+            
+          </ul>
+          
+        </div>
+        
+        <div class="flex flex-col gap-3 self-start rounded-3xl bg-slate-50 p-6 md:p-8">
+          <span class="font-display text-sm uppercase tracking-[0.02em] text-brand">Цель</span>
+          <p class="text-lg md:text-xl font-medium text-black">Помочь участникам выстроить координацию Cambridge-программы: от учебного планирования и поддержки педагогов до анализа результатов и управления изменениями.</p>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  
+  <!-- END Для кого -->
+
+  <!-- Программа -->
+  
+  <section class="relative overflow-hidden bg-black text-white py-16 md:py-24"
+           x-data
+           x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }">
+    <div class="relative z-10 max-w-screen-xl mx-auto px-4">
+      <div class="section-label mb-8 text-white border-white/20">
+        <span class="section-label__icon"></span>
+        <span>Программа</span>
+      </div>
+      <h2 class="h1 font-bold">Программа семинара</h2>
+      <p class="mt-3 text-base text-white/60">
+        21–22 ноября · 2 дня · 09:30–17:00
+      </p>
+      <div class="mt-8 grid gap-x-6 lg:grid-cols-2 gap-y-8">
+        
+        <div>
+          
+          <span class="mb-4 inline-flex rounded-[3rem] bg-gold px-4 py-2.5 text-sm font-medium leading-tight text-black">День 1 · 21 ноября</span>
+          
+          <ol>
+            
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">09:00</span>
+    <span class="program-row__duration">30 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Регистрация, приветственный кофе</h3>
+    <p class="program-row__text">Встреча и знакомство</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">09:30</span>
+    <span class="program-row__duration">20 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Открытие и самодиагностика школы</h3>
+    <p class="program-row__text">Ожидания участников, вводная сессия, анкета</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">09:50</span>
+    <span class="program-row__duration">80 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Модуль 1. Роль координатора</h3>
+    <p class="program-row__text">Зоны ответственности, распределение функций, годовой цикл. Практикум «Карта ролей школы»</p>
+  </div>
+</li>
+
+
+<li class="program-row program-row--break">
+  <div class="program-row__time">
+    <span class="program-row__start">11:10</span>
+    <span class="program-row__duration">15 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card">
+    <h3 class="program-row__title">Кофе-брейк</h3>
+    
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">11:25</span>
+    <span class="program-row__duration">95 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Модуль 2. Учебные программы</h3>
+    <p class="program-row__text">Связь ступеней Primary, Lower Secondary, IGCSE и AS &amp; A Level. Практикумы «Линия прогрессии» и «Учебный план школы»</p>
+  </div>
+</li>
+
+
+<li class="program-row program-row--break">
+  <div class="program-row__time">
+    <span class="program-row__start">13:00</span>
+    <span class="program-row__duration">60 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card">
+    <h3 class="program-row__title">Обеденный перерыв</h3>
+    
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">14:00</span>
+    <span class="program-row__duration">90 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Модуль 3. Преподавание и обучение</h3>
+    <p class="program-row__text">Активное обучение, оценивание в процессе урока. Разбор видеофрагмента по чек-листу</p>
+  </div>
+</li>
+
+
+<li class="program-row program-row--break">
+  <div class="program-row__time">
+    <span class="program-row__start">15:30</span>
+    <span class="program-row__duration">15 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card">
+    <h3 class="program-row__title">Кофе-брейк</h3>
+    
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">15:45</span>
+    <span class="program-row__duration">60 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Модуль 3 — продолжение</h3>
+    <p class="program-row__text">Конструктивная обратная связь учителю. Ролевая практика</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">16:45</span>
+    <span class="program-row__duration">15 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Итоги первого дня</h3>
+    <p class="program-row__text">Рефлексия и вопросы</p>
+  </div>
+</li>
+
+          </ol>
+        </div>
+        
+        <div>
+          
+          <span class="mb-4 inline-flex rounded-[3rem] bg-gold px-4 py-2.5 text-sm font-medium leading-tight text-black">День 2 · 22 ноября</span>
+          
+          <ol>
+            
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">09:30</span>
+    <span class="program-row__duration">10 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Начало второго дня</h3>
+    <p class="program-row__text">Вопросы по первому дню, план работы</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">09:40</span>
+    <span class="program-row__duration">90 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Модуль 4. Оценивание и данные</h3>
+    <p class="program-row__text">Внутреннее оценивание, пробные экзамены, анализ результатов и прогнозирование оценок. Практикум «Решения по данным»</p>
+  </div>
+</li>
+
+
+<li class="program-row program-row--break">
+  <div class="program-row__time">
+    <span class="program-row__start">11:10</span>
+    <span class="program-row__duration">15 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card">
+    <h3 class="program-row__title">Кофе-брейк</h3>
+    
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">11:25</span>
+    <span class="program-row__duration">95 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Модуль 5. Лидерство и изменения</h3>
+    <p class="program-row__text">Развитие команды, вовлечение учителей, коммуникация с родителями. Кейс «Внедрение изменений»</p>
+  </div>
+</li>
+
+
+<li class="program-row program-row--break">
+  <div class="program-row__time">
+    <span class="program-row__start">13:00</span>
+    <span class="program-row__duration">60 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card">
+    <h3 class="program-row__title">Обеденный перерыв</h3>
+    
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">14:00</span>
+    <span class="program-row__duration">90 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Модуль 5 — продолжение</h3>
+    <p class="program-row__text">План развития программы на год: приоритеты, действия, ответственные, сроки, показатели</p>
+  </div>
+</li>
+
+
+<li class="program-row program-row--break">
+  <div class="program-row__time">
+    <span class="program-row__start">15:30</span>
+    <span class="program-row__duration">15 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card">
+    <h3 class="program-row__title">Кофе-брейк</h3>
+    
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">15:45</span>
+    <span class="program-row__duration">45 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Презентации планов</h3>
+    <p class="program-row__text">Выступления групп и обратная связь</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">16:30</span>
+    <span class="program-row__duration">20 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Рефлексия</h3>
+    <p class="program-row__text">План действий на первые 30 дней, анкета обратной связи</p>
+  </div>
+</li>
+
+
+<li class="program-row">
+  <div class="program-row__time">
+    <span class="program-row__start">16:50</span>
+    <span class="program-row__duration">10 мин</span>
+  </div>
+  <span class="program-row__dot" aria-hidden="true"></span>
+  <div class="program-row__card glass-secondary">
+    <h3 class="program-row__title">Завершение</h3>
+    <p class="program-row__text">Вручение сертификатов участника</p>
+  </div>
+</li>
+
+          </ol>
+        </div>
+        
+      </div>
+      
+      <div class="glass-secondary mt-8 flex flex-col gap-2 rounded-[1.25rem] p-6">
+        <span class="font-display text-sm uppercase tracking-[0.02em] text-gold">Материалы участника</span>
+        <ul>
+          
+          <li class="flex items-start gap-3 py-1.5">
+            <svg class="mt-0.5 h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.37 10.43L8.87 14.93L18.37 5.43" stroke="#FCB514" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.37 -1.18)"/></svg>
+            <span>Рабочая тетрадь</span>
+          </li>
+          
+          <li class="flex items-start gap-3 py-1.5">
+            <svg class="mt-0.5 h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.37 10.43L8.87 14.93L18.37 5.43" stroke="#FCB514" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.37 -1.18)"/></svg>
+            <span>Карта ролей координатора</span>
+          </li>
+          
+          <li class="flex items-start gap-3 py-1.5">
+            <svg class="mt-0.5 h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.37 10.43L8.87 14.93L18.37 5.43" stroke="#FCB514" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.37 -1.18)"/></svg>
+            <span>Схема ступеней Cambridge</span>
+          </li>
+          
+          <li class="flex items-start gap-3 py-1.5">
+            <svg class="mt-0.5 h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.37 10.43L8.87 14.93L18.37 5.43" stroke="#FCB514" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.37 -1.18)"/></svg>
+            <span>Чек-лист наблюдения урока</span>
+          </li>
+          
+          <li class="flex items-start gap-3 py-1.5">
+            <svg class="mt-0.5 h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.37 10.43L8.87 14.93L18.37 5.43" stroke="#FCB514" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.37 -1.18)"/></svg>
+            <span>Шаблон обратной связи учителю</span>
+          </li>
+          
+          <li class="flex items-start gap-3 py-1.5">
+            <svg class="mt-0.5 h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.37 10.43L8.87 14.93L18.37 5.43" stroke="#FCB514" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.37 -1.18)"/></svg>
+            <span>Таблица отслеживания прогресса</span>
+          </li>
+          
+          <li class="flex items-start gap-3 py-1.5">
+            <svg class="mt-0.5 h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.37 10.43L8.87 14.93L18.37 5.43" stroke="#FCB514" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.37 -1.18)"/></svg>
+            <span>Шаблон годового плана</span>
+          </li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </section>
+  
+  <!-- END Программа -->
+
+  <!-- Ведущие -->
+  <section class="py-16 md:py-24 bg-white">
+    <div class="container"
+         x-data="teamSlider"
+         @mousemove.window="dragMove($event)"
+         @mouseup.window="dragEnd()">
+      <div class="col-span-full flex flex-col gap-8 mb-10">
+        <div>
+          <div class="section-label mb-8">
+            <span class="section-label__icon"></span>
+            <span>Ведущие</span>
+          </div>
+          <h2 class="h1 font-bold mb-4">Кто проведёт семинар</h2>
+          <p class="mt-4 text-base leading-tight text-black/80 lg:max-w-xl">Ведущего объявим ближе к дате семинара.</p>
+        </div>
+      </div>
+
+      <div class="team-slider col-span-full"
+           @mouseenter="hovering = true"
+           @mouseleave="hovering = false">
+        <div class="team-slider__track"
+             x-ref="track"
+             @mousedown.prevent="dragStart($event)">
+          
+          <article class="team-card">
+            <div class="team-card__photo">
+<div class="cover-placeholder" role="img" aria-label="Нет фото">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0"/>
+    <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+  </svg>
+  <span>Нет фото</span>
+</div>
+</div>
+            <div class="team-card__body">
+              <h3 class="team-card__name">Ведущий будет объявлен</h3>
+              <p class="team-card__meta">Имя и регалии объявим ближе к событию</p>
+            </div>
+          </article>
+          
+        </div>
+
+        <div class="team-slider__cursor glass"
+             :class="{ 'is-active': hovering, 'is-pressed': dragging }"
+             :style="`transform: translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 8l-4 4 4 4M17 8l4 4-4 4M3 12h18"/>
+          </svg>
+        </div>
+      </div>
+
+      
+    </div>
+  </section>
+  <!-- END Ведущие -->
+
+  <!-- Школа -->
+  
+  <section class="bg-white pb-16 md:pb-24">
+    <div class="max-w-screen-xl mx-auto px-4">
+      <div class="section-label mb-8">
+        <span class="section-label__icon"></span>
+        <span>О Space School</span>
+      </div>
+      <div class="flex flex-col gap-4 lg:flex-row">
+        <div class="w-full">
+          <h2 class="text-2xl md:text-4xl font-bold leading-[1.1] -tracking-wide mb-4">Создаём образовательную<br>среду мирового уровня<br>в Казахстане</h2>
+        </div>
+        <div class="w-full about-body leading-tight">Space School — международная Cambridge-школа с физико-математическим уклоном. Мы реализуем программу Cambridge International от Primary до A-Level и готовим выпускников к поступлению в ведущие университеты мира. <br><br>Астрофизика, робототехника и исследовательские проекты — часть основной программы, а не дополнительные кружки. Здесь дети учатся через науку</div>
+      </div>
+    </div>
+    
+    <div class="pt-8">
+      
+<div class="carousel-infinity">
+  <ul class="carousel-track">
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-sport/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-science/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-library/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-classroom/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-sport/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-science/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-library/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-classroom/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+  </ul>
+  <ul class="carousel-track" aria-hidden="true">
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-sport/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-science/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-library/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-classroom/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-sport/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-art/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-tall">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-science/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-graduation/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-library/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-lab/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+    <li class="carousel-item carousel-item-wide">
+      <picture>
+        <source srcset="https://picsum.photos/seed/space-school-classroom/684/446" type="image/webp">
+        <img src="https://picsum.photos/seed/space-school-students/650/704" alt="" loading="lazy">
+      </picture>
+    </li>
+    
+  </ul>
+</div>
+
+    </div>
+    
+    
+    <div class="max-w-screen-xl mx-auto px-4 mt-8 hidden md:block">
+      <div class="cta-strip">
+        <div>
+          <p class="cta-strip__kicker">21–22 ноября · 09:30–17:00</p>
+          <p class="cta-strip__line">50 000 ₸ за участника за два дня</p>
+        </div>
+        
+
+<button type="button"
+        class="btn btn-primary"
+        data-feedback-trigger
+        data-feedback-title="Регистрация на семинар"
+        data-feedback-origin="event-cambridge-programme-leader-reg"
+        data-feedback-lead="Оставьте имя и телефон: мы перезвоним, подтвердим участие и расскажем об оплате."
+        data-feedback-price="50 000 ₸ · оплата после подтверждения"
+        
+        data-feedback-success="Оплата после подтверждения участия.">Зарегистрироваться · 50 000 ₸</button>
+
+
+      </div>
+    </div>
+    
+  </section>
+  
+  <!-- END Школа -->
+
+  
+    
+
+<section class="feedback-section glow-react-scope"
+         x-data
+         x-starfield="{ density: 'low', twinkle: 'high', shooting: 'medium' }">
+  <div class="container">
+    <div class="col-span-full">
+      <div class="max-w-screen-sm mx-auto text-center z-20 relative">
+        <div>
+          <div class="flex justify-center mb-4">
+            <span class="">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M31.0738 7.33379C30.285 5.97504 28.1988 4.70129 22.8038 6.12004C21.0031 4.87749 18.8969 4.15117 16.7131 4.01972C14.5293 3.88827 12.3511 4.35669 10.4144 5.37428C8.47774 6.39187 6.8563 7.91985 5.72567 9.7928C4.59503 11.6657 3.99827 13.8123 4.00001 16C4.00001 16.3 4.01084 16.5975 4.03251 16.8925C0.0700061 20.8575 0.137507 23.3 0.930007 24.6663C1.67501 25.9513 3.16251 26.5 5.08501 26.5C6.30876 26.5 7.71001 26.2775 9.20376 25.8863C11.0048 27.1271 13.1108 27.8518 15.294 27.9819C17.4772 28.112 19.6544 27.6426 21.5901 26.6245C23.5257 25.6064 25.1461 24.0784 26.2759 22.2057C27.4057 20.3331 28.0019 18.1871 28 16C28 15.6988 27.9888 15.4013 27.9663 15.105C29.755 13.3075 30.9488 11.5788 31.3413 10.105C31.6938 8.80254 31.39 7.87504 31.0738 7.33379ZM16 7.00004C18.0385 7.0028 20.0159 7.69646 21.6094 8.96779C23.2028 10.2391 24.3183 12.0131 24.7738 14C23 15.5913 20.625 17.3238 17.74 18.9825C15.0225 20.5438 12.2963 21.7775 9.85376 22.5638C8.53844 21.3298 7.62418 19.7292 7.22954 17.9694C6.83491 16.2095 6.97809 14.3718 7.64053 12.6943C8.30298 11.0168 9.45412 9.5771 10.9447 8.56176C12.4353 7.54643 14.1965 7.00234 16 7.00004ZM3.52376 23.1613C3.44751 23.0275 3.50251 22.1338 4.85751 20.4475C5.27838 21.4982 5.84611 22.4838 6.54376 23.375C4.39001 23.7013 3.60626 23.3013 3.52376 23.1613ZM16 25C15.0417 25.0002 14.0896 24.8466 13.18 24.545C15.2627 23.6973 17.285 22.7079 19.2325 21.5838C21.1728 20.4773 23.0343 19.2381 24.8038 17.875C24.3717 19.89 23.2623 21.6962 21.6604 22.9926C20.0585 24.2891 18.0608 24.9976 16 25ZM28.4463 9.3313C28.2863 9.9288 27.845 10.69 27.1475 11.5563C26.7266 10.5042 26.1584 9.51731 25.46 8.62504C27.4388 8.32879 28.3563 8.62504 28.4788 8.83879C28.5 8.87504 28.5263 9.03505 28.4463 9.3313Z" fill="white"/>
+              </svg>
+            </span>
+          </div>
+          
+          <h2 class="h1 font-bold">Регистрация на семинар<br>Cambridge Programme Leader</h2>
+          
+          
+          <p class="text-base md:text-lg mt-4 leading-tight text-white/70">50 000 ₸ за участника за два дня. Оставьте имя и телефон — мы перезвоним, подтвердим участие и расскажем об оплате</p>
+          
+          <div class="mt-8 flex flex-col md:flex-row gap-2 justify-center">
+            
+            
+
+<button type="button"
+        class="btn btn-primary"
+        data-feedback-trigger
+        data-feedback-title="Регистрация на семинар"
+        data-feedback-origin="event-cambridge-programme-leader-reg"
+        data-feedback-lead="Оставьте имя и телефон: мы перезвоним, подтвердим участие и расскажем об оплате."
+        data-feedback-price="50 000 ₸ · оплата после подтверждения"
+        
+        data-feedback-success="Оплата после подтверждения участия.">Зарегистрироваться · 50 000 ₸</button>
+
+<button type="button"
+        class="btn btn-default"
+        data-feedback-trigger
+        data-feedback-title="Получить консультацию"
+        data-feedback-origin="event-cambridge-programme-leader-consult">Получить консультацию</button>
+
+
+            
+          </div>
+        </div>
+      </div>
+      <div class="planet-container">
+        <!-- Trajectory -->
+        <div class="aspect-square w-[945px] mx-auto absolute top-8 md:top-0 flex justify-center">
+          <div class="absolute top-0 animate-orbit-cw">
+            <svg class="w-[646px] md:w-[946px]" viewBox="0 0 947 946" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="641.5" cy="32.5" r="7.5" fill="white"/>
+              <circle cx="190.5" cy="851.5" r="7.5" fill="white"/>
+              <circle cx="474" cy="473" r="472.126" stroke="white" stroke-opacity="0.2" stroke-width="1.74861"/>
+              <circle cx="7.5" cy="397.5" r="7.5" fill="#309CFF"/>
+            </svg>
+          </div>
+          <div class="absolute top-0 animate-orbit-ccw">
+            <svg class="w-[646px] md:w-[946px]" viewBox="0 0 946 946" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="183.5" cy="199.5" r="9.5" fill="white"/>
+              <circle cx="473" cy="473" r="399.126" stroke="white" stroke-opacity="0.2" stroke-width="1.74861"/>
+              <circle cx="761.5" cy="746.5" r="9.5" transform="rotate(-180 761.5 746.5)" fill="white"/>
+            </svg>
+          </div>
+        </div>
+        <!-- END Trajectory -->
+
+        <!-- Planet -->
+        <div class="aspect-square w-[472px] md:w-[672px] absolute top-[134px] z-10">
+          <div class="rounded-full w-full overflow-hidden aspect-square">
+            <img src="/static/images/sections-images/Planet.jpg" alt="Planet" class="scale-[1.003]">
+          </div>
+        </div>
+        <!-- END Planet -->
+
+        <!-- Gradient -->
+        <div class="absolute top-[-280px] z-0 glow-react">
+          <svg class="w-[1119px]" viewBox="0 0 1819 1561" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#feedback-glow-red)">
+              <path d="M477.998 1055.41V404.196C619.368 734.759 903.904 975.806 1341.17 1073.2L477.998 1055.41Z" fill="#FF4427"/>
+            </g>
+            <g filter="url(#feedback-glow-blue)">
+              <path d="M1374.5 1040.46V404.196C1233.43 1015.48 813.257 952.51 404.5 952.51V1061.2L1374.5 1040.46Z" fill="#2765FF"/>
+            </g>
+            <defs>
+              <filter id="feedback-glow-red" x="73.4978" y="0" width="1671.78" height="1477.7" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="202">
+                  <animate attributeName="stdDeviation" values="202;170;202" dur="4s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+              <filter id="feedback-glow-blue" x="0" y="0.0839844" width="1779" height="1465.62" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="202">
+                  <animate attributeName="stdDeviation" values="202;170;202" dur="5s" repeatCount="indefinite"/>
+                </feGaussianBlur>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+        <!-- END Gradient -->
+      </div>
+    </div>
+  </div>
+</section>
+
+    
+
+<section class="bg-white py-16 md:py-24" data-upcoming>
+  <div class="max-w-screen-xl mx-auto px-4">
+    <div class="section-label mb-8">
+      <span class="section-label__icon"></span>
+      <span>Ближайшие события</span>
+    </div>
+    <div class="grid gap-6 md:grid-cols-2">
+      
+        
+
+
+<article class="program-card program-card--event">
+  <div class="flex flex-wrap items-center gap-2">
+    
+    <span class="program-card__badge bg-gold text-black">Для родителей</span>
+  </div>
+  <p class="program-card__meta">14 ноября · 11:00–14:00</p>
+  <h3 class="program-card__title"><a href="#">Cambridge Day</a></h3>
+  <div class="program-card__footer">
+    <div>
+      <p class="program-card__footer-value">Бесплатно</p>
+      <span class="program-card__footer-label">по предварительной регистрации</span>
+    </div>
+    <a href="#" class="program-card__arrow" data-accent="gold" aria-label="Cambridge Day">
+      <svg class="w-12 h-12" viewBox="0 0 50 50" fill="none">
+        <rect width="50" height="50" rx="25" fill="currentColor"/>
+        <path d="M18.4694 31.5306C18.539 31.6004 18.6217 31.6557 18.7128 31.6934C18.8038 31.7312 18.9014 31.7506 19 31.7506C19.0986 31.7506 19.1962 31.7312 19.2872 31.6934C19.3783 31.6557 19.461 31.6004 19.5306 31.5306L30.25 20.8103V28.75C30.25 28.9489 30.329 29.1397 30.4697 29.2803C30.6103 29.421 30.8011 29.5 31 29.5C31.1989 29.5 31.3897 29.421 31.5303 29.2803C31.671 29.1397 31.75 28.9489 31.75 28.75V19C31.75 18.8011 31.671 18.6103 31.5303 18.4697C31.3897 18.329 31.1989 18.25 31 18.25H21.25C21.0511 18.25 20.8603 18.329 20.7197 18.4697C20.579 18.6103 20.5 18.8011 20.5 19C20.5 19.1989 20.579 19.3897 20.7197 19.5303C20.8603 19.671 21.0511 19.75 21.25 19.75H29.1897L18.4694 30.4694C18.3996 30.539 18.3443 30.6217 18.3066 30.7128C18.2688 30.8038 18.2494 30.9014 18.2494 31C18.2494 31.0986 18.2688 31.1962 18.3066 31.2872C18.3443 31.3783 18.3996 31.461 18.4694 31.5306Z" fill="#000F21"/>
+      </svg>
+    </a>
+  </div>
+</article>
+
+      
+    </div>
+  </div>
+</section>
+
+  
+
+  
+  <div class="sticky-cta md:hidden is-hidden"
+       x-data="{ shown: false }"
+       x-init="const hero = document.querySelector('[data-event-hero]'); if (hero) new IntersectionObserver(([e]) => { shown = !e.isIntersecting }).observe(hero)"
+       :class="{ 'is-hidden': !shown }">
+    
+
+<button type="button"
+        class="btn btn-primary"
+        data-feedback-trigger
+        data-feedback-title="Регистрация на семинар"
+        data-feedback-origin="event-cambridge-programme-leader-sticky"
+        data-feedback-lead="Оставьте имя и телефон: мы перезвоним, подтвердим участие и расскажем об оплате."
+        data-feedback-price="50 000 ₸ · оплата после подтверждения"
+        
+        data-feedback-success="Оплата после подтверждения участия.">Зарегистрироваться · 50 000 ₸</button>
+
+
+    <span class="sticky-cta__info">21–22 ноября · 09:30–17:00 · Space School</span>
+  </div>
+  
+
+  </main>
+
+
+  
+
+<footer class="footer mt-auto"
+        x-data="{ visible: false }"
+        x-starfield="{ density: 'low', twinkle: 'high', shooting: 'low' }"
+        x-init="const self = $data; new IntersectionObserver(([e]) => { self.visible = e.isIntersecting }, { threshold: 0.4 }).observe($el)">
+  <div class="relative z-10 px-4">
+    <div class="max-w-screen-sm mx-auto">
+      <a href="#">
+        <svg class="text-white w-[10rem] mx-auto" viewBox="0 0 116 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M93.6911 32.8179V25.0964H91.1719V32.8179C91.1719 33.1143 91.2091 33.4016 91.2775 33.6759C91.5817 34.8821 92.5107 35.8313 93.6911 36.1421C93.9596 36.212 94.2407 36.25 94.5308 36.25H104.607V33.6759H94.5308C94.0674 33.6759 93.6911 33.2914 93.6911 32.8179Z" fill="currentColor"/>
+          <path d="M54.2283 29.3859H45.8317V25.0958H43.3125V36.2494H45.8317V31.96H54.2283V36.2494H56.7475V25.0958H54.2283V29.3859Z" fill="currentColor"/>
+          <path d="M38.2478 25.204C37.9793 25.1341 37.6982 25.0961 37.4081 25.0961H30.691C30.4009 25.0961 30.1197 25.1341 29.8512 25.204C28.6708 25.5149 27.7419 26.4641 27.4376 27.6702C27.3692 27.9438 27.332 28.2319 27.332 28.5283V32.8177C27.332 33.1141 27.3692 33.4013 27.4376 33.6757C27.7419 34.8818 28.6708 35.831 29.8512 36.1419C30.1197 36.2118 30.4009 36.2498 30.691 36.2498H37.4081C37.6982 36.2498 37.9793 36.2118 38.2478 36.1419C39.4282 35.831 40.3572 34.8818 40.6614 33.6757C40.7299 33.4013 40.767 33.1141 40.767 32.8177V31.9596H38.2478V32.8177C38.2478 33.2911 37.8715 33.6757 37.4081 33.6757H30.691C30.2276 33.6757 29.8512 33.2911 29.8512 32.8177V28.5283C29.8512 28.0548 30.2276 27.6702 30.691 27.6702H37.4081C37.8715 27.6702 38.2478 28.0548 38.2478 28.5283V29.3863H40.767V28.5283C40.767 28.2319 40.7299 27.9438 40.6614 27.6702C40.3572 26.4641 39.4282 25.5149 38.2478 25.204Z" fill="currentColor"/>
+          <path d="M14.7515 27.67H22.3084L24.8276 25.0959H14.7515C12.8965 25.0959 11.3926 26.6327 11.3926 28.5281C11.3926 30.4235 12.8965 31.9602 14.7515 31.9602H21.4686C21.9328 31.9602 22.3084 32.344 22.3084 32.8175C22.3084 33.2917 21.9328 33.6755 21.4686 33.6755H13.9118L11.3926 36.2496H21.4686C23.3237 36.2496 24.8276 34.7129 24.8276 32.8175C24.8276 30.9228 23.3237 29.3861 21.4686 29.3861H14.7515C14.2881 29.3861 13.9118 29.0023 13.9118 28.5281C13.9118 28.0546 14.2881 27.67 14.7515 27.67Z" fill="currentColor"/>
+          <path d="M70.1814 25.204C69.9129 25.1341 69.6318 25.0961 69.3417 25.0961H62.6246C62.3345 25.0961 62.0533 25.1341 61.7848 25.204C60.6044 25.5149 59.6755 26.4641 59.3712 27.6702C59.3028 27.9438 59.2656 28.2319 59.2656 28.5283V32.8177C59.2656 33.1141 59.3028 33.4013 59.3712 33.6757C59.6755 34.8818 60.6044 35.831 61.7848 36.1419C62.0533 36.2118 62.3345 36.2498 62.6246 36.2498H69.3417C69.6318 36.2498 69.9129 36.2118 70.1814 36.1419C71.3618 35.831 72.2908 34.8818 72.595 33.6757C72.6634 33.4013 72.7006 33.1141 72.7006 32.8177V28.5283C72.7006 28.2319 72.6634 27.9438 72.595 27.6702C72.2908 26.4641 71.3618 25.5149 70.1814 25.204ZM70.1814 32.8177C70.1814 33.2911 69.8051 33.6757 69.3417 33.6757H62.6246C62.1612 33.6757 61.7848 33.2911 61.7848 32.8177V28.5283C61.7848 28.0548 62.1612 27.6702 62.6246 27.6702H69.3417C69.8051 27.6702 70.1814 28.0548 70.1814 28.5283V32.8177Z" fill="currentColor"/>
+          <path d="M86.1346 25.204C85.866 25.1341 85.5849 25.0961 85.2948 25.0961H78.5777C78.2876 25.0961 78.0065 25.1341 77.738 25.204C76.5576 25.5149 75.6286 26.4641 75.3244 27.6702C75.2559 27.9438 75.2188 28.2319 75.2188 28.5283V32.8177C75.2188 33.1141 75.2559 33.4013 75.3244 33.6757C75.6286 34.8818 76.5576 35.831 77.738 36.1419C78.0065 36.2118 78.2876 36.2498 78.5777 36.2498H85.2948C85.5849 36.2498 85.866 36.2118 86.1346 36.1419C87.3149 35.831 88.2439 34.8818 88.5481 33.6757C88.6166 33.4013 88.6538 33.1141 88.6538 32.8177V28.5283C88.6538 28.2319 88.6166 27.9438 88.5481 27.6702C88.2439 26.4641 87.3149 25.5149 86.1346 25.204ZM86.1346 32.8177C86.1346 33.2911 85.7582 33.6757 85.2948 33.6757H78.5777C78.1143 33.6757 77.738 33.2911 77.738 32.8177V28.5283C77.738 28.0548 78.1143 27.6702 78.5777 27.6702H85.2948C85.7582 27.6702 86.1346 28.0548 86.1346 28.5283V32.8177Z" fill="currentColor"/>
+          <path d="M85.9807 0.175559C85.5449 0.0615601 85.0875 0 84.6159 0H73.7001C73.2293 0 72.7718 0.0615601 72.336 0.175559C70.4178 0.680954 68.9086 2.22298 68.414 4.183C68.3024 4.62836 68.2422 5.09575 68.2422 5.57683V12.5482C68.2422 13.0293 68.3024 13.4967 68.414 13.9428C68.9086 15.9021 70.4178 17.4449 72.336 17.9495C72.7718 18.0635 73.2293 18.1251 73.7001 18.1251H84.6159C85.0875 18.1251 85.5449 18.0635 85.9807 17.9495C87.899 17.4449 89.4081 15.9021 89.9027 13.9428C90.0143 13.4967 90.0738 13.0293 90.0738 12.5482V11.1537H85.9807V12.5482C85.9807 13.3181 85.3694 13.9428 84.6159 13.9428H73.7001C72.9474 13.9428 72.336 13.3181 72.336 12.5482V5.57683C72.336 4.80771 72.9474 4.183 73.7001 4.183H84.6159C85.3694 4.183 85.9807 4.80771 85.9807 5.57683V6.97142H90.0738V5.57683C90.0738 5.09575 90.0143 4.62836 89.9027 4.183C89.4081 2.22298 87.899 0.680954 85.9807 0.175559Z" fill="currentColor"/>
+          <path d="M99.6259 13.9426C98.8724 13.9426 98.2618 13.3178 98.2618 12.5487V11.1541H111.906V6.97114H94.168V12.5487C94.168 13.0298 94.2282 13.4972 94.3398 13.9426C94.946 16.3479 97.0821 18.1248 99.6259 18.1248H116L111.906 13.9426H99.6259Z" fill="currentColor"/>
+          <path d="M116 0.000370502H94.1684V4.18337H111.906L116 0.000370502Z" fill="currentColor"/>
+          <path d="M16.3737 13.9425H4.09306L0 18.1248H16.3737C19.3883 18.1248 21.8316 15.6282 21.8316 12.5487C21.8316 9.46846 19.3883 6.97112 16.3737 6.97112H5.4579C4.70445 6.97112 4.09306 6.34793 4.09306 5.57729C4.09306 4.80742 4.70445 4.18271 5.4579 4.18271H17.7378L21.8316 0.000465393H5.4579C2.44334 0.000465393 0 2.49704 0 5.57729C0 8.65755 2.44334 11.1541 5.4579 11.1541H16.3737C17.1279 11.1541 17.7378 11.7788 17.7378 12.5487C17.7378 13.3186 17.1279 13.9425 16.3737 13.9425Z" fill="currentColor"/>
+          <path d="M47.7769 5.5772C47.7769 2.49695 45.3336 0.000374794 42.319 0.000374794H25.9453V4.18338H42.319C43.0725 4.18338 43.6831 4.80733 43.6831 5.5772C43.6831 6.34784 43.0725 6.97103 42.319 6.97103H25.9453V18.1247H30.0384V11.154H42.319C45.3336 11.154 47.7769 8.65746 47.7769 5.5772Z" fill="currentColor"/>
+          <path d="M56.6448 21.8242C57.5054 20.7678 58.1346 19.5078 58.4537 18.1253H54.8359C55.155 19.5078 55.7843 20.7678 56.6448 21.8242Z" fill="currentColor"/>
+          <path d="M61.4206 16.7309V18.1247H68.2433L58.4001 1.0142C58.0423 0.406965 57.3893 0.000368595 56.6447 0.000368595C55.9002 0.000368595 55.2486 0.406965 54.8909 1.0142L45.0469 18.1247H51.8696V16.7309L54.5978 13.9424L54.5986 12.7607C54.5986 10.5597 55.3662 8.54193 56.6447 6.97102C57.924 8.54193 58.6916 10.5597 58.6916 12.7607V13.9424L61.4206 16.7309Z" fill="currentColor"/>
+        </svg>
+      </a>
+      
+      <p class="mt-8 text-center leading-tight font-medium text-white/70 text-sm">
+        Space School — международная Cambridge-школа в Астане: программы Cambridge Primary, IGCSE и A-Level, двойной аттестат (казахстанский ГОСО + Cambridge A-Level) и поступление в ведущие университеты 160+ стран
+      </p>
+      
+      <ul class="mt-12 flex items-center justify-center gap-6">
+        
+        <li>
+          <a href="https://www.instagram.com/spaceschool.kz/" class="btn btn-social" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.99855 2.48926C7.95963 2.48926 7.7044 2.49806 6.9035 2.53326C6.10553 2.56847 5.55693 2.69755 5.08167 2.88237C4.58588 3.076 4.16636 3.33123 3.74977 3.75075C3.33025 4.16733 3.07502 4.58685 2.8814 5.07971C2.69657 5.55791 2.56749 6.10358 2.53229 6.90154C2.49708 7.70538 2.48828 7.96061 2.48828 9.99953C2.48828 12.0385 2.49708 12.2937 2.53229 13.0946C2.56749 13.8925 2.69657 14.4412 2.8814 14.9164C3.07502 15.4122 3.33025 15.8317 3.74977 16.2483C4.16636 16.6649 4.58588 16.9231 5.07874 17.1138C5.55693 17.2986 6.1026 17.4277 6.90057 17.4629C7.70147 17.4981 7.9567 17.5069 9.99562 17.5069C12.0345 17.5069 12.2898 17.4981 13.0907 17.4629C13.8886 17.4277 14.4372 17.2986 14.9125 17.1138C15.4054 16.9231 15.8249 16.6649 16.2415 16.2483C16.6581 15.8317 16.9162 15.4122 17.1069 14.9193C17.2917 14.4412 17.4208 13.8955 17.456 13.0975C17.4912 12.2966 17.5 12.0414 17.5 10.0025C17.5 7.96354 17.4912 7.70831 17.456 6.90741C17.4208 6.10944 17.2917 5.56084 17.1069 5.08558C16.9221 4.58685 16.6669 4.16733 16.2473 3.75075C15.8307 3.33416 15.4112 3.076 14.9184 2.88531C14.4402 2.70048 13.8945 2.5714 13.0965 2.5362C12.2927 2.49806 12.0375 2.48926 9.99855 2.48926ZM9.99855 3.84169C12.0052 3.84169 12.2428 3.85049 13.032 3.8857C13.7654 3.91797 14.1615 4.04119 14.4255 4.14386C14.7746 4.27881 15.0269 4.4431 15.288 4.7042C15.552 4.96823 15.7134 5.2176 15.8484 5.56671C15.951 5.83074 16.0742 6.22973 16.1065 6.96022C16.1417 7.75232 16.1505 7.98994 16.1505 9.99366C16.1505 12.0003 16.1417 12.2379 16.1065 13.0271C16.0742 13.7605 15.951 14.1566 15.8484 14.4206C15.7134 14.7697 15.5491 15.022 15.288 15.2831C15.024 15.5472 14.7746 15.7085 14.4255 15.8435C14.1615 15.9461 13.7625 16.0694 13.032 16.1016C12.2399 16.1368 12.0023 16.1456 9.99855 16.1456C7.9919 16.1456 7.75427 16.1368 6.96511 16.1016C6.23168 16.0694 5.83563 15.9461 5.5716 15.8435C5.22249 15.7085 4.97019 15.5442 4.70909 15.2831C4.44506 15.0191 4.28371 14.7697 4.14876 14.4206C4.04608 14.1566 3.92286 13.7576 3.89059 13.0271C3.85539 12.235 3.84658 11.9974 3.84658 9.99366C3.84658 7.98701 3.85539 7.74938 3.89059 6.96022C3.92286 6.22679 4.04608 5.83074 4.14876 5.56671C4.28371 5.2176 4.44799 4.9653 4.70909 4.7042C4.97313 4.44017 5.22249 4.27881 5.5716 4.14386C5.83563 4.04119 6.23462 3.91797 6.96511 3.8857C7.75427 3.85049 7.9919 3.84169 9.99855 3.84169Z" fill="currentColor"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M6.14074 9.99953C6.14074 7.86966 7.86869 6.14171 9.99855 6.14171C12.1284 6.14171 13.8564 7.86966 13.8564 9.99953C13.8564 12.1294 12.1284 13.8573 9.99855 13.8573C7.86869 13.8573 6.14074 12.1294 6.14074 9.99953ZM9.99855 12.502C8.61678 12.502 7.49611 11.3813 7.49611 9.99953C7.49611 8.61776 8.61678 7.49708 9.99855 7.49708C11.3803 7.49708 12.501 8.61776 12.501 9.99953C12.501 11.3813 11.3803 12.502 9.99855 12.502Z" fill="currentColor"/>
+              <circle cx="14.0089" cy="5.98913" r="0.9" fill="currentColor"/>
+            </svg>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a href="https://www.facebook.com/spaceschool.kz/?ref=NONE_xav_ig_profile_page_web#" class="btn btn-social" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18.3334 10.0002C18.3334 5.39779 14.6025 1.66682 10.0001 1.66682C5.39772 1.66682 1.66675 5.39779 1.66675 10.0002C1.66675 13.9083 4.35725 17.1876 7.98695 18.0881V12.5467H6.26855V10.0002H7.98695V8.90286C7.98695 6.06646 9.27055 4.75179 12.0552 4.75179C12.5832 4.75179 13.4941 4.85529 13.8668 4.95882V7.26729C13.6701 7.24659 13.3285 7.23623 12.9041 7.23623C11.5376 7.23623 11.0096 7.75382 11.0096 9.09956V10.0002H13.7316L13.264 12.5467H11.0096V18.2725C15.1359 17.7741 18.3334 14.2608 18.3334 10.0002Z" fill="currentColor"/>
+            </svg>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a href="https://www.threads.com/@spaceschool.kz?xmt=AQG02OujVCtLkHhUr5NVyFVgUJBf3xt33_pEuLLxNmpkX6Q" class="btn btn-social" target="_blank" rel="noopener" aria-label="Threads">
+            <svg viewBox="-2 -2 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.78 3.631 2.695 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.32.143 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69c-.242 0-.487.007-.739.021-1.836.103-2.98.946-2.916 2.143.067 1.256 1.452 1.839 2.784 1.767 1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221z" fill="currentColor"/>
+            </svg>
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    <div class="max-w-screen-xl mx-auto border-t-1 border-t-white/20 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+      <p class="text-white/70 text-sm font-medium uppercase">
+        © 2026 Space School
+      </p>
+
+      
+      <div class="dropdown dropdown-up text-white/70"
+           x-data="{ open: false }"
+           @click.outside="open = false"
+           @keydown.escape.window="open = false">
+        <button type="button"
+                class="dropdown-toggle"
+                :aria-expanded="open"
+                @click="open = !open">
+          <span>Документы</span>
+          <span class="dropdown-icon">
+            <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </button>
+        <ul class="dropdown-menu" x-show="open" x-cloak>
+          <li>
+            <a href="#" class="dropdown-item">
+              Политика конфиденциальности
+            </a>
+          </li>
+          <li>
+            <a href="#" class="dropdown-item">
+              Публичная оферта
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Light BEGIN -->
+  <div class="glow-reveal absolute bottom-0 inset-x-0 flex justify-center"
+       :class="visible && 'glow-reveal-visible'"
+       x-on:transitionend="if (visible) document.getElementById('glow-breathe').beginElement()">
+    <svg class="block shrink-0 w-[1020px] md:w-[1440px] h-[280px] md:h-auto" viewBox="0 0 1440 204" preserveAspectRatio="none" fill="none">
+      <path filter="url(#glow-blur)" d="M1441 320C1441 320 1010.35 100 725.637 100C423.81 100 1.00002 320 1.00002 320L1441 320Z" fill="url(#glow-gradient)"/>
+      <defs>
+        <filter id="glow-blur" x="-99" y="0" width="1640" height="420" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feGaussianBlur stdDeviation="50">
+            <animate id="glow-breathe" attributeName="stdDeviation" values="50;40;50" dur="3s" repeatCount="indefinite" begin="indefinite"/>
+          </feGaussianBlur>
+        </filter>
+        <linearGradient id="glow-gradient" x1="721" y1="153.993" x2="720.999" y2="612.528" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#0A5DC2"/>
+          <stop offset="1" stop-color="#000F21"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+  <!-- Light END -->
+</footer>
+
+
+  
+  
+    
+
+<div class="modal-overlay"
+     x-data="{ submitted: false, sending: false, error: '', defaultTitle: 'Получить консультацию' }"
+     x-show="$store.feedback.open" x-cloak
+     @click.self="!sending && ($store.feedback.hide(), submitted = false, error = '')"
+     @keydown.escape.window="$store.feedback.open && !sending && ($store.feedback.hide(), submitted = false, error = '')"
+     x-effect="(document.body.style.overflow = $store.feedback.open ? 'hidden' : ''), ($store.feedback.open || (submitted = false, error = ''))"
+     x-transition:enter="transition ease-out duration-200"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition ease-in duration-150"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0">
+  <form class="modal-feedback"
+        method="post"
+        action="#"
+        @submit.prevent="
+          if (sending) return;
+          sending = true;
+          error = '';
+          fetch($el.action, { method: 'POST', body: new FormData($el), headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(r => r.json().catch(() => ({ ok: r.ok })))
+            .then(data => {
+              if (data.ok) { submitted = true; $el.reset(); }
+              else { error = data.error || 'unknown'; }
+            })
+            .catch(() => { error = 'network'; })
+            .finally(() => { sending = false; });
+        "
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95">
+    
+    
+    <input type="text" name="website" tabindex="-1" autocomplete="off"
+           style="position:absolute;left:-9999px;height:0;width:0;opacity:0;" aria-hidden="true">
+    <button type="button"
+            class="modal-feedback__close"
+            aria-label="Закрыть"
+            @click="$store.feedback.hide(), submitted = false, error = ''">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Form state -->
+    <div x-show="!submitted">
+      <h2 class="modal-feedback__title" x-text="$store.feedback.title || defaultTitle">Получить консультацию</h2>
+      <p class="modal-feedback__subtitle mt-2">Перезвоним в течение 2 часов и ответим на все вопросы о поступлении</p>
+    </div>
+
+    <input type="hidden" name="title" :value="$store.feedback.title || defaultTitle">
+    <input type="hidden" name="origin" :value="$store.feedback.origin">
+
+    <div class="modal-feedback__form" x-show="!submitted">
+      <div class="modal-feedback__field">
+        <label class="modal-feedback__label" for="feedback-name">Имя</label>
+        <input class="modal-feedback__input"
+               id="feedback-name"
+               name="name"
+               type="text"
+               placeholder="Ваше имя"
+               required>
+      </div>
+
+      
+      
+        <div class="modal-feedback__field"
+             x-data="{ open: false, value: 'Астана' }"
+             @click.outside="open = false">
+          <label class="modal-feedback__label">Город</label>
+          <div class="modal-feedback__select">
+            <button type="button"
+                    class="modal-feedback__select-toggle"
+                    :aria-expanded="open"
+                    :data-empty="!value"
+                    @click="open = !open">
+              <span x-text="value || 'Выберите город'"></span>
+              <svg viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <ul class="modal-feedback__select-menu" x-show="open" x-cloak>
+              
+                <li>
+                  <button type="button"
+                          class="modal-feedback__select-option"
+                          :class="value === 'Астана' && 'active'"
+                          @click="value = 'Астана', open = false">Астана</button>
+                </li>
+              
+                <li>
+                  <button type="button"
+                          class="modal-feedback__select-option"
+                          :class="value === 'Актау' && 'active'"
+                          @click="value = 'Актау', open = false">Актау</button>
+                </li>
+              
+            </ul>
+          </div>
+          <input type="hidden" name="city" :value="value" required>
+        </div>
+      
+
+      <div class="modal-feedback__field">
+        <label class="modal-feedback__label" for="feedback-phone">Телефон</label>
+        <input class="modal-feedback__input"
+               id="feedback-phone"
+               name="phone"
+               type="tel"
+               placeholder="+7 (___) ___-__-__"
+               required>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary btn-block"
+                :disabled="sending"
+                x-text="sending ? 'Отправляем…' : 'Отправить'">Отправить</button>
+      </div>
+
+      <p class="text-sm text-red-600" x-show="error" x-cloak>
+        Не удалось отправить. Попробуйте ещё раз или позвоните нам.
+      </p>
+    </div>
+
+    <p class="modal-feedback__policy" x-show="!submitted">
+      Нажимая кнопку, вы соглашаетесь на обработку
+      <a href="#">персональных данных</a>
+    </p>
+
+    <!-- Success state -->
+    <div class="modal-feedback__success" x-show="submitted" x-cloak>
+      <span class="modal-feedback__badge" aria-hidden="true">🎉</span>
+      <h2 class="modal-feedback__title mt-4">Заявка принята!</h2>
+      <p class="modal-feedback__subtitle mt-2">Перезвоним вам в течение 2 часов</p>
+    </div>
+    <button type="button"
+            class="btn btn-primary btn-block"
+            x-show="submitted" x-cloak
+            @click="$store.feedback.hide(), submitted = false">Закрыть</button>
+  </form>
+</div>
+
+  
+</body>
+</html>

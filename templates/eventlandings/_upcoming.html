@@ -1,0 +1,15 @@
+{% load i18n %}
+{# «Ближайшие события»: upcoming — опубликованные будущие лендинги региона (Event card, акцент чередуется). #}
+<section class="bg-white py-16 md:py-24" data-upcoming>
+  <div class="max-w-screen-xl mx-auto px-4">
+    <div class="section-label mb-8">
+      <span class="section-label__icon"></span>
+      <span>{% trans 'Ближайшие события' %}</span>
+    </div>
+    <div class="grid gap-6 md:grid-cols-2">
+      {% for item in upcoming %}
+        {% include 'eventlandings/_event_card.html' with landing=item accent=forloop.counter0|divisibleby:2|yesno:'gold,secondary' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

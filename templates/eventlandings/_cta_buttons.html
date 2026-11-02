@@ -1,0 +1,24 @@
+{% load i18n %}
+{% comment %}
+Кнопки регистрации лендинга. Параметры: landing, placement — hero | reg | sticky;
+strip — полоса CTA под «Школой» (origin …-reg, без второй кнопки); btn_class — доп. классы.
+origin = event-<slug>-<placement>; «Получить консультацию» (origin …-consult) — только в блоке
+регистрации (по Figma в hero, sticky и полосе — одна кнопка). data-feedback-lead/-price/
+-parent-checkbox/-success читает modal.js (цена, чекбокс, текст «Заявка принята»).
+{% endcomment %}
+<button type="button"
+        class="btn btn-primary{% if btn_class %} {{ btn_class }}{% endif %}"
+        data-feedback-trigger
+        data-feedback-title="{{ landing.form_title|default:landing.title }}"
+        data-feedback-origin="event-{{ landing.slug }}-{{ placement }}"
+        data-feedback-lead="{{ landing.form_lead }}"
+        {% if landing.is_paid and landing.price_display %}data-feedback-price="{{ landing.price_display }} · {% trans 'оплата после подтверждения' %}"{% endif %}
+        {% if landing.show_parent_checkbox %}data-feedback-parent-checkbox="1"{% endif %}
+        data-feedback-success="{{ landing.form_note }}">{{ landing.cta_text|default:_('Зарегистрироваться') }}</button>
+{% if placement == 'reg' and not strip %}
+<button type="button"
+        class="btn btn-default"
+        data-feedback-trigger
+        data-feedback-title="{% trans 'Получить консультацию' %}"
+        data-feedback-origin="event-{{ landing.slug }}-consult">{% trans 'Получить консультацию' %}</button>
+{% endif %}
