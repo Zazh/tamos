@@ -70,6 +70,7 @@ def leads_list(request):
             | Q(title__icontains=q)
             | Q(city__icontains=q)
             | Q(manager_note__icontains=q)
+            | Q(extra__icontains=q)
         )
 
     paginator = Paginator(qs, LEADS_PER_PAGE)

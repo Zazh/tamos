@@ -12,11 +12,11 @@ from PIL import Image
 from accounts.models import User
 from eventlandings.models import (
     EventLanding,
-    EventLandingDay,
     EventLandingGalleryImage,
     EventLandingMaterial,
     EventLandingTile,
 )
+from feedback.models import Lead
 from regions.models import Region
 from team.models import TeamMember
 
@@ -412,3 +412,42 @@ class EventLandingRegionScopeInlineTests(BackofficeTestCase):
             url = reverse(f'backoffice:content_eventlandings_gallery_{name}', kwargs={**pk, **kw})
             self.assertEqual(self.client.post(url).status_code, 404, name)
         self.assertTrue(EventLandingGalleryImage.objects.filter(pk=img.pk).exists())
+
+
+class LeadsExtraTests(BackofficeTestCase):
+    """EF-12: «Заявки» показывают `extra` и категорию «Мероприятие»."""
+
+    EXTRA = 'Я родитель ученика Space School'
+
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.event_lead = Lead.objects.create(
+            region=cls.astana, origin='event-cambridge-day-hero', title='Регистрация на Cambridge Day',
+            name='Айгерим', phone='+7 700 000 00 01', extra=cls.EXTRA)
+        cls.plain_lead = Lead.objects.create(
+            region=cls.astana, origin='admission-hero', name='Бекзат', phone='+7 700 000 00 02')
+
+    def _list(self, **params):
+        return self.client.get(reverse('backoffice:leads_list'), params)
+
+    def test_list_shows_extra_and_event_category(self):
+        self.assertEqual(self.event_lead.category, Lead.Category.EVENT)
+        resp = self._list()
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, self.EXTRA)
+        self.assertContains(resp, 'Мероприятие')
+
+    def test_category_filter(self):
+        self.assertEqual(list(self._list(category='event').context['page'].object_list), [self.event_lead])
+        self.assertNotIn(self.event_lead, self._list(category='admission').context['page'].object_list)
+
+    def test_search_by_extra(self):
+        self.assertEqual(list(self._list(q='родитель').context['page'].object_list), [self.event_lead])
+
+    def test_detail_shows_extra_only_when_set(self):
+        resp = self.client.get(reverse('backoffice:lead_detail', kwargs={'pk': self.event_lead.pk}))
+        self.assertContains(resp, 'Доп. от пользователя')
+        self.assertContains(resp, self.EXTRA)
+        resp = self.client.get(reverse('backoffice:lead_detail', kwargs={'pk': self.plain_lead.pk}))
+        self.assertNotContains(resp, 'Доп. от пользователя')

@@ -79,6 +79,7 @@
               </td>
               <td class="bo-td">
                 {% if lead.origin %}<div class="bo-cell-mono">{{ lead.origin }}</div>{% endif %}
+                {% if lead.extra %}<div class="bo-cell-muted">{{ lead.extra }}</div>{% endif %}
                 <div class="bo-cell-muted">{{ lead.get_category_display }}</div>
               </td>
               <td class="bo-td bo-td-right">
@@ -107,6 +108,7 @@
             {% if lead.origin %}<span class="bo-cell-mono">{{ lead.origin }}</span>{% else %}<span></span>{% endif %}
             <span class="bo-cell-muted">{{ lead.get_category_display }}</span>
           </div>
+          {% if lead.extra %}<div class="bo-cell-muted">{{ lead.extra }}</div>{% endif %}
         </li>
       {% endfor %}
     </ul>
