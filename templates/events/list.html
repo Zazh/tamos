@@ -29,9 +29,13 @@
           <h1 class="h1 font-bold">{% trans 'Мероприятия' %}</h1>
         </div>
 
-        {% if events %}
+        {% if items %}
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {% for event in events %}
+            {% for item in items %}
+              {% if item.kind == 'landing' %}
+                {% include 'eventlandings/_event_card.html' with landing=item.obj accent=forloop.counter0|divisibleby:2|yesno:'gold,secondary' past=item.obj.is_past %}
+              {% else %}
+              {% with event=item.obj %}
               <article class="article-card">
                 <a href="{% region_url 'events:detail' slug=event.slug %}" class="article-card__link">
                   <figure class="article-card__image">
@@ -45,6 +49,8 @@
                   </div>
                 </a>
               </article>
+              {% endwith %}
+              {% endif %}
             {% endfor %}
           </div>
 
