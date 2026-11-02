@@ -1,0 +1,69 @@
+# CI репо кода tamos (Django 5.2 + Postgres 16 + Vite). Источник — шаблон
+# memory/process/templates/ci-django.yml репо процесса (events-front EF-09).
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  django:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: tamos
+          POSTGRES_USER: tamos
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U tamos" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DJANGO_SECRET_KEY: ci-only-value
+      # True — как в контейнере дева: при False core/settings.py включает прод-блок
+      # (SECURE_SSL_REDIRECT и т.д.), и http-клиент тестов получает 301. Сами тесты
+      # Django всё равно выполняет с DEBUG=False.
+      DJANGO_DEBUG: 'True'
+      DJANGO_ALLOWED_HOSTS: localhost,testserver
+      POSTGRES_DB: tamos
+      POSTGRES_USER: tamos
+      POSTGRES_PASSWORD: ''
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: '5432'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # Источник — tamosapp/requirements.txt в репо процесса (build-слой вне этого репо): менять парно.
+      - run: >-
+          pip install
+          'Django>=5.2,<6.0'
+          'python-decouple>=3.8'
+          'psycopg[binary]>=3.1'
+          'gunicorn>=21.2'
+          'django-vite>=3.0,<4.0'
+          'django-modeltranslation>=0.18,<0.20'
+          'Pillow>=11.0,<12.0'
+          'django-imagekit>=5.0,<6.0'
+      - run: sudo apt-get update && sudo apt-get install -y gettext && python manage.py compilemessages
+      - run: python manage.py check
+      - run: python manage.py makemigrations --check --dry-run
+      - run: python manage.py migrate --noinput
+      - run: python manage.py test
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: spaceschool
+    steps:
+      - uses: actions/checkout@v4
+      # Версия pnpm — из packageManager в spaceschool/package.json.
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: spaceschool/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
