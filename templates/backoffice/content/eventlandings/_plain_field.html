@@ -1,0 +1,5 @@
+<div class="bo-field">
+  <label class="bo-label" for="{{ bf.id_for_label }}">{{ bf.label }}</label>
+  {{ bf }}
+  {% for err in bf.errors %}<p class="bo-help bo-help-error">{{ err }}</p>{% endfor %}
+</div>

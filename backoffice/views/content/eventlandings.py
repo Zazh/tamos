@@ -1,8 +1,10 @@
 """Мероприятия (лендинги событий `eventlandings`): список/create/edit/delete +
-AI translate/SEO.
+AI translate/SEO, inline дни/материалы/плитки, страница дня (программа),
+AJAX-галерея карусели «Школа».
 
 Клон events (lazy-draft, slug из title на первом сохранении); вместо Trix и
-обложки — тексты лендинга, стоимость и ведущие из «Команды».
+обложки — тексты лендинга, стоимость и ведущие из «Команды». Страница дня —
+как группа активностей, галерея — как на Главной (strict-zip при upload).
 """
 
 import json
@@ -11,31 +13,43 @@ import secrets
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db import transaction
-from django.db.models import Q
-from django.shortcuts import redirect
+from django.db.models import Count, Q
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import translation
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
-from eventlandings.models import EventLanding
+from core.gallery import strict_zip_arrange
+from core.image_optimize import normalize_uploaded_image
+from eventlandings.models import EventLanding, EventLandingDay, EventLandingGalleryImage
 from regions.models import Region
 
 from ...forms import (
     EVENTLANDING_OUT_OF_FORM_BASES,
     EVENTLANDING_TRANSLATABLE,
+    EventLandingDayFormSet,
     EventLandingEditForm,
+    EventLandingMaterialFormSet,
+    EventLandingProgramRowFormSet,
+    EventLandingTileFormSet,
     TRANSLATION_LANGS,
 )
 from ...shortcuts import backoffice_required, region_scoped, render_backoffice
 from .._common import (
+    append_to_gallery,
+    apply_safe_reorder,
     auto_slug,
     get_for_user_or_404,
     make_published_chips,
     make_readonly_step,
     make_step,
+    parse_json_body,
     run_seo,
     run_translate,
+    serialize_gallery_image,
+    update_gallery_image_translations,
 )
 
 
@@ -180,6 +194,35 @@ def content_eventlandings_create(request):
     return redirect('backoffice:content_eventlandings_edit', pk=landing.pk)
 
 
+def _landing_formsets(landing, data=None):
+    """Inline-formset'ы основной формы: (label для ошибок, formset)."""
+    days_qs = landing.days.annotate(rows_count=Count('rows'))
+    return [
+        ('Дни', EventLandingDayFormSet(data, instance=landing, prefix='days', queryset=days_qs)),
+        ('Материалы', EventLandingMaterialFormSet(data, instance=landing, prefix='materials')),
+        ('Плитки', EventLandingTileFormSet(data, instance=landing, prefix='tiles')),
+    ]
+
+
+def _formset_errors(labelled_formsets):
+    """Ошибки formset'ов одним списком «Дни · строка 2 · Окончание: …» — для вывода
+    сверху формы (карточки могут быть свёрнуты)."""
+    out = []
+    for label, fs in labelled_formsets:
+        out.extend(f'{label}: {err}' for err in fs.non_form_errors())
+        for i, f in enumerate(fs.forms, start=1):
+            for name, errs in f.errors.items():
+                field = f.fields.get(name)
+                field_label = f' · {field.label}' if field is not None else ''
+                out.extend(f'{label} · строка {i}{field_label}: {err}' for err in errs)
+    return out
+
+
+def _serialize_gallery_item(img):
+    """Как serialize_gallery_image + orientation (бейдж слота в boGallery)."""
+    return {**serialize_gallery_image(img, locale_bases=('alt_text',)), 'orientation': img.orientation}
+
+
 @never_cache
 @backoffice_required
 def content_eventlandings_edit(request, pk):
@@ -191,7 +234,9 @@ def content_eventlandings_edit(request, pk):
 
     if request.method == 'POST':
         form = EventLandingEditForm(request.POST, instance=landing, user=request.user)
-        if form.is_valid():
+        formsets = _landing_formsets(landing, request.POST)
+        # Список, не генератор: валидируем всё сразу, чтобы показать все ошибки.
+        if all([form.is_valid()] + [fs.is_valid() for _, fs in formsets]):
             with transaction.atomic():
                 saved = form.save(commit=False)
                 saved.region_id = original_region_id
@@ -202,13 +247,17 @@ def content_eventlandings_edit(request, pk):
                     saved.slug = _auto_slug_for_landing(title_for_slug)
                 saved.save()
                 form.save_m2m()
+                for _, fs in formsets:
+                    fs.save()
             messages.success(request, 'Мероприятие сохранено.')
             return redirect('backoffice:content_eventlandings_edit', pk=saved.pk)
     else:
         form = EventLandingEditForm(instance=landing, user=request.user)
+        formsets = _landing_formsets(landing)
 
     site_urls = {lang: _site_url(landing, lang) for lang in TRANSLATION_LANGS} \
         if landing.is_published else {}
+    gallery_items = [_serialize_gallery_item(img) for img in landing.gallery.all()]
 
     return render_backoffice(
         request,
@@ -218,6 +267,10 @@ def content_eventlandings_edit(request, pk):
         context={
             'landing': landing,
             'form': form,
+            'day_fs': formsets[0][1],
+            'material_fs': formsets[1][1],
+            'tile_fs': formsets[2][1],
+            'formset_errors': _formset_errors(formsets),
             'translation_langs': TRANSLATION_LANGS,
             'steps_json': json.dumps(_landing_steps(landing)),
             'translatable_bases_json': json.dumps(list(EVENTLANDING_TRANSLATABLE)),
@@ -225,8 +278,108 @@ def content_eventlandings_edit(request, pk):
             'site_urls_json': json.dumps(site_urls),
             'translate_url': reverse('backoffice:content_eventlandings_translate', kwargs={'pk': landing.pk}),
             'seo_url': reverse('backoffice:content_eventlandings_seo', kwargs={'pk': landing.pk}),
+            'gallery_items_json': json.dumps(gallery_items),
         },
     )
+
+
+@never_cache
+@backoffice_required
+def content_eventlandings_day_edit(request, pk, dpk):
+    """Программа одного дня: inline-formset строк (DnD порядок, перерывы)."""
+    landing = _get_landing_for_user(request, pk)
+    day = get_object_or_404(EventLandingDay, pk=dpk, landing=landing)
+
+    if request.method == 'POST':
+        row_fs = EventLandingProgramRowFormSet(request.POST, instance=day, prefix='rows')
+        if row_fs.is_valid():
+            with transaction.atomic():
+                row_fs.save()
+            messages.success(request, 'Программа дня сохранена.')
+            return redirect('backoffice:content_eventlandings_day_edit', pk=landing.pk, dpk=day.pk)
+    else:
+        row_fs = EventLandingProgramRowFormSet(instance=day, prefix='rows')
+
+    return render_backoffice(
+        request,
+        'backoffice/content/eventlandings/day_edit.html',
+        active='eventlandings',
+        page_title=f'Мероприятия · {landing.title or "Новое мероприятие"} · программа дня',
+        context={
+            'landing': landing,
+            'day': day,
+            'row_fs': row_fs,
+            'formset_errors': _formset_errors([('Программа', row_fs)]),
+            'translation_langs': TRANSLATION_LANGS,
+            'translate_url': reverse('backoffice:content_eventlandings_translate', kwargs={'pk': landing.pk}),
+        },
+    )
+
+
+@require_POST
+@backoffice_required
+def content_eventlandings_gallery_upload(request, pk):
+    """Multi-upload фото карусели. `orientation` определяется в save() модели,
+    затем весь список расставляется strict-zip-ом с шагом order 10 (как Главная)."""
+    landing = _get_landing_for_user(request, pk)
+    files = request.FILES.getlist('images')
+    if not files:
+        return JsonResponse({'error': 'No files'}, status=400)
+
+    append_to_gallery(
+        landing.gallery,
+        [normalize_uploaded_image(f) for f in files],
+        model=EventLandingGalleryImage,
+        extra_kwargs={'landing': landing},
+    )
+    for i, img in enumerate(strict_zip_arrange(landing.gallery.all())):
+        if img.order != i * 10:
+            img.order = i * 10
+            img.save(update_fields=['order'])
+
+    return JsonResponse({'items': [_serialize_gallery_item(img) for img in landing.gallery.all()]})
+
+
+@require_POST
+@backoffice_required
+def content_eventlandings_gallery_reorder(request, pk):
+    """Порядок, заданный менеджером через DnD, — без пересортировки strict-zip."""
+    landing = _get_landing_for_user(request, pk)
+    payload, err = parse_json_body(request)
+    if err:
+        return err
+    apply_safe_reorder(
+        EventLandingGalleryImage,
+        queryset=landing.gallery.all(),
+        order_payload=list(payload.get('order') or []),
+    )
+    return JsonResponse({'ok': True})
+
+
+@require_POST
+@backoffice_required
+def content_eventlandings_gallery_update(request, pk, gpk):
+    landing = _get_landing_for_user(request, pk)
+    img = get_object_or_404(EventLandingGalleryImage, pk=gpk, landing=landing)
+    payload, err = parse_json_body(request)
+    if err:
+        return err
+    fields = ('alt_text_ru', 'alt_text_kk', 'alt_text_en')
+    max_len = EventLandingGalleryImage._meta.get_field('alt_text').max_length
+    update_gallery_image_translations(
+        img,
+        {k: str(payload[k])[:max_len] for k in fields if k in payload},
+        fields=fields,
+    )
+    return JsonResponse({'ok': True, 'item': _serialize_gallery_item(img)})
+
+
+@require_POST
+@backoffice_required
+def content_eventlandings_gallery_delete(request, pk, gpk):
+    landing = _get_landing_for_user(request, pk)
+    get_object_or_404(EventLandingGalleryImage, pk=gpk, landing=landing).delete()
+    return JsonResponse({'ok': True})
 
 
 @require_POST

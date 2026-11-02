@@ -68,12 +68,13 @@
     <form id="eventlanding-edit-form" method="post" action="" class="bo-form">
       {% csrf_token %}
 
-      {% if form.errors %}
+      {% if form.errors or formset_errors %}
         <div class="bo-messages">
           {% for err in form.non_field_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
           {% for fld, errs in form.errors.items %}{% if fld != '__all__' %}{% for err in errs %}
             <div class="bo-message bo-message-error">{{ fld }}: {{ err }}</div>
           {% endfor %}{% endif %}{% endfor %}
+          {% for err in formset_errors %}<div class="bo-message bo-message-error">{{ err }}</div>{% endfor %}
         </div>
       {% endif %}
 
@@ -154,6 +155,18 @@
         {% field_help 'eventlanding.goal' %}
       </section>
 
+      {# ===== Плитки «Для кого» ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Плитки «Для кого»" %}</h2>
+        </header>
+        <p class="bo-help">{% trans "2–4 плитки рядом с текстом «Для кого» (у Leader: Язык, Группа). Пусто — блок без плиток." %}</p>
+
+        {% trans "Добавить плитку" as add_label %}
+        {% trans "Перетаскивай за ≡ слева, чтобы изменить порядок." as hint %}
+        {% include 'backoffice/content/eventlandings/_collapse_formset.html' with formset=tile_fs card='backoffice/content/eventlandings/_text_card.html' form_id='eventlanding-edit-form' add_label=add_label hint=hint primary='title' primary_label='Заголовок плитки' help_primary='eventlandingtile.title' secondary='text' secondary_label='Текст плитки' help_secondary='eventlandingtile.text' bases='["title","text"]' placeholder='Новая плитка' %}
+      </section>
+
       {# ===== Программа ===== #}
       <section class="bo-panel">
         <header class="bo-panel-head">
@@ -167,7 +180,22 @@
         {% include 'backoffice/content/_field_translatable.html' with form=form base='materials_title' label='Заголовок «Материалы участника»' %}
         {% field_help 'eventlanding.materials_title' %}
 
-        <p class="bo-help">{% trans "Дни и программа — ниже." %}</p>
+        <h3 class="bo-subpanel-title">{% trans "Дни" %}</h3>
+        <p class="bo-help">{% trans "Дата и время каждого дня. Программу дня (строки с временем) открывает ссылка «Программа дня →» на карточке. Дни идут по дате." %}</p>
+        {% trans "Добавить день" as add_label %}
+        {% include 'backoffice/content/eventlandings/_collapse_formset.html' with formset=day_fs card='backoffice/content/eventlandings/_day_card.html' form_id='eventlanding-edit-form' add_label=add_label hint='' %}
+      </section>
+
+      {# ===== Материалы участника ===== #}
+      <section class="bo-panel">
+        <header class="bo-panel-head">
+          <h2 class="bo-panel-title">{% trans "Материалы участника" %}</h2>
+        </header>
+        <p class="bo-help">{% trans "Что получит участник (рабочая тетрадь, сертификат…). Пусто — блок материалов на сайте скрыт." %}</p>
+
+        {% trans "Добавить материал" as add_label %}
+        {% trans "Перетаскивай за ≡ слева, чтобы изменить порядок." as hint %}
+        {% include 'backoffice/content/eventlandings/_collapse_formset.html' with formset=material_fs card='backoffice/content/eventlandings/_text_card.html' form_id='eventlanding-edit-form' add_label=add_label hint=hint primary='title' primary_label='Материал' help_primary='eventlandingmaterial.title' secondary='' bases='["title"]' placeholder='Новый материал' %}
       </section>
 
       {# ===== Ведущие ===== #}
@@ -239,6 +267,80 @@
       </section>
     </form>
 
+    {# ===== Фото карусели «Школа» (вне формы, AJAX: upload/reorder/update/delete) ===== #}
+    <section class="bo-panel"
+             x-data="boGallery"
+             data-upload-url="{% url 'backoffice:content_eventlandings_gallery_upload' pk=landing.pk %}"
+             data-reorder-url="{% url 'backoffice:content_eventlandings_gallery_reorder' pk=landing.pk %}"
+             data-update-url-template="{% url 'backoffice:content_eventlandings_gallery_update' pk=landing.pk gpk=0 %}"
+             data-delete-url-template="{% url 'backoffice:content_eventlandings_gallery_delete' pk=landing.pk gpk=0 %}"
+             data-items-script="bo-eventlanding-gallery-{{ landing.pk }}">
+
+      <script id="bo-eventlanding-gallery-{{ landing.pk }}" type="application/json">{{ gallery_items_json|safe }}</script>
+
+      <h2 class="bo-panel-title">{% trans "Фото для карусели «Школа»" %}</h2>
+      <p class="bo-help">{% trans "Карусель в блоке о школе. Пусто — на сайте фото галереи Главной. Ориентация определяется автоматически, картинки расставятся чередованием «широкая → высокая»; порядок меняется перетаскиванием." %}</p>
+
+      <label class="bo-dropzone"
+             :class="dragging && 'bo-dropzone-active'"
+             @dragover.prevent="dragging = true"
+             @dragleave.prevent="dragging = false"
+             @drop.prevent="onDrop($event)">
+        <input type="file" multiple accept="image/*" class="bo-dropzone-input" @change="onPick($event)">
+        <div class="bo-dropzone-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div class="bo-dropzone-text">
+          <strong>{% trans "Перетащи файлы сюда" %}</strong>
+          <span>{% trans "или нажми — выберешь несколько за раз" %}</span>
+        </div>
+        <div class="bo-dropzone-status" x-show="uploading" x-cloak>{% trans "Загрузка…" %}</div>
+      </label>
+
+      <div class="bo-message bo-message-error" x-show="error" x-cloak x-text="error"></div>
+
+      <ul class="bo-gallery-grid" x-ref="grid">
+        <template x-for="(item, idx) in items" :key="item.pk">
+          <li class="bo-gallery-card" :data-pk="item.pk">
+            <div class="bo-gallery-card-thumb">
+              <img :src="item.url" alt="" loading="lazy">
+              <span class="bo-gallery-card-badge" :class="'bo-gallery-card-badge-' + item.orientation">
+                <span x-text="item.orientation === 'wide' ? 'широкая' : item.orientation === 'tall' ? 'высокая' : 'квадрат'"></span>
+              </span>
+              <span class="bo-gallery-card-warn"
+                    x-show="isWarn(idx, item)"
+                    x-cloak
+                    :title="'Слот ожидает ' + expectedLabel(idx) + ', а картинка — ' + item.orientation"
+                    aria-label="Несоответствие слоту">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </span>
+              <button type="button" class="bo-gallery-card-drag" aria-label="{% trans 'Перетащить' %}" title="{% trans 'Перетащить для смены порядка' %}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>
+              </button>
+              <button type="button" class="bo-gallery-card-delete" @click="remove(item)" aria-label="{% trans 'Удалить' %}" title="{% trans 'Удалить картинку' %}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+              </button>
+            </div>
+
+            <div class="bo-gallery-card-alt">
+              <input type="text"
+                     class="bo-input bo-input-sm"
+                     maxlength="200"
+                     :value="item['alt_text_' + lang]"
+                     :placeholder="lang === 'ru' ? 'Alt-текст (для SEO/доступности)' : '(пусто — берётся из ru)'"
+                     @input="item['alt_text_' + lang] = $event.target.value"
+                     @change="saveAlt(item)">
+            </div>
+          </li>
+        </template>
+      </ul>
+
+      <div class="bo-gallery-empty" x-show="items.length === 0" x-cloak>
+        {% trans "Фото пока нет — на сайте показывается галерея Главной. Перетащи файлы в зону выше." %}
+      </div>
+      {% field_help 'eventlandinggalleryimage.alt_text' %}
+    </section>
+
     {# ===== SEO & Social (вне form, привязка через HTML5 form=) ===== #}
     <section class="bo-panel">
       <header class="bo-panel-head">
@@ -296,7 +398,7 @@
         </template>
       </ul>
 
-      <div class="bo-form-foot-actions">
+      <div class="bo-form-foot-actions bo-form-foot-actions-wrap">
         <label class="bo-label-checkbox" title="{% trans 'Снять галку — мероприятие уйдёт в черновики (на сайте 404)' %}">
           {{ form.is_published }}
           <span>{% trans "Опубликовано" %}</span>

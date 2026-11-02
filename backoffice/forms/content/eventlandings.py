@@ -1,5 +1,6 @@
-"""EventLanding edit-форма (раздел «Мероприятия»). Клон EventEditForm:
-SEO/OG и переключатель публикации рендерятся ВНЕ основной формы (HTML5 `form=`).
+"""EventLanding edit-форма (раздел «Мероприятия») + inline-formset'ы дней,
+строк программы, материалов и плиток. Клон EventEditForm: SEO/OG и
+переключатель публикации рендерятся ВНЕ основной формы (HTML5 `form=`).
 
 Slug генерируется из title на первом сохранении черновика (см.
 views.content.eventlandings). Ведущие — опубликованные участники «Команды»
@@ -7,11 +8,19 @@ views.content.eventlandings). Ведущие — опубликованные у
 """
 
 from django import forms
+from django.forms import inlineformset_factory
 
-from eventlandings.models import EventLanding
+from eventlandings.models import (
+    EventLanding,
+    EventLandingDay,
+    EventLandingMaterial,
+    EventLandingProgramRow,
+    EventLandingTile,
+)
 from team.models import TeamMember
 
 from .._common import (
+    TRANSLATION_LANGS,
     _apply_backoffice_widget_classes,
     _localized,
     _strip_lang,
@@ -131,3 +140,119 @@ class EventLandingEditForm(forms.ModelForm):
             # флаг не должен включать его на сайте у бесплатного события.
             cleaned['show_parent_checkbox'] = False
         return cleaned
+
+
+# ----- Inline: дни, программа дня, материалы, плитки ------------------------
+
+# `type=date`/`type=time` ждут ISO-значение независимо от локали (USE_L10N).
+def _date_input():
+    return forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
+
+
+def _time_input():
+    return forms.TimeInput(attrs={'type': 'time'}, format='%H:%M')
+
+
+def _require_ru(form, *bases):
+    """Строка inline без русского заголовка не сохраняется: на сайте она пустая."""
+    for base in bases:
+        form.fields[f'{base}_ru'].required = True
+
+
+class EventLandingDayForm(forms.ModelForm):
+    class Meta:
+        model = EventLandingDay
+        fields = ('date', 'start', 'end') + _localized('label')
+        widgets = {'date': _date_input(), 'start': _time_input(), 'end': _time_input()}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+
+    def clean(self):
+        cleaned = super().clean()
+        start, end = cleaned.get('start'), cleaned.get('end')
+        if start and end and end <= start:
+            self.add_error('end', 'Окончание должно быть позже начала.')
+        return cleaned
+
+
+EventLandingDayFormSet = inlineformset_factory(
+    parent_model=EventLanding,
+    model=EventLandingDay,
+    form=EventLandingDayForm,
+    extra=0,
+    can_delete=True,
+)
+
+
+class EventLandingProgramRowForm(forms.ModelForm):
+    class Meta:
+        model = EventLandingProgramRow
+        fields = ('order', 'start', 'duration_min', 'is_break') + _localized('title', 'text')
+        widgets = {
+            'order': forms.HiddenInput(),
+            'start': _time_input(),
+            'duration_min': forms.NumberInput(attrs={'min': 1, 'step': 5}),
+            'is_break': forms.CheckboxInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+        _require_ru(self, 'title')
+
+
+EventLandingProgramRowFormSet = inlineformset_factory(
+    parent_model=EventLandingDay,
+    model=EventLandingProgramRow,
+    form=EventLandingProgramRowForm,
+    extra=0,
+    can_delete=True,
+)
+
+
+class EventLandingMaterialForm(forms.ModelForm):
+    class Meta:
+        model = EventLandingMaterial
+        fields = ('order',) + _localized('title')
+        widgets = {'order': forms.HiddenInput()}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+        _require_ru(self, 'title')
+
+
+EventLandingMaterialFormSet = inlineformset_factory(
+    parent_model=EventLanding,
+    model=EventLandingMaterial,
+    form=EventLandingMaterialForm,
+    extra=0,
+    can_delete=True,
+)
+
+
+class EventLandingTileForm(forms.ModelForm):
+    class Meta:
+        model = EventLandingTile
+        fields = ('order',) + _localized('title', 'text')
+        # text — CharField(200), но в UI это 1–2 строки описания.
+        widgets = {
+            'order': forms.HiddenInput(),
+            **{f'text_{lang}': forms.Textarea(attrs={'rows': 2}) for lang in TRANSLATION_LANGS},
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _apply_backoffice_widget_classes(self)
+        _require_ru(self, 'title')
+
+
+EventLandingTileFormSet = inlineformset_factory(
+    parent_model=EventLanding,
+    model=EventLandingTile,
+    form=EventLandingTileForm,
+    extra=0,
+    can_delete=True,
+)

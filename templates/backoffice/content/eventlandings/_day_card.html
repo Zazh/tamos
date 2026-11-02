@@ -1,0 +1,43 @@
+{% load i18n backoffice_tags %}
+{% comment %}Карточка дня мероприятия. Порядок дней — по дате (без DnD). Params: f.{% endcomment %}
+<li class="bo-collapse-card{% if not f.instance.pk %} bo-collapse-card-new{% endif %}"
+    x-data="boInlineCollapseCard({ initialOpen: {% if not f.instance.pk or f.errors %}true{% else %}false{% endif %}, placeholderLabel: '{% trans "Новый день" %}' })">
+  {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+
+  <header class="bo-collapse-card-head bo-collapse-card-head-wrap">
+    <button type="button" class="bo-collapse-card-summary" @click="open = !open" :aria-expanded="open">
+      <span class="bo-collapse-card-info">
+        {% if f.instance.pk %}
+          <strong class="bo-collapse-card-name">{{ f.instance.date|date:"j E" }} · {{ f.instance.start|time:"H:i" }}–{{ f.instance.end|time:"H:i" }}</strong>
+          <span class="bo-collapse-card-role">{% blocktrans with n=f.instance.rows_count|default:0 %}Строк в программе: {{ n }}{% endblocktrans %}</span>
+        {% else %}
+          <strong class="bo-collapse-card-name" x-text="placeholderLabel"></strong>
+          <span class="bo-collapse-card-role">{% trans "Сохраните мероприятие, чтобы заполнить программу дня" %}</span>
+        {% endif %}
+      </span>
+      <svg class="bo-collapse-card-chevron" :class="open && 'bo-collapse-card-chevron-open'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+
+    <div class="bo-collapse-card-actions" @click.stop>
+      {% if f.instance.pk %}
+        <a href="{% url 'backoffice:content_eventlandings_day_edit' pk=landing.pk dpk=f.instance.pk %}" class="bo-row-edit">{% trans "Программа дня →" %}</a>
+      {% endif %}
+      {% include 'backoffice/content/_block_translate.html' with bases='["label"]' translate_url=translate_url form_id=form_id prefix=f.prefix|add:'-' %}
+      {% include 'backoffice/content/eventlandings/_card_delete.html' %}
+    </div>
+  </header>
+
+  <div class="bo-collapse-card-body" x-show="open" x-collapse>
+    <div class="bo-row-3">
+      {% include 'backoffice/content/eventlandings/_plain_field.html' with bf=f.date %}
+      {% include 'backoffice/content/eventlandings/_plain_field.html' with bf=f.start %}
+      {% include 'backoffice/content/eventlandings/_plain_field.html' with bf=f.end %}
+    </div>
+    {% field_help 'eventlandingday.date' %}
+
+    {% include 'backoffice/content/_field_translatable.html' with form=f base='label' label='Подпись дня (необязательно)' %}
+    {% field_help 'eventlandingday.label' %}
+  </div>
+</li>

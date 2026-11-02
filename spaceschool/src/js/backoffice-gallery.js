@@ -20,6 +20,13 @@ function getCookie(name) {
   return match ? decodeURIComponent(match[2]) : "";
 }
 
+// URL-шаблон `{% url … gpk=0 %}` → URL картинки: заменяем последний сегмент `/0/`.
+// Не `replace("0", pk)` — тот бьёт по первому нулю в pk родителя (`/blog/10/gallery/0/`).
+function urlForPk(template, pk) {
+  const i = template.lastIndexOf("/0/");
+  return i < 0 ? template : `${template.slice(0, i)}/${pk}/${template.slice(i + 3)}`;
+}
+
 async function postJSON(url, body, { isForm = false } = {}) {
   const headers = { "X-CSRFToken": getCookie("csrftoken") };
   if (!isForm) headers["Content-Type"] = "application/json";
@@ -277,7 +284,7 @@ function boBlogGallery() {
     async remove(item) {
       if (!confirm("Удалить картинку из галереи?")) return;
       try {
-        await postJSON(this.deleteUrlTemplate.replace("0", item.pk), {});
+        await postJSON(urlForPk(this.deleteUrlTemplate, item.pk), {});
         this.items = this.items.filter(i => i.pk !== item.pk);
       } catch (e) {
         this.error = String(e.message || e);
@@ -287,7 +294,7 @@ function boBlogGallery() {
     /** Сохранить alt/caption для конкретной картинки (debounced на blur). */
     async saveMeta(item) {
       try {
-        await postJSON(this.updateUrlTemplate.replace("0", item.pk), {
+        await postJSON(urlForPk(this.updateUrlTemplate, item.pk), {
           alt_ru: item.alt_ru || "",
           alt_kk: item.alt_kk || "",
           alt_en: item.alt_en || "",
@@ -387,7 +394,7 @@ function boAlbumPhotos() {
     async toggleField(item, field) {
       const newValue = !item[field];
       try {
-        const data = await postJSON(this.toggleUrlTemplate.replace("0", item.pk), {
+        const data = await postJSON(urlForPk(this.toggleUrlTemplate, item.pk), {
           field,
           value: newValue,
         });
@@ -400,7 +407,7 @@ function boAlbumPhotos() {
 
     async saveMeta(item) {
       try {
-        await postJSON(this.updateUrlTemplate.replace("0", item.pk), {
+        await postJSON(urlForPk(this.updateUrlTemplate, item.pk), {
           alt_ru: item.alt_ru || "",
           alt_kk: item.alt_kk || "",
           alt_en: item.alt_en || "",
@@ -416,7 +423,7 @@ function boAlbumPhotos() {
     async remove(item) {
       if (!confirm("Удалить фото из альбома?")) return;
       try {
-        await postJSON(this.deleteUrlTemplate.replace("0", item.pk), {});
+        await postJSON(urlForPk(this.deleteUrlTemplate, item.pk), {});
         this.photos = this.photos.filter((i) => i.pk !== item.pk);
       } catch (e) {
         this.error = String(e.message || e);
@@ -527,7 +534,7 @@ export function registerBackofficeGallery(Alpine) {
     async remove(item) {
       if (!confirm("Удалить картинку?")) return;
       try {
-        await postJSON(this.deleteUrlTemplate.replace("0", item.pk), {});
+        await postJSON(urlForPk(this.deleteUrlTemplate, item.pk), {});
         this.items = this.items.filter(i => i.pk !== item.pk);
       } catch (e) {
         this.error = String(e.message || e);
@@ -536,7 +543,7 @@ export function registerBackofficeGallery(Alpine) {
 
     async saveAlt(item) {
       try {
-        await postJSON(this.updateUrlTemplate.replace("0", item.pk), {
+        await postJSON(urlForPk(this.updateUrlTemplate, item.pk), {
           alt_text_ru: item.alt_text_ru || "",
           alt_text_kk: item.alt_text_kk || "",
           alt_text_en: item.alt_text_en || "",

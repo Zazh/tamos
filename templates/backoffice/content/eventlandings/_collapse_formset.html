@@ -1,0 +1,27 @@
+{% load i18n %}
+{% comment %}
+  Accordion inline-formset (boInlineCollapse) — обёртка для дней, материалов,
+  плиток и строк программы. Params: formset, card (имя шаблона карточки),
+  add_label, hint; карточке доступен весь контекст (translate_url, form_id, …).
+{% endcomment %}
+<div class="bo-collapse-formset" x-data="boInlineCollapse" data-prefix="{{ formset.prefix }}">
+  {{ formset.management_form }}
+
+  <ul class="bo-collapse-list" x-ref="list">
+    {% for f in formset %}
+      {% include card with f=f %}
+    {% endfor %}
+  </ul>
+
+  <template x-ref="template">
+    {% include card with f=formset.empty_form %}
+  </template>
+
+  <div class="bo-collapse-add-row">
+    <button type="button" class="bo-collapse-add-btn" @click="add()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <span>{{ add_label }}</span>
+    </button>
+    {% if hint %}<p class="bo-collapse-add-hint">{{ hint }}</p>{% endif %}
+  </div>
+</div>

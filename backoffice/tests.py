@@ -1,14 +1,32 @@
+import json
 import re
+import shutil
+import tempfile
+from io import BytesIO
 
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
+from PIL import Image
 
 from accounts.models import User
-from eventlandings.models import EventLanding
+from eventlandings.models import (
+    EventLanding,
+    EventLandingDay,
+    EventLandingGalleryImage,
+    EventLandingMaterial,
+    EventLandingTile,
+)
 from regions.models import Region
 from team.models import TeamMember
 
-from .forms import EventLandingEditForm
+from .forms import (
+    EventLandingDayFormSet,
+    EventLandingEditForm,
+    EventLandingMaterialFormSet,
+    EventLandingProgramRowFormSet,
+    EventLandingTileFormSet,
+)
 
 
 def _form_to_data(form):
@@ -25,6 +43,28 @@ def _form_to_data(form):
             data[bf.html_name] = [str(v) for v in value]
         else:
             data[bf.html_name] = str(value)
+    return data
+
+
+def _formset_to_data(formset):
+    data = _form_to_data(formset.management_form)
+    for form in formset.forms:
+        data.update(_form_to_data(form))
+    return data
+
+
+def _png(w, h):
+    buf = BytesIO()
+    Image.new('RGB', (w, h), 'white').save(buf, 'PNG')
+    return SimpleUploadedFile(f'{w}x{h}.png', buf.getvalue(), content_type='image/png')
+
+
+def _edit_data(landing, user):
+    """POST основной формы мероприятия + трёх inline-formset'ов как есть."""
+    data = _form_to_data(EventLandingEditForm(instance=landing, user=user))
+    data.update(_formset_to_data(EventLandingDayFormSet(instance=landing, prefix='days')))
+    data.update(_formset_to_data(EventLandingMaterialFormSet(instance=landing, prefix='materials')))
+    data.update(_formset_to_data(EventLandingTileFormSet(instance=landing, prefix='tiles')))
     return data
 
 
@@ -52,7 +92,7 @@ class EventLandingSectionTests(BackofficeTestCase):
         return reverse('backoffice:content_eventlandings_edit', kwargs={'pk': landing.pk})
 
     def _post_edit(self, landing, **overrides):
-        data = _form_to_data(EventLandingEditForm(instance=landing, user=self.superuser))
+        data = _edit_data(landing, self.superuser)
         for key, value in overrides.items():
             if value is None:
                 data.pop(key, None)
@@ -173,3 +213,202 @@ class EventLandingSectionTests(BackofficeTestCase):
         resp = self.client.get(reverse('backoffice:content_eventlandings_list'))
         self.assertEqual(resp.status_code, 302)
         self.assertTrue(re.match(re.escape(reverse('backoffice:login')), resp.url))
+
+
+class EventLandingInlineTests(BackofficeTestCase):
+    """EF-11: дни, программа дня, материалы, плитки (formset'ы в одной транзакции)."""
+
+    def setUp(self):
+        super().setUp()
+        self.day_landing = EventLanding.objects.get(region=self.astana, slug='cambridge-day')
+        self.leader = EventLanding.objects.get(region=self.astana, slug='cambridge-programme-leader')
+        self.edit_url = reverse(
+            'backoffice:content_eventlandings_edit', kwargs={'pk': self.day_landing.pk})
+
+    def _post(self, landing, data):
+        return self.client.post(
+            reverse('backoffice:content_eventlandings_edit', kwargs={'pk': landing.pk}), data)
+
+    def test_add_day(self):
+        data = _edit_data(self.day_landing, self.superuser)
+        data.update({
+            'days-TOTAL_FORMS': '2',
+            'days-1-date': '2026-11-15', 'days-1-start': '10:00', 'days-1-end': '12:00',
+        })
+        resp = self._post(self.day_landing, data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(self.day_landing.days.count(), 2)
+        self.assertEqual(str(self.day_landing.days.last().date), '2026-11-15')
+
+    def test_day_end_before_start_saves_nothing(self):
+        data = _edit_data(self.day_landing, self.superuser)
+        data.update({'title_ru': 'Изменённый заголовок', 'days-0-end': '10:00'})
+        resp = self._post(self.day_landing, data)
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(any('Дни · строка 1' in e for e in resp.context['formset_errors']))
+        self.assertContains(resp, 'Окончание должно быть позже начала')
+        self.day_landing.refresh_from_db()
+        self.assertEqual(self.day_landing.title_ru, 'Cambridge Day')
+        self.assertEqual(str(self.day_landing.days.get().end), '14:00:00')
+
+    def test_materials_add_and_delete(self):
+        count = self.leader.materials.count()
+        first = self.leader.materials.first()
+        data = _edit_data(self.leader, self.superuser)
+        data.update({
+            'materials-TOTAL_FORMS': str(count + 1),
+            f'materials-{count}-title_ru': 'Новый материал',
+            f'materials-{count}-order': '99',
+            'materials-0-DELETE': 'on',
+        })
+        resp = self._post(self.leader, data)
+        self.assertEqual(resp.status_code, 302)
+        titles = list(self.leader.materials.values_list('title_ru', flat=True))
+        self.assertEqual(len(titles), count)
+        self.assertIn('Новый материал', titles)
+        self.assertFalse(EventLandingMaterial.objects.filter(pk=first.pk).exists())
+
+    def test_tiles_add_and_delete(self):
+        count = self.leader.tiles.count()
+        first = self.leader.tiles.first()
+        data = _edit_data(self.leader, self.superuser)
+        data.update({
+            'tiles-TOTAL_FORMS': str(count + 1),
+            f'tiles-{count}-title_ru': 'Формат',
+            f'tiles-{count}-text_ru': 'Очно',
+            f'tiles-{count}-order': '99',
+            'tiles-0-DELETE': 'on',
+        })
+        self.assertEqual(self._post(self.leader, data).status_code, 302)
+        self.assertEqual(self.leader.tiles.count(), count)
+        self.assertTrue(self.leader.tiles.filter(title_ru='Формат', text_ru='Очно').exists())
+        self.assertFalse(EventLandingTile.objects.filter(pk=first.pk).exists())
+
+    def test_inline_row_without_ru_title_rejected(self):
+        data = _edit_data(self.leader, self.superuser)
+        count = self.leader.tiles.count()
+        data.update({'tiles-TOTAL_FORMS': str(count + 1), f'tiles-{count}-text_ru': 'Без заголовка'})
+        self.assertEqual(self._post(self.leader, data).status_code, 200)
+        self.assertEqual(self.leader.tiles.count(), count)
+
+
+class EventLandingDayPageTests(BackofficeTestCase):
+    """EF-11: страница дня — строки программы (порядок, удаление)."""
+
+    def setUp(self):
+        super().setUp()
+        self.landing = EventLanding.objects.get(region=self.astana, slug='cambridge-day')
+        self.day = self.landing.days.get()
+        self.url = reverse(
+            'backoffice:content_eventlandings_day_edit',
+            kwargs={'pk': self.landing.pk, 'dpk': self.day.pk})
+
+    def _data(self):
+        return _formset_to_data(EventLandingProgramRowFormSet(instance=self.day, prefix='rows'))
+
+    def test_get_lists_rows(self):
+        resp = self.client.get(self.url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(len(resp.context['row_fs'].forms), 8)
+
+    def test_reorder(self):
+        rows = list(self.day.rows.all())
+        data = self._data()
+        for i in range(len(rows)):  # обратный порядок
+            data[f'rows-{i}-order'] = str(len(rows) - i)
+        self.assertEqual(self.client.post(self.url, data).status_code, 302)
+        self.assertEqual(list(self.day.rows.all()), rows[::-1])
+
+    def test_delete_row(self):
+        first = self.day.rows.first()
+        data = self._data()
+        data['rows-0-DELETE'] = 'on'
+        self.assertEqual(self.client.post(self.url, data).status_code, 302)
+        self.assertEqual(self.day.rows.count(), 7)
+        self.assertFalse(self.day.rows.filter(pk=first.pk).exists())
+
+    def test_day_of_other_landing_is_404(self):
+        other = EventLanding.objects.get(region=self.astana, slug='skills-xxi')
+        url = reverse('backoffice:content_eventlandings_day_edit',
+                      kwargs={'pk': other.pk, 'dpk': self.day.pk})
+        self.assertEqual(self.client.get(url).status_code, 404)
+
+
+class EventLandingGalleryTests(BackofficeTestCase):
+    """EF-11: AJAX-галерея карусели «Школа» (strict-zip при upload, шаг order 10)."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls._media = tempfile.mkdtemp()
+        cls._media_override = override_settings(MEDIA_ROOT=cls._media)
+        cls._media_override.enable()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._media_override.disable()
+        shutil.rmtree(cls._media, ignore_errors=True)
+        super().tearDownClass()
+
+    def setUp(self):
+        super().setUp()
+        self.landing = EventLanding.objects.get(region=self.astana, slug='cambridge-day')
+
+    def _url(self, name, **kw):
+        return reverse(f'backoffice:content_eventlandings_gallery_{name}',
+                       kwargs={'pk': self.landing.pk, **kw})
+
+    def _upload(self, *files):
+        return self.client.post(self._url('upload'), {'images': list(files)})
+
+    def test_upload_detects_orientation_and_zips(self):
+        resp = self._upload(_png(400, 200))
+        self.assertEqual(resp.status_code, 200)
+        img = self.landing.gallery.get()
+        self.assertEqual(img.orientation, 'wide')
+        self.assertEqual(resp.json()['items'][0]['orientation'], 'wide')
+        # wide, wide, tall → strict-zip: wide, tall, wide с шагом 10.
+        self._upload(_png(400, 200), _png(200, 400))
+        self.assertEqual(
+            list(self.landing.gallery.values_list('orientation', 'order')),
+            [('wide', 0), ('tall', 10), ('wide', 20)])
+
+    def test_reorder_update_delete(self):
+        self._upload(_png(400, 200), _png(200, 400))
+        a, b = self.landing.gallery.all()
+        resp = self.client.post(
+            self._url('reorder'), json.dumps({'order': [b.pk, a.pk]}), content_type='application/json')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(list(self.landing.gallery.values_list('pk', 'order')), [(b.pk, 0), (a.pk, 10)])
+
+        resp = self.client.post(
+            self._url('update', gpk=a.pk), json.dumps({'alt_text_kk': 'Мектеп'}),
+            content_type='application/json')
+        self.assertEqual(resp.status_code, 200)
+        a.refresh_from_db()
+        self.assertEqual(a.alt_text_kk, 'Мектеп')
+
+        self.assertEqual(self.client.post(self._url('delete', gpk=a.pk)).status_code, 200)
+        self.assertFalse(EventLandingGalleryImage.objects.filter(pk=a.pk).exists())
+
+    def test_upload_without_files_is_400(self):
+        self.assertEqual(self.client.post(self._url('upload')).status_code, 400)
+
+
+class EventLandingRegionScopeInlineTests(BackofficeTestCase):
+    """EF-11: менеджер Актау не достаёт галерею и программу дня лендинга Астаны."""
+
+    def test_manager_of_other_region_gets_404(self):
+        landing = EventLanding.objects.get(region=self.astana, slug='cambridge-day')
+        day = landing.days.get()
+        img = EventLandingGalleryImage(landing=landing, image='eventlandings/gallery/x.jpg')
+        img.save()
+        self.client.force_login(self.manager_aktau)
+        pk = {'pk': landing.pk}
+        self.assertEqual(self.client.get(reverse(
+            'backoffice:content_eventlandings_day_edit', kwargs={**pk, 'dpk': day.pk})).status_code, 404)
+        for name, kw in (('upload', {}), ('reorder', {}), ('update', {'gpk': img.pk}),
+                         ('delete', {'gpk': img.pk})):
+            url = reverse(f'backoffice:content_eventlandings_gallery_{name}', kwargs={**pk, **kw})
+            self.assertEqual(self.client.post(url).status_code, 404, name)
+        self.assertTrue(EventLandingGalleryImage.objects.filter(pk=img.pk).exists())

@@ -1878,6 +1878,99 @@ EVENTLANDING_OG_DESCRIPTION = """
 """
 
 
+EVENTLANDINGDAY_DATE = """
+<h4>📝 Назначение</h4>
+<p>Дата, начало и окончание дня. По ним сайт строит карточку даты («14 ноября · 11:00–14:00»), сортирует ленту «Мероприятия» и после окончания последнего дня (время Алматы) переводит лендинг в состояние «состоялось» — регистрация закрывается.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>Окончание позже начала</li><li>Многодневное событие — по карточке на день (Leader: 21 и 22 ноября)</li></ul>
+"""
+
+EVENTLANDINGDAY_LABEL = """
+<h4>📝 Назначение</h4>
+<p>Подпись дня над его программой у многодневных событий. Пусто — подпись строится из даты.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>День 1 · 21 ноября</blockquote>
+"""
+
+EVENTLANDINGPROGRAMROW_START = """
+<h4>📝 Назначение</h4>
+<p>Время начала строки и её длительность в минутах — на сайте «11:00» и «20 мин». Порядок строк задаётся перетаскиванием, не временем.</p>
+"""
+
+EVENTLANDINGPROGRAMROW_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Название пункта программы. Обязательно.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов, оптимум — 2–5 слов</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Открытие Cambridge Day</blockquote>
+"""
+
+EVENTLANDINGPROGRAMROW_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Пояснение под названием пункта: что будет, кто ведёт. Можно оставить пустым.</p>
+
+<h4>✨ Референс</h4>
+<blockquote>Приветственное слово руководства, представление школы</blockquote>
+
+<h4>🤖 AI-prompt</h4>
+<blockquote>Опиши одним коротким предложением пункт программы «[TITLE]» мероприятия школы Space School. На языке [LANG].</blockquote>
+"""
+
+EVENTLANDINGPROGRAMROW_IS_BREAK = """
+<h4>📝 Назначение</h4>
+<p>Перерыв, кофе-брейк, обед — на сайте строка приглушена, чтобы не спорить с содержательными пунктами.</p>
+"""
+
+EVENTLANDINGMATERIAL_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Что участник получит на руки — строка списка «Материалы участника».</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов, одна строка</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Рабочая тетрадь</blockquote>
+"""
+
+EVENTLANDINGTILE_TITLE = """
+<h4>📝 Назначение</h4>
+<p>Короткий заголовок плитки в блоке «Для кого» — формат, язык, размер группы.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 80 символов, 1–2 слова</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Язык</blockquote>
+"""
+
+EVENTLANDINGTILE_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Значение под заголовком плитки.</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов, 1–2 строки</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Русский, термины Cambridge на английском</blockquote>
+"""
+
+EVENTLANDINGGALLERYIMAGE_ALT_TEXT = """
+<h4>📝 Назначение</h4>
+<p>Alt-текст фото карусели: читают скрин-ридеры и поисковики. Описывай, что на фото, без слов «фото/картинка».</p>
+
+<h4>📐 Ограничения</h4>
+<ul><li>До 200 символов</li></ul>
+
+<h4>✨ Референс</h4>
+<blockquote>Родители на экскурсии по учебным пространствам школы</blockquote>
+"""
+
+
 # ===== FlatPage (раздел «Доп. страницы») ===================================
 
 FLATPAGE_SLUG = """
@@ -2242,6 +2335,16 @@ FIELD_HELP = {
     'eventlanding.seo_description': _h(EVENTLANDING_SEO_DESCRIPTION),
     'eventlanding.og_title': _h(EVENTLANDING_OG_TITLE),
     'eventlanding.og_description': _h(EVENTLANDING_OG_DESCRIPTION),
+    'eventlandingday.date': _h(EVENTLANDINGDAY_DATE, ai_processable=False),
+    'eventlandingday.label': _h(EVENTLANDINGDAY_LABEL),
+    'eventlandingprogramrow.start': _h(EVENTLANDINGPROGRAMROW_START, ai_processable=False),
+    'eventlandingprogramrow.title': _h(EVENTLANDINGPROGRAMROW_TITLE),
+    'eventlandingprogramrow.text': _h(EVENTLANDINGPROGRAMROW_TEXT),
+    'eventlandingprogramrow.is_break': _h(EVENTLANDINGPROGRAMROW_IS_BREAK, ai_processable=False),
+    'eventlandingmaterial.title': _h(EVENTLANDINGMATERIAL_TITLE),
+    'eventlandingtile.title': _h(EVENTLANDINGTILE_TITLE),
+    'eventlandingtile.text': _h(EVENTLANDINGTILE_TEXT),
+    'eventlandinggalleryimage.alt_text': _h(EVENTLANDINGGALLERYIMAGE_ALT_TEXT),
 
     # FlatPage
     'flatpage.slug': _h(FLATPAGE_SLUG, ai_processable=False),

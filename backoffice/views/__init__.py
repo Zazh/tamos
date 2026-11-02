@@ -104,7 +104,12 @@ from .content.eventlandings import (  # noqa: F401
     content_eventlandings_list,
     content_eventlandings_create,
     content_eventlandings_edit,
+    content_eventlandings_day_edit,
     content_eventlandings_delete,
+    content_eventlandings_gallery_upload,
+    content_eventlandings_gallery_reorder,
+    content_eventlandings_gallery_update,
+    content_eventlandings_gallery_delete,
     content_eventlandings_translate,
     content_eventlandings_seo,
 )

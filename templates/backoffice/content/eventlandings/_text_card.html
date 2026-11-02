@@ -1,0 +1,38 @@
+{% load i18n backoffice_tags %}
+{% comment %}
+  Карточка материала / плитки (DnD порядок, как FAQ «Программы»).
+  Params: f, primary, primary_label, help_primary, secondary (опц.), secondary_label,
+  help_secondary, bases (JSON для «Перевести блок»), placeholder.
+{% endcomment %}
+<li class="bo-collapse-card{% if not f.instance.pk %} bo-collapse-card-new{% endif %}"
+    x-data="boInlineCollapseCard({ initialOpen: {% if not f.instance.pk or f.errors %}true{% else %}false{% endif %}, placeholderLabel: '{{ placeholder }}', summaryPrimary: '{{ primary }}', summarySecondary: '{{ secondary|default:'' }}' })">
+  {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+
+  <header class="bo-collapse-card-head">
+    {% include 'backoffice/content/eventlandings/_drag_handle.html' %}
+
+    <button type="button" class="bo-collapse-card-summary" @click="open = !open" :aria-expanded="open">
+      <span class="bo-collapse-card-info">
+        <strong class="bo-collapse-card-name" x-text="displayName || placeholderLabel"></strong>
+        {% if secondary %}<span class="bo-collapse-card-role" x-show="displaySecondary" x-text="displaySecondary"></span>{% endif %}
+      </span>
+      <svg class="bo-collapse-card-chevron" :class="open && 'bo-collapse-card-chevron-open'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+
+    <div class="bo-collapse-card-actions" @click.stop>
+      {% include 'backoffice/content/_block_translate.html' with bases=bases translate_url=translate_url form_id=form_id prefix=f.prefix|add:'-' %}
+      {% include 'backoffice/content/eventlandings/_card_delete.html' %}
+    </div>
+  </header>
+
+  <div class="bo-collapse-card-body" x-show="open" x-collapse>
+    {% include 'backoffice/content/_field_translatable.html' with form=f base=primary label=primary_label %}
+    {% field_help help_primary %}
+    {% if secondary %}
+      {% include 'backoffice/content/_field_translatable.html' with form=f base=secondary label=secondary_label %}
+      {% field_help help_secondary %}
+    {% endif %}
+  </div>
+</li>

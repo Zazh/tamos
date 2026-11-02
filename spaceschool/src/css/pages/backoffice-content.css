@@ -1463,6 +1463,28 @@
 
   .bo-collapse-card-hidden { display: none !important; }
 
+  /* Мероприятия: у карточки дня три действия, в футере — публикация + сайт + сохранить;
+     на узком экране переносятся строкой ниже, а не вылезают за экран. */
+  .bo-collapse-card-head-wrap,
+  .bo-form-foot-actions-wrap {
+    flex-wrap: wrap;
+
+    @variant md {
+      flex-wrap: nowrap;
+    }
+  }
+  .bo-form-foot-actions-wrap { justify-content: flex-end; }
+  .bo-collapse-card-head-wrap > .bo-collapse-card-actions {
+    flex-wrap: wrap;
+    flex-shrink: 1;
+  }
+
+  /* Перерыв в программе мероприятия — приглушённая строка, как Kind=Quiet на сайте. */
+  .bo-collapse-card-break .bo-collapse-card-name {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-gray-500);
+  }
+
   .bo-collapse-card-head {
     display: flex;
     align-items: center;

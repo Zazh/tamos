@@ -77,6 +77,11 @@ urlpatterns = [
     path('content/eventlandings/<int:pk>/delete/', views.content_eventlandings_delete, name='content_eventlandings_delete'),
     path('content/eventlandings/<int:pk>/translate/', views.content_eventlandings_translate, name='content_eventlandings_translate'),
     path('content/eventlandings/<int:pk>/seo/', views.content_eventlandings_seo, name='content_eventlandings_seo'),
+    path('content/eventlandings/<int:pk>/days/<int:dpk>/', views.content_eventlandings_day_edit, name='content_eventlandings_day_edit'),
+    path('content/eventlandings/<int:pk>/gallery/upload/', views.content_eventlandings_gallery_upload, name='content_eventlandings_gallery_upload'),
+    path('content/eventlandings/<int:pk>/gallery/reorder/', views.content_eventlandings_gallery_reorder, name='content_eventlandings_gallery_reorder'),
+    path('content/eventlandings/<int:pk>/gallery/<int:gpk>/', views.content_eventlandings_gallery_update, name='content_eventlandings_gallery_update'),
+    path('content/eventlandings/<int:pk>/gallery/<int:gpk>/delete/', views.content_eventlandings_gallery_delete, name='content_eventlandings_gallery_delete'),
 
     # Gallery (фотогалерея — album-based)
     path('content/gallery/', views.content_gallery_list, name='content_gallery_list'),
