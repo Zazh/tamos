@@ -103,28 +103,7 @@
   {% if gallery %}
   <!-- Carousel -->
   <section class="bg-white pt-8 pb-22">
-    <div class="carousel-infinity" x-data x-carousel-scroll>
-      <ul class="carousel-track">
-        {% for img in gallery %}
-        <li class="carousel-item carousel-item-{{ img.orientation }}">
-          <picture>
-            <source srcset="{{ img.image_webp.url }}" type="image/webp">
-            <img src="{{ img.image_compressed.url }}" alt="{{ img.alt_text }}" loading="lazy">
-          </picture>
-        </li>
-        {% endfor %}
-      </ul>
-      <ul class="carousel-track" aria-hidden="true">
-        {% for img in gallery %}
-        <li class="carousel-item carousel-item-{{ img.orientation }}">
-          <picture>
-            <source srcset="{{ img.image_webp.url }}" type="image/webp">
-            <img src="{{ img.image_compressed.url }}" alt="" loading="lazy">
-          </picture>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
+    {% include 'partials/school_carousel.html' with images=gallery %}
   </section>
   <!-- END Carousel -->
   {% endif %}

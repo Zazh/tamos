@@ -1,0 +1,30 @@
+{% comment %}
+Карусель «О Space School» — бесконечная линейная лента фото (CSS-анимация
+@keyframes в carousel.css, без JS; prefers-reduced-motion — стоп).
+Параметр images — уже упорядоченный список объектов с orientation,
+image_webp, image_compressed, alt_text. Порядок задаёт view через
+core.gallery.strict_zip_arrange (слот по позиции: nth-child odd/even).
+Обёртка-секция с отступами — в странице (у главной и лендинга свои).
+{% endcomment %}
+<div class="carousel-infinity">
+  <ul class="carousel-track">
+    {% for img in images %}
+    <li class="carousel-item carousel-item-{{ img.orientation }}">
+      <picture>
+        <source srcset="{{ img.image_webp.url }}" type="image/webp">
+        <img src="{{ img.image_compressed.url }}" alt="{{ img.alt_text }}" loading="lazy">
+      </picture>
+    </li>
+    {% endfor %}
+  </ul>
+  <ul class="carousel-track" aria-hidden="true">
+    {% for img in images %}
+    <li class="carousel-item carousel-item-{{ img.orientation }}">
+      <picture>
+        <source srcset="{{ img.image_webp.url }}" type="image/webp">
+        <img src="{{ img.image_compressed.url }}" alt="" loading="lazy">
+      </picture>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
