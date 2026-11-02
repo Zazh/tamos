@@ -9,6 +9,7 @@ _ORIGIN_PREFIX_TO_CATEGORY = (
     ('admission', 'admission'),
     ('program', 'program'),
     ('activity', 'activity'),
+    ('event', 'event'),
 )
 
 
@@ -28,6 +29,7 @@ class Lead(models.Model):
         ADMISSION = 'admission', 'Поступление'
         PROGRAM = 'program', 'Программа'
         ACTIVITY = 'activity', 'Внеклассные'
+        EVENT = 'event', 'Мероприятие'
         GENERAL = 'general', 'Общая'
 
     class Status(models.TextChoices):
@@ -80,6 +82,13 @@ class Lead(models.Model):
         blank=True,
         help_text='Если модалка открывалась с data-feedback-city, '
                   'тут выбор пользователя (Астана/Актау/…).',
+    )
+    extra = models.CharField(
+        'Доп. от пользователя',
+        max_length=200,
+        blank=True,
+        help_text='Что пользователь отметил в форме сверх контакта: напр. '
+                  '«Я родитель ученика Space School».',
     )
 
     # --- CRM-flow ---

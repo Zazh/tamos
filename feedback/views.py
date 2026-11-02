@@ -24,6 +24,7 @@ MAX_FIELD_LEN = {
     'city': 80,
     'origin': 120,
     'title': 200,
+    'extra': 200,
 }
 
 
@@ -65,6 +66,7 @@ class LeadCreateView(View):
             'city': (request.POST.get('city') or '').strip()[:MAX_FIELD_LEN['city']],
             'origin': (request.POST.get('origin') or '').strip()[:MAX_FIELD_LEN['origin']],
             'title': (request.POST.get('title') or '').strip()[:MAX_FIELD_LEN['title']],
+            'extra': (request.POST.get('extra') or '').strip()[:MAX_FIELD_LEN['extra']],
         }
 
         Lead.objects.create(

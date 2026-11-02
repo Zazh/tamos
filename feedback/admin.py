@@ -23,7 +23,7 @@ class LeadAdmin(RegionScopedAdminMixin, admin.ModelAdmin):
     list_filter = ('status', 'category', 'region', 'created_at')
     list_editable = ('status',)
     list_select_related = ('region',)
-    search_fields = ('name', 'phone', 'origin', 'title', 'manager_note', 'city')
+    search_fields = ('name', 'phone', 'origin', 'title', 'manager_note', 'city', 'extra')
     ordering = ('-created_at',)
     date_hierarchy = 'created_at'
 
@@ -39,6 +39,7 @@ class LeadAdmin(RegionScopedAdminMixin, admin.ModelAdmin):
         'name',
         'phone',
         'city',
+        'extra',
     )
 
     fieldsets = (
@@ -48,6 +49,7 @@ class LeadAdmin(RegionScopedAdminMixin, admin.ModelAdmin):
                 ('name', 'phone'),
                 ('city', 'origin'),
                 'title',
+                'extra',
             ),
         }),
         ('Обработка', {
