@@ -274,3 +274,36 @@ class FeedbackSectionRegressionTests(TestCase):
         self.assertIn('Готовы запустить', html)
         self.assertIn('data-feedback-origin="home-primary"', html)
         self.assertIn('data-feedback-origin="home-city"', html)
+
+
+class PastStateTests(TestCase):
+    """EF-06: Cambridge Day после 14.11 — «Событие состоялось»."""
+
+    def setUp(self):
+        HomePage.objects.get_or_create(region=Region.objects.get(slug='astana'))
+        self.after = mock.patch('django.utils.timezone.now',
+                                return_value=datetime(2026, 11, 15, 10, 0, tzinfo=ALMATY))
+
+    def test_past_day(self):
+        with self.after:
+            resp = self.client.get('/ru/astana/event/cambridge-day/')
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode()
+        self.assertIn('Событие состоялось', html)
+        self.assertNotIn('event-cambridge-day-hero', html)
+        self.assertNotIn('event-cambridge-day-sticky', html)
+        self.assertIn('data-feedback-origin="event-cambridge-day-primary"', html)
+        self.assertLess(html.index('data-upcoming'), html.index('program-row'))
+
+    def test_past_not_in_upcoming(self):
+        with self.after:
+            ctx = self.client.get('/ru/astana/event/cambridge-programme-leader/').context
+        self.assertNotIn('cambridge-day', [lnd.slug for lnd in ctx['upcoming']])
+
+
+class FeedbackModalTemplateTests(TestCase):
+    def test_modal_has_extra_and_price(self):
+        html = self.client.get('/ru/astana/').content.decode()
+        self.assertIn('name="extra"', html)
+        self.assertIn('modal-feedback__price', html)
+        self.assertIn('defaultLead', html)

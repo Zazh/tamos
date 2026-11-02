@@ -45,3 +45,18 @@ class LeadCreateTests(TestCase):
         resp = self.client.post(URL, {'phone': '+7 700'})
         self.assertEqual(resp.status_code, 400)
         self.assertEqual(Lead.objects.count(), 0)
+
+
+class EventModalScenarioTests(TestCase):
+    """EF-06: сквозной сценарий модалки «Навыков» — чекбокс → extra, категория event."""
+
+    def test_skills_reg_with_parent_checkbox(self):
+        resp = self.client.post(URL, {
+            'name': 'Айгерим', 'phone': '+7 700 000 00 00',
+            'origin': 'event-skills-xxi-reg', 'title': 'Регистрация на воркшоп',
+            'extra': 'Я родитель ученика Space School',
+        })
+        self.assertEqual(resp.status_code, 200)
+        lead = Lead.objects.get()
+        self.assertEqual(lead.category, Lead.Category.EVENT)
+        self.assertEqual(lead.extra, 'Я родитель ученика Space School')

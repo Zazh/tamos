@@ -100,3 +100,48 @@
     color: rgba(255, 255, 255, 0.6);
   }
 }
+
+/* Done plaque (Figma 33:1354) — заменяет Date card и кнопку в hero прошедшего события. */
+@layer components {
+  .done-plaque {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 22.5625rem;
+    padding: 0.875rem 1rem;
+    text-align: left;
+    border: 1px solid rgba(170, 255, 189, 0.35);
+    border-radius: 1.25rem;
+    background: rgba(170, 255, 189, 0.08);
+
+    @variant md {
+      max-width: 25rem;
+    }
+  }
+
+  .done-plaque__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background: var(--color-green-300);
+  }
+
+  .done-plaque__title {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.5;
+    color: var(--color-white);
+  }
+
+  .done-plaque__text {
+    margin-top: 0.125rem;
+    font-size: var(--text-sm);
+    line-height: 1.429;
+    color: rgba(255, 255, 255, 0.7);
+  }
+}

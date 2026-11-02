@@ -24,10 +24,18 @@
       </div>
       {% if days %}
       <div class="w-full max-w-screen-md flex flex-col items-center gap-4">
-        {% include 'eventlandings/_date_card.html' %}
         {% if is_past %}
-        <span class="glass inline-flex items-center gap-2 rounded-[3rem] px-6 py-3 font-medium text-white">{% trans 'Событие состоялось' %}</span>
+        <div class="done-plaque">
+          <span class="done-plaque__icon" aria-hidden="true">
+            <svg width="16" height="12" viewBox="0 0 15.2333 11.1083" fill="none"><path d="M1.2 5.78333L5.325 9.90833L14.0333 1.2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke="#000F21"/></svg>
+          </span>
+          <div>
+            <p class="done-plaque__title">{% blocktrans with date=landing.date_display %}Событие состоялось {{ date }}{% endblocktrans %}</p>
+            <p class="done-plaque__text">{% trans 'Спасибо всем, кто пришёл.' %}{% if upcoming %} {% trans 'Ближайшие события школы ниже.' %}{% endif %}</p>
+          </div>
+        </div>
         {% else %}
+        {% include 'eventlandings/_date_card.html' %}
         {% include 'eventlandings/_cta_buttons.html' with placement='hero' btn_class='w-full max-w-[22.5625rem] text-nowrap md:w-auto md:min-w-[17.5rem]' %}
         {% endif %}
       </div>
@@ -82,7 +90,7 @@
 
   <!-- Для кого -->
   {% if landing.audience_title or landing.audience_text or landing.goal %}
-  <section class="bg-white py-16 md:py-24">
+  <section class="bg-white {% if is_past and upcoming %}pb-16 md:pb-24{% else %}py-16 md:py-24{% endif %}">
     <div class="max-w-screen-xl mx-auto px-4">
       <div class="section-label mb-8">
         <span class="section-label__icon"></span>
