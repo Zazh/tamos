@@ -1,12 +1,11 @@
 {% load i18n region_tags %}
 {% comment %}
-Event card (Figma 7:57) — карточка события: «Ближайшие события» и лента /events/.
-Параметры: landing; accent — gold | secondary (бейдж и стрелка); past — пометка «Состоялось».
+Event card (Figma 7:57) — карточка события в «Ближайших событиях» лендинга.
+Параметры: landing; accent — gold | secondary (бейдж и стрелка).
 {% endcomment %}
 {% region_url 'eventlandings:detail' slug=landing.slug as landing_url %}
-<article class="program-card program-card--event{% if past %} program-card--past{% endif %}">
+<article class="program-card program-card--event">
   <div class="flex flex-wrap items-center gap-2">
-    {% if past %}<span class="program-card__badge bg-gray-200 text-black">{% trans 'Состоялось' %}</span>{% endif %}
     {% if landing.badge_text %}<span class="program-card__badge {% if accent == 'secondary' %}bg-secondary text-white{% else %}bg-gold text-black{% endif %}">{{ landing.badge_text }}</span>{% endif %}
   </div>
   <p class="program-card__meta">{{ landing.date_display }} · {{ landing.time_display }}</p>

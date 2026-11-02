@@ -34,8 +34,9 @@ class MixedFeedTests(TestCase):
         dts = [i.sort_dt for i in items]
         self.assertEqual(dts, sorted(dts, reverse=True))
         html = resp.content.decode()
-        self.assertIn('program-card--event', html)
-        self.assertIn('article-card', html)
+        self.assertIn('href="/ru/astana/event/cambridge-day/" class="article-card__link"', html)
+        self.assertNotIn('program-card--event', html)  # лендинг — базовой карточкой, без цены
+        self.assertNotIn('50\xa0000', html)
 
     def test_aktau_only_news(self):
         items = list(self._get('/ru/aktau/events/').context['items'])
@@ -53,7 +54,6 @@ class MixedFeedTests(TestCase):
                         return_value=datetime(2026, 11, 15, 12, 0, tzinfo=ALMATY)):
             html = self.client.get('/ru/astana/events/').content.decode()
         self.assertIn('Состоялось', html)
-        self.assertIn('program-card--past', html)
 
     def test_pagination(self):
         astana = Region.objects.get(slug='astana')

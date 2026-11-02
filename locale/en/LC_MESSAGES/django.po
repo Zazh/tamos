@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tamos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 13:23+0500\n"
+"POT-Creation-Date: 2026-11-02 13:50+0500\n"
 "PO-Revision-Date: 2026-05-10 18:47+0500\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -832,7 +832,9 @@ msgid ""
 "Лендинг «Поступление» для каждого региона. Общие тексты страницы + варианты "
 "(отделение × класс; казахское отделение — только до 6 класса). Выберите "
 "регион."
-msgstr "'Admissions' landing page for each region. Common page texts + variants (branch × grade; the Kazakh branch only up to grade 6). Select a region."
+msgstr ""
+"'Admissions' landing page for each region. Common page texts + variants "
+"(branch × grade; the Kazakh branch only up to grade 6). Select a region."
 
 #: templates/backoffice/content/admission/list.html:18
 msgid "Вариантов"
@@ -955,7 +957,9 @@ msgstr "Contract stage — common part"
 msgid ""
 "Текст про вступительный взнос, способы оплаты и заголовки подсписков. Сама "
 "цена — на каждой странице варианта."
-msgstr "Text about the admission fee, payment methods and sublist titles. The price itself is on each variant's page."
+msgstr ""
+"Text about the admission fee, payment methods and sublist titles. The price "
+"itself is on each variant's page."
 
 #: templates/backoffice/content/admission/page_edit.html:187
 msgid "Этап «Зачисление»"
@@ -974,7 +978,10 @@ msgid ""
 "Уникальные страницы региона: Астана — 3 RU (1, 2-7, 8-11) + 2 KZ (1, 2-6; "
 "казахских 7–11 классов нет), Актау — RU/KZ × (1, 2-4). У каждого варианта "
 "свои h1, lead'ы этапов, 4 testing-карточки, прайс-карта и SEO."
-msgstr "Unique region pages: Astana — 3 RU (1, 2-7, 8-11) + 2 KZ (1, 2-6; no Kazakh grades 7–11), Aktau — RU/KZ × (1, 2-4). Each variant has its own h1, stage leads, 4 testing cards, a price card and SEO."
+msgstr ""
+"Unique region pages: Astana — 3 RU (1, 2-7, 8-11) + 2 KZ (1, 2-6; no Kazakh "
+"grades 7–11), Aktau — RU/KZ × (1, 2-4). Each variant has its own h1, stage "
+"leads, 4 testing cards, a price card and SEO."
 
 #: templates/backoffice/content/admission/page_edit.html:234
 msgid "Без H1 — placeholder"
@@ -3087,7 +3094,7 @@ msgstr "Reset"
 msgid "Все"
 msgstr "All"
 
-#: templates/blog/list.html:77 templates/events/list.html:59
+#: templates/blog/list.html:77 templates/events/list.html:73
 #: templates/gallery/list.html:78
 msgid "Загрузить еще"
 msgstr "Load more"
@@ -3118,13 +3125,9 @@ msgid "Стоимость"
 msgstr "Price"
 
 #: templates/eventlandings/_date_card.html:14
-#: templates/eventlandings/_event_card.html:16
+#: templates/eventlandings/_event_card.html:15
 msgid "Бесплатно"
 msgstr "Free"
-
-#: templates/eventlandings/_event_card.html:9
-msgid "Состоялось"
-msgstr "Held"
 
 #: templates/eventlandings/_photo_placeholder.html:2
 #: templates/eventlandings/_photo_placeholder.html:7
@@ -3226,7 +3229,11 @@ msgstr "Other events"
 msgid "Анонсы и отчёты о мероприятиях Space School."
 msgstr "Announcements and reports on Space School events."
 
-#: templates/events/list.html:64
+#: templates/events/list.html:44
+msgid "Состоялось"
+msgstr "Held"
+
+#: templates/events/list.html:78
 msgid "Пока нет анонсов мероприятий."
 msgstr "No event announcements yet."
 

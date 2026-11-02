@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tamos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 13:23+0500\n"
+"POT-Creation-Date: 2026-11-02 13:50+0500\n"
 "PO-Revision-Date: 2026-05-10 18:47+0500\n"
 "Last-Translator: \n"
 "Language-Team: Kazakh\n"
@@ -835,7 +835,9 @@ msgid ""
 "Лендинг «Поступление» для каждого региона. Общие тексты страницы + варианты "
 "(отделение × класс; казахское отделение — только до 6 класса). Выберите "
 "регион."
-msgstr "Әр аймаққа арналған «Оқуға түсу» лендингі. Беттің жалпы мәтіндері + нұсқалар (бөлімше × сынып; қазақ бөлімшесі — тек 6-сыныпқа дейін). Аймақты таңдаңыз."
+msgstr ""
+"Әр аймаққа арналған «Оқуға түсу» лендингі. Беттің жалпы мәтіндері + нұсқалар "
+"(бөлімше × сынып; қазақ бөлімшесі — тек 6-сыныпқа дейін). Аймақты таңдаңыз."
 
 #: templates/backoffice/content/admission/list.html:18
 msgid "Вариантов"
@@ -905,7 +907,8 @@ msgstr "Қабылдау — %(region)s"
 #, python-format
 msgid ""
 "Общие тексты страницы и варианты (отделение × класс). Обновлено %(date)s."
-msgstr "Беттің жалпы мәтіндері және нұсқалар (бөлімше × сынып). Жаңартылды: %(date)s."
+msgstr ""
+"Беттің жалпы мәтіндері және нұсқалар (бөлімше × сынып). Жаңартылды: %(date)s."
 
 #: templates/backoffice/content/admission/page_edit.html:20
 #: templates/backoffice/content/contacts/edit.html:22
@@ -958,7 +961,9 @@ msgstr "«Шарт» кезеңі — жалпы бөлім"
 msgid ""
 "Текст про вступительный взнос, способы оплаты и заголовки подсписков. Сама "
 "цена — на каждой странице варианта."
-msgstr "Алғашқы жарна, төлем тәсілдері туралы мәтін және ішкі тізімдердің тақырыптары. Бағаның өзі — әр нұсқаның бетінде."
+msgstr ""
+"Алғашқы жарна, төлем тәсілдері туралы мәтін және ішкі тізімдердің "
+"тақырыптары. Бағаның өзі — әр нұсқаның бетінде."
 
 #: templates/backoffice/content/admission/page_edit.html:187
 msgid "Этап «Зачисление»"
@@ -977,7 +982,10 @@ msgid ""
 "Уникальные страницы региона: Астана — 3 RU (1, 2-7, 8-11) + 2 KZ (1, 2-6; "
 "казахских 7–11 классов нет), Актау — RU/KZ × (1, 2-4). У каждого варианта "
 "свои h1, lead'ы этапов, 4 testing-карточки, прайс-карта и SEO."
-msgstr "Аймақтың бірегей беттері: Астана — 3 RU (1, 2-7, 8-11) + 2 KZ (1, 2-6; қазақ бөлімшесінде 7–11 сыныптар жоқ), Ақтау — RU/KZ × (1, 2-4). Әр нұсқаның өз h1, кезеңдердің lead-тары, 4 testing-карточкасы, баға картасы және SEO бар."
+msgstr ""
+"Аймақтың бірегей беттері: Астана — 3 RU (1, 2-7, 8-11) + 2 KZ (1, 2-6; қазақ "
+"бөлімшесінде 7–11 сыныптар жоқ), Ақтау — RU/KZ × (1, 2-4). Әр нұсқаның өз "
+"h1, кезеңдердің lead-тары, 4 testing-карточкасы, баға картасы және SEO бар."
 
 #: templates/backoffice/content/admission/page_edit.html:234
 msgid "Без H1 — placeholder"
@@ -3115,7 +3123,7 @@ msgstr "Тазалау"
 msgid "Все"
 msgstr "Барлығы"
 
-#: templates/blog/list.html:77 templates/events/list.html:59
+#: templates/blog/list.html:77 templates/events/list.html:73
 #: templates/gallery/list.html:78
 msgid "Загрузить еще"
 msgstr "Тағы жүктеу"
@@ -3146,13 +3154,9 @@ msgid "Стоимость"
 msgstr "Бағасы"
 
 #: templates/eventlandings/_date_card.html:14
-#: templates/eventlandings/_event_card.html:16
+#: templates/eventlandings/_event_card.html:15
 msgid "Бесплатно"
 msgstr "Тегін"
-
-#: templates/eventlandings/_event_card.html:9
-msgid "Состоялось"
-msgstr "Өтті"
 
 #: templates/eventlandings/_photo_placeholder.html:2
 #: templates/eventlandings/_photo_placeholder.html:7
@@ -3254,7 +3258,11 @@ msgstr "Басқа іс-шаралар"
 msgid "Анонсы и отчёты о мероприятиях Space School."
 msgstr "Space School іс-шараларының хабарландырулары мен есептері."
 
-#: templates/events/list.html:64
+#: templates/events/list.html:44
+msgid "Состоялось"
+msgstr "Өтті"
+
+#: templates/events/list.html:78
 msgid "Пока нет анонсов мероприятий."
 msgstr "Әзірге іс-шаралар туралы хабарландырулар жоқ."
 

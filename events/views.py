@@ -19,7 +19,8 @@ class EventListView(ListView):
     """Лента «Мероприятия»: новости событий (`events.Event`) и лендинги событий
     (`eventlandings.EventLanding`) одной сеткой по убыванию даты. Дата лендинга —
     начало первого дня (лендинги без дней не показываются), новости — published_at.
-    Прошедшие лендинги остаются с пометкой «Состоялось», черновики скрыты."""
+    Лендинг рисуется той же карточкой, что новость (обложка — первое фото события),
+    прошедший — с пометкой «Состоялось» в строке даты; черновики скрыты."""
 
     template_name = 'events/list.html'
     context_object_name = 'items'
@@ -31,7 +32,7 @@ class EventListView(ListView):
         landings = (
             EventLanding.objects
             .filter(region=region, is_published=True)
-            .prefetch_related('days')
+            .prefetch_related('days', 'gallery')
         )
         items = [FeedItem('news', e.published_at, e) for e in news]
         items += [

@@ -33,7 +33,21 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {% for item in items %}
               {% if item.kind == 'landing' %}
-                {% include 'eventlandings/_event_card.html' with landing=item.obj accent=forloop.counter0|divisibleby:2|yesno:'gold,secondary' past=item.obj.is_past %}
+              {% with landing=item.obj cover=item.obj.gallery.all.0 %}
+              <article class="article-card">
+                <a href="{% region_url 'eventlandings:detail' slug=landing.slug %}" class="article-card__link">
+                  <figure class="article-card__image">
+                    {% include 'partials/cover_image.html' with source=cover.image image=cover.image_compressed alt=landing.title priority=forloop.first %}
+                  </figure>
+                  <div class="article-card__body">
+                    <time class="article-card__date" datetime="{{ item.sort_dt|date:'Y-m-d' }}">
+                      {{ item.sort_dt|date:'j E Y' }}{% if landing.is_past %} · {% trans 'Состоялось' %}{% endif %}
+                    </time>
+                    <h3 class="article-card__title">{{ landing.title }}</h3>
+                  </div>
+                </a>
+              </article>
+              {% endwith %}
               {% else %}
               {% with event=item.obj %}
               <article class="article-card">

@@ -102,7 +102,7 @@
     color: #0080c0;
   }
 
-  /* Event card (Figma 7:57) — карточка события в «Ближайших» и в ленте:
+  /* Event card (Figma 7:57) — карточка события в «Ближайших» лендинга:
      светлый вариант карточки группы (gray-50, рамка gray-200, радиус 12).
      Акцент — бейдж bg-gold/bg-secondary + .program-card__arrow[data-accent]. */
   .program-card--event {
@@ -158,16 +158,6 @@
     font-size: var(--text-sm);
     line-height: 1.429;
     color: rgba(0, 15, 33, 0.6);
-  }
-
-  /* Прошедшее событие (лента): приглушено */
-  .program-card--past .program-card__title,
-  .program-card--past .program-card__footer-value {
-    color: rgba(0, 15, 33, 0.6);
-  }
-
-  .program-card--past .program-card__arrow {
-    opacity: 0.5;
   }
 
   .feature-card {
