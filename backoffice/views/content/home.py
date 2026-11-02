@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
+from core.gallery import strict_zip_arrange
 from pages.models import HomeGalleryImage, HomePage
 
 from ...forms import HOME_TRANSLATABLE, HomePageEditForm, TRANSLATION_LANGS
@@ -171,7 +172,7 @@ def content_home_gallery_upload(request, pk):
         HomeGalleryImage.objects.create(home_page=home, image=f, order=9999)
 
     # Strict-zip reorder всего списка
-    arranged = HomeGalleryImage.strict_zip_arrange(home.gallery.all())
+    arranged = strict_zip_arrange(home.gallery.all())
     for i, img in enumerate(arranged):
         new_order = i * 10
         if img.order != new_order:

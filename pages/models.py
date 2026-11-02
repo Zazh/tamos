@@ -2,6 +2,8 @@ from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
 
+from core.gallery import Orientation, OrientedGalleryImage
+
 
 # Hero — минимальная компрессия (большой decorative фасад, важна детализация).
 HERO_QUALITY = 95
@@ -239,19 +241,15 @@ class HomePage(models.Model):
         return self.hero_cta_secondary_modal_title or self.hero_cta_secondary_text
 
 
-class HomeGalleryImage(models.Model):
+class HomeGalleryImage(OrientedGalleryImage):
     """Картинка карусели на главной. Заливается через DnD-grid в backoffice.
 
     `orientation` определяется автоматически по соотношению сторон при save()
-    и задаёт CSS-слот в `carousel.css` (.carousel-item-wide / -tall / -square).
-    Менеджер расставляет порядок через DnD; warning подсвечивается, если
-    орientation не подходит под расчётный slot позиции.
+    (общая логика — `core.gallery.OrientedGalleryImage`), порядок показа —
+    `core.gallery.strict_zip_arrange`.
     """
 
-    class Orientation(models.TextChoices):
-        WIDE = 'wide', 'Широкая'      # ratio > 1.15  → слот 342×223
-        TALL = 'tall', 'Высокая'      # ratio < 0.95  → слот 325×352
-        SQUARE = 'square', 'Квадратная'
+    Orientation = Orientation  # алиас для совместимости
 
     home_page = models.ForeignKey(
         HomePage,
@@ -271,15 +269,7 @@ class HomeGalleryImage(models.Model):
         options={'quality': GALLERY_QUALITY, 'optimize': True},
         processors=[ResizeToFit(GALLERY_MAX_DIMENSION, GALLERY_MAX_DIMENSION, upscale=False)],
     )
-    orientation = models.CharField(
-        'Ориентация',
-        max_length=8,
-        choices=Orientation.choices,
-        default=Orientation.SQUARE,
-        help_text='Определяется автоматически при загрузке (wide/tall/square).',
-    )
     alt_text = models.CharField('Alt-текст', max_length=200, blank=True)
-    order = models.PositiveSmallIntegerField('Порядок', default=0)
 
     class Meta:
         verbose_name = 'Картинка галереи'
@@ -288,77 +278,6 @@ class HomeGalleryImage(models.Model):
 
     def __str__(self):
         return self.alt_text or f'Image #{self.pk}'
-
-    def save(self, *args, **kwargs):
-        if self.image and (
-            not self.pk
-            or 'image' in (kwargs.get('update_fields') or ())
-            or self._image_changed()
-        ):
-            self.orientation = self._detect_orientation()
-        super().save(*args, **kwargs)
-
-    def _image_changed(self) -> bool:
-        if not self.pk:
-            return True
-        try:
-            old = type(self).objects.only('image').get(pk=self.pk)
-        except type(self).DoesNotExist:
-            return True
-        return old.image.name != self.image.name
-
-    def _detect_orientation(self) -> str:
-        """Открыть оригинал через Pillow, вычислить ratio width/height.
-
-        - ratio > 1.15 → wide (горизонтальная)
-        - ratio < 0.95 → tall (вертикальная)
-        - между      → square (квадратная)
-
-        Если файл недоступен / не открывается — square (безопасный дефолт).
-        """
-        from PIL import Image, UnidentifiedImageError
-        try:
-            with Image.open(self.image) as im:
-                w, h = im.size
-        except (FileNotFoundError, UnidentifiedImageError, OSError):
-            return self.Orientation.SQUARE
-        if h == 0:
-            return self.Orientation.SQUARE
-        ratio = w / h
-        if ratio > 1.15:
-            return self.Orientation.WIDE
-        if ratio < 0.95:
-            return self.Orientation.TALL
-        return self.Orientation.SQUARE
-
-    @classmethod
-    def strict_zip_arrange(cls, images):
-        """Расставить картинки в строгом порядке: wide → tall → wide → tall →…
-
-        - Сначала идут чередующиеся пары (W, T, W, T, …) пока есть запас обоих
-        - Хвост (оставшиеся wide или tall) приклеивается в конец
-        - Square — всегда в конец
-
-        Используется в:
-        - backoffice upload (auto-arrange после загрузки)
-        - frontend HomeView (принудительный порядок в карусели)
-
-        Не сохраняет в БД — возвращает упорядоченный список. Порядок внутри
-        каждой группы сохраняется (по текущему order, потом по pk).
-        """
-        sorted_imgs = sorted(images, key=lambda i: (i.order, i.pk))
-        wide = [i for i in sorted_imgs if i.orientation == cls.Orientation.WIDE]
-        tall = [i for i in sorted_imgs if i.orientation == cls.Orientation.TALL]
-        square = [i for i in sorted_imgs if i.orientation == cls.Orientation.SQUARE]
-
-        result = []
-        while wide and tall:
-            result.append(wide.pop(0))
-            result.append(tall.pop(0))
-        result.extend(wide)
-        result.extend(tall)
-        result.extend(square)
-        return result
 
 
 class ContactsPage(models.Model):

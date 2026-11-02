@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'admission',
     'blog',
     'events',
+    'eventlandings',
     'gallery',
     'team',
     'navigation',

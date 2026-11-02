@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, TemplateView
 
+from core.gallery import strict_zip_arrange
+
 from .models import ContactsPage, FlatPage, HomePage
 
 
@@ -15,8 +17,7 @@ class HomeView(TemplateView):
         # (см. carousel.css `:nth-child`). Менеджер мог поставить порядок
         # вручную через DnD; на frontend всё равно гарантируем чередование
         # wide→tall→wide→tall — fallback на cover-crop если не совпадает.
-        from .models import HomeGalleryImage
-        ctx['gallery'] = HomeGalleryImage.strict_zip_arrange(home.gallery.all())
+        ctx['gallery'] = strict_zip_arrange(home.gallery.all())
         return ctx
 
 
