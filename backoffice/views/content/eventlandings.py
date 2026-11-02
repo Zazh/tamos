@@ -211,6 +211,8 @@ def _formset_errors(labelled_formsets):
     for label, fs in labelled_formsets:
         out.extend(f'{label}: {err}' for err in fs.non_form_errors())
         for i, f in enumerate(fs.forms, start=1):
+            if f.is_bound and fs.can_delete and fs._should_delete_form(f):
+                continue  # удаляемая строка не валидируется (как в fs.is_valid())
             for name, errs in f.errors.items():
                 field = f.fields.get(name)
                 field_label = f' · {field.label}' if field is not None else ''

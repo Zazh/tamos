@@ -100,6 +100,13 @@ class EventLandingSectionTests(BackofficeTestCase):
                 data[key] = value
         return self.client.post(self._edit_url(landing), data)
 
+    def test_edit_page_renders_with_formsets(self):
+        resp = self.client.get(self._edit_url(self.day))
+        self.assertEqual(resp.status_code, 200)
+        for prefix in ('days', 'materials', 'tiles'):
+            self.assertContains(resp, f'name="{prefix}-TOTAL_FORMS"')
+        self.assertEqual(resp.context['formset_errors'], [])
+
     def test_list_superuser_sees_astana_landings(self):
         resp = self.client.get(reverse('backoffice:content_eventlandings_list'))
         self.assertEqual(resp.status_code, 200)
@@ -283,6 +290,24 @@ class EventLandingInlineTests(BackofficeTestCase):
         self.assertEqual(self.leader.tiles.count(), count)
         self.assertTrue(self.leader.tiles.filter(title_ru='Формат', text_ru='Очно').exists())
         self.assertFalse(EventLandingTile.objects.filter(pk=first.pk).exists())
+
+    def test_removed_new_card_is_ignored(self):
+        """«×» у новой карточки возвращает hidden к значениям empty_form (order=0) —
+        такая extra-форма не валидируется и не сохраняется (контракт boInlineCollapse)."""
+        count = self.leader.materials.count()
+        data = _edit_data(self.leader, self.superuser)
+        data.update({'materials-TOTAL_FORMS': str(count + 1), f'materials-{count}-order': '0'})
+        self.assertEqual(self._post(self.leader, data).status_code, 302)
+        self.assertEqual(self.leader.materials.count(), count)
+
+    def test_errors_skip_rows_marked_for_delete(self):
+        data = _edit_data(self.leader, self.superuser)
+        data.update({'materials-0-DELETE': 'on', 'materials-0-title_ru': '', 'days-0-end': '09:00'})
+        resp = self._post(self.leader, data)
+        self.assertEqual(resp.status_code, 200)
+        errors = resp.context['formset_errors']
+        self.assertTrue(any(e.startswith('Дни · строка 1') for e in errors))
+        self.assertFalse(any(e.startswith('Материалы') for e in errors), errors)
 
     def test_inline_row_without_ru_title_rejected(self):
         data = _edit_data(self.leader, self.superuser)

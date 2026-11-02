@@ -6,7 +6,7 @@
     <span x-text="markedForDelete ? '{% trans "Отменить" %}' : '{% trans "Удалить" %}'"></span>
   </label>
 {% else %}
-  <button type="button" class="bo-collapse-card-remove" @click="$root.__remove($el.closest('li'))" aria-label="{% trans 'Убрать карточку' %}" title="{% trans 'Убрать карточку (до сохранения)' %}">
+  <button type="button" class="bo-collapse-card-remove" @click="__remove($el.closest('li'))" aria-label="{% trans 'Убрать карточку' %}" title="{% trans 'Убрать карточку (до сохранения)' %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
   </button>
 {% endif %}

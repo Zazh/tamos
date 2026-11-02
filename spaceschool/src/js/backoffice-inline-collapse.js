@@ -30,8 +30,12 @@ import Sortable from "sortablejs";
  *   - Sortable.create на $refs.list, handle .bo-drag-handle, ghost .bo-collapse-card-ghost.
  *   - add(): клонирует $refs.template.innerHTML, replaceAll '__prefix__' → новый индекс,
  *     инкрементирует TOTAL_FORMS. Alpine auto-инициализирует новый x-data.
- *   - __remove(card): для свежесозданных (без pk) — очищает поля и hide через
- *     .bo-collapse-card-hidden. TOTAL_FORMS не уменьшаем (Django пропустит пустую extra).
+ *   - __remove(card): для свежесозданных (без pk) — очищает поля, возвращает hidden
+ *     к значениям empty_form (`data-initial`, иначе `order` от _renumber ≠ initial и
+ *     Django валидирует убранную карточку) и hide через .bo-collapse-card-hidden.
+ *     TOTAL_FORMS не уменьшаем (Django пропустит неизменённую extra).
+ *     Вызов из карточки — `__remove(...)` (scope родителя), не `$root.__remove`:
+ *     `$root` — ближайший x-data, т.е. сама карточка.
  *   - _renumber(): после drag/add записывает индексы в `*-order` hidden inputs.
  */
 export function registerBackofficeInlineCollapse(Alpine) {
@@ -56,11 +60,14 @@ export function registerBackofficeInlineCollapse(Alpine) {
         String(total)
       );
       this.$refs.list.insertAdjacentHTML("beforeend", html);
+      const newItem = this.$refs.list.lastElementChild;
+      newItem?.querySelectorAll('input[type="hidden"]').forEach((el) => {
+        el.dataset.initial = el.value;
+      });
       totalInput.value = String(total + 1);
       this._renumber();
 
       this.$nextTick(() => {
-        const newItem = this.$refs.list.lastElementChild;
         if (!newItem) return;
         newItem.scrollIntoView({ behavior: "smooth", block: "center" });
         const firstInput = newItem.querySelector(
@@ -73,7 +80,10 @@ export function registerBackofficeInlineCollapse(Alpine) {
     __remove(card) {
       if (!card) return;
       card.querySelectorAll("input, textarea").forEach((el) => {
-        if (el.type === "hidden") return;
+        if (el.type === "hidden") {
+          if (el.dataset.initial !== undefined) el.value = el.dataset.initial;
+          return;
+        }
         if (el.type === "file") {
           el.value = "";
           return;
