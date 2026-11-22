@@ -5,12 +5,15 @@
 форму в success-state или показывает текст ошибки.
 """
 from django.conf import settings
+from django.db import transaction
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.http import require_POST
 
+from .crm import forward_lead, page_url_from_referer
 from .models import Lead
+from .utm import UTM_COOKIE, utm_from_cookie
 
 
 # Honeypot: невидимое поле name="website". Боты заполняют любые поля,
@@ -69,11 +72,15 @@ class LeadCreateView(View):
             'extra': (request.POST.get('extra') or '').strip()[:MAX_FIELD_LEN['extra']],
         }
 
-        Lead.objects.create(
+        lead = Lead.objects.create(
             region=region,
             ip_address=_client_ip(request),
             user_agent=(request.META.get('HTTP_USER_AGENT') or '')[:300],
             policy_version=getattr(settings, 'PRIVACY_POLICY_VERSION', 'v1'),
+            utm=utm_from_cookie(request.COOKIES.get(UTM_COOKIE, '')),
             **data,
         )
+        # Дубль в amoCRM — после коммита; сбой письма ответ не ломает (crm.py).
+        page_url = page_url_from_referer(request.META.get('HTTP_REFERER', ''))
+        transaction.on_commit(lambda: forward_lead(lead, page_url))
         return JsonResponse({'ok': True})

@@ -90,6 +90,13 @@ class Lead(models.Model):
         help_text='Что пользователь отметил в форме сверх контакта: напр. '
                   '«Я родитель ученика Space School».',
     )
+    utm = models.CharField(
+        'UTM-метки',
+        max_length=500,
+        blank=True,
+        help_text='Последние utm_* метки, с которыми посетитель заходил на сайт '
+                  '(cookie 30 дней, см. feedback/utm.py). Уходят и в CRM.',
+    )
 
     # --- CRM-flow ---
     status = models.CharField(

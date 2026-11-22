@@ -84,6 +84,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'regions.middleware.RegionMiddleware',
     'regions.middleware.LanguageCookieMiddleware',
+    # utm_* из URL → cookie на 30 дней, чтобы метки дожили до заявки (feedback/utm.py).
+    'feedback.utm.UtmCookieMiddleware',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -196,6 +198,32 @@ GEMINI_MODELS = [
 _legacy_model = config('GEMINI_MODEL', default='')
 if _legacy_model and config('GEMINI_MODELS', default='') == '':
     GEMINI_MODELS = [_legacy_model]
+
+
+# Почта. Исходящие письма идут через relay `mailrelay` (compose, boky/postfix):
+# он доставляет на MX получателя и держит очередь при сбоях (бриф amocrm-leads).
+# Отправитель — @spaceschool.edu.kz: SPF домена разрешает IP прода (`+a`).
+EMAIL_HOST = config('EMAIL_HOST', default='mailrelay')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_TIMEOUT = 10
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='Space School <noreply@spaceschool.edu.kz>')
+
+# Адрес почтового парсера amoCRM: каждая заявка дублируется туда письмом
+# (feedback/crm.py). Пусто = пересылка выключена (дев, тесты). Значение — только в .env прода.
+LEADS_CRM_EMAIL = config('LEADS_CRM_EMAIL', default='')
+
+# Логи приложения → stderr контейнера (`docker compose logs tamosapp`).
+# Стандартный конфиг Django не трогаем (disable_existing_loggers=False).
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {'class': 'logging.StreamHandler'},
+    },
+    'loggers': {
+        'feedback': {'handlers': ['console'], 'level': 'INFO'},
+    },
+}
 
 
 # Static files (CSS, JavaScript, Images)

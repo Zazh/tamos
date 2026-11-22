@@ -56,6 +56,7 @@
         {% if lead.title %}<dt>{% trans "Заголовок модалки" %}</dt><dd>«{{ lead.title }}»</dd>{% endif %}
         {% if lead.origin %}<dt>{% trans "Источник (origin)" %}</dt><dd><code class="bo-cell-mono">{{ lead.origin }}</code></dd>{% endif %}
         {% if lead.extra %}<dt>{% trans "Доп. от пользователя" %}</dt><dd>{{ lead.extra }}</dd>{% endif %}
+        {% if lead.utm %}<dt>{% trans "UTM-метки" %}</dt><dd class="bo-cell-mono bo-cell-wrap">{{ lead.utm }}</dd>{% endif %}
       </dl>
 
       <h2 class="bo-panel-title bo-panel-title-collapsible" @click="audit = !audit" role="button" tabindex="0" @keydown.enter="audit = !audit" @keydown.space.prevent="audit = !audit">
